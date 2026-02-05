@@ -1,0 +1,38 @@
+site_name: Mister JP Library
+site_url: https://Mister-JP.github.io/
+repo_url: https://github.com/Mister-JP/Mister-JP.github.io
+repo_name: Mister-JP.github.io
+
+nav:
+  - Home: index.md
+  - Books:
+      - Overview: books/index.md
+      - Microscopy Segmentation Benchmark:
+          - Overview: books/microscopy-segmentation-benchmark/index.md
+          - "Ch 0 - Mission": books/microscopy-segmentation-benchmark/ch0-mission.md
+          - "Ch 1 - Dataset Universe": books/microscopy-segmentation-benchmark/ch1-dataset-universe.md
+          - "Ch 2 - Axes Decision Matrix": books/microscopy-segmentation-benchmark/ch2-axes-decision-matrix.md
+          - "Ch 4 - Tools Universe": books/microscopy-segmentation-benchmark/ch4-tools-universe.md
+          - "Ch 7 - Results": books/microscopy-segmentation-benchmark/ch7-results.md
+  - Projects: projects/index.md
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
