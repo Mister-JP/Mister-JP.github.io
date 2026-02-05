@@ -9,12 +9,15 @@ nav:
       - Overview: books/index.md
       - Microscopy Segmentation Benchmark:
           - Overview: books/microscopy-segmentation-benchmark/index.md
-          - "Ch 0 - Mission": books/microscopy-segmentation-benchmark/ch0-mission.md
+          - "Ch 0 - Mission and Map": books/microscopy-segmentation-benchmark/ch0-mission.md
           - "Ch 1 - Dataset Universe": books/microscopy-segmentation-benchmark/ch1-dataset-universe.md
-          - "Ch 2 - Axes Decision Matrix": books/microscopy-segmentation-benchmark/ch2-axes-decision-matrix.md
-          - "Ch 4 - Tools Universe": books/microscopy-segmentation-benchmark/ch4-tools-universe.md
-          - "Ch 7 - Results": books/microscopy-segmentation-benchmark/ch7-results.md
-  - Projects: projects/index.md
+          - "Ch 2 - Selection Axes": books/microscopy-segmentation-benchmark/ch2-axes-decision-matrix.md
+          - "Ch 3 - Dataset Cards": books/microscopy-segmentation-benchmark/ch3-dataset-cards.md
+          - "Ch 4 - Tool Universe": books/microscopy-segmentation-benchmark/ch4-tools-universe.md
+          - "Ch 5 - Tool Cards": books/microscopy-segmentation-benchmark/ch5-tool-cards.md
+          - "Ch 6 - Suite Design": books/microscopy-segmentation-benchmark/ch6-suite-design.md
+          - "Ch 7 - Implementation and Results": books/microscopy-segmentation-benchmark/ch7-results.md
+          - Appendices: books/microscopy-segmentation-benchmark/appendices.md
 
 theme:
   name: material
@@ -22,6 +25,7 @@ theme:
   features:
     - navigation.sections
     - navigation.top
+    - navigation.indexes
     - search.suggest
     - search.highlight
 

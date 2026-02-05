@@ -1,10 +1,12 @@
 # Mister JP Library
 
-Welcome to my research library and project vault.
+This is a library of **project books**: long-form build logs and field guides for real systems, not traditional books.
 
 ## Start here
-- Browse books for deep dives.
-- Check projects for ongoing builds.
+- Browse project books for deep dives.
 - Follow the featured book for current work.
+
+## Project books
+- [Microscopy Segmentation Benchmark Suite](books/microscopy-segmentation-benchmark/index.md)
 
 > This site is built with MkDocs Material and hosted on GitHub Pages.
