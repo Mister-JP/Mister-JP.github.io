@@ -17,7 +17,9 @@ nav:
           - "Ch 5 - Tool Cards": books/microscopy-segmentation-benchmark/ch5-tool-cards.md
           - "Ch 6 - Suite Design": books/microscopy-segmentation-benchmark/ch6-suite-design.md
           - "Ch 7 - Implementation and Results": books/microscopy-segmentation-benchmark/ch7-results.md
-          - Appendices: books/microscopy-segmentation-benchmark/appendices.md
+          - Appendices:
+              - Overview: books/microscopy-segmentation-benchmark/appendices.md
+              - "Appendix A - Metadata and Formats": books/microscopy-segmentation-benchmark/appendix-metadata-formats.md
 
 theme:
   name: material
@@ -31,6 +33,9 @@ theme:
 
 plugins:
   - search
+
+extra_javascript:
+  - javascripts/external-links.js
 
 markdown_extensions:
   - admonition
