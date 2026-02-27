@@ -9,13 +9,12 @@ const {
   lang = 'en',
   brandLabel = '',
   brandHref = '/',
-  navItems = [],
-  currentPath = '',
   footerNote = '',
   footerLinks = [],
   stickyHeader = true,
 } = Astro.props;
 
+const currentPath = Astro.url.pathname;
 const hasHeaderActions = Astro.slots.has('header-actions');
 const hasFooterContent = Astro.slots.has('footer');
 ---
@@ -35,8 +34,7 @@ const hasFooterContent = Astro.slots.has('footer');
       <Header
         brandLabel={brandLabel}
         brandHref={brandHref}
-        navItems={navItems}
-        currentPath={currentPath}
+        pathname={currentPath}
         sticky={stickyHeader}
       >
         {hasHeaderActions && (

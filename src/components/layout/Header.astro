@@ -1,16 +1,15 @@
 ---
 import Container from '../ui/Container.astro';
+import MainNav from '../navigation/MainNav.astro';
 
 const {
   brandLabel = '',
   brandHref = '/',
-  navItems = [],
-  currentPath = '',
+  pathname = '/',
   sticky = false,
 } = Astro.props;
 
 const hasBrandSlot = Astro.slots.has('brand');
-const hasCustomNav = Astro.slots.has('default');
 const hasActions = Astro.slots.has('actions');
 ---
 
@@ -24,27 +23,9 @@ const hasActions = Astro.slots.has('actions');
       ) : null}
     </div>
 
-    {(hasCustomNav || navItems.length > 0) && (
-      <nav class="site-header__nav" aria-label="Primary">
-        {hasCustomNav ? (
-          <slot />
-        ) : (
-          <ul class="site-header__list">
-            {navItems.map((item) => (
-              <li>
-                <a
-                  class="site-header__link"
-                  href={item.href}
-                  aria-current={currentPath === item.href ? 'page' : undefined}
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
-      </nav>
-    )}
+    <div class="site-header__nav">
+      <MainNav pathname={pathname} />
+    </div>
 
     {hasActions && (
       <div class="site-header__actions">
@@ -85,45 +66,9 @@ const hasActions = Astro.slots.has('actions');
   }
 
   .site-header__nav {
+    min-width: 0;
     justify-self: end;
-  }
-
-  .site-header__list {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-end;
-    gap: var(--space-2);
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .site-header__link {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.25rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: var(--radius-pill);
-    color: var(--color-text-secondary);
-    font-family: var(--font-ui);
-    font-size: var(--step--1);
-    font-weight: 600;
-    text-decoration: none;
-    transition:
-      color var(--transition-soft),
-      background-color var(--transition-soft);
-  }
-
-  .site-header__link:hover,
-  .site-header__link:focus-visible {
-    color: var(--color-text-primary);
-    background: rgba(249, 238, 244, 0.85);
-  }
-
-  .site-header__link[aria-current='page'] {
-    color: var(--color-text-primary);
-    background: rgba(243, 238, 248, 0.9);
+    width: min(100%, 44rem);
   }
 
   .site-header__actions {
@@ -134,17 +79,34 @@ const hasActions = Astro.slots.has('actions');
 
   @media (max-width: 52rem) {
     .site-header__inner {
-      grid-template-columns: 1fr;
-      justify-items: start;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      row-gap: var(--space-3);
     }
 
     .site-header__nav,
     .site-header__actions {
-      justify-self: start;
+      justify-self: stretch;
     }
 
-    .site-header__list {
-      justify-content: flex-start;
+    .site-header__nav {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+
+    .site-header__actions {
+      align-self: center;
+      justify-self: end;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .site-header__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .site-header__actions {
+      justify-self: start;
     }
   }
 </style>

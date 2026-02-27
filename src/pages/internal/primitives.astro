@@ -16,7 +16,6 @@ import { shellConfig } from '../../data/site';
   {...shellConfig}
   title="Primitive Harness | Jignasu Pathak"
   description="Internal composition harness for shared Astro primitives."
-  currentPath="/internal/primitives"
 >
   <meta slot="head" name="robots" content="noindex" />
 
@@ -45,11 +44,19 @@ import { shellConfig } from '../../data/site';
           This harness exists to reveal layout conflicts early. If the system feels coherent here,
           page work later should mostly become content composition rather than structural rewrites.
         </p>
+        <p>
+          It now doubles as a navigation validation surface for sticky-header anchor offsets,
+          focus visibility, and shared shell cohesion.
+        </p>
+        <p class="harness-links">
+          <a href="#focus-check">Jump to focus check</a>
+          <a href="#anchor-check">Jump to anchor offset check</a>
+        </p>
       </Prose>
     </Container>
   </Section>
 
-  <Section size="md">
+  <Section id="focus-check" size="md">
     <Container size="wide">
       <Divider>Surfaces</Divider>
       <Grid cols="3">
@@ -93,7 +100,7 @@ import { shellConfig } from '../../data/site';
     </Container>
   </Section>
 
-  <Section size="md" tone="muted">
+  <Section id="anchor-check" size="md" tone="muted">
     <Container size="wide">
       <Grid cols="2" gap="lg">
         <Card>
@@ -109,16 +116,19 @@ import { shellConfig } from '../../data/site';
         </Card>
 
         <Prose>
-          <h2>Prose block</h2>
+          <h2>Anchor offset check</h2>
           <p>
-            Long-form writing should inherit one calm reading system. This wrapper centralizes
-            heading rhythm, paragraph spacing, list treatment, and inline code such as
-            <code>astro build</code>.
+            This section intentionally has an <code>id</code> so the page can confirm that hash
+            links land below the sticky header instead of disappearing underneath it.
+          </p>
+          <p>
+            Use the links near the top of the page, then tab through the primary navigation to
+            confirm focus remains visible without relying on hover.
           </p>
           <ul>
-            <li>Readable line length stays bounded.</li>
-            <li>List spacing remains consistent.</li>
-            <li>Links inherit a soft but explicit emphasis.</li>
+            <li>The header should stay visible while scrolling.</li>
+            <li>The anchor target should remain fully readable after the jump.</li>
+            <li>The same nav should appear across every page without extra markup.</li>
           </ul>
         </Prose>
       </Grid>
@@ -131,5 +141,11 @@ import { shellConfig } from '../../data/site';
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
+  }
+
+  .harness-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
   }
 </style>

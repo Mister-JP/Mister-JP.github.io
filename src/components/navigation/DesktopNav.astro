@@ -1,0 +1,110 @@
+---
+import type { ResolvedNavItem } from '../../data/navigation';
+
+const { items = [] } = Astro.props as {
+  items?: ResolvedNavItem[];
+};
+---
+
+<div class="desktop-nav">
+  <ul class="desktop-nav__list">
+    {items.map((item) => (
+      <li>
+        <a
+          class="desktop-nav__link"
+          href={item.href}
+          aria-current={item.isCurrent ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .desktop-nav {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .desktop-nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(0.75rem, 0.35rem + 0.8vw, 1.35rem);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .desktop-nav__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0.4rem 0.15rem 0.55rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-ui);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition:
+      color var(--transition-soft),
+      opacity var(--transition-soft);
+  }
+
+  .desktop-nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.2rem;
+    height: 1.5px;
+    border-radius: var(--radius-pill);
+    background: var(--color-border-strong);
+    opacity: 0;
+    transform: scaleX(0.4);
+    transform-origin: center;
+    transition:
+      transform var(--transition-soft),
+      opacity var(--transition-soft),
+      background-color var(--transition-soft);
+  }
+
+  .desktop-nav__link:hover,
+  .desktop-nav__link:focus-visible {
+    color: var(--color-text-primary);
+  }
+
+  .desktop-nav__link:hover::after,
+  .desktop-nav__link:focus-visible::after {
+    opacity: 0.72;
+    transform: scaleX(1);
+  }
+
+  .desktop-nav__link[aria-current='page'] {
+    color: var(--color-text-primary);
+    font-weight: 700;
+  }
+
+  .desktop-nav__link[aria-current='page']::after {
+    height: 2px;
+    background: var(--color-accent-rose);
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .desktop-nav__link:focus-visible {
+    border-radius: var(--radius-sm);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 52rem) {
+    .desktop-nav {
+      display: none;
+    }
+  }
+</style>

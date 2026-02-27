@@ -38,6 +38,7 @@
   --section-space-md: clamp(4rem, 3rem + 2vw, 6rem);
   --section-space-lg: clamp(5rem, 4rem + 3vw, 7.5rem);
   --card-padding: clamp(1.1rem, 0.9rem + 0.7vw, 1.6rem);
+  --site-header-offset: 6rem;
   --font-signature: "Beau Rivage", "Snell Roundhand", "Brush Script MT", cursive;
   --font-heading: "Chiron GoRound TC", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
   --font-body: "Iowan Old Style", Georgia, serif;

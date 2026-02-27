@@ -1,0 +1,96 @@
+---
+import type { ResolvedNavItem } from '../../data/navigation';
+
+const { items = [] } = Astro.props as {
+  items?: ResolvedNavItem[];
+};
+---
+
+<div class="mobile-nav">
+  <ul class="mobile-nav__list">
+    {items.map((item) => (
+      <li>
+        <a
+          class="mobile-nav__link"
+          href={item.href}
+          aria-current={item.isCurrent ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .mobile-nav {
+    display: none;
+  }
+
+  .mobile-nav__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .mobile-nav__link {
+    display: flex;
+    align-items: center;
+    min-height: 3rem;
+    padding: 0.7rem 0.9rem;
+    border: var(--border-thin);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.58);
+    color: var(--color-text-secondary);
+    font-family: var(--font-ui);
+    font-size: var(--step--1);
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      color var(--transition-soft),
+      border-color var(--transition-soft),
+      background-color var(--transition-soft),
+      box-shadow var(--transition-soft);
+  }
+
+  .mobile-nav__link:hover,
+  .mobile-nav__link:focus-visible {
+    color: var(--color-text-primary);
+    border-color: var(--color-border-strong);
+    background: rgba(249, 238, 244, 0.78);
+  }
+
+  .mobile-nav__link[aria-current='page'] {
+    color: var(--color-text-primary);
+    font-weight: 700;
+    border-color: rgba(215, 163, 182, 0.5);
+    background: rgba(249, 238, 244, 0.9);
+    box-shadow: inset 2px 0 0 var(--color-accent-rose);
+  }
+
+  .mobile-nav__link:focus-visible {
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 52rem) {
+    .mobile-nav {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 32rem) {
+    .mobile-nav__list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (min-width: 52.01rem) {
+    .mobile-nav {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,26 @@
+---
+import DesktopNav from './DesktopNav.astro';
+import MobileNav from './MobileNav.astro';
+import { resolvePrimaryNavigation } from '../../data/navigation';
+
+const {
+  pathname = '/',
+  navLabel = 'Main',
+} = Astro.props as {
+  pathname?: string;
+  navLabel?: string;
+};
+
+const items = resolvePrimaryNavigation(pathname);
+---
+
+<nav class="main-nav" aria-label={navLabel}>
+  <DesktopNav items={items} />
+  <MobileNav items={items} />
+</nav>
+
+<style>
+  .main-nav {
+    width: 100%;
+  }
+</style>
