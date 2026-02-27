@@ -1,35 +1,144 @@
 ---
+import { getEntry } from 'astro:content';
 import SiteShell from '../layouts/SiteShell.astro';
 import PageHeader from '../components/layout/PageHeader.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
 import Container from '../components/ui/Container.astro';
+import Grid from '../components/ui/Grid.astro';
 import Section from '../components/ui/Section.astro';
 import Prose from '../components/ui/Prose.astro';
-import Tag from '../components/ui/Tag.astro';
 import { shellConfig } from '../data/site';
+
+const aboutEntry = await getEntry('pages', 'about');
+
+if (!aboutEntry) {
+  throw new Error('Missing content entry: src/content/pages/about.md');
+}
+
+const { data } = aboutEntry;
+const { intro, background, work, focus, contact } = data;
 ---
 
 <SiteShell
   {...shellConfig}
-  title="About | Jignasu Pathak"
-  description="Placeholder About page composed from the shared primitive system."
+  title={`${data.title} | Jignasu Pathak`}
+  description={data.description}
 >
-  <PageHeader
-    eyebrow="Profile"
-    title="About"
-    description="A stable page header pattern keeps inner pages consistent even while the copy is still placeholder text."
-  >
-    <div slot="meta">
-      <Tag tone="accent">Inner page</Tag>
-    </div>
-  </PageHeader>
+  <PageHeader eyebrow={data.eyebrow} title={data.title} description={data.description} />
 
-  <Section size="sm">
+  <Section size="sm" aria-labelledby="about-intro-title">
+    <Container size="narrow">
+      <Card variant="soft" class="about-card">
+        <div slot="title">
+          <h2 id="about-intro-title">{intro.heading}</h2>
+        </div>
+
+        <Prose class="about-copy">
+          <p>{intro.summary}</p>
+          {intro.details.map((detail) => (
+            <p>{detail}</p>
+          ))}
+        </Prose>
+      </Card>
+    </Container>
+  </Section>
+
+  <Section tone="soft" aria-labelledby="about-background-title">
     <Container size="narrow">
       <Prose>
-        <p>TODO: short biography.</p>
-        <p>TODO: background and technical interests.</p>
-        <p>TODO: current focus and preferred problem space.</p>
+        <h2 id="about-background-title">{background.heading}</h2>
+        {background.paragraphs.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
       </Prose>
     </Container>
   </Section>
+
+  <Section aria-labelledby="about-work-title">
+    <Container size="narrow">
+      <Prose>
+        <h2 id="about-work-title">{work.heading}</h2>
+        {work.paragraphs.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+        {work.highlights.length > 0 && (
+          <ul>
+            {work.highlights.map((highlight) => (
+              <li>{highlight}</li>
+            ))}
+          </ul>
+        )}
+      </Prose>
+    </Container>
+  </Section>
+
+  <Section tone="muted" aria-labelledby="about-focus-title">
+    <Container size="narrow">
+      <Card class="about-card">
+        <div slot="title">
+          <h2 id="about-focus-title">{focus.heading}</h2>
+        </div>
+
+        <Prose class="about-copy">
+          <p>{focus.summary}</p>
+          {focus.details.map((detail) => (
+            <p>{detail}</p>
+          ))}
+        </Prose>
+      </Card>
+    </Container>
+  </Section>
+
+  <Section aria-labelledby="about-contact-title">
+    <Container size="wide">
+      <div class="section-head">
+        <h2 id="about-contact-title">{contact.heading}</h2>
+        <p>{contact.intro}</p>
+      </div>
+
+      {contact.links.length > 0 && (
+        <Grid gap="lg" minItemWidth="16rem">
+          {contact.links.map((link, index) => (
+            <Card variant={index === 0 ? 'soft' : 'default'} class="contact-card">
+              <div slot="title">
+                <h3>{link.label}</h3>
+              </div>
+
+              {link.note && <p>{link.note}</p>}
+
+              <div slot="actions">
+                <Button variant={index === 0 ? 'primary' : 'secondary'} href={link.href}>
+                  {link.ctaLabel ?? 'Open link'}
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </Grid>
+      )}
+    </Container>
+  </Section>
 </SiteShell>
+
+<style>
+  .about-card,
+  .contact-card {
+    height: 100%;
+  }
+
+  .about-copy {
+    max-width: none;
+  }
+
+  .section-head {
+    display: grid;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+    max-width: min(100%, 44rem);
+  }
+
+  .section-head p {
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
+  }
+</style>

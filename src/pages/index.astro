@@ -1,64 +1,330 @@
 ---
 import SiteShell from '../layouts/SiteShell.astro';
-import PageHeader from '../components/layout/PageHeader.astro';
-import Container from '../components/ui/Container.astro';
-import Section from '../components/ui/Section.astro';
-import Grid from '../components/ui/Grid.astro';
-import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import Container from '../components/ui/Container.astro';
+import Grid from '../components/ui/Grid.astro';
+import Prose from '../components/ui/Prose.astro';
+import Section from '../components/ui/Section.astro';
 import Tag from '../components/ui/Tag.astro';
+import { homeContent } from '../data/home';
 import { shellConfig } from '../data/site';
+
+const {
+  hero,
+  intro,
+  featuredProjects,
+  selectedWriting,
+  featuredTools,
+  resumeCta,
+} = homeContent;
 ---
 
 <SiteShell
   {...shellConfig}
   title="Home | Jignasu Pathak"
-  description="Portfolio scaffold built on shared Astro layout primitives."
+  description="Structured homepage placeholder composed from shared Astro layout primitives."
 >
-  <PageHeader
-    eyebrow="Portfolio"
-    title="TODO: homepage headline"
-    description="TODO: short positioning statement that introduces the work and directs readers into the strongest proof surfaces."
-  >
-    <div slot="meta">
-      <Tag tone="accent">Placeholder</Tag>
-      <Tag>Composable</Tag>
-    </div>
-  </PageHeader>
-
-  <Section size="sm">
+  <Section size="lg" class="home-hero" aria-labelledby="home-hero-title">
     <Container size="wide">
-      <Grid cols="3">
-        <Card>
-          <div slot="title">
-            <h2>Featured projects</h2>
-          </div>
-          <p>TODO: select representative work samples.</p>
-          <div slot="actions">
-            <Button variant="secondary" href="/projects">Browse projects</Button>
-          </div>
-        </Card>
+      <div class="hero-stack">
+        <p class="hero-eyebrow">{hero.eyebrow}</p>
+        <h1 id="home-hero-title" class="hero-title">{hero.title}</h1>
+        <p class="hero-subtitle">{hero.subtitle}</p>
+        <div class="hero-actions">
+          <Button href={hero.primaryCtaHref}>{hero.primaryCtaLabel}</Button>
+          <Button variant="secondary" href={hero.secondaryCtaHref}>{hero.secondaryCtaLabel}</Button>
+        </div>
+      </div>
+    </Container>
+  </Section>
 
-        <Card variant="soft">
-          <div slot="title">
-            <h2>Selected writing</h2>
-          </div>
-          <p>TODO: surface one case study and one method entry.</p>
-          <div slot="actions">
-            <Button variant="secondary" href="/writing">Read writing</Button>
-          </div>
-        </Card>
+  <Section size="sm" aria-labelledby="home-intro-title">
+    <Container size="narrow">
+      <Prose class="intro-prose">
+        <h2 id="home-intro-title">{intro.heading}</h2>
+        <p>{intro.body}</p>
+        {intro.supportingNote && <p class="intro-note">{intro.supportingNote}</p>}
+      </Prose>
+    </Container>
+  </Section>
 
-        <Card>
-          <div slot="title">
-            <h2>Featured tools</h2>
-          </div>
-          <p>TODO: highlight practical utilities that show proof-of-work.</p>
-          <div slot="actions">
-            <Button variant="primary" href="/tools">Open tools</Button>
-          </div>
-        </Card>
+  <Section aria-labelledby="home-projects-title">
+    <Container size="wide">
+      <div class="section-head">
+        <h2 id="home-projects-title">{featuredProjects.sectionTitle}</h2>
+        <p>{featuredProjects.sectionIntro}</p>
+      </div>
+
+      <Grid cols="3" gap="lg">
+        {featuredProjects.items.map((item, index) => (
+          <Card variant={index === 1 ? 'soft' : 'default'} class="content-card">
+            <div slot="title" class="card-title-stack">
+              <Tag tone="accent">{item.status}</Tag>
+              <h3>{item.title}</h3>
+            </div>
+
+            <p>{item.summary}</p>
+
+            <ul class="chip-list">
+              {item.tags.map((tag) => (
+                <li>
+                  <Tag tone="muted">{tag}</Tag>
+                </li>
+              ))}
+            </ul>
+
+            <div slot="actions" class="action-cluster">
+              <Button href={item.caseStudyHref}>{item.caseStudyLabel}</Button>
+              <Button variant="secondary" href={item.codeHref}>{item.codeLabel}</Button>
+              {item.demoHref && item.demoLabel && (
+                <Button variant="ghost" href={item.demoHref}>
+                  {item.demoLabel}
+                </Button>
+              )}
+            </div>
+          </Card>
+        ))}
       </Grid>
     </Container>
   </Section>
+
+  <Section tone="muted" aria-labelledby="home-writing-title">
+    <Container size="wide">
+      <div class="section-head">
+        <h2 id="home-writing-title">{selectedWriting.sectionTitle}</h2>
+        <p>{selectedWriting.sectionIntro}</p>
+      </div>
+
+      <Grid cols="2" gap="lg">
+        {selectedWriting.groups.map((group, index) => (
+          <Card variant={index === 1 ? 'soft' : 'default'} class="writing-group">
+            <div slot="title">
+              <h3>{group.label}</h3>
+            </div>
+
+            <ul class="writing-list">
+              {group.items.map((item) => (
+                <li class="writing-list__item">
+                  <a class="writing-link" href={item.href}>
+                    <Tag tone="muted">{item.kind}</Tag>
+                    <span class="writing-link__title">{item.title}</span>
+                    <span class="writing-link__summary">{item.summary}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Card>
+        ))}
+      </Grid>
+    </Container>
+  </Section>
+
+  <Section aria-labelledby="home-tools-title">
+    <Container size="wide">
+      <div class="section-head">
+        <h2 id="home-tools-title">{featuredTools.sectionTitle}</h2>
+        <p>{featuredTools.sectionIntro}</p>
+      </div>
+
+      <Grid gap="lg" minItemWidth="18rem">
+        {featuredTools.items.map((item, index) => (
+          <Card variant={index === featuredTools.items.length - 1 ? 'soft' : 'default'} class="content-card">
+            <div slot="title" class="card-title-stack">
+              <Tag tone="accent">{item.status}</Tag>
+              <h3>{item.title}</h3>
+            </div>
+
+            <p>{item.summary}</p>
+
+            <div slot="actions" class="action-cluster">
+              <Button href={item.href}>{item.openLabel}</Button>
+              <Button variant="secondary" href={item.readMoreHref}>{item.readMoreLabel}</Button>
+              <Button variant="ghost" href={item.codeHref}>{item.codeLabel}</Button>
+            </div>
+          </Card>
+        ))}
+      </Grid>
+    </Container>
+  </Section>
+
+  <Section tone="soft" aria-labelledby="home-resume-title">
+    <Container size="wide">
+      <div class="resume-cta">
+        <div class="resume-cta__copy">
+          <h2 id="home-resume-title">{resumeCta.heading}</h2>
+          <p>{resumeCta.body}</p>
+        </div>
+
+        <div class="resume-cta__actions">
+          <Button href={resumeCta.primaryCtaHref}>{resumeCta.primaryCtaLabel}</Button>
+          <Button variant="secondary" href={resumeCta.secondaryCtaHref}>
+            {resumeCta.secondaryCtaLabel}
+          </Button>
+        </div>
+      </div>
+    </Container>
+  </Section>
 </SiteShell>
+
+<style>
+  .home-hero {
+    padding-top: clamp(4rem, 2.75rem + 4vw, 7rem);
+  }
+
+  .hero-stack {
+    display: grid;
+    gap: var(--space-5);
+    max-width: min(100%, 58rem);
+  }
+
+  .hero-eyebrow {
+    color: var(--color-text-muted);
+    font-family: var(--font-ui);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    max-width: 11ch;
+    font-size: clamp(3.25rem, 2.4rem + 3.8vw, 5.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .hero-subtitle {
+    max-width: 58ch;
+    color: var(--color-text-secondary);
+    font-size: var(--step-1);
+    line-height: var(--line-relaxed);
+    text-wrap: pretty;
+  }
+
+  .hero-actions,
+  .action-cluster,
+  .resume-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .intro-prose {
+    max-width: 64ch;
+  }
+
+  .intro-note {
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+  }
+
+  .section-head {
+    display: grid;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+    max-width: min(100%, 48rem);
+  }
+
+  .section-head p {
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
+  }
+
+  .content-card,
+  .writing-group {
+    height: 100%;
+  }
+
+  .card-title-stack {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .card-title-stack h3 {
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+
+  .chip-list,
+  .writing-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .writing-list {
+    display: grid;
+    gap: 0;
+  }
+
+  .writing-list__item + .writing-list__item {
+    border-top: var(--border-thin);
+    padding-top: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .writing-link {
+    display: grid;
+    gap: var(--space-3);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .writing-link__title {
+    font-family: var(--font-heading);
+    font-size: var(--step-1);
+    font-weight: 600;
+    line-height: var(--line-title);
+    color: var(--color-text-primary);
+  }
+
+  .writing-link__summary {
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
+  }
+
+  .writing-link:hover .writing-link__title,
+  .writing-link:focus-visible .writing-link__title {
+    text-decoration: underline;
+    text-decoration-color: rgba(215, 163, 182, 0.6);
+    text-underline-offset: 0.18em;
+  }
+
+  .resume-cta {
+    display: grid;
+    gap: var(--space-5);
+    padding: clamp(1.5rem, 1rem + 1.6vw, 2.5rem);
+    border: var(--border-strong);
+    border-radius: var(--radius-lg);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(249, 238, 244, 0.9));
+    box-shadow: var(--shadow-soft);
+  }
+
+  .resume-cta__copy {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 44rem;
+  }
+
+  .resume-cta__copy p {
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
+  }
+
+  @media (min-width: 64rem) {
+    .resume-cta {
+      grid-template-columns: minmax(0, 1.2fr) auto;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .resume-cta__actions {
+      justify-content: flex-end;
+    }
+  }
+</style>
