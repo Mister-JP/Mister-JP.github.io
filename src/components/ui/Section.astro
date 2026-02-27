@@ -1,0 +1,40 @@
+---
+const {
+  as: Tag = 'section',
+  size = 'md',
+  tone = 'default',
+  class: className = '',
+  ...rest
+} = Astro.props;
+---
+
+<Tag class:list={['section', `section--${size}`, `section--${tone}`, className]} {...rest}>
+  <slot />
+</Tag>
+
+<style>
+  .section {
+    --section-space: var(--section-space-md);
+    padding-block: var(--section-space);
+  }
+
+  .section--sm {
+    --section-space: var(--section-space-sm);
+  }
+
+  .section--lg {
+    --section-space: var(--section-space-lg);
+  }
+
+  .section--soft {
+    background:
+      linear-gradient(180deg, rgba(249, 238, 244, 0.82), rgba(255, 249, 251, 0.85));
+    border-block: var(--border-thin);
+  }
+
+  .section--muted {
+    background:
+      linear-gradient(180deg, rgba(243, 238, 248, 0.9), rgba(255, 249, 251, 0.82));
+    border-block: var(--border-thin);
+  }
+</style>

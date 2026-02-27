@@ -1,0 +1,50 @@
+---
+const {
+  cols = 'auto',
+  gap = 'md',
+  minItemWidth = '16rem',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const style = cols === 'auto'
+  ? `--grid-template: repeat(auto-fit, minmax(min(100%, ${minItemWidth}), 1fr));`
+  : undefined;
+---
+
+<div class:list={['grid', `grid--${cols}`, `grid--gap-${gap}`, className]} style={style} {...rest}>
+  <slot />
+</div>
+
+<style>
+  .grid {
+    --grid-gap: var(--space-5);
+    display: grid;
+    grid-template-columns: var(--grid-template, minmax(0, 1fr));
+    gap: var(--grid-gap);
+  }
+
+  .grid--gap-sm {
+    --grid-gap: var(--space-4);
+  }
+
+  .grid--gap-lg {
+    --grid-gap: var(--space-6);
+  }
+
+  @media (min-width: 48rem) {
+    .grid--2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid--3 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .grid--3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

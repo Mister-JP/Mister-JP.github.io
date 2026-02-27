@@ -1,0 +1,55 @@
+---
+import SiteShell from '../layouts/SiteShell.astro';
+import PageHeader from '../components/layout/PageHeader.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Grid from '../components/ui/Grid.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Tag from '../components/ui/Tag.astro';
+import { shellConfig } from '../data/site';
+---
+
+<SiteShell
+  {...shellConfig}
+  title="Writing | Jignasu Pathak"
+  description="Placeholder writing index with distinct case study and method groupings."
+  currentPath="/writing"
+>
+  <PageHeader
+    eyebrow="Thinking"
+    title="Writing"
+    description="Writing remains grouped by meaning rather than becoming one undifferentiated stream."
+  >
+    <div slot="meta">
+      <Tag tone="accent">Case Studies</Tag>
+      <Tag>Methods</Tag>
+    </div>
+  </PageHeader>
+
+  <Section size="sm">
+    <Container size="wide">
+      <Grid cols="2" gap="lg">
+        <Card>
+          <div slot="title">
+            <h2>Case Studies</h2>
+          </div>
+          <p>TODO: project-linked narratives that capture decisions, tradeoffs, and lessons learned.</p>
+          <div slot="actions">
+            <Button variant="secondary" href="/projects">Open related work</Button>
+          </div>
+        </Card>
+
+        <Card variant="soft">
+          <div slot="title">
+            <h2>Methods</h2>
+          </div>
+          <p>TODO: reusable engineering patterns that apply across projects and experiments.</p>
+          <div slot="actions">
+            <Button variant="secondary" href="/tools">See applied tools</Button>
+          </div>
+        </Card>
+      </Grid>
+    </Container>
+  </Section>
+</SiteShell>

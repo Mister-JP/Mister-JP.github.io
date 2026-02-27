@@ -1,0 +1,63 @@
+---
+import SiteShell from '../layouts/SiteShell.astro';
+import PageHeader from '../components/layout/PageHeader.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Grid from '../components/ui/Grid.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Tag from '../components/ui/Tag.astro';
+import { shellConfig } from '../data/site';
+---
+
+<SiteShell
+  {...shellConfig}
+  title="Projects | Jignasu Pathak"
+  description="Placeholder project index composed from shared grid and card primitives."
+  currentPath="/projects"
+>
+  <PageHeader
+    eyebrow="Work"
+    title="Projects"
+    description="Project discovery should reuse the same grid and card structure instead of inventing page-specific wrappers."
+  />
+
+  <Section size="sm">
+    <Container size="wide">
+      <Grid cols="3">
+        <Card interactive>
+          <div slot="title">
+            <Tag tone="accent">Placeholder</Tag>
+            <h2>TODO: project title</h2>
+          </div>
+          <p>TODO: project summary and status.</p>
+          <div slot="actions">
+            <Button variant="secondary" href="/writing">Related case study</Button>
+          </div>
+        </Card>
+
+        <Card interactive>
+          <div slot="title">
+            <Tag>Placeholder</Tag>
+            <h2>TODO: project title</h2>
+          </div>
+          <p>TODO: project summary and status.</p>
+          <div slot="actions">
+            <Button variant="secondary" href="/writing">Related case study</Button>
+          </div>
+        </Card>
+
+        <Card interactive variant="soft">
+          <div slot="title">
+            <Tag tone="muted">Placeholder</Tag>
+            <h2>TODO: project title</h2>
+          </div>
+          <p>TODO: project summary and status.</p>
+          <div slot="actions">
+            <Button variant="primary" href="/tools">Demo or tool</Button>
+          </div>
+        </Card>
+      </Grid>
+    </Container>
+  </Section>
+</SiteShell>

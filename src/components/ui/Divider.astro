@@ -1,0 +1,48 @@
+---
+const {
+  space = 'md',
+  class: className = '',
+} = Astro.props;
+
+const hasLabel = Astro.slots.has('default');
+---
+
+<div class:list={['divider', `divider--${space}`, className]} role="presentation">
+  <span class="divider__line"></span>
+  {hasLabel && <span class="divider__label"><slot /></span>}
+  <span class="divider__line"></span>
+</div>
+
+<style>
+  .divider {
+    --divider-space: var(--space-6);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block: var(--divider-space);
+    color: var(--color-text-muted);
+  }
+
+  .divider--sm {
+    --divider-space: var(--space-5);
+  }
+
+  .divider--lg {
+    --divider-space: var(--space-7);
+  }
+
+  .divider__line {
+    flex: 1;
+    height: 1px;
+    background:
+      linear-gradient(90deg, transparent, var(--color-border-strong) 18%, var(--color-border-strong) 82%, transparent);
+  }
+
+  .divider__label {
+    font-family: var(--font-ui);
+    font-size: var(--step--1);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+</style>

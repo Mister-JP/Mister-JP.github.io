@@ -1,0 +1,65 @@
+---
+import SiteShell from '../layouts/SiteShell.astro';
+import PageHeader from '../components/layout/PageHeader.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Grid from '../components/ui/Grid.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Tag from '../components/ui/Tag.astro';
+import { shellConfig } from '../data/site';
+---
+
+<SiteShell
+  {...shellConfig}
+  title="Home | Jignasu Pathak"
+  description="Portfolio scaffold built on shared Astro layout primitives."
+  currentPath="/"
+>
+  <PageHeader
+    eyebrow="Portfolio"
+    title="TODO: homepage headline"
+    description="TODO: short positioning statement that introduces the work and directs readers into the strongest proof surfaces."
+  >
+    <div slot="meta">
+      <Tag tone="accent">Placeholder</Tag>
+      <Tag>Composable</Tag>
+    </div>
+  </PageHeader>
+
+  <Section size="sm">
+    <Container size="wide">
+      <Grid cols="3">
+        <Card>
+          <div slot="title">
+            <h2>Featured projects</h2>
+          </div>
+          <p>TODO: select representative work samples.</p>
+          <div slot="actions">
+            <Button variant="secondary" href="/projects">Browse projects</Button>
+          </div>
+        </Card>
+
+        <Card variant="soft">
+          <div slot="title">
+            <h2>Selected writing</h2>
+          </div>
+          <p>TODO: surface one case study and one method entry.</p>
+          <div slot="actions">
+            <Button variant="secondary" href="/writing">Read writing</Button>
+          </div>
+        </Card>
+
+        <Card>
+          <div slot="title">
+            <h2>Featured tools</h2>
+          </div>
+          <p>TODO: highlight practical utilities that show proof-of-work.</p>
+          <div slot="actions">
+            <Button variant="primary" href="/tools">Open tools</Button>
+          </div>
+        </Card>
+      </Grid>
+    </Container>
+  </Section>
+</SiteShell>

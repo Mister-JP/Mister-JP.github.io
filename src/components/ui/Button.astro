@@ -1,0 +1,110 @@
+---
+const {
+  href,
+  variant = 'primary',
+  type = 'button',
+  disabled = false,
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const isLink = typeof href === 'string' && href.length > 0;
+---
+
+{isLink ? (
+  <a
+    class:list={['button', `button--${variant}`, disabled && 'button--disabled', className]}
+    href={disabled ? undefined : href}
+    aria-disabled={disabled ? 'true' : undefined}
+    tabindex={disabled ? '-1' : undefined}
+    {...rest}
+  >
+    <slot />
+  </a>
+) : (
+  <button
+    class:list={['button', `button--${variant}`, disabled && 'button--disabled', className]}
+    type={type}
+    disabled={disabled}
+    {...rest}
+  >
+    <slot />
+  </button>
+)}
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 2.75rem;
+    padding: 0.75rem 1.1rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-ui);
+    font-size: var(--step--1);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      transform var(--transition-soft),
+      border-color var(--transition-soft),
+      background-color var(--transition-soft),
+      color var(--transition-soft),
+      box-shadow var(--transition-soft);
+  }
+
+  .button:hover,
+  .button:focus-visible {
+    transform: translateY(-1px);
+  }
+
+  .button--primary {
+    color: var(--color-text-primary);
+    border-color: rgba(215, 163, 182, 0.45);
+    background:
+      linear-gradient(135deg, rgba(215, 163, 182, 0.38), rgba(201, 184, 230, 0.24));
+    box-shadow: 0 6px 20px rgba(43, 34, 48, 0.08);
+  }
+
+  .button--primary:hover,
+  .button--primary:focus-visible {
+    border-color: rgba(215, 163, 182, 0.62);
+    box-shadow: 0 10px 22px rgba(43, 34, 48, 0.1);
+  }
+
+  .button--secondary {
+    color: var(--color-text-primary);
+    border-color: var(--color-border-strong);
+    background: rgba(255, 255, 255, 0.82);
+  }
+
+  .button--secondary:hover,
+  .button--secondary:focus-visible {
+    background: rgba(249, 238, 244, 0.9);
+  }
+
+  .button--ghost {
+    color: var(--color-text-secondary);
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .button--ghost:hover,
+  .button--ghost:focus-visible {
+    color: var(--color-text-primary);
+    border-color: var(--color-border-soft);
+    background: rgba(249, 238, 244, 0.55);
+  }
+
+  .button--disabled,
+  .button[aria-disabled='true'] {
+    opacity: 0.58;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
+  }
+</style>

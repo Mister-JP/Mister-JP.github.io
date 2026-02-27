@@ -1,0 +1,41 @@
+---
+import SiteShell from '../layouts/SiteShell.astro';
+import PageHeader from '../components/layout/PageHeader.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Prose from '../components/ui/Prose.astro';
+import { shellConfig } from '../data/site';
+---
+
+<SiteShell
+  {...shellConfig}
+  title="Resume | Jignasu Pathak"
+  description="Placeholder resume page with room for an embedded PDF and direct download."
+  currentPath="/resume"
+>
+  <PageHeader
+    eyebrow="Hiring"
+    title="Resume"
+    description="The resume route stays direct and calm, with a dedicated surface for the PDF and clear recruiter-oriented actions."
+  />
+
+  <Section size="sm">
+    <Container size="narrow">
+      <Card variant="soft">
+        <div slot="title">
+          <h2>Resume PDF</h2>
+        </div>
+        <Prose>
+          <p>TODO: add embedded PDF viewer.</p>
+          <p>TODO: connect a direct download file from <code>public/</code>.</p>
+        </Prose>
+        <div slot="actions">
+          <Button disabled>PDF pending</Button>
+          <Button variant="secondary" href="/projects">Review projects</Button>
+        </div>
+      </Card>
+    </Container>
+  </Section>
+</SiteShell>

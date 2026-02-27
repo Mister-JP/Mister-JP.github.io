@@ -1,0 +1,63 @@
+---
+import SiteShell from '../layouts/SiteShell.astro';
+import PageHeader from '../components/layout/PageHeader.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Grid from '../components/ui/Grid.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Tag from '../components/ui/Tag.astro';
+import { shellConfig } from '../data/site';
+---
+
+<SiteShell
+  {...shellConfig}
+  title="Tools | Jignasu Pathak"
+  description="Placeholder tool index using the shared card and grid primitives."
+  currentPath="/tools"
+>
+  <PageHeader
+    eyebrow="Utilities"
+    title="Tools"
+    description="Interactive utilities can share the same listing primitives as projects without changing the layout language."
+  />
+
+  <Section size="sm">
+    <Container size="wide">
+      <Grid cols="3">
+        <Card>
+          <div slot="title">
+            <Tag tone="accent">Live</Tag>
+            <h2>TODO: tool name</h2>
+          </div>
+          <p>TODO: short description and why it exists.</p>
+          <div slot="actions">
+            <Button variant="primary" href="/internal/primitives">Open example</Button>
+          </div>
+        </Card>
+
+        <Card>
+          <div slot="title">
+            <Tag>Experimental</Tag>
+            <h2>TODO: tool name</h2>
+          </div>
+          <p>TODO: short description and why it exists.</p>
+          <div slot="actions">
+            <Button variant="secondary" href="/projects">Read context</Button>
+          </div>
+        </Card>
+
+        <Card variant="soft">
+          <div slot="title">
+            <Tag tone="muted">Archived</Tag>
+            <h2>TODO: tool name</h2>
+          </div>
+          <p>TODO: short description and why it exists.</p>
+          <div slot="actions">
+            <Button variant="ghost" type="button">Placeholder</Button>
+          </div>
+        </Card>
+      </Grid>
+    </Container>
+  </Section>
+</SiteShell>

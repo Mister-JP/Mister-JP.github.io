@@ -1,0 +1,66 @@
+---
+import Container from '../ui/Container.astro';
+
+const {
+  eyebrow,
+  title,
+  description,
+  class: className = '',
+} = Astro.props;
+
+const hasMeta = Astro.slots.has('meta');
+const hasBody = Astro.slots.has('default');
+---
+
+<header class:list={['page-header', className]}>
+  <Container size="narrow" class="page-header__inner">
+    {eyebrow && <p class="page-header__eyebrow">{eyebrow}</p>}
+    {title && <h1 class="page-header__title">{title}</h1>}
+    {description && <p class="page-header__description">{description}</p>}
+    {hasBody && <div class="page-header__body"><slot /></div>}
+    {hasMeta && <div class="page-header__meta"><slot name="meta" /></div>}
+  </Container>
+</header>
+
+<style>
+  .page-header {
+    padding-block: clamp(3rem, 2rem + 2vw, 5rem) clamp(1.75rem, 1.2rem + 1vw, 2.75rem);
+  }
+
+  .page-header__inner {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .page-header__eyebrow {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-family: var(--font-ui);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .page-header__title {
+    max-width: 12ch;
+    font-size: clamp(2.9rem, 2.3rem + 2vw, 4.5rem);
+    line-height: var(--line-tight);
+    text-wrap: balance;
+  }
+
+  .page-header__description,
+  .page-header__body {
+    max-width: 58ch;
+    color: var(--color-text-secondary);
+    font-size: var(--step-1);
+    line-height: var(--line-relaxed);
+  }
+
+  .page-header__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+</style>

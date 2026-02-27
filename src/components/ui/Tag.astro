@@ -1,0 +1,39 @@
+---
+const {
+  tone = 'default',
+  class: className = '',
+} = Astro.props;
+---
+
+<span class:list={['tag', `tag--${tone}`, className]}>
+  <slot />
+</span>
+
+<style>
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem 0.7rem;
+    border: var(--border-thin);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.03em;
+    color: var(--color-text-secondary);
+    background: rgba(255, 255, 255, 0.78);
+  }
+
+  .tag--accent {
+    border-color: rgba(215, 163, 182, 0.42);
+    background: rgba(249, 238, 244, 0.9);
+    color: var(--color-text-primary);
+  }
+
+  .tag--muted {
+    background: rgba(243, 238, 248, 0.82);
+    color: var(--color-text-muted);
+  }
+</style>

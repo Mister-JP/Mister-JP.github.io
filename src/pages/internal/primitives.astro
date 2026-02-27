@@ -1,0 +1,135 @@
+---
+import SiteShell from '../../layouts/SiteShell.astro';
+import PageHeader from '../../components/layout/PageHeader.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import Grid from '../../components/ui/Grid.astro';
+import Card from '../../components/ui/Card.astro';
+import Button from '../../components/ui/Button.astro';
+import Tag from '../../components/ui/Tag.astro';
+import Divider from '../../components/ui/Divider.astro';
+import Prose from '../../components/ui/Prose.astro';
+import { shellConfig } from '../../data/site';
+---
+
+<SiteShell
+  {...shellConfig}
+  title="Primitive Harness | Jignasu Pathak"
+  description="Internal composition harness for shared Astro primitives."
+  currentPath="/internal/primitives"
+>
+  <meta slot="head" name="robots" content="noindex" />
+
+  <div slot="header-actions">
+    <Button variant="ghost" href="/resume">Open Resume</Button>
+  </div>
+
+  <p slot="footer">Internal composition page for layout verification only.</p>
+
+  <PageHeader
+    eyebrow="System"
+    title="Primitive Harness"
+    description="This internal page composes every shared primitive together so spacing, surface tone, and API friction can be evaluated before real content arrives."
+  >
+    <div slot="meta">
+      <Tag tone="accent">Internal</Tag>
+      <Tag>Layout Test</Tag>
+      <Tag tone="muted">Noindex</Tag>
+    </div>
+  </PageHeader>
+
+  <Section size="sm" tone="soft">
+    <Container size="narrow">
+      <Prose>
+        <p>
+          This harness exists to reveal layout conflicts early. If the system feels coherent here,
+          page work later should mostly become content composition rather than structural rewrites.
+        </p>
+      </Prose>
+    </Container>
+  </Section>
+
+  <Section size="md">
+    <Container size="wide">
+      <Divider>Surfaces</Divider>
+      <Grid cols="3">
+        <Card interactive variant="soft">
+          <div slot="title">
+            <Tag tone="accent">Card</Tag>
+            <h2>Primary surface</h2>
+          </div>
+          <p>Reusable cards stay restrained, readable, and stable across listing pages.</p>
+          <div class="inline-tags">
+            <Tag>Quiet border</Tag>
+            <Tag tone="muted">Shared padding</Tag>
+          </div>
+          <div slot="actions">
+            <Button variant="primary" href="/projects">View pattern</Button>
+          </div>
+        </Card>
+
+        <Card interactive href="/writing">
+          <div slot="title">
+            <Tag>Linked card</Tag>
+            <h2>Navigational block</h2>
+          </div>
+          <p>Linked cards can act as discovery surfaces without changing the internal content API.</p>
+          <div slot="actions">
+            <Button variant="secondary" href="/writing">Open section</Button>
+          </div>
+        </Card>
+
+        <Card>
+          <div slot="title">
+            <Tag tone="muted">Static card</Tag>
+            <h2>Content block</h2>
+          </div>
+          <p>Static cards can hold notes, metadata, or grouped text without implying navigation.</p>
+          <div slot="actions">
+            <Button variant="ghost" type="button">Placeholder action</Button>
+          </div>
+        </Card>
+      </Grid>
+    </Container>
+  </Section>
+
+  <Section size="md" tone="muted">
+    <Container size="wide">
+      <Grid cols="2" gap="lg">
+        <Card>
+          <div slot="title">
+            <h2>Button set</h2>
+          </div>
+          <p>Variant count stays intentionally small so hierarchy remains obvious.</p>
+          <div slot="actions">
+            <Button variant="primary" href="/about">Primary</Button>
+            <Button variant="secondary" href="/tools">Secondary</Button>
+            <Button variant="ghost" type="button">Ghost</Button>
+          </div>
+        </Card>
+
+        <Prose>
+          <h2>Prose block</h2>
+          <p>
+            Long-form writing should inherit one calm reading system. This wrapper centralizes
+            heading rhythm, paragraph spacing, list treatment, and inline code such as
+            <code>astro build</code>.
+          </p>
+          <ul>
+            <li>Readable line length stays bounded.</li>
+            <li>List spacing remains consistent.</li>
+            <li>Links inherit a soft but explicit emphasis.</li>
+          </ul>
+        </Prose>
+      </Grid>
+    </Container>
+  </Section>
+</SiteShell>
+
+<style>
+  .inline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+</style>

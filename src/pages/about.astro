@@ -1,0 +1,36 @@
+---
+import SiteShell from '../layouts/SiteShell.astro';
+import PageHeader from '../components/layout/PageHeader.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Prose from '../components/ui/Prose.astro';
+import Tag from '../components/ui/Tag.astro';
+import { shellConfig } from '../data/site';
+---
+
+<SiteShell
+  {...shellConfig}
+  title="About | Jignasu Pathak"
+  description="Placeholder About page composed from the shared primitive system."
+  currentPath="/about"
+>
+  <PageHeader
+    eyebrow="Profile"
+    title="About"
+    description="A stable page header pattern keeps inner pages consistent even while the copy is still placeholder text."
+  >
+    <div slot="meta">
+      <Tag tone="accent">Inner page</Tag>
+    </div>
+  </PageHeader>
+
+  <Section size="sm">
+    <Container size="narrow">
+      <Prose>
+        <p>TODO: short biography.</p>
+        <p>TODO: background and technical interests.</p>
+        <p>TODO: current focus and preferred problem space.</p>
+      </Prose>
+    </Container>
+  </Section>
+</SiteShell>

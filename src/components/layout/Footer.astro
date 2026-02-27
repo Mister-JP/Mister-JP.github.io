@@ -1,0 +1,77 @@
+---
+import Container from '../ui/Container.astro';
+
+const {
+  note = '',
+  links = [],
+} = Astro.props;
+
+const hasContent = Astro.slots.has('default');
+---
+
+<footer class="site-footer">
+  <Container size="wide" class="site-footer__inner">
+    <div class="site-footer__content">
+      {hasContent && <slot />}
+      {note && <p class="site-footer__note">{note}</p>}
+    </div>
+
+    {links.length > 0 && (
+      <nav aria-label="Footer">
+        <ul class="site-footer__list">
+          {links.map((item) => (
+            <li>
+              <a class="site-footer__link" href={item.href}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+  </Container>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: var(--border-thin);
+    background: rgba(255, 255, 255, 0.78);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-4);
+    padding-block: var(--space-6);
+  }
+
+  .site-footer__content {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .site-footer__note {
+    max-width: 50ch;
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+  }
+
+  .site-footer__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .site-footer__link {
+    color: var(--color-text-secondary);
+    font-family: var(--font-ui);
+    font-size: var(--step--1);
+    text-decoration: none;
+    transition: color var(--transition-soft);
+  }
+
+  .site-footer__link:hover,
+  .site-footer__link:focus-visible {
+    color: var(--color-text-primary);
+  }
+  </style>
