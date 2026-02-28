@@ -1,0 +1,116 @@
+---
+import { getCollection, getEntries } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import ProjectDetailTemplate from '../../components/projects/ProjectDetailTemplate.astro';
+import { shellConfig } from '../../data/site';
+import SiteShell from '../../layouts/SiteShell.astro';
+
+type ProjectEntry = CollectionEntry<'projects'>;
+type WritingEntry = CollectionEntry<'writing'>;
+type ToolEntry = CollectionEntry<'tools'>;
+type ToolAction = {
+  href?: string;
+  label?: string;
+};
+
+const sortByOrder = <T extends { data: { sortOrder: number; title: string } }>(
+  left: T,
+  right: T,
+) =>
+  left.data.sortOrder - right.data.sortOrder ||
+  left.data.title.localeCompare(right.data.title);
+
+const normalizeWritingKind = (kind: WritingEntry['data']['kind']) =>
+  kind === 'case-study' ? 'Case Study' : 'Method';
+
+const normalizeToolAction = (links: ToolEntry['data']['links']): ToolAction => {
+  if (links.open) {
+    return { href: links.open, label: 'Open tool' };
+  }
+
+  if (links.code) {
+    return { href: links.code, label: 'View code' };
+  }
+
+  if (links.readMore) {
+    return { href: links.readMore, label: 'Read more' };
+  }
+
+  return {};
+};
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props as { project: ProjectEntry };
+
+const relatedWritingEntries = (await getEntries(project.data.relatedWriting)).sort(
+  sortByOrder,
+);
+const relatedToolEntries = (await getEntries(project.data.relatedTools)).sort(
+  sortByOrder,
+);
+const { Content } = await project.render();
+const hasLongFormBody = project.body.trim().length > 0;
+
+const detailProject = {
+  title: project.data.title,
+  summary: project.data.summary,
+  whyItMatters: project.data.whyItMatters,
+  status: project.data.status,
+  currentMilestone: project.data.currentMilestone,
+  tags: project.data.tags,
+  featured: project.data.featured,
+  links: [
+    { label: 'Case Study', href: project.data.links.caseStudy },
+    { label: 'Code', href: project.data.links.code },
+    { label: 'Demo', href: project.data.links.demo },
+  ]
+    .filter((action): action is { label: string; href: string } => Boolean(action.href))
+    .map((action) => ({
+      ...action,
+      isExternal: action.href.startsWith('http'),
+    })),
+  relatedWriting: relatedWritingEntries.map((entry) => ({
+    title: entry.data.title,
+    summary: entry.data.summary,
+    status: entry.data.status,
+    metaLabel: normalizeWritingKind(entry.data.kind),
+    href: entry.data.links.read,
+    actionLabel: 'Open entry',
+    isExternal: entry.data.links.read.startsWith('http'),
+    tags: entry.data.tags,
+  })),
+  relatedTools: relatedToolEntries.map((entry) => {
+    const action = normalizeToolAction(entry.data.links);
+
+    return {
+      title: entry.data.title,
+      summary: entry.data.summary,
+      status: entry.data.status,
+      metaLabel: 'Tool',
+      href: action.href,
+      actionLabel: action.label,
+      isExternal: action.href?.startsWith('http'),
+      tags: entry.data.tags,
+    };
+  }),
+  resultSnapshot: project.data.resultSnapshot,
+};
+---
+
+<SiteShell
+  {...shellConfig}
+  title={`${project.data.title} | Projects | Jignasu Pathak`}
+  description={project.data.summary}
+>
+  <ProjectDetailTemplate project={detailProject}>
+    {hasLongFormBody && <Content />}
+  </ProjectDetailTemplate>
+</SiteShell>

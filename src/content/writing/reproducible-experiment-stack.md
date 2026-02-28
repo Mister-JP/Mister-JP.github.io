@@ -10,7 +10,7 @@ featured: true
 sortOrder: 10
 links:
   read: /writing
-  project: /projects
+  project: /projects/experiment-reproducibility-framework
 relatedProject: "Experiment Reproducibility Framework"
 ---
 TODO: expand this method entry into a reusable write-up.

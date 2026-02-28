@@ -1,0 +1,160 @@
+---
+import Button from '../ui/Button.astro';
+import Card from '../ui/Card.astro';
+import Tag from '../ui/Tag.astro';
+
+interface RelatedItem {
+  title: string;
+  summary: string;
+  status: string;
+  metaLabel?: string;
+  href?: string;
+  actionLabel?: string;
+  isExternal?: boolean;
+  tags?: string[];
+}
+
+interface ProjectRelatedSectionProps {
+  title: string;
+  intro: string;
+  emptyState: string;
+  items?: RelatedItem[];
+}
+
+const {
+  title,
+  intro,
+  emptyState,
+  items = [],
+} = Astro.props as ProjectRelatedSectionProps;
+
+const sectionId = `project-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+---
+
+<section class="project-related-section" aria-labelledby={sectionId}>
+  <Card>
+    <div slot="title" class="project-related-section__head">
+      <h2 id={sectionId}>{title}</h2>
+      <p>{intro}</p>
+    </div>
+
+    {items.length > 0 ? (
+      <ul class="project-related-section__list">
+        {items.map((item) => (
+          <li class="project-related-section__item">
+            <div class="project-related-section__item-meta">
+              {item.metaLabel && <Tag tone="accent">{item.metaLabel}</Tag>}
+              <Tag tone="muted">{item.status}</Tag>
+            </div>
+
+            <h3>
+              {item.href ? (
+                <a href={item.href}>{item.title}</a>
+              ) : (
+                item.title
+              )}
+            </h3>
+
+            <p>{item.summary}</p>
+
+            {item.tags && item.tags.length > 0 && (
+              <div class="project-related-section__tags" aria-label={`${item.title} tags`}>
+                {item.tags.map((tag) => (
+                  <Tag tone="muted">{tag}</Tag>
+                ))}
+              </div>
+            )}
+
+            {item.href ? (
+              <div class="project-related-section__action">
+                <Button
+                  variant="secondary"
+                  href={item.href}
+                  target={item.isExternal ? '_blank' : undefined}
+                  rel={item.isExternal ? 'noreferrer' : undefined}
+                >
+                  {item.actionLabel ?? 'Open'}
+                </Button>
+              </div>
+            ) : (
+              <p class="project-related-section__pending">Link coming soon.</p>
+            )}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="project-related-section__empty">{emptyState}</p>
+    )}
+  </Card>
+</section>
+
+<style>
+  .project-related-section {
+    height: 100%;
+  }
+
+  .project-related-section__head {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .project-related-section__list {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .project-related-section__item {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: var(--border-thin);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.68);
+  }
+
+  .project-related-section__item-meta,
+  .project-related-section__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .project-related-section__action {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .project-related-section h2,
+  .project-related-section h3,
+  .project-related-section p {
+    margin: 0;
+  }
+
+  .project-related-section__head p,
+  .project-related-section__item p,
+  .project-related-section__empty,
+  .project-related-section__pending {
+    line-height: var(--line-relaxed);
+  }
+
+  .project-related-section__item a {
+    color: inherit;
+    text-decoration-color: rgba(215, 163, 182, 0.6);
+    text-underline-offset: 0.2em;
+  }
+
+  .project-related-section__item a:hover,
+  .project-related-section__item a:focus-visible {
+    text-decoration-color: rgba(201, 184, 230, 0.8);
+  }
+
+  .project-related-section__empty,
+  .project-related-section__pending {
+    color: var(--color-text-muted);
+  }
+</style>

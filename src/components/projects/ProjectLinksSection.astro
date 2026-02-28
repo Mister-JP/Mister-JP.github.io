@@ -1,0 +1,75 @@
+---
+import Button from '../ui/Button.astro';
+import Card from '../ui/Card.astro';
+
+interface ProjectLinkAction {
+  label: string;
+  href: string;
+  isExternal?: boolean;
+}
+
+const {
+  actions = [],
+} = Astro.props as {
+  actions?: ProjectLinkAction[];
+};
+
+const sectionId = 'project-links';
+---
+
+<section class="project-links-section" aria-labelledby={sectionId}>
+  <Card>
+    <div slot="title" class="project-links-section__head">
+      <h2 id={sectionId}>Links</h2>
+      <p>Keep the immediate next actions visible here when there is code, a case study, or a demo to inspect.</p>
+    </div>
+
+    {actions.length > 0 ? (
+      <div class="project-links-section__actions">
+        {actions.map((action, index) => (
+          <Button
+            variant={index === 0 ? 'primary' : 'secondary'}
+            href={action.href}
+            target={action.isExternal ? '_blank' : undefined}
+            rel={action.isExternal ? 'noreferrer' : undefined}
+          >
+            {action.label}
+          </Button>
+        ))}
+      </div>
+    ) : (
+      <p class="project-links-section__empty">Project links coming soon.</p>
+    )}
+  </Card>
+</section>
+
+<style>
+  .project-links-section {
+    height: 100%;
+  }
+
+  .project-links-section__head {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .project-links-section__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .project-links-section h2,
+  .project-links-section p {
+    margin: 0;
+  }
+
+  .project-links-section__head p,
+  .project-links-section__empty {
+    line-height: var(--line-relaxed);
+  }
+
+  .project-links-section__empty {
+    color: var(--color-text-muted);
+  }
+</style>

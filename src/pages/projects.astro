@@ -10,7 +10,7 @@ import ProjectCard from '../components/projects/ProjectCard.astro';
 import { shellConfig } from '../data/site';
 
 const projects = (await getCollection('projects'))
-  .map(({ data }) => data)
+  .map(({ data, slug }) => ({ slug, ...data }))
   .sort(
     (left, right) =>
       left.sortOrder - right.sortOrder || left.title.localeCompare(right.title),

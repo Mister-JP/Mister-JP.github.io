@@ -1,0 +1,102 @@
+---
+import Card from '../ui/Card.astro';
+
+interface ProjectResultSnapshot {
+  label: string;
+  caption: string;
+  image?: string;
+  alt?: string;
+}
+
+const { snapshot } = Astro.props as { snapshot: ProjectResultSnapshot };
+const hasImage = Boolean(snapshot.image);
+const sectionId = 'project-result-snapshot';
+---
+
+<section class="project-result-placeholder" aria-labelledby={sectionId}>
+  <Card>
+    <div slot="title" class="project-result-placeholder__head">
+      <h2 id={sectionId}>Result Snapshot</h2>
+      <p>Keep a stable proof surface here so every project has an obvious place for evidence once it exists.</p>
+    </div>
+
+    {hasImage ? (
+      <figure class="project-result-placeholder__figure">
+        <img
+          src={snapshot.image}
+          alt={snapshot.alt ?? snapshot.label}
+          loading="lazy"
+        />
+        <figcaption>
+          <strong>{snapshot.label}</strong>
+          <span>{snapshot.caption}</span>
+        </figcaption>
+      </figure>
+    ) : (
+      <div class="project-result-placeholder__empty">
+        <span>{snapshot.label}</span>
+        <small>{snapshot.caption}</small>
+      </div>
+    )}
+  </Card>
+</section>
+
+<style>
+  .project-result-placeholder__head {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .project-result-placeholder h2,
+  .project-result-placeholder p,
+  .project-result-placeholder figure {
+    margin: 0;
+  }
+
+  .project-result-placeholder__head p,
+  .project-result-placeholder__empty small,
+  .project-result-placeholder figcaption {
+    line-height: var(--line-relaxed);
+  }
+
+  .project-result-placeholder__figure {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .project-result-placeholder__figure img,
+  .project-result-placeholder__empty {
+    width: 100%;
+    min-height: clamp(14rem, 30vw, 22rem);
+    border: var(--border-thin);
+    border-radius: var(--radius-lg);
+    background:
+      linear-gradient(135deg, rgba(243, 238, 248, 0.88), rgba(249, 238, 244, 0.76));
+  }
+
+  .project-result-placeholder__figure img {
+    display: block;
+    object-fit: cover;
+  }
+
+  .project-result-placeholder__empty {
+    display: grid;
+    place-items: center;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    text-align: center;
+    color: var(--color-text-secondary);
+  }
+
+  .project-result-placeholder__empty span,
+  .project-result-placeholder figcaption strong {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  .project-result-placeholder figcaption {
+    display: grid;
+    gap: var(--space-2);
+    color: var(--color-text-secondary);
+  }
+</style>

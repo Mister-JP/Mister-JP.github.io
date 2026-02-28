@@ -5,7 +5,7 @@ status: "Prototype available"
 sortOrder: 10
 featured: true
 links:
-  readMore: /projects
+  readMore: /projects/architecture-diagram-composer
   code: https://github.com/jignasu/example-architecture-composer
 tags:
   - Diagrams

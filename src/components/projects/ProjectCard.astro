@@ -10,6 +10,7 @@ interface ProjectLinks {
 }
 
 interface ProjectCardProps {
+  slug: string;
   title: string;
   summary: string;
   status: string;
@@ -19,6 +20,7 @@ interface ProjectCardProps {
 }
 
 const {
+  slug,
   title,
   summary,
   status,
@@ -27,12 +29,14 @@ const {
   featured = false,
 } = Astro.props as ProjectCardProps;
 
+const detailHref = `/projects/${slug}`;
 const actions = [
-  { label: 'Case Study', href: links.caseStudy },
-  { label: 'Code', href: links.code },
-  { label: 'Demo', href: links.demo },
+  { label: 'View project', href: detailHref },
+  links.caseStudy ? { label: 'Case Study', href: links.caseStudy } : undefined,
+  links.code ? { label: 'Code', href: links.code } : undefined,
+  links.demo ? { label: 'Demo', href: links.demo } : undefined,
 ]
-  .filter((action): action is { label: string; href: string } => Boolean(action.href))
+  .filter((action): action is { label: string; href: string } => Boolean(action))
   .map((action) => ({
     ...action,
     isExternal: action.href.startsWith('http'),
@@ -41,7 +45,7 @@ const actions = [
 
 <Card
   variant={featured ? 'soft' : 'default'}
-  interactive={actions.length > 0}
+  interactive={true}
   class="project-card"
 >
   <div slot="title" class="project-card__title">
@@ -49,7 +53,9 @@ const actions = [
       <Tag tone={featured ? 'accent' : 'default'}>{status}</Tag>
       {featured && <Tag tone="muted">Featured</Tag>}
     </div>
-    <h3>{title}</h3>
+    <h3>
+      <a class="project-card__title-link" href={detailHref}>{title}</a>
+    </h3>
   </div>
 
   <p>{summary}</p>
@@ -97,6 +103,17 @@ const actions = [
   .project-card h3,
   .project-card p {
     margin: 0;
+  }
+
+  .project-card__title-link {
+    color: inherit;
+    text-decoration-color: rgba(215, 163, 182, 0.6);
+    text-underline-offset: 0.2em;
+  }
+
+  .project-card__title-link:hover,
+  .project-card__title-link:focus-visible {
+    text-decoration-color: rgba(201, 184, 230, 0.8);
   }
 
   .project-card p {

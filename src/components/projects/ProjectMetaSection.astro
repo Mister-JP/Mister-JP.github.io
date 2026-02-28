@@ -1,0 +1,67 @@
+---
+import Card from '../ui/Card.astro';
+
+interface ProjectMetaSectionProps {
+  title: string;
+  content?: string;
+}
+
+const { title, content } = Astro.props as ProjectMetaSectionProps;
+
+const hasMeta = Astro.slots.has('meta');
+const hasBody = Astro.slots.has('default');
+const sectionId = `project-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+---
+
+<section class="project-meta-section" aria-labelledby={sectionId}>
+  <Card>
+    <div slot="title" class="project-meta-section__head">
+      <div class="project-meta-section__title-row">
+        <h2 id={sectionId}>{title}</h2>
+        {hasMeta && <div class="project-meta-section__meta"><slot name="meta" /></div>}
+      </div>
+    </div>
+
+    {hasBody ? (
+      <div class="project-meta-section__body">
+        <slot />
+      </div>
+    ) : (
+      <p class="project-meta-section__copy">{content}</p>
+    )}
+  </Card>
+</section>
+
+<style>
+  .project-meta-section {
+    height: 100%;
+  }
+
+  .project-meta-section__head,
+  .project-meta-section__body {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .project-meta-section__title-row {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .project-meta-section__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .project-meta-section h2,
+  .project-meta-section p {
+    margin: 0;
+  }
+
+  .project-meta-section__copy,
+  .project-meta-section__body :global(p) {
+    line-height: var(--line-relaxed);
+  }
+</style>

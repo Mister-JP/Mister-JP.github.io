@@ -10,7 +10,7 @@ featured: true
 sortOrder: 10
 links:
   read: /writing
-  project: /projects
+  project: /projects/microscopy-benchmark-pipeline
 relatedProject: "Microscopy Benchmark Pipeline"
 ---
 TODO: expand this into the first real case study once the benchmark notes are ready.

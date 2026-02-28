@@ -8,6 +8,7 @@ tags:
 sortOrder: 20
 links:
   read: /writing
-  project: /projects
+  project: /projects/architecture-diagram-composer
+relatedProject: "Architecture Diagram Composer"
 ---
 TODO: replace this entry with the next concrete case study.

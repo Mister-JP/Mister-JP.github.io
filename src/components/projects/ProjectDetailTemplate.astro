@@ -1,0 +1,150 @@
+---
+import PageHeader from '../layout/PageHeader.astro';
+import Card from '../ui/Card.astro';
+import Container from '../ui/Container.astro';
+import Grid from '../ui/Grid.astro';
+import Prose from '../ui/Prose.astro';
+import Section from '../ui/Section.astro';
+import Tag from '../ui/Tag.astro';
+import ProjectLinksSection from './ProjectLinksSection.astro';
+import ProjectMetaSection from './ProjectMetaSection.astro';
+import ProjectRelatedSection from './ProjectRelatedSection.astro';
+import ProjectResultPlaceholder from './ProjectResultPlaceholder.astro';
+
+interface ProjectLinkAction {
+  label: string;
+  href: string;
+  isExternal?: boolean;
+}
+
+interface RelatedItem {
+  title: string;
+  summary: string;
+  status: string;
+  metaLabel?: string;
+  href?: string;
+  actionLabel?: string;
+  isExternal?: boolean;
+  tags?: string[];
+}
+
+interface ProjectResultSnapshot {
+  label: string;
+  caption: string;
+  image?: string;
+  alt?: string;
+}
+
+interface ProjectDetailData {
+  title: string;
+  summary: string;
+  whyItMatters: string;
+  status: string;
+  currentMilestone: string;
+  tags: string[];
+  featured: boolean;
+  links: ProjectLinkAction[];
+  relatedWriting: RelatedItem[];
+  relatedTools: RelatedItem[];
+  resultSnapshot: ProjectResultSnapshot;
+}
+
+const { project } = Astro.props as { project: ProjectDetailData };
+
+const hasLongFormBody = Astro.slots.has('default');
+const withFallback = (value: string, fallback: string) =>
+  value.trim().length > 0 ? value : fallback;
+
+const overview = withFallback(project.summary, 'TODO: project summary');
+const whyItMatters = withFallback(project.whyItMatters, 'TODO: why this matters');
+const currentMilestone = withFallback(
+  project.currentMilestone,
+  'TODO: current milestone',
+);
+---
+
+<PageHeader eyebrow="Project" title={project.title}>
+  <Tag slot="meta" tone="accent">{project.status}</Tag>
+  {project.featured && <Tag slot="meta">Featured</Tag>}
+  {project.tags.map((tag) => (
+    <Tag slot="meta" tone="muted">{tag}</Tag>
+  ))}
+</PageHeader>
+
+<Section size="sm">
+  <Container size="wide">
+    <Grid cols="2" gap="lg" class="project-detail-template__grid">
+      <ProjectMetaSection title="Overview" content={overview} />
+
+      <ProjectMetaSection title="Why It Matters" content={whyItMatters} />
+
+      <ProjectMetaSection title="Current Status">
+        <Tag slot="meta" tone="accent">{project.status}</Tag>
+        <p>{currentMilestone}</p>
+      </ProjectMetaSection>
+
+      <ProjectLinksSection actions={project.links} />
+
+      <ProjectRelatedSection
+        title="Related Writing"
+        intro="Connect project pages to case studies and methods without hardcoding cross-links into the layout."
+        items={project.relatedWriting}
+        emptyState="Related writing will appear here once the supporting notes are ready."
+      />
+
+      <ProjectRelatedSection
+        title="Related Tools"
+        intro="Keep supporting utilities visible here so tool proof stays connected to the project that it supports."
+        items={project.relatedTools}
+        emptyState="Related tools will appear here once there is a utility worth attaching."
+      />
+
+      <div class="project-detail-template__full">
+        <ProjectResultPlaceholder snapshot={project.resultSnapshot} />
+      </div>
+
+      {hasLongFormBody && (
+        <div class="project-detail-template__full">
+          <section aria-labelledby="project-long-form-notes">
+            <Card class="project-detail-template__body">
+              <div slot="title" class="project-detail-template__body-head">
+                <h2 id="project-long-form-notes">Long-form Notes</h2>
+                <p>Use the markdown body for deeper narrative when the structured sections are not enough.</p>
+              </div>
+
+              <Prose>
+                <slot />
+              </Prose>
+            </Card>
+          </section>
+        </div>
+      )}
+    </Grid>
+  </Container>
+</Section>
+
+<style>
+  .project-detail-template__full {
+    display: grid;
+  }
+
+  .project-detail-template__body-head {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .project-detail-template__body-head h2,
+  .project-detail-template__body-head p {
+    margin: 0;
+  }
+
+  .project-detail-template__body-head p {
+    line-height: var(--line-relaxed);
+  }
+
+  @media (min-width: 48rem) {
+    .project-detail-template__full {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

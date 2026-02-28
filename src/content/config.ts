@@ -1,4 +1,4 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, reference, z } from 'astro:content';
 
 const linkField = z.string().min(1);
 
@@ -17,6 +17,13 @@ const toolLinks = z.object({
   open: linkField.optional(),
   readMore: linkField.optional(),
   code: linkField.optional(),
+});
+
+const projectResultSnapshot = z.object({
+  label: z.string().min(1),
+  caption: z.string().min(1),
+  image: linkField.optional(),
+  alt: z.string().min(1).optional(),
 });
 
 const pages = defineCollection({
@@ -67,11 +74,16 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
+    whyItMatters: z.string().min(1),
     status: z.string(),
+    currentMilestone: z.string().min(1),
     tags: z.array(z.string().min(1)).min(1),
     featured: z.boolean(),
     sortOrder: z.number().int(),
     links: projectLinks,
+    relatedWriting: z.array(reference('writing')),
+    relatedTools: z.array(reference('tools')),
+    resultSnapshot: projectResultSnapshot,
   }),
 });
 
