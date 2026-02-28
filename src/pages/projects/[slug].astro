@@ -3,6 +3,7 @@ import { getCollection, getEntries } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import ProjectDetailTemplate from '../../components/projects/ProjectDetailTemplate.astro';
 import { shellConfig } from '../../data/site';
+import { sortCollectionEntriesBySortOrderThenTitle } from '../../lib/collection-utils';
 import {
   getToolHref,
   getWritingHref,
@@ -11,13 +12,6 @@ import SiteShell from '../../layouts/SiteShell.astro';
 
 type ProjectEntry = CollectionEntry<'projects'>;
 type WritingEntry = CollectionEntry<'writing'>;
-
-const sortByOrder = <T extends { data: { sortOrder: number; title: string } }>(
-  left: T,
-  right: T,
-) =>
-  left.data.sortOrder - right.data.sortOrder ||
-  left.data.title.localeCompare(right.data.title);
 
 const normalizeWritingKind = (kind: WritingEntry['data']['kind']) =>
   kind === 'case-study' ? 'Case Study' : 'Method';
@@ -34,10 +28,10 @@ export async function getStaticPaths() {
 const { project } = Astro.props as { project: ProjectEntry };
 
 const relatedWritingEntries = (await getEntries(project.data.relatedWriting)).sort(
-  sortByOrder,
+  sortCollectionEntriesBySortOrderThenTitle,
 );
 const relatedToolEntries = (await getEntries(project.data.relatedTools)).sort(
-  sortByOrder,
+  sortCollectionEntriesBySortOrderThenTitle,
 );
 const primaryWritingEntry = relatedWritingEntries[0];
 const { Content } = await project.render();

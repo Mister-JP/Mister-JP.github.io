@@ -6,19 +6,18 @@ import PageHeader from '../components/layout/PageHeader.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Grid from '../components/ui/Grid.astro';
+import SectionIntro from '../components/ui/SectionIntro.astro';
 import Tag from '../components/ui/Tag.astro';
 import ProjectCard from '../components/projects/ProjectCard.astro';
 import { shellConfig } from '../data/site';
+import { sortBySortOrderThenTitle } from '../lib/collection-utils';
 
 type ProjectEntry = CollectionEntry<'projects'>;
 type ProjectListItem = { slug: ProjectEntry['slug'] } & ProjectEntry['data'];
 
 const projects: ProjectListItem[] = (await getCollection('projects'))
   .map(({ data, slug }) => ({ slug, ...data }))
-  .sort(
-    (left, right) =>
-      left.sortOrder - right.sortOrder || left.title.localeCompare(right.title),
-  );
+  .sort(sortBySortOrderThenTitle);
 
 const featuredProjects: ProjectListItem[] = projects.filter(
   (project) => project.featured,
@@ -47,10 +46,11 @@ const availableTags: string[] = Array.from(
   {featuredProjects.length > 0 && (
     <Section size="sm" aria-labelledby="featured-projects-title">
       <Container size="wide">
-        <div class="section-head">
-          <h2 id="featured-projects-title">Featured Projects</h2>
-          <p>Highlighted proof-of-work that should be visible first without changing the shared card system.</p>
-        </div>
+        <SectionIntro
+          title="Featured Projects"
+          titleId="featured-projects-title"
+          description="Highlighted proof-of-work that should be visible first without changing the shared card system."
+        />
 
         <Grid cols="3">
           {featuredProjects.map((project) => (
@@ -63,10 +63,11 @@ const availableTags: string[] = Array.from(
 
   <Section tone="soft" aria-labelledby="all-projects-title">
     <Container size="wide">
-      <div class="section-head">
-        <h2 id="all-projects-title">All Projects</h2>
-        <p>Every entry is loaded from <code>src/content/projects/</code>, so new work can be added through content only.</p>
-      </div>
+      <SectionIntro
+        title="All Projects"
+        titleId="all-projects-title"
+        description="Every entry is loaded from the project collection, so new work can be added through content only."
+      />
 
       {availableTags.length > 0 && (
         <div class="tag-strip" aria-label="Available project tags">
@@ -86,19 +87,6 @@ const availableTags: string[] = Array.from(
 </SiteShell>
 
 <style>
-  .section-head {
-    display: grid;
-    gap: var(--space-3);
-    margin-bottom: var(--space-6);
-    max-width: min(100%, 46rem);
-  }
-
-  .section-head p {
-    margin: 0;
-    color: var(--color-text-secondary);
-    line-height: var(--line-relaxed);
-  }
-
   .tag-strip {
     display: flex;
     flex-wrap: wrap;

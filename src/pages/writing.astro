@@ -8,15 +8,13 @@ import Grid from '../components/ui/Grid.astro';
 import Tag from '../components/ui/Tag.astro';
 import GroupedPanel from '../components/ui/GroupedPanel.astro';
 import WritingCard from '../components/writing/WritingCard.astro';
+import { sortCollectionEntriesBySortOrderThenTitle } from '../lib/collection-utils';
 import { getProjectHref, getWritingHref } from '../lib/content-paths';
 import { shellConfig } from '../data/site';
 
-const writing = (await getCollection('writing'))
-  .sort(
-    (left, right) =>
-      left.data.sortOrder - right.data.sortOrder ||
-      left.data.title.localeCompare(right.data.title),
-  );
+const writing = (await getCollection('writing')).sort(
+  sortCollectionEntriesBySortOrderThenTitle,
+);
 
 const writingCards = await Promise.all(
   writing.map(async (entry) => {

@@ -5,6 +5,7 @@ import Container from '../components/ui/Container.astro';
 import Grid from '../components/ui/Grid.astro';
 import Prose from '../components/ui/Prose.astro';
 import Section from '../components/ui/Section.astro';
+import SectionIntro from '../components/ui/SectionIntro.astro';
 import GroupedPanel from '../components/ui/GroupedPanel.astro';
 import ProjectCard from '../components/projects/ProjectCard.astro';
 import ToolCard from '../components/tools/ToolCard.astro';
@@ -13,6 +14,7 @@ import { shellConfig } from '../data/site';
 import { getHomePageContent } from '../lib/home-content';
 
 const {
+  page,
   hero,
   intro,
   featuredProjects,
@@ -24,8 +26,8 @@ const {
 
 <SiteShell
   {...shellConfig}
-  title="Home | Jignasu Pathak"
-  description="Curated homepage sections that hydrate featured cards from the source content collections."
+  title={`${page.title} | Jignasu Pathak`}
+  description={page.description}
 >
   <Section size="lg" class="home-hero" aria-labelledby="home-hero-title">
     <Container size="wide">
@@ -55,10 +57,11 @@ const {
 
   <Section aria-labelledby="home-projects-title">
     <Container size="wide">
-      <div class="section-head">
-        <h2 id="home-projects-title">{featuredProjects.sectionTitle}</h2>
-        <p>{featuredProjects.sectionIntro}</p>
-      </div>
+      <SectionIntro
+        title={featuredProjects.sectionTitle}
+        titleId="home-projects-title"
+        description={featuredProjects.sectionIntro}
+      />
 
       <Grid cols="3" gap="lg">
         {featuredProjects.items.map((item) => (
@@ -70,10 +73,11 @@ const {
 
   <Section tone="muted" aria-labelledby="home-writing-title">
     <Container size="wide">
-      <div class="section-head">
-        <h2 id="home-writing-title">{selectedWriting.sectionTitle}</h2>
-        <p>{selectedWriting.sectionIntro}</p>
-      </div>
+      <SectionIntro
+        title={selectedWriting.sectionTitle}
+        titleId="home-writing-title"
+        description={selectedWriting.sectionIntro}
+      />
 
       <Grid cols="2" gap="lg">
         {selectedWriting.groups.map((group, index) => (
@@ -96,10 +100,11 @@ const {
 
   <Section aria-labelledby="home-tools-title">
     <Container size="wide">
-      <div class="section-head">
-        <h2 id="home-tools-title">{featuredTools.sectionTitle}</h2>
-        <p>{featuredTools.sectionIntro}</p>
-      </div>
+      <SectionIntro
+        title={featuredTools.sectionTitle}
+        titleId="home-tools-title"
+        description={featuredTools.sectionIntro}
+      />
 
       <Grid gap="lg" minItemWidth="18rem">
         {featuredTools.items.map((item) => (
@@ -178,18 +183,6 @@ const {
   .intro-note {
     color: var(--color-text-muted);
     font-size: var(--step--1);
-  }
-
-  .section-head {
-    display: grid;
-    gap: var(--space-3);
-    margin-bottom: var(--space-6);
-    max-width: min(100%, 48rem);
-  }
-
-  .section-head p {
-    color: var(--color-text-secondary);
-    line-height: var(--line-relaxed);
   }
 
   .writing-group__list {

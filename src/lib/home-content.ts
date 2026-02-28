@@ -1,7 +1,7 @@
 import { getCollection, getEntry } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { homeContent } from '../data/home';
-import type { HomeContent } from '../data/home';
+import { homeComposition } from '../data/home';
+import { sortCollectionEntriesBySortOrderThenTitle } from './collection-utils';
 import {
   getProjectHref,
   getToolHref,
@@ -11,6 +11,9 @@ import {
 type ProjectEntry = CollectionEntry<'projects'>;
 type ToolEntry = CollectionEntry<'tools'>;
 type WritingEntry = CollectionEntry<'writing'>;
+type HomePageData = Extract<CollectionEntry<'pages'>['data'], { template: 'home' }>;
+type HomeCollectionConfig = (typeof homeComposition)['featuredProjects'];
+type HomeWritingGroupConfig = (typeof homeComposition)['selectedWriting']['groups'][number];
 
 type HomeProjectCardItem = {
   slug: ProjectEntry['slug'];
@@ -36,27 +39,28 @@ type HomeWritingCardItem = Pick<
 };
 
 export interface HomePageContent {
-  hero: HomeContent['hero'];
-  intro: HomeContent['intro'];
+  page: Pick<HomePageData, 'title' | 'description'>;
+  hero: HomePageData['hero'];
+  intro: HomePageData['intro'];
   featuredProjects: {
-    sectionTitle: string;
-    sectionIntro: string;
+    sectionTitle: HomePageData['featuredProjects']['sectionTitle'];
+    sectionIntro: HomePageData['featuredProjects']['sectionIntro'];
     items: HomeProjectCardItem[];
   };
   selectedWriting: {
-    sectionTitle: string;
-    sectionIntro: string;
+    sectionTitle: HomePageData['selectedWriting']['sectionTitle'];
+    sectionIntro: HomePageData['selectedWriting']['sectionIntro'];
     groups: Array<{
       label: string;
       items: HomeWritingCardItem[];
     }>;
   };
   featuredTools: {
-    sectionTitle: string;
-    sectionIntro: string;
+    sectionTitle: HomePageData['featuredTools']['sectionTitle'];
+    sectionIntro: HomePageData['featuredTools']['sectionIntro'];
     items: HomeToolCardItem[];
   };
-  resumeCta: HomeContent['resumeCta'];
+  resumeCta: HomePageData['resumeCta'];
 }
 
 const createSlugMap = <T extends { slug: string }>(entries: T[]): Map<string, T> =>
@@ -82,7 +86,59 @@ const resolveEntriesInOrder = <T extends { slug: string }>(
   });
 };
 
+const getConfiguredEntries = <
+  T extends { slug: string; data: { featured: boolean; sortOrder: number; title: string } },
+>(
+  entries: T[],
+  config: HomeCollectionConfig,
+  collectionName: string,
+) => {
+  if (config.slugs && config.slugs.length > 0) {
+    return resolveEntriesInOrder(entries, config.slugs, collectionName);
+  }
+
+  return entries
+    .filter((entry) => entry.data.featured)
+    .sort(sortCollectionEntriesBySortOrderThenTitle)
+    .slice(0, config.limit);
+};
+
+const getConfiguredWritingEntries = (
+  entries: WritingEntry[],
+  config: HomeWritingGroupConfig,
+) => {
+  const selectedEntries = config.slugs && config.slugs.length > 0
+    ? resolveEntriesInOrder(entries, config.slugs, `writing entries for ${config.kind}`)
+    : entries
+        .filter(
+          (entry) => entry.data.kind === config.kind && entry.data.featured,
+        )
+        .sort(sortCollectionEntriesBySortOrderThenTitle)
+        .slice(0, config.limit);
+
+  selectedEntries.forEach((entry) => {
+    if (entry.data.kind !== config.kind) {
+      throw new Error(
+        `Home writing config for "${config.kind}" includes "${entry.slug}", which is ${entry.data.kind}.`,
+      );
+    }
+  });
+
+  return selectedEntries;
+};
+
 export async function getHomePageContent(): Promise<HomePageContent> {
+  const homeEntry = await getEntry('pages', 'home');
+
+  if (!homeEntry) {
+    throw new Error('Missing content entry: src/content/pages/home.md');
+  }
+
+  if (homeEntry.data.template !== 'home') {
+    throw new Error('The home page entry must use the "home" template.');
+  }
+
+  const pageCopy = homeEntry.data;
   const [projectEntries, toolEntries, writingEntries]: [
     ProjectEntry[],
     ToolEntry[],
@@ -93,33 +149,33 @@ export async function getHomePageContent(): Promise<HomePageContent> {
     getCollection('writing'),
   ]);
 
-  const featuredProjectEntries = resolveEntriesInOrder(
+  const featuredProjectEntries = getConfiguredEntries(
     projectEntries,
-    homeContent.featuredProjects.slugs,
+    homeComposition.featuredProjects,
     'projects',
   );
-  const featuredToolEntries = resolveEntriesInOrder(
+  const featuredToolEntries = getConfiguredEntries(
     toolEntries,
-    homeContent.featuredTools.slugs,
+    homeComposition.featuredTools,
     'tools',
+  );
+  const writingGroupCopyByKind = new Map(
+    pageCopy.selectedWriting.groups.map((group) => [group.kind, group]),
   );
 
   const selectedWritingGroups = await Promise.all(
-    homeContent.selectedWriting.groups.map(async (group) => {
-      const entries = resolveEntriesInOrder(
-        writingEntries,
-        group.slugs,
-        `writing entries for ${group.label}`,
-      );
+    homeComposition.selectedWriting.groups.map(async (groupConfig) => {
+      const groupCopy = writingGroupCopyByKind.get(groupConfig.kind);
 
+      if (!groupCopy) {
+        throw new Error(
+          `Home page copy is missing a selected writing label for "${groupConfig.kind}".`,
+        );
+      }
+
+      const entries = getConfiguredWritingEntries(writingEntries, groupConfig);
       const items = await Promise.all(
         entries.map(async (entry) => {
-          if (entry.data.kind !== group.kind) {
-            throw new Error(
-              `Home writing group "${group.label}" expects ${group.kind} entries, but "${entry.slug}" is ${entry.data.kind}.`,
-            );
-          }
-
           const relatedProject = entry.data.relatedProject
             ? await getEntry(entry.data.relatedProject)
             : undefined;
@@ -141,18 +197,22 @@ export async function getHomePageContent(): Promise<HomePageContent> {
       );
 
       return {
-        label: group.label,
+        label: groupCopy.label,
         items,
       };
     }),
   );
 
   return {
-    hero: homeContent.hero,
-    intro: homeContent.intro,
+    page: {
+      title: pageCopy.title,
+      description: pageCopy.description,
+    },
+    hero: pageCopy.hero,
+    intro: pageCopy.intro,
     featuredProjects: {
-      sectionTitle: homeContent.featuredProjects.sectionTitle,
-      sectionIntro: homeContent.featuredProjects.sectionIntro,
+      sectionTitle: pageCopy.featuredProjects.sectionTitle,
+      sectionIntro: pageCopy.featuredProjects.sectionIntro,
       items: featuredProjectEntries.map((entry) => ({
         slug: entry.slug,
         title: entry.data.title,
@@ -164,13 +224,13 @@ export async function getHomePageContent(): Promise<HomePageContent> {
       })),
     },
     selectedWriting: {
-      sectionTitle: homeContent.selectedWriting.sectionTitle,
-      sectionIntro: homeContent.selectedWriting.sectionIntro,
+      sectionTitle: pageCopy.selectedWriting.sectionTitle,
+      sectionIntro: pageCopy.selectedWriting.sectionIntro,
       groups: selectedWritingGroups,
     },
     featuredTools: {
-      sectionTitle: homeContent.featuredTools.sectionTitle,
-      sectionIntro: homeContent.featuredTools.sectionIntro,
+      sectionTitle: pageCopy.featuredTools.sectionTitle,
+      sectionIntro: pageCopy.featuredTools.sectionIntro,
       items: featuredToolEntries.map((entry) => ({
         title: entry.data.title,
         summary: entry.data.summary,
@@ -182,6 +242,6 @@ export async function getHomePageContent(): Promise<HomePageContent> {
         detailHref: getToolHref(entry),
       })),
     },
-    resumeCta: homeContent.resumeCta,
+    resumeCta: pageCopy.resumeCta,
   };
 }

@@ -1,6 +1,7 @@
 import { defineCollection, reference, z } from 'astro:content';
 
 const linkField = z.string().min(1);
+const writingKind = z.enum(['case-study', 'method']);
 
 const projectLinks = z.object({
   caseStudy: linkField.optional(),
@@ -22,45 +23,94 @@ const projectResultSnapshot = z.object({
 
 const pages = defineCollection({
   type: 'content',
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    eyebrow: z.string(),
-    intro: z.object({
-      heading: z.string(),
-      summary: z.string(),
-      details: z.array(z.string()).default([]),
+  schema: z.discriminatedUnion('template', [
+    z.object({
+      template: z.literal('about'),
+      title: z.string(),
+      description: z.string(),
+      eyebrow: z.string(),
+      intro: z.object({
+        heading: z.string(),
+        summary: z.string(),
+        details: z.array(z.string()).default([]),
+      }),
+      background: z.object({
+        heading: z.string(),
+        paragraphs: z.array(z.string()).min(1),
+      }),
+      work: z.object({
+        heading: z.string(),
+        paragraphs: z.array(z.string()).min(1),
+        highlights: z.array(z.string()).default([]),
+      }),
+      focus: z.object({
+        heading: z.string(),
+        summary: z.string(),
+        details: z.array(z.string()).default([]),
+      }),
+      contact: z.object({
+        heading: z.string(),
+        intro: z.string(),
+        links: z
+          .array(
+            z.object({
+              label: z.string(),
+              href: z.string(),
+              note: z.string().optional(),
+              ctaLabel: z.string().optional(),
+            }),
+          )
+          .default([]),
+      }),
+      authorNotes: z.array(z.string()).default([]),
     }),
-    background: z.object({
-      heading: z.string(),
-      paragraphs: z.array(z.string()).min(1),
-    }),
-    work: z.object({
-      heading: z.string(),
-      paragraphs: z.array(z.string()).min(1),
-      highlights: z.array(z.string()).default([]),
-    }),
-    focus: z.object({
-      heading: z.string(),
-      summary: z.string(),
-      details: z.array(z.string()).default([]),
-    }),
-    contact: z.object({
-      heading: z.string(),
-      intro: z.string(),
-      links: z
-        .array(
+    z.object({
+      template: z.literal('home'),
+      title: z.string(),
+      description: z.string(),
+      hero: z.object({
+        eyebrow: z.string(),
+        title: z.string(),
+        subtitle: z.string(),
+        primaryCtaLabel: z.string(),
+        primaryCtaHref: z.string(),
+        secondaryCtaLabel: z.string(),
+        secondaryCtaHref: z.string(),
+      }),
+      intro: z.object({
+        heading: z.string(),
+        body: z.string(),
+        supportingNote: z.string().optional(),
+      }),
+      featuredProjects: z.object({
+        sectionTitle: z.string(),
+        sectionIntro: z.string(),
+      }),
+      selectedWriting: z.object({
+        sectionTitle: z.string(),
+        sectionIntro: z.string(),
+        groups: z.array(
           z.object({
+            kind: writingKind,
             label: z.string(),
-            href: z.string(),
-            note: z.string().optional(),
-            ctaLabel: z.string().optional(),
           }),
-        )
-        .default([]),
+        ),
+      }),
+      featuredTools: z.object({
+        sectionTitle: z.string(),
+        sectionIntro: z.string(),
+      }),
+      resumeCta: z.object({
+        heading: z.string(),
+        body: z.string(),
+        primaryCtaLabel: z.string(),
+        primaryCtaHref: z.string(),
+        secondaryCtaLabel: z.string(),
+        secondaryCtaHref: z.string(),
+      }),
+      authorNotes: z.array(z.string()).default([]),
     }),
-    authorNotes: z.array(z.string()).default([]),
-  }),
+  ]),
 });
 
 const projects = defineCollection({
@@ -86,7 +136,7 @@ const writing = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    kind: z.enum(['case-study', 'method']),
+    kind: writingKind,
     status: z.string(),
     tags: z.array(z.string().min(1)).default([]),
     featured: z.boolean().default(false),

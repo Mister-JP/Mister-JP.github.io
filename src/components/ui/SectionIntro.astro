@@ -1,0 +1,61 @@
+---
+interface Props {
+  title: string;
+  titleId: string;
+  description?: string;
+  class?: string;
+}
+
+const {
+  title,
+  titleId,
+  description,
+  class: className,
+} = Astro.props as Props;
+
+const hasMeta = Astro.slots.has('meta');
+---
+
+<div class:list={['section-intro', className]}>
+  <div class="section-intro__copy">
+    <h2 id={titleId}>{title}</h2>
+    {description && <p>{description}</p>}
+  </div>
+
+  {hasMeta && (
+    <div class="section-intro__meta">
+      <slot name="meta" />
+    </div>
+  )}
+</div>
+
+<style>
+  .section-intro {
+    display: grid;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+
+  .section-intro__copy {
+    display: grid;
+    gap: var(--space-3);
+    max-width: min(100%, 48rem);
+  }
+
+  .section-intro h2,
+  .section-intro p {
+    margin: 0;
+  }
+
+  .section-intro p {
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
+  }
+
+  .section-intro__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+  }
+</style>

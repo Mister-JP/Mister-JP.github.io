@@ -8,12 +8,17 @@ import Container from '../components/ui/Container.astro';
 import Grid from '../components/ui/Grid.astro';
 import Section from '../components/ui/Section.astro';
 import Prose from '../components/ui/Prose.astro';
+import SectionIntro from '../components/ui/SectionIntro.astro';
 import { shellConfig } from '../data/site';
 
 const aboutEntry = await getEntry('pages', 'about');
 
 if (!aboutEntry) {
   throw new Error('Missing content entry: src/content/pages/about.md');
+}
+
+if (aboutEntry.data.template !== 'about') {
+  throw new Error('The about page entry must use the "about" template.');
 }
 
 const { data } = aboutEntry;
@@ -92,10 +97,11 @@ const { intro, background, work, focus, contact } = data;
 
   <Section aria-labelledby="about-contact-title">
     <Container size="wide">
-      <div class="section-head">
-        <h2 id="about-contact-title">{contact.heading}</h2>
-        <p>{contact.intro}</p>
-      </div>
+      <SectionIntro
+        title={contact.heading}
+        titleId="about-contact-title"
+        description={contact.intro}
+      />
 
       {contact.links.length > 0 && (
         <Grid gap="lg" minItemWidth="16rem">
@@ -128,17 +134,5 @@ const { intro, background, work, focus, contact } = data;
 
   .about-copy {
     max-width: none;
-  }
-
-  .section-head {
-    display: grid;
-    gap: var(--space-3);
-    margin-bottom: var(--space-6);
-    max-width: min(100%, 44rem);
-  }
-
-  .section-head p {
-    color: var(--color-text-secondary);
-    line-height: var(--line-relaxed);
   }
 </style>

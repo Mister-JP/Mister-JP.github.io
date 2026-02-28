@@ -2,6 +2,7 @@
 import Button from '../ui/Button.astro';
 import Card from '../ui/Card.astro';
 import Tag from '../ui/Tag.astro';
+import { getProjectHref } from '../../lib/content-paths';
 
 interface ProjectLinks {
   caseStudy?: string;
@@ -29,7 +30,7 @@ const {
   featured = false,
 } = Astro.props as ProjectCardProps;
 
-const detailHref = `/projects/${slug}`;
+const detailHref = getProjectHref({ slug });
 const actions = [
   { label: 'View project', href: detailHref },
   links.caseStudy ? { label: 'Case Study', href: links.caseStudy } : undefined,

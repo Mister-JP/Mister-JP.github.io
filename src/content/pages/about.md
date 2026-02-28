@@ -1,4 +1,5 @@
 ---
+template: about
 title: About
 description: A structured placeholder About page that keeps the content easy to revise without rewriting the layout.
 eyebrow: Profile

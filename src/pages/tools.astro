@@ -5,17 +5,16 @@ import PageHeader from '../components/layout/PageHeader.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Grid from '../components/ui/Grid.astro';
+import SectionIntro from '../components/ui/SectionIntro.astro';
 import Tag from '../components/ui/Tag.astro';
 import ToolCard from '../components/tools/ToolCard.astro';
+import { sortCollectionEntriesBySortOrderThenTitle } from '../lib/collection-utils';
 import { getToolHref } from '../lib/content-paths';
 import { shellConfig } from '../data/site';
 
-const tools = (await getCollection('tools'))
-  .sort(
-    (left, right) =>
-      left.data.sortOrder - right.data.sortOrder ||
-      left.data.title.localeCompare(right.data.title),
-  );
+const tools = (await getCollection('tools')).sort(
+  sortCollectionEntriesBySortOrderThenTitle,
+);
 ---
 
 <SiteShell
@@ -31,11 +30,13 @@ const tools = (await getCollection('tools'))
     <Tag slot="meta" tone="accent">{tools.length} tools</Tag>
   </PageHeader>
 
-  <Section size="sm">
+  <Section size="sm" aria-labelledby="all-tools-title">
     <Container size="wide">
-      <div class="tools-note">
-        <p>Each entry keeps a fixed preview area, so cards stay consistent whether a tool already has an image or is still using a placeholder state.</p>
-      </div>
+      <SectionIntro
+        title="Tool Library"
+        titleId="all-tools-title"
+        description="Each entry keeps a fixed preview area, so cards stay consistent whether a tool already has an image or is still using a placeholder state."
+      />
 
       <Grid cols="3">
         {tools.length > 0 ? (
@@ -51,12 +52,6 @@ const tools = (await getCollection('tools'))
 </SiteShell>
 
 <style>
-  .tools-note {
-    margin-bottom: var(--space-6);
-    max-width: min(100%, 46rem);
-  }
-
-  .tools-note p,
   .tools-empty {
     margin: 0;
     color: var(--color-text-secondary);

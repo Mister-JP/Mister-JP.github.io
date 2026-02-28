@@ -3,6 +3,7 @@ import { getCollection, getEntries, getEntry } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import ToolDetailTemplate from '../../components/tools/ToolDetailTemplate.astro';
 import { shellConfig } from '../../data/site';
+import { sortCollectionEntriesBySortOrderThenTitle } from '../../lib/collection-utils';
 import {
   getProjectHref,
   getWritingHref,
@@ -11,13 +12,6 @@ import SiteShell from '../../layouts/SiteShell.astro';
 
 type ToolEntry = CollectionEntry<'tools'>;
 type WritingEntry = CollectionEntry<'writing'>;
-
-const sortByOrder = <T extends { data: { sortOrder: number; title: string } }>(
-  left: T,
-  right: T,
-) =>
-  left.data.sortOrder - right.data.sortOrder ||
-  left.data.title.localeCompare(right.data.title);
 
 const getWritingKindLabel = (kind: WritingEntry['data']['kind']) =>
   kind === 'case-study' ? 'Case Study' : 'Method';
@@ -38,7 +32,7 @@ const relatedProject = tool.data.relatedProject
   : undefined;
 const relatedProjectHref = relatedProject ? getProjectHref(relatedProject) : undefined;
 const relatedWritingEntries = (await getEntries(tool.data.relatedWriting)).sort(
-  sortByOrder,
+  sortCollectionEntriesBySortOrderThenTitle,
 );
 const { Content, headings } = await tool.render();
 const hasBody = Boolean(tool.body?.trim());
