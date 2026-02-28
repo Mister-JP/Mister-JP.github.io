@@ -1,0 +1,129 @@
+---
+import Button from '../ui/Button.astro';
+import Card from '../ui/Card.astro';
+import Tag from '../ui/Tag.astro';
+
+type WritingKind = 'case-study' | 'method';
+
+interface WritingLinks {
+  read: string;
+  project?: string;
+}
+
+interface WritingCardProps {
+  title: string;
+  summary: string;
+  kind: WritingKind;
+  status: string;
+  tags?: string[];
+  featured?: boolean;
+  links: WritingLinks;
+  relatedProject?: string;
+}
+
+const {
+  title,
+  summary,
+  kind,
+  status,
+  tags = [],
+  featured = false,
+  links,
+  relatedProject,
+} = Astro.props as WritingCardProps;
+
+const actions = [
+  { label: 'Open entry', href: links.read },
+  links.project ? { label: 'Related project', href: links.project } : undefined,
+]
+  .filter((action): action is { label: string; href: string } => Boolean(action))
+  .map((action) => ({
+    ...action,
+    isExternal: action.href.startsWith('http'),
+  }));
+
+const kindLabel = kind === 'case-study' ? 'Case Study' : 'Method';
+---
+
+<Card
+  variant={featured ? 'soft' : 'default'}
+  interactive={actions.length > 0}
+  class="writing-card"
+>
+  <div slot="title" class="writing-card__title">
+    <div class="writing-card__meta">
+      <Tag tone={kind === 'case-study' ? 'accent' : 'default'}>{kindLabel}</Tag>
+      <Tag tone="muted">{status}</Tag>
+      {featured && <Tag tone="accent">Featured</Tag>}
+    </div>
+    <h3>{title}</h3>
+  </div>
+
+  <p>{summary}</p>
+
+  {relatedProject && (
+    <p class="writing-card__related">
+      Related project: <span>{relatedProject}</span>
+    </p>
+  )}
+
+  {tags.length > 0 && (
+    <div class="writing-card__tags" aria-label={`${title} tags`}>
+      {tags.map((tag) => (
+        <Tag tone="muted">{tag}</Tag>
+      ))}
+    </div>
+  )}
+
+  {actions.length > 0 && (
+    <div slot="actions">
+      {actions.map((action, index) => (
+        <Button
+          variant={index === 0 ? 'primary' : 'secondary'}
+          href={action.href}
+          target={action.isExternal ? '_blank' : undefined}
+          rel={action.isExternal ? 'noreferrer' : undefined}
+        >
+          {action.label}
+        </Button>
+      ))}
+    </div>
+  )}
+</Card>
+
+<style>
+  .writing-card {
+    height: 100%;
+  }
+
+  .writing-card__title {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .writing-card__meta,
+  .writing-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .writing-card h3,
+  .writing-card p {
+    margin: 0;
+  }
+
+  .writing-card p {
+    line-height: var(--line-relaxed);
+  }
+
+  .writing-card__related {
+    color: var(--color-text-primary);
+    font-size: var(--step--1);
+  }
+
+  .writing-card__related span {
+    color: var(--color-text-secondary);
+  }
+</style>

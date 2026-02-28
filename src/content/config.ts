@@ -1,9 +1,22 @@
 import { defineCollection, z } from 'astro:content';
 
+const linkField = z.string().min(1);
+
 const projectLinks = z.object({
-  caseStudy: z.string().min(1).optional(),
-  code: z.string().min(1).optional(),
-  demo: z.string().min(1).optional(),
+  caseStudy: linkField.optional(),
+  code: linkField.optional(),
+  demo: linkField.optional(),
+});
+
+const writingLinks = z.object({
+  read: linkField,
+  project: linkField.optional(),
+});
+
+const toolLinks = z.object({
+  open: linkField.optional(),
+  readMore: linkField.optional(),
+  code: linkField.optional(),
 });
 
 const pages = defineCollection({
@@ -62,7 +75,38 @@ const projects = defineCollection({
   }),
 });
 
+const writing = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    kind: z.enum(['case-study', 'method']),
+    status: z.string(),
+    tags: z.array(z.string().min(1)).default([]),
+    featured: z.boolean().default(false),
+    sortOrder: z.number().int(),
+    links: writingLinks,
+    relatedProject: z.string().min(1).optional(),
+  }),
+});
+
+const tools = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    status: z.string(),
+    sortOrder: z.number().int(),
+    featured: z.boolean().default(false),
+    previewImage: z.string().min(1).optional(),
+    links: toolLinks,
+    tags: z.array(z.string().min(1)).default([]),
+  }),
+});
+
 export const collections = {
   pages,
   projects,
+  writing,
+  tools,
 };

@@ -1,62 +1,62 @@
 ---
+import { getCollection } from 'astro:content';
 import SiteShell from '../layouts/SiteShell.astro';
 import PageHeader from '../components/layout/PageHeader.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Grid from '../components/ui/Grid.astro';
-import Card from '../components/ui/Card.astro';
-import Button from '../components/ui/Button.astro';
 import Tag from '../components/ui/Tag.astro';
+import ToolCard from '../components/tools/ToolCard.astro';
 import { shellConfig } from '../data/site';
+
+const tools = (await getCollection('tools'))
+  .map(({ data }) => data)
+  .sort(
+    (left, right) =>
+      left.sortOrder - right.sortOrder || left.title.localeCompare(right.title),
+  );
 ---
 
 <SiteShell
   {...shellConfig}
   title="Tools | Jignasu Pathak"
-  description="Placeholder tool index using the shared card and grid primitives."
+  description="Content-driven tool index using reusable cards and stable preview placeholders."
 >
   <PageHeader
     eyebrow="Utilities"
     title="Tools"
-    description="Interactive utilities can share the same listing primitives as projects without changing the layout language."
-  />
+    description="Interactive utilities now render from structured content, so new tools can be added without editing the route."
+  >
+    <Tag slot="meta" tone="accent">{tools.length} tools</Tag>
+  </PageHeader>
 
   <Section size="sm">
     <Container size="wide">
+      <div class="tools-note">
+        <p>Each entry keeps a fixed preview area, so cards stay consistent whether a tool already has an image or is still using a placeholder state.</p>
+      </div>
+
       <Grid cols="3">
-        <Card>
-          <div slot="title">
-            <Tag tone="accent">Live</Tag>
-            <h2>TODO: tool name</h2>
-          </div>
-          <p>TODO: short description and why it exists.</p>
-          <div slot="actions">
-            <Button variant="primary" href="/internal/primitives">Open example</Button>
-          </div>
-        </Card>
-
-        <Card>
-          <div slot="title">
-            <Tag>Experimental</Tag>
-            <h2>TODO: tool name</h2>
-          </div>
-          <p>TODO: short description and why it exists.</p>
-          <div slot="actions">
-            <Button variant="secondary" href="/projects">Read context</Button>
-          </div>
-        </Card>
-
-        <Card variant="soft">
-          <div slot="title">
-            <Tag tone="muted">Archived</Tag>
-            <h2>TODO: tool name</h2>
-          </div>
-          <p>TODO: short description and why it exists.</p>
-          <div slot="actions">
-            <Button variant="ghost" type="button">Placeholder</Button>
-          </div>
-        </Card>
+        {tools.length > 0 ? (
+          tools.map((tool) => <ToolCard {...tool} />)
+        ) : (
+          <p class="tools-empty">Tool entries will appear here once content files are added.</p>
+        )}
       </Grid>
     </Container>
   </Section>
 </SiteShell>
+
+<style>
+  .tools-note {
+    margin-bottom: var(--space-6);
+    max-width: min(100%, 46rem);
+  }
+
+  .tools-note p,
+  .tools-empty {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
+  }
+</style>

@@ -1,40 +1,191 @@
 ---
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import SiteShell from '../layouts/SiteShell.astro';
 import PageHeader from '../components/layout/PageHeader.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import Prose from '../components/ui/Prose.astro';
+import Tag from '../components/ui/Tag.astro';
 import { shellConfig } from '../data/site';
+import { resumeConfig } from '../data/resume';
+
+const resumeFileName = resumeConfig.pdfPath.split('/').pop() ?? 'resume.pdf';
+const resumeFilePath = fileURLToPath(
+  new URL(`../../public${resumeConfig.pdfPath}`, import.meta.url),
+);
+const hasResumePdf = fs.existsSync(resumeFilePath);
 ---
 
 <SiteShell
   {...shellConfig}
   title="Resume | Jignasu Pathak"
-  description="Placeholder resume page with room for an embedded PDF and direct download."
+  description="Recruiter-facing resume page with a stable PDF contract, direct download, and embedded preview."
 >
   <PageHeader
     eyebrow="Hiring"
     title="Resume"
-    description="The resume route stays direct and calm, with a dedicated surface for the PDF and clear recruiter-oriented actions."
-  />
+    description="The resume route stays direct and calm, with a stable asset path, a primary download action, and a ready-to-use preview region."
+  >
+    <Tag slot="meta" tone={hasResumePdf ? 'accent' : 'muted'}>
+      {hasResumePdf ? 'PDF ready' : 'PDF pending'}
+    </Tag>
+  </PageHeader>
 
   <Section size="sm">
-    <Container size="narrow">
-      <Card variant="soft">
+    <Container size="wide">
+      <Card variant="soft" class="resume-summary">
         <div slot="title">
-          <h2>Resume PDF</h2>
+          <h2>{resumeConfig.title}</h2>
         </div>
-        <Prose>
-          <p>TODO: add embedded PDF viewer.</p>
-          <p>TODO: connect a direct download file from <code>public/</code>.</p>
-        </Prose>
+        <p>{resumeConfig.summary}</p>
+        <p class="resume-summary__contract">
+          Stable asset contract: <code>{resumeConfig.expectedAssetPath}</code>
+        </p>
         <div slot="actions">
-          <Button disabled>PDF pending</Button>
-          <Button variant="secondary" href="/projects">Review projects</Button>
+          {hasResumePdf ? (
+            <Button href={resumeConfig.pdfPath} download={resumeFileName}>
+              {resumeConfig.actions.download}
+            </Button>
+          ) : (
+            <Button disabled>{resumeConfig.actions.download}</Button>
+          )}
+          {hasResumePdf ? (
+            <Button
+              variant="secondary"
+              href={resumeConfig.pdfPath}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {resumeConfig.actions.open}
+            </Button>
+          ) : (
+            <Button variant="secondary" disabled>{resumeConfig.actions.open}</Button>
+          )}
         </div>
       </Card>
     </Container>
   </Section>
+
+  <Section tone="soft" aria-labelledby="resume-viewer-title">
+    <Container size="wide">
+      <div class="resume-viewer-shell">
+        <div class="resume-viewer-shell__head">
+          <h2 id="resume-viewer-title">Preview</h2>
+          <p>The inline viewer is ready now, and it stays visually stable even when the expected PDF is not yet in place.</p>
+        </div>
+
+        <div class="resume-viewer">
+          {hasResumePdf ? (
+            <iframe
+              src={resumeConfig.pdfPath}
+              title={`${resumeConfig.title} preview`}
+              loading="lazy"
+            />
+          ) : (
+            <div class="resume-fallback" role="status">
+              <h3>{resumeConfig.fallback.title}</h3>
+              <p>{resumeConfig.fallback.summary}</p>
+              <p>
+                Expected asset: <code>{resumeConfig.expectedAssetPath}</code>
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section size="sm" aria-labelledby="resume-highlights-title">
+    <Container size="narrow">
+      <Card class="resume-highlights">
+        <div slot="title">
+          <h2 id="resume-highlights-title">Quick Highlights</h2>
+        </div>
+        <ul>
+          {resumeConfig.highlights.map((highlight) => (
+            <li>{highlight}</li>
+          ))}
+        </ul>
+      </Card>
+    </Container>
+  </Section>
 </SiteShell>
+
+<style>
+  .resume-summary,
+  .resume-viewer-shell,
+  .resume-highlights {
+    height: 100%;
+  }
+
+  .resume-summary p,
+  .resume-viewer-shell__head p,
+  .resume-fallback p,
+  .resume-highlights li {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
+  }
+
+  .resume-summary__contract {
+    color: var(--color-text-primary);
+    font-size: var(--step--1);
+  }
+
+  .resume-summary h2,
+  .resume-viewer-shell__head h2,
+  .resume-fallback h3,
+  .resume-highlights h2 {
+    margin: 0;
+  }
+
+  .resume-viewer-shell {
+    display: grid;
+    gap: var(--space-5);
+    padding: var(--card-padding);
+    border: var(--border-thin);
+    border-radius: var(--radius-lg);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 249, 251, 0.96));
+    box-shadow: var(--shadow-soft);
+  }
+
+  .resume-viewer-shell__head {
+    display: grid;
+    gap: var(--space-3);
+    max-width: min(100%, 42rem);
+  }
+
+  .resume-viewer {
+    min-height: 48rem;
+    border: var(--border-thin);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.92);
+    overflow: hidden;
+  }
+
+  .resume-viewer iframe,
+  .resume-fallback {
+    display: block;
+    width: 100%;
+    min-height: 48rem;
+    border: 0;
+  }
+
+  .resume-fallback {
+    display: grid;
+    place-items: center;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    text-align: center;
+  }
+
+  .resume-highlights ul {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+</style>

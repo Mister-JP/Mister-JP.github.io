@@ -1,0 +1,161 @@
+---
+import Button from '../ui/Button.astro';
+import Card from '../ui/Card.astro';
+import Tag from '../ui/Tag.astro';
+
+interface ToolLinks {
+  open?: string;
+  readMore?: string;
+  code?: string;
+}
+
+interface ToolCardProps {
+  title: string;
+  summary: string;
+  status: string;
+  links?: ToolLinks;
+  tags?: string[];
+  featured?: boolean;
+  previewImage?: string;
+}
+
+const {
+  title,
+  summary,
+  status,
+  links = {},
+  tags = [],
+  featured = false,
+  previewImage,
+} = Astro.props as ToolCardProps;
+
+const actions = [
+  { label: 'Open', href: links.open },
+  { label: 'Read more', href: links.readMore },
+  { label: 'Code', href: links.code },
+]
+  .filter((action): action is { label: string; href: string } => Boolean(action.href))
+  .map((action) => ({
+    ...action,
+    isExternal: action.href.startsWith('http'),
+  }));
+---
+
+<Card
+  variant={featured ? 'soft' : 'default'}
+  interactive={actions.length > 0}
+  class="tool-card"
+>
+  <div slot="title" class="tool-card__title">
+    <div class="tool-card__meta">
+      <Tag tone={featured ? 'accent' : 'default'}>{status}</Tag>
+      {featured && <Tag tone="muted">Featured</Tag>}
+    </div>
+    <h3>{title}</h3>
+  </div>
+
+  <div class="tool-card__preview">
+    {previewImage ? (
+      <img src={previewImage} alt={`${title} preview`} loading="lazy" />
+    ) : (
+      <div class="tool-card__preview-placeholder" aria-hidden="true">
+        <span>Preview pending</span>
+        <small>Tool snapshot will appear here.</small>
+      </div>
+    )}
+  </div>
+
+  <p>{summary}</p>
+
+  {tags.length > 0 && (
+    <div class="tool-card__tags" aria-label={`${title} tags`}>
+      {tags.map((tag) => (
+        <Tag tone="muted">{tag}</Tag>
+      ))}
+    </div>
+  )}
+
+  <div slot="actions">
+    {actions.length > 0 ? (
+      actions.map((action, index) => (
+        <Button
+          variant={index === 0 ? 'primary' : 'secondary'}
+          href={action.href}
+          target={action.isExternal ? '_blank' : undefined}
+          rel={action.isExternal ? 'noreferrer' : undefined}
+        >
+          {action.label}
+        </Button>
+      ))
+    ) : (
+      <span class="tool-card__pending">Links pending</span>
+    )}
+  </div>
+</Card>
+
+<style>
+  .tool-card {
+    height: 100%;
+  }
+
+  .tool-card__title {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .tool-card__meta,
+  .tool-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .tool-card__preview {
+    min-height: 11rem;
+    border: var(--border-thin);
+    border-radius: var(--radius-md);
+    background:
+      linear-gradient(135deg, rgba(243, 238, 248, 0.85), rgba(249, 238, 244, 0.7));
+    overflow: hidden;
+  }
+
+  .tool-card__preview img,
+  .tool-card__preview-placeholder {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: 11rem;
+  }
+
+  .tool-card__preview img {
+    object-fit: cover;
+  }
+
+  .tool-card__preview-placeholder {
+    gap: var(--space-2);
+    padding: var(--space-4);
+    text-align: center;
+    color: var(--color-text-secondary);
+  }
+
+  .tool-card__preview-placeholder span {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  .tool-card__pending {
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+    line-height: 1.4;
+  }
+
+  .tool-card h3,
+  .tool-card p {
+    margin: 0;
+  }
+
+  .tool-card p {
+    line-height: var(--line-relaxed);
+  }
+</style>
