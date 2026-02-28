@@ -41,7 +41,7 @@ const relatedToolEntries = (await getEntries(project.data.relatedTools)).sort(
 );
 const primaryWritingEntry = relatedWritingEntries[0];
 const { Content } = await project.render();
-const hasLongFormBody = project.body.trim().length > 0;
+const hasLongFormBody = Boolean(project.body?.trim());
 
 const detailProject = {
   title: project.data.title,
@@ -63,7 +63,9 @@ const detailProject = {
     { label: 'Code', href: project.data.links.code },
     { label: 'Demo', href: project.data.links.demo },
   ]
-    .filter((action): action is { label: string; href: string } => Boolean(action))
+    .filter(
+      (action): action is { label: string; href: string } => Boolean(action?.href),
+    )
     .map((action) => ({
       ...action,
       isExternal: action.href.startsWith('http'),

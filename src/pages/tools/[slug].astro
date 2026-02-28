@@ -41,13 +41,15 @@ const relatedWritingEntries = (await getEntries(tool.data.relatedWriting)).sort(
   sortByOrder,
 );
 const { Content, headings } = await tool.render();
-const hasBody = tool.body.trim().length > 0;
+const hasBody = Boolean(tool.body?.trim());
 
 const actions = [
   tool.data.links.open ? { label: 'Open', href: tool.data.links.open } : undefined,
   tool.data.links.code ? { label: 'Code', href: tool.data.links.code } : undefined,
 ]
-  .filter((action): action is { label: string; href: string } => Boolean(action))
+  .filter(
+    (action): action is { label: string; href: string } => Boolean(action?.href),
+  )
   .map((action) => ({
     ...action,
     isExternal: action.href.startsWith('http'),

@@ -52,15 +52,9 @@ interface ProjectDetailData {
 const { project } = Astro.props as { project: ProjectDetailData };
 
 const hasLongFormBody = Astro.slots.has('default');
-const withFallback = (value: string, fallback: string) =>
-  value.trim().length > 0 ? value : fallback;
-
-const overview = withFallback(project.summary, 'TODO: project summary');
-const whyItMatters = withFallback(project.whyItMatters, 'TODO: why this matters');
-const currentMilestone = withFallback(
-  project.currentMilestone,
-  'TODO: current milestone',
-);
+const overview = project.summary.trim();
+const whyItMatters = project.whyItMatters.trim();
+const currentMilestone = project.currentMilestone.trim();
 ---
 
 <PageHeader eyebrow="Project" title={project.title}>

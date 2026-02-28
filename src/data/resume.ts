@@ -1,4 +1,5 @@
 export const resumeConfig = {
+  pdfReady: true,
   pdfPath: '/resume/jignasu-pathak-resume.pdf',
   expectedAssetPath: 'public/resume/jignasu-pathak-resume.pdf',
   title: 'Resume PDF',

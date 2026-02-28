@@ -1,6 +1,4 @@
 ---
-import fs from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import SiteShell from '../layouts/SiteShell.astro';
 import PageHeader from '../components/layout/PageHeader.astro';
 import Container from '../components/ui/Container.astro';
@@ -12,10 +10,7 @@ import { shellConfig } from '../data/site';
 import { resumeConfig } from '../data/resume';
 
 const resumeFileName = resumeConfig.pdfPath.split('/').pop() ?? 'resume.pdf';
-const resumeFilePath = fileURLToPath(
-  new URL(`../../public${resumeConfig.pdfPath}`, import.meta.url),
-);
-const hasResumePdf = fs.existsSync(resumeFilePath);
+const hasResumePdf = resumeConfig.pdfReady;
 ---
 
 <SiteShell

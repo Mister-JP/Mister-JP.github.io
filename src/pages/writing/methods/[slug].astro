@@ -24,7 +24,7 @@ const relatedProject = entry.data.relatedProject
   : undefined;
 const relatedProjectHref = relatedProject ? getProjectHref(relatedProject) : undefined;
 const { Content, headings } = await entry.render();
-const hasBody = entry.body.trim().length > 0;
+const hasBody = Boolean(entry.body?.trim());
 
 const actions = [
   { label: 'All writing', href: '/writing' },

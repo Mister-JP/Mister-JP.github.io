@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 import SiteShell from '../layouts/SiteShell.astro';
 import PageHeader from '../components/layout/PageHeader.astro';
 import Container from '../components/ui/Container.astro';
@@ -9,16 +10,21 @@ import Tag from '../components/ui/Tag.astro';
 import ProjectCard from '../components/projects/ProjectCard.astro';
 import { shellConfig } from '../data/site';
 
-const projects = (await getCollection('projects'))
+type ProjectEntry = CollectionEntry<'projects'>;
+type ProjectListItem = { slug: ProjectEntry['slug'] } & ProjectEntry['data'];
+
+const projects: ProjectListItem[] = (await getCollection('projects'))
   .map(({ data, slug }) => ({ slug, ...data }))
   .sort(
     (left, right) =>
       left.sortOrder - right.sortOrder || left.title.localeCompare(right.title),
   );
 
-const featuredProjects = projects.filter((project) => project.featured);
-const availableTags = Array.from(
-  new Set(projects.flatMap((project) => project.tags)),
+const featuredProjects: ProjectListItem[] = projects.filter(
+  (project) => project.featured,
+);
+const availableTags: string[] = Array.from(
+  new Set<string>(projects.flatMap((project): string[] => project.tags)),
 ).sort((left, right) => left.localeCompare(right));
 ---
 
