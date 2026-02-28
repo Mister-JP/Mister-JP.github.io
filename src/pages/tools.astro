@@ -7,13 +7,14 @@ import Section from '../components/ui/Section.astro';
 import Grid from '../components/ui/Grid.astro';
 import Tag from '../components/ui/Tag.astro';
 import ToolCard from '../components/tools/ToolCard.astro';
+import { getToolHref } from '../lib/content-paths';
 import { shellConfig } from '../data/site';
 
 const tools = (await getCollection('tools'))
-  .map(({ data }) => data)
   .sort(
     (left, right) =>
-      left.sortOrder - right.sortOrder || left.title.localeCompare(right.title),
+      left.data.sortOrder - right.data.sortOrder ||
+      left.data.title.localeCompare(right.data.title),
   );
 ---
 
@@ -38,7 +39,9 @@ const tools = (await getCollection('tools'))
 
       <Grid cols="3">
         {tools.length > 0 ? (
-          tools.map((tool) => <ToolCard {...tool} />)
+          tools.map((tool) => (
+            <ToolCard {...tool.data} detailHref={getToolHref(tool)} />
+          ))
         ) : (
           <p class="tools-empty">Tool entries will appear here once content files are added.</p>
         )}

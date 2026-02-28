@@ -1,0 +1,274 @@
+---
+import Button from '../ui/Button.astro';
+import Card from '../ui/Card.astro';
+import Container from '../ui/Container.astro';
+import Grid from '../ui/Grid.astro';
+import Prose from '../ui/Prose.astro';
+import Section from '../ui/Section.astro';
+import Tag from '../ui/Tag.astro';
+import PageHeader from '../layout/PageHeader.astro';
+
+type WritingKind = 'case-study' | 'method';
+
+interface DetailAction {
+  label: string;
+  href: string;
+  isExternal?: boolean;
+}
+
+interface HeadingLink {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface RelatedProjectLink {
+  title: string;
+  summary: string;
+  status: string;
+  href: string;
+}
+
+interface WritingDetailTemplateProps {
+  title: string;
+  summary: string;
+  kind: WritingKind;
+  status: string;
+  tags?: string[];
+  relatedProject?: RelatedProjectLink;
+  headings?: HeadingLink[];
+  actions?: DetailAction[];
+}
+
+const {
+  title,
+  summary,
+  kind,
+  status,
+  tags = [],
+  relatedProject,
+  headings = [],
+  actions = [],
+} = Astro.props as WritingDetailTemplateProps;
+
+const hasBody = Astro.slots.has('default');
+const kindLabel = kind === 'case-study' ? 'Case Study' : 'Method';
+const kindSummary = kind === 'case-study'
+  ? 'Project-linked detail should live in the markdown body so the narrative can grow without changing the template.'
+  : 'Reusable engineering doctrine should stay in the markdown body so the structure remains stable as new patterns are added.';
+const outline = headings.filter((heading) => heading.depth <= 2);
+---
+
+<PageHeader eyebrow={kindLabel} title={title} description={summary}>
+  <Tag slot="meta" tone="accent">{status}</Tag>
+  {tags.map((tag) => (
+    <Tag slot="meta" tone="muted">{tag}</Tag>
+  ))}
+</PageHeader>
+
+<Section size="sm">
+  <Container size="wide">
+    <div class="writing-detail-template__stack">
+      <div class="writing-detail-template__band" aria-label="Writing metadata">
+        <div class="writing-detail-template__band-copy">
+          <p class="writing-detail-template__band-eyebrow">Structure</p>
+          <p>{kindSummary}</p>
+        </div>
+
+        {tags.length > 0 && (
+          <div class="writing-detail-template__tag-strip" aria-label={`${title} tags`}>
+            {tags.map((tag) => (
+              <Tag tone="muted">{tag}</Tag>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <Grid cols="2" gap="lg" class="writing-detail-template__grid">
+        {relatedProject && (
+          <section class="writing-detail-template__panel" aria-labelledby="writing-related-project">
+            <Card>
+              <div slot="title" class="writing-detail-template__panel-head">
+                <h2 id="writing-related-project">Related Project</h2>
+                <p>Keep the project context visible here without hardcoding one-off route links into the article body.</p>
+              </div>
+
+              <div class="writing-detail-template__related">
+                <Tag tone="accent">Project</Tag>
+                <Tag tone="muted">{relatedProject.status}</Tag>
+                <h3>
+                  <a href={relatedProject.href}>{relatedProject.title}</a>
+                </h3>
+                <p>{relatedProject.summary}</p>
+                <div class="writing-detail-template__actions">
+                  <Button variant="secondary" href={relatedProject.href}>
+                    View project
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          </section>
+        )}
+
+        {outline.length > 0 && (
+          <section class="writing-detail-template__panel" aria-labelledby="writing-outline">
+            <Card>
+              <div slot="title" class="writing-detail-template__panel-head">
+                <h2 id="writing-outline">Section Outline</h2>
+                <p>The article headings define the real structure, so this outline updates itself from the markdown body.</p>
+              </div>
+
+              <ol class="writing-detail-template__outline">
+                {outline.map((heading) => (
+                  <li>
+                    <a href={`#${heading.slug}`}>{heading.text}</a>
+                  </li>
+                ))}
+              </ol>
+            </Card>
+          </section>
+        )}
+
+        {actions.length > 0 && (
+          <section class="writing-detail-template__panel" aria-labelledby="writing-next-actions">
+            <Card>
+              <div slot="title" class="writing-detail-template__panel-head">
+                <h2 id="writing-next-actions">Next Actions</h2>
+                <p>Use this space for the next sensible move after reading the entry.</p>
+              </div>
+
+              <div class="writing-detail-template__actions">
+                {actions.map((action, index) => (
+                  <Button
+                    variant={index === 0 ? 'primary' : 'secondary'}
+                    href={action.href}
+                    target={action.isExternal ? '_blank' : undefined}
+                    rel={action.isExternal ? 'noreferrer' : undefined}
+                  >
+                    {action.label}
+                  </Button>
+                ))}
+              </div>
+            </Card>
+          </section>
+        )}
+
+        <div class="writing-detail-template__full">
+          <section aria-labelledby="writing-entry-body">
+            <Card class="writing-detail-template__body">
+              <div slot="title" class="writing-detail-template__panel-head">
+                <h2 id="writing-entry-body">Full Entry</h2>
+                <p>The markdown body owns the section semantics, so new entries only need content files.</p>
+              </div>
+
+              {hasBody ? (
+                <Prose>
+                  <slot />
+                </Prose>
+              ) : (
+                <p class="writing-detail-template__empty">
+                  Long-form notes will appear here once the entry body is added.
+                </p>
+              )}
+            </Card>
+          </section>
+        </div>
+      </Grid>
+    </div>
+  </Container>
+</Section>
+
+<style>
+  .writing-detail-template__stack {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .writing-detail-template__band {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--card-padding);
+    border: var(--border-thin);
+    border-radius: var(--radius-lg);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(249, 238, 244, 0.82));
+    box-shadow: var(--shadow-soft);
+  }
+
+  .writing-detail-template__band-copy,
+  .writing-detail-template__panel-head,
+  .writing-detail-template__related {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .writing-detail-template__band-eyebrow {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-family: var(--font-ui);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .writing-detail-template__band-copy p:last-child,
+  .writing-detail-template__panel-head p,
+  .writing-detail-template__related p,
+  .writing-detail-template__empty {
+    margin: 0;
+    line-height: var(--line-relaxed);
+    color: var(--color-text-secondary);
+  }
+
+  .writing-detail-template__tag-strip,
+  .writing-detail-template__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .writing-detail-template__panel,
+  .writing-detail-template__full {
+    display: grid;
+  }
+
+  .writing-detail-template__panel h2,
+  .writing-detail-template__panel h3,
+  .writing-detail-template__full h2 {
+    margin: 0;
+  }
+
+  .writing-detail-template__related a,
+  .writing-detail-template__outline a {
+    color: inherit;
+    text-decoration-color: rgba(215, 163, 182, 0.6);
+    text-underline-offset: 0.2em;
+  }
+
+  .writing-detail-template__related a:hover,
+  .writing-detail-template__related a:focus-visible,
+  .writing-detail-template__outline a:hover,
+  .writing-detail-template__outline a:focus-visible {
+    text-decoration-color: rgba(201, 184, 230, 0.8);
+  }
+
+  .writing-detail-template__outline {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  @media (min-width: 48rem) {
+    .writing-detail-template__full {
+      grid-column: 1 / -1;
+    }
+
+    .writing-detail-template__band {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+</style>

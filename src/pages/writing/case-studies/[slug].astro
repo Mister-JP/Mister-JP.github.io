@@ -1,0 +1,64 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import WritingDetailTemplate from '../../../components/writing/WritingDetailTemplate.astro';
+import { shellConfig } from '../../../data/site';
+import { getProjectHref } from '../../../lib/content-paths';
+import SiteShell from '../../../layouts/SiteShell.astro';
+
+type WritingEntry = CollectionEntry<'writing'>;
+
+export async function getStaticPaths() {
+  const caseStudies = await getCollection(
+    'writing',
+    ({ data }) => data.kind === 'case-study',
+  );
+
+  return caseStudies.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: WritingEntry };
+
+const relatedProject = entry.data.relatedProject
+  ? await getEntry(entry.data.relatedProject)
+  : undefined;
+const relatedProjectHref = relatedProject ? getProjectHref(relatedProject) : undefined;
+const { Content, headings } = await entry.render();
+const hasBody = entry.body.trim().length > 0;
+
+const actions = [
+  { label: 'All writing', href: '/writing' },
+  relatedProjectHref
+    ? { label: 'Related project', href: relatedProjectHref }
+    : undefined,
+].filter((action): action is { label: string; href: string } => Boolean(action));
+---
+
+<SiteShell
+  {...shellConfig}
+  title={`${entry.data.title} | Case Studies | Jignasu Pathak`}
+  description={entry.data.summary}
+>
+  <WritingDetailTemplate
+    title={entry.data.title}
+    summary={entry.data.summary}
+    kind={entry.data.kind}
+    status={entry.data.status}
+    tags={entry.data.tags}
+    relatedProject={relatedProject && relatedProjectHref
+      ? {
+          title: relatedProject.data.title,
+          summary: relatedProject.data.summary,
+          status: relatedProject.data.status,
+          href: relatedProjectHref,
+        }
+      : undefined}
+    headings={headings}
+    actions={actions}
+  >
+    {hasBody && <Content />}
+  </WritingDetailTemplate>
+</SiteShell>

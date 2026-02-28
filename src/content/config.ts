@@ -8,14 +8,8 @@ const projectLinks = z.object({
   demo: linkField.optional(),
 });
 
-const writingLinks = z.object({
-  read: linkField,
-  project: linkField.optional(),
-});
-
 const toolLinks = z.object({
   open: linkField.optional(),
-  readMore: linkField.optional(),
   code: linkField.optional(),
 });
 
@@ -97,8 +91,7 @@ const writing = defineCollection({
     tags: z.array(z.string().min(1)).default([]),
     featured: z.boolean().default(false),
     sortOrder: z.number().int(),
-    links: writingLinks,
-    relatedProject: z.string().min(1).optional(),
+    relatedProject: reference('projects').optional(),
   }),
 });
 
@@ -113,6 +106,8 @@ const tools = defineCollection({
     previewImage: z.string().min(1).optional(),
     links: toolLinks,
     tags: z.array(z.string().min(1)).default([]),
+    relatedProject: reference('projects').optional(),
+    relatedWriting: z.array(reference('writing')).default([]),
   }),
 });
 

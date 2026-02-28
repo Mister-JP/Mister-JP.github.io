@@ -5,7 +5,6 @@ import Tag from '../ui/Tag.astro';
 
 interface ToolLinks {
   open?: string;
-  readMore?: string;
   code?: string;
 }
 
@@ -13,6 +12,7 @@ interface ToolCardProps {
   title: string;
   summary: string;
   status: string;
+  detailHref: string;
   links?: ToolLinks;
   tags?: string[];
   featured?: boolean;
@@ -23,6 +23,7 @@ const {
   title,
   summary,
   status,
+  detailHref,
   links = {},
   tags = [],
   featured = false,
@@ -30,8 +31,8 @@ const {
 } = Astro.props as ToolCardProps;
 
 const actions = [
+  { label: 'Details', href: detailHref },
   { label: 'Open', href: links.open },
-  { label: 'Read more', href: links.readMore },
   { label: 'Code', href: links.code },
 ]
   .filter((action): action is { label: string; href: string } => Boolean(action.href))
@@ -43,7 +44,7 @@ const actions = [
 
 <Card
   variant={featured ? 'soft' : 'default'}
-  interactive={actions.length > 0}
+  interactive={true}
   class="tool-card"
 >
   <div slot="title" class="tool-card__title">
@@ -51,7 +52,9 @@ const actions = [
       <Tag tone={featured ? 'accent' : 'default'}>{status}</Tag>
       {featured && <Tag tone="muted">Featured</Tag>}
     </div>
-    <h3>{title}</h3>
+    <h3>
+      <a class="tool-card__title-link" href={detailHref}>{title}</a>
+    </h3>
   </div>
 
   <div class="tool-card__preview">
@@ -76,20 +79,16 @@ const actions = [
   )}
 
   <div slot="actions">
-    {actions.length > 0 ? (
-      actions.map((action, index) => (
-        <Button
-          variant={index === 0 ? 'primary' : 'secondary'}
-          href={action.href}
-          target={action.isExternal ? '_blank' : undefined}
-          rel={action.isExternal ? 'noreferrer' : undefined}
-        >
-          {action.label}
-        </Button>
-      ))
-    ) : (
-      <span class="tool-card__pending">Links pending</span>
-    )}
+    {actions.map((action, index) => (
+      <Button
+        variant={index === 0 ? 'primary' : 'secondary'}
+        href={action.href}
+        target={action.isExternal ? '_blank' : undefined}
+        rel={action.isExternal ? 'noreferrer' : undefined}
+      >
+        {action.label}
+      </Button>
+    ))}
   </div>
 </Card>
 
@@ -144,15 +143,20 @@ const actions = [
     font-weight: 600;
   }
 
-  .tool-card__pending {
-    color: var(--color-text-muted);
-    font-size: var(--step--1);
-    line-height: 1.4;
-  }
-
   .tool-card h3,
   .tool-card p {
     margin: 0;
+  }
+
+  .tool-card__title-link {
+    color: inherit;
+    text-decoration-color: rgba(215, 163, 182, 0.6);
+    text-underline-offset: 0.2em;
+  }
+
+  .tool-card__title-link:hover,
+  .tool-card__title-link:focus-visible {
+    text-decoration-color: rgba(201, 184, 230, 0.8);
   }
 
   .tool-card p {

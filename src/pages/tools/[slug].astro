@@ -1,0 +1,89 @@
+---
+import { getCollection, getEntries, getEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import ToolDetailTemplate from '../../components/tools/ToolDetailTemplate.astro';
+import { shellConfig } from '../../data/site';
+import {
+  getProjectHref,
+  getWritingHref,
+} from '../../lib/content-paths';
+import SiteShell from '../../layouts/SiteShell.astro';
+
+type ToolEntry = CollectionEntry<'tools'>;
+type WritingEntry = CollectionEntry<'writing'>;
+
+const sortByOrder = <T extends { data: { sortOrder: number; title: string } }>(
+  left: T,
+  right: T,
+) =>
+  left.data.sortOrder - right.data.sortOrder ||
+  left.data.title.localeCompare(right.data.title);
+
+const getWritingKindLabel = (kind: WritingEntry['data']['kind']) =>
+  kind === 'case-study' ? 'Case Study' : 'Method';
+
+export async function getStaticPaths() {
+  const tools = await getCollection('tools');
+
+  return tools.map((tool) => ({
+    params: { slug: tool.slug },
+    props: { tool },
+  }));
+}
+
+const { tool } = Astro.props as { tool: ToolEntry };
+
+const relatedProject = tool.data.relatedProject
+  ? await getEntry(tool.data.relatedProject)
+  : undefined;
+const relatedProjectHref = relatedProject ? getProjectHref(relatedProject) : undefined;
+const relatedWritingEntries = (await getEntries(tool.data.relatedWriting)).sort(
+  sortByOrder,
+);
+const { Content, headings } = await tool.render();
+const hasBody = tool.body.trim().length > 0;
+
+const actions = [
+  tool.data.links.open ? { label: 'Open', href: tool.data.links.open } : undefined,
+  tool.data.links.code ? { label: 'Code', href: tool.data.links.code } : undefined,
+]
+  .filter((action): action is { label: string; href: string } => Boolean(action))
+  .map((action) => ({
+    ...action,
+    isExternal: action.href.startsWith('http'),
+  }));
+---
+
+<SiteShell
+  {...shellConfig}
+  title={`${tool.data.title} | Tools | Jignasu Pathak`}
+  description={tool.data.summary}
+>
+  <ToolDetailTemplate
+    title={tool.data.title}
+    summary={tool.data.summary}
+    status={tool.data.status}
+    tags={tool.data.tags}
+    previewImage={tool.data.previewImage}
+    actions={actions}
+    relatedProject={relatedProject && relatedProjectHref
+      ? {
+          title: relatedProject.data.title,
+          summary: relatedProject.data.summary,
+          status: relatedProject.data.status,
+          href: relatedProjectHref,
+        }
+      : undefined}
+    relatedWriting={relatedWritingEntries.map((entry) => ({
+      title: entry.data.title,
+      summary: entry.data.summary,
+      status: entry.data.status,
+      kindLabel: getWritingKindLabel(entry.data.kind),
+      href: getWritingHref(entry),
+      tags: entry.data.tags,
+    }))}
+    headings={headings}
+  >
+    {hasBody && <Content />}
+  </ToolDetailTemplate>
+</SiteShell>

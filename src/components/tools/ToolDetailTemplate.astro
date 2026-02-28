@@ -1,0 +1,330 @@
+---
+import Button from '../ui/Button.astro';
+import Card from '../ui/Card.astro';
+import Container from '../ui/Container.astro';
+import Grid from '../ui/Grid.astro';
+import Prose from '../ui/Prose.astro';
+import Section from '../ui/Section.astro';
+import Tag from '../ui/Tag.astro';
+import PageHeader from '../layout/PageHeader.astro';
+
+interface DetailAction {
+  label: string;
+  href: string;
+  isExternal?: boolean;
+}
+
+interface HeadingLink {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface RelatedProjectLink {
+  title: string;
+  summary: string;
+  status: string;
+  href: string;
+}
+
+interface RelatedWritingItem {
+  title: string;
+  summary: string;
+  status: string;
+  kindLabel: string;
+  href: string;
+  tags?: string[];
+}
+
+interface ToolDetailTemplateProps {
+  title: string;
+  summary: string;
+  status: string;
+  tags?: string[];
+  previewImage?: string;
+  actions?: DetailAction[];
+  relatedProject?: RelatedProjectLink;
+  relatedWriting?: RelatedWritingItem[];
+  headings?: HeadingLink[];
+}
+
+const {
+  title,
+  summary,
+  status,
+  tags = [],
+  previewImage,
+  actions = [],
+  relatedProject,
+  relatedWriting = [],
+  headings = [],
+} = Astro.props as ToolDetailTemplateProps;
+
+const hasBody = Astro.slots.has('default');
+const outline = headings.filter((heading) => heading.depth <= 2);
+---
+
+<PageHeader eyebrow="Tool" title={title} description={summary}>
+  <Tag slot="meta" tone="accent">{status}</Tag>
+  {tags.map((tag) => (
+    <Tag slot="meta" tone="muted">{tag}</Tag>
+  ))}
+</PageHeader>
+
+<Section size="sm">
+  <Container size="wide">
+    <Grid cols="2" gap="lg" class="tool-detail-template__grid">
+      <section class="tool-detail-template__panel" aria-labelledby="tool-overview">
+        <Card class="tool-detail-template__overview">
+          <div slot="title" class="tool-detail-template__panel-head">
+            <h2 id="tool-overview">Preview & Actions</h2>
+            <p>Keep the durable explanation here even when the live deployment changes or disappears.</p>
+          </div>
+
+          <div class="tool-detail-template__preview">
+            {previewImage ? (
+              <img src={previewImage} alt={`${title} preview`} loading="lazy" />
+            ) : (
+              <div class="tool-detail-template__preview-placeholder" aria-hidden="true">
+                <span>Preview pending</span>
+                <small>Tool snapshot will appear here once a stable image exists.</small>
+              </div>
+            )}
+          </div>
+
+          {actions.length > 0 ? (
+            <div class="tool-detail-template__actions">
+              {actions.map((action, index) => (
+                <Button
+                  variant={index === 0 ? 'primary' : 'secondary'}
+                  href={action.href}
+                  target={action.isExternal ? '_blank' : undefined}
+                  rel={action.isExternal ? 'noreferrer' : undefined}
+                >
+                  {action.label}
+                </Button>
+              ))}
+            </div>
+          ) : (
+            <p class="tool-detail-template__empty">Live links are not attached yet.</p>
+          )}
+        </Card>
+      </section>
+
+      {relatedProject && (
+        <section class="tool-detail-template__panel" aria-labelledby="tool-related-project">
+          <Card>
+            <div slot="title" class="tool-detail-template__panel-head">
+              <h2 id="tool-related-project">Related Project</h2>
+              <p>Anchor the tool inside the portfolio so the utility stays tied to the work it supports.</p>
+            </div>
+
+            <div class="tool-detail-template__related-item">
+              <Tag tone="accent">Project</Tag>
+              <Tag tone="muted">{relatedProject.status}</Tag>
+              <h3>
+                <a href={relatedProject.href}>{relatedProject.title}</a>
+              </h3>
+              <p>{relatedProject.summary}</p>
+              <div class="tool-detail-template__actions">
+                <Button variant="secondary" href={relatedProject.href}>
+                  View project
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </section>
+      )}
+
+      {relatedWriting.length > 0 && (
+        <section class="tool-detail-template__panel" aria-labelledby="tool-related-writing">
+          <Card>
+            <div slot="title" class="tool-detail-template__panel-head">
+              <h2 id="tool-related-writing">Related Writing</h2>
+              <p>Keep the surrounding reasoning close to the tool without turning this page into a sidebar dump.</p>
+            </div>
+
+            <ul class="tool-detail-template__related-list">
+              {relatedWriting.map((entry) => (
+                <li class="tool-detail-template__related-item">
+                  <div class="tool-detail-template__related-meta">
+                    <Tag tone="accent">{entry.kindLabel}</Tag>
+                    <Tag tone="muted">{entry.status}</Tag>
+                  </div>
+
+                  <h3>
+                    <a href={entry.href}>{entry.title}</a>
+                  </h3>
+
+                  <p>{entry.summary}</p>
+
+                  {entry.tags && entry.tags.length > 0 && (
+                    <div class="tool-detail-template__tag-strip" aria-label={`${entry.title} tags`}>
+                      {entry.tags.map((tag) => (
+                        <Tag tone="muted">{tag}</Tag>
+                      ))}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </section>
+      )}
+
+      {outline.length > 0 && (
+        <section class="tool-detail-template__panel" aria-labelledby="tool-outline">
+          <Card>
+            <div slot="title" class="tool-detail-template__panel-head">
+              <h2 id="tool-outline">Section Outline</h2>
+              <p>The markdown headings define the content contract, so this outline stays synced with the file.</p>
+            </div>
+
+            <ol class="tool-detail-template__outline">
+              {outline.map((heading) => (
+                <li>
+                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+              ))}
+            </ol>
+          </Card>
+        </section>
+      )}
+
+      <div class="tool-detail-template__full">
+        <section aria-labelledby="tool-entry-body">
+          <Card class="tool-detail-template__body">
+            <div slot="title" class="tool-detail-template__panel-head">
+              <h2 id="tool-entry-body">Tool Notes</h2>
+              <p>The markdown body owns the long-form explanation, so new tools can be added as content files only.</p>
+            </div>
+
+            {hasBody ? (
+              <Prose>
+                <slot />
+              </Prose>
+            ) : (
+              <p class="tool-detail-template__empty">
+                Long-form notes will appear here once the tool body is added.
+              </p>
+            )}
+          </Card>
+        </section>
+      </div>
+    </Grid>
+  </Container>
+</Section>
+
+<style>
+  .tool-detail-template__panel,
+  .tool-detail-template__full {
+    display: grid;
+  }
+
+  .tool-detail-template__panel-head,
+  .tool-detail-template__related-item,
+  .tool-detail-template__related-list {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .tool-detail-template__panel h2,
+  .tool-detail-template__panel h3,
+  .tool-detail-template__full h2,
+  .tool-detail-template__panel p,
+  .tool-detail-template__panel ul {
+    margin: 0;
+  }
+
+  .tool-detail-template__panel-head p,
+  .tool-detail-template__related-item p,
+  .tool-detail-template__empty {
+    line-height: var(--line-relaxed);
+    color: var(--color-text-secondary);
+  }
+
+  .tool-detail-template__preview {
+    min-height: 14rem;
+    border: var(--border-thin);
+    border-radius: var(--radius-md);
+    background:
+      linear-gradient(135deg, rgba(243, 238, 248, 0.85), rgba(249, 238, 244, 0.72));
+    overflow: hidden;
+  }
+
+  .tool-detail-template__preview img,
+  .tool-detail-template__preview-placeholder {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: 14rem;
+  }
+
+  .tool-detail-template__preview img {
+    object-fit: cover;
+  }
+
+  .tool-detail-template__preview-placeholder {
+    gap: var(--space-2);
+    padding: var(--space-4);
+    text-align: center;
+  }
+
+  .tool-detail-template__preview-placeholder span {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  .tool-detail-template__preview-placeholder small {
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
+  }
+
+  .tool-detail-template__actions,
+  .tool-detail-template__related-meta,
+  .tool-detail-template__tag-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .tool-detail-template__related-list {
+    padding: 0;
+    list-style: none;
+  }
+
+  .tool-detail-template__related-item {
+    padding: var(--space-4);
+    border: var(--border-thin);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.68);
+  }
+
+  .tool-detail-template__related-item a,
+  .tool-detail-template__outline a {
+    color: inherit;
+    text-decoration-color: rgba(215, 163, 182, 0.6);
+    text-underline-offset: 0.2em;
+  }
+
+  .tool-detail-template__related-item a:hover,
+  .tool-detail-template__related-item a:focus-visible,
+  .tool-detail-template__outline a:hover,
+  .tool-detail-template__outline a:focus-visible {
+    text-decoration-color: rgba(201, 184, 230, 0.8);
+  }
+
+  .tool-detail-template__outline {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  @media (min-width: 48rem) {
+    .tool-detail-template__full {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

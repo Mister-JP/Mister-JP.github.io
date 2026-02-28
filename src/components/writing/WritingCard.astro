@@ -5,11 +5,6 @@ import Tag from '../ui/Tag.astro';
 
 type WritingKind = 'case-study' | 'method';
 
-interface WritingLinks {
-  read: string;
-  project?: string;
-}
-
 interface WritingCardProps {
   title: string;
   summary: string;
@@ -17,8 +12,9 @@ interface WritingCardProps {
   status: string;
   tags?: string[];
   featured?: boolean;
-  links: WritingLinks;
-  relatedProject?: string;
+  href: string;
+  relatedProjectHref?: string;
+  relatedProjectTitle?: string;
 }
 
 const {
@@ -28,13 +24,16 @@ const {
   status,
   tags = [],
   featured = false,
-  links,
-  relatedProject,
+  href,
+  relatedProjectHref,
+  relatedProjectTitle,
 } = Astro.props as WritingCardProps;
 
 const actions = [
-  { label: 'Open entry', href: links.read },
-  links.project ? { label: 'Related project', href: links.project } : undefined,
+  { label: 'Open entry', href },
+  relatedProjectHref
+    ? { label: 'Related project', href: relatedProjectHref }
+    : undefined,
 ]
   .filter((action): action is { label: string; href: string } => Boolean(action))
   .map((action) => ({
@@ -56,14 +55,21 @@ const kindLabel = kind === 'case-study' ? 'Case Study' : 'Method';
       <Tag tone="muted">{status}</Tag>
       {featured && <Tag tone="accent">Featured</Tag>}
     </div>
-    <h3>{title}</h3>
+    <h3>
+      <a class="writing-card__title-link" href={href}>{title}</a>
+    </h3>
   </div>
 
   <p>{summary}</p>
 
-  {relatedProject && (
+  {relatedProjectTitle && (
     <p class="writing-card__related">
-      Related project: <span>{relatedProject}</span>
+      Related project:{' '}
+      {relatedProjectHref ? (
+        <a href={relatedProjectHref}>{relatedProjectTitle}</a>
+      ) : (
+        <span>{relatedProjectTitle}</span>
+      )}
     </p>
   )}
 
@@ -118,12 +124,27 @@ const kindLabel = kind === 'case-study' ? 'Case Study' : 'Method';
     line-height: var(--line-relaxed);
   }
 
+  .writing-card__title-link,
+  .writing-card__related a {
+    color: inherit;
+    text-decoration-color: rgba(215, 163, 182, 0.6);
+    text-underline-offset: 0.2em;
+  }
+
+  .writing-card__title-link:hover,
+  .writing-card__title-link:focus-visible,
+  .writing-card__related a:hover,
+  .writing-card__related a:focus-visible {
+    text-decoration-color: rgba(201, 184, 230, 0.8);
+  }
+
   .writing-card__related {
     color: var(--color-text-primary);
     font-size: var(--step--1);
   }
 
-  .writing-card__related span {
+  .writing-card__related span,
+  .writing-card__related a {
     color: var(--color-text-secondary);
   }
 </style>

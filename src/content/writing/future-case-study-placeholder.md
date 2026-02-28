@@ -6,9 +6,25 @@ status: "Queued"
 tags:
   - Roadmap
 sortOrder: 20
-links:
-  read: /writing
-  project: /projects/architecture-diagram-composer
-relatedProject: "Architecture Diagram Composer"
+relatedProject: architecture-diagram-composer
 ---
-TODO: replace this entry with the next concrete case study.
+# Problem
+TODO: describe the next project milestone worth documenting.
+
+# What I Studied
+TODO: dataset/paper summary
+
+# Options Considered
+TODO: option matrix
+
+# Chosen Path
+TODO: note the path selected for the next implementation pass.
+
+# Experiment Notes
+TODO: experiment takeaway
+
+# Lessons
+TODO: capture what changed once the milestone is real.
+
+# Next Step
+TODO: define the next move after the first artifact exists.

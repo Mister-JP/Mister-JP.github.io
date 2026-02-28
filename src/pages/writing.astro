@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import SiteShell from '../layouts/SiteShell.astro';
 import PageHeader from '../components/layout/PageHeader.astro';
 import Container from '../components/ui/Container.astro';
@@ -7,17 +7,35 @@ import Section from '../components/ui/Section.astro';
 import Grid from '../components/ui/Grid.astro';
 import Tag from '../components/ui/Tag.astro';
 import WritingCard from '../components/writing/WritingCard.astro';
+import { getProjectHref, getWritingHref } from '../lib/content-paths';
 import { shellConfig } from '../data/site';
 
 const writing = (await getCollection('writing'))
-  .map(({ data }) => data)
   .sort(
     (left, right) =>
-      left.sortOrder - right.sortOrder || left.title.localeCompare(right.title),
+      left.data.sortOrder - right.data.sortOrder ||
+      left.data.title.localeCompare(right.data.title),
   );
 
-const caseStudies = writing.filter((entry) => entry.kind === 'case-study');
-const methods = writing.filter((entry) => entry.kind === 'method');
+const writingCards = await Promise.all(
+  writing.map(async (entry) => {
+    const relatedProject = entry.data.relatedProject
+      ? await getEntry(entry.data.relatedProject)
+      : undefined;
+
+    return {
+      entry,
+      href: getWritingHref(entry),
+      relatedProjectHref: relatedProject ? getProjectHref(relatedProject) : undefined,
+      relatedProjectTitle: relatedProject?.data.title,
+    };
+  }),
+);
+
+const caseStudies = writingCards.filter(
+  ({ entry }) => entry.data.kind === 'case-study',
+);
+const methods = writingCards.filter(({ entry }) => entry.data.kind === 'method');
 ---
 
 <SiteShell
@@ -44,7 +62,14 @@ const methods = writing.filter((entry) => entry.kind === 'method');
           </div>
           <div class="writing-group__list">
             {caseStudies.length > 0 ? (
-              caseStudies.map((entry) => <WritingCard {...entry} />)
+              caseStudies.map(({ entry, href, relatedProjectHref, relatedProjectTitle }) => (
+                <WritingCard
+                  {...entry.data}
+                  href={href}
+                  relatedProjectHref={relatedProjectHref}
+                  relatedProjectTitle={relatedProjectTitle}
+                />
+              ))
             ) : (
               <p class="writing-group__empty">Case studies will appear here as entries are added.</p>
             )}
@@ -61,7 +86,14 @@ const methods = writing.filter((entry) => entry.kind === 'method');
           </div>
           <div class="writing-group__list">
             {methods.length > 0 ? (
-              methods.map((entry) => <WritingCard {...entry} />)
+              methods.map(({ entry, href, relatedProjectHref, relatedProjectTitle }) => (
+                <WritingCard
+                  {...entry.data}
+                  href={href}
+                  relatedProjectHref={relatedProjectHref}
+                  relatedProjectTitle={relatedProjectTitle}
+                />
+              ))
             ) : (
               <p class="writing-group__empty">Methods will appear here as entries are added.</p>
             )}

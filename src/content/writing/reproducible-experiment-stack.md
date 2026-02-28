@@ -8,9 +8,22 @@ tags:
   - Workflow
 featured: true
 sortOrder: 10
-links:
-  read: /writing
-  project: /projects/experiment-reproducibility-framework
-relatedProject: "Experiment Reproducibility Framework"
+relatedProject: experiment-reproducibility-framework
 ---
-TODO: expand this method entry into a reusable write-up.
+# Recurring Engineering Problem
+TODO: problem statement
+
+# Why It Matters
+TODO: explain why weak reproducibility breaks iteration and review.
+
+# Approach
+TODO: describe the stack for config lineage and safe reruns.
+
+# Implementation Pattern
+TODO: architecture diagram
+
+# Pitfalls
+TODO: call out the shortcuts that create drift.
+
+# Reuse Across Projects
+TODO: reusable checklist

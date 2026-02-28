@@ -7,7 +7,22 @@ tags:
   - Observability
   - Evaluation
 sortOrder: 20
-links:
-  read: /writing
+relatedProject: experiment-reproducibility-framework
 ---
-TODO: turn the current notes into a clear method article.
+# Recurring Engineering Problem
+TODO: problem statement
+
+# Why It Matters
+TODO: explain why hidden experiment state slows review and trust.
+
+# Approach
+TODO: describe the logging and guardrail strategy.
+
+# Implementation Pattern
+TODO: architecture diagram
+
+# Pitfalls
+TODO: call out the failure modes that still slip through.
+
+# Reuse Across Projects
+TODO: reusable checklist

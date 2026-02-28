@@ -3,15 +3,14 @@ import { getCollection, getEntries } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import ProjectDetailTemplate from '../../components/projects/ProjectDetailTemplate.astro';
 import { shellConfig } from '../../data/site';
+import {
+  getToolHref,
+  getWritingHref,
+} from '../../lib/content-paths';
 import SiteShell from '../../layouts/SiteShell.astro';
 
 type ProjectEntry = CollectionEntry<'projects'>;
 type WritingEntry = CollectionEntry<'writing'>;
-type ToolEntry = CollectionEntry<'tools'>;
-type ToolAction = {
-  href?: string;
-  label?: string;
-};
 
 const sortByOrder = <T extends { data: { sortOrder: number; title: string } }>(
   left: T,
@@ -22,22 +21,6 @@ const sortByOrder = <T extends { data: { sortOrder: number; title: string } }>(
 
 const normalizeWritingKind = (kind: WritingEntry['data']['kind']) =>
   kind === 'case-study' ? 'Case Study' : 'Method';
-
-const normalizeToolAction = (links: ToolEntry['data']['links']): ToolAction => {
-  if (links.open) {
-    return { href: links.open, label: 'Open tool' };
-  }
-
-  if (links.code) {
-    return { href: links.code, label: 'View code' };
-  }
-
-  if (links.readMore) {
-    return { href: links.readMore, label: 'Read more' };
-  }
-
-  return {};
-};
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -56,6 +39,7 @@ const relatedWritingEntries = (await getEntries(project.data.relatedWriting)).so
 const relatedToolEntries = (await getEntries(project.data.relatedTools)).sort(
   sortByOrder,
 );
+const primaryWritingEntry = relatedWritingEntries[0];
 const { Content } = await project.render();
 const hasLongFormBody = project.body.trim().length > 0;
 
@@ -68,11 +52,18 @@ const detailProject = {
   tags: project.data.tags,
   featured: project.data.featured,
   links: [
-    { label: 'Case Study', href: project.data.links.caseStudy },
+    primaryWritingEntry
+      ? {
+          label: normalizeWritingKind(primaryWritingEntry.data.kind),
+          href: getWritingHref(primaryWritingEntry),
+        }
+      : project.data.links.caseStudy
+        ? { label: 'Case Study', href: project.data.links.caseStudy }
+        : undefined,
     { label: 'Code', href: project.data.links.code },
     { label: 'Demo', href: project.data.links.demo },
   ]
-    .filter((action): action is { label: string; href: string } => Boolean(action.href))
+    .filter((action): action is { label: string; href: string } => Boolean(action))
     .map((action) => ({
       ...action,
       isExternal: action.href.startsWith('http'),
@@ -82,25 +73,21 @@ const detailProject = {
     summary: entry.data.summary,
     status: entry.data.status,
     metaLabel: normalizeWritingKind(entry.data.kind),
-    href: entry.data.links.read,
+    href: getWritingHref(entry),
     actionLabel: 'Open entry',
-    isExternal: entry.data.links.read.startsWith('http'),
+    isExternal: false,
     tags: entry.data.tags,
   })),
-  relatedTools: relatedToolEntries.map((entry) => {
-    const action = normalizeToolAction(entry.data.links);
-
-    return {
-      title: entry.data.title,
-      summary: entry.data.summary,
-      status: entry.data.status,
-      metaLabel: 'Tool',
-      href: action.href,
-      actionLabel: action.label,
-      isExternal: action.href?.startsWith('http'),
-      tags: entry.data.tags,
-    };
-  }),
+  relatedTools: relatedToolEntries.map((entry) => ({
+    title: entry.data.title,
+    summary: entry.data.summary,
+    status: entry.data.status,
+    metaLabel: 'Tool',
+    href: getToolHref(entry),
+    actionLabel: 'Details',
+    isExternal: false,
+    tags: entry.data.tags,
+  })),
   resultSnapshot: project.data.resultSnapshot,
 };
 ---
