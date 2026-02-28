@@ -1,62 +1,102 @@
 ---
+import { getCollection } from 'astro:content';
 import SiteShell from '../layouts/SiteShell.astro';
 import PageHeader from '../components/layout/PageHeader.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Grid from '../components/ui/Grid.astro';
-import Card from '../components/ui/Card.astro';
-import Button from '../components/ui/Button.astro';
 import Tag from '../components/ui/Tag.astro';
+import ProjectCard from '../components/projects/ProjectCard.astro';
 import { shellConfig } from '../data/site';
+
+const projects = (await getCollection('projects'))
+  .map(({ data }) => data)
+  .sort(
+    (left, right) =>
+      left.sortOrder - right.sortOrder || left.title.localeCompare(right.title),
+  );
+
+const featuredProjects = projects.filter((project) => project.featured);
+const availableTags = Array.from(
+  new Set(projects.flatMap((project) => project.tags)),
+).sort((left, right) => left.localeCompare(right));
 ---
 
 <SiteShell
   {...shellConfig}
   title="Projects | Jignasu Pathak"
-  description="Placeholder project index composed from shared grid and card primitives."
+  description="Content-driven project index with featured work, reusable cards, and structured project metadata."
 >
   <PageHeader
     eyebrow="Work"
     title="Projects"
-    description="Project discovery should reuse the same grid and card structure instead of inventing page-specific wrappers."
-  />
+    description="The main project index now reads from structured content, surfaces featured work first, and keeps the full library easy to scan."
+  >
+    <Tag slot="meta" tone="accent">{projects.length} projects</Tag>
+    {featuredProjects.length > 0 && (
+      <Tag slot="meta" tone="muted">{featuredProjects.length} featured</Tag>
+    )}
+  </PageHeader>
 
-  <Section size="sm">
+  {featuredProjects.length > 0 && (
+    <Section size="sm" aria-labelledby="featured-projects-title">
+      <Container size="wide">
+        <div class="section-head">
+          <h2 id="featured-projects-title">Featured Projects</h2>
+          <p>Highlighted proof-of-work that should be visible first without changing the shared card system.</p>
+        </div>
+
+        <Grid cols="3">
+          {featuredProjects.map((project) => (
+            <ProjectCard {...project} />
+          ))}
+        </Grid>
+      </Container>
+    </Section>
+  )}
+
+  <Section tone="soft" aria-labelledby="all-projects-title">
     <Container size="wide">
+      <div class="section-head">
+        <h2 id="all-projects-title">All Projects</h2>
+        <p>Every entry is loaded from <code>src/content/projects/</code>, so new work can be added through content only.</p>
+      </div>
+
+      {availableTags.length > 0 && (
+        <div class="tag-strip" aria-label="Available project tags">
+          {availableTags.map((tag) => (
+            <Tag tone="muted">{tag}</Tag>
+          ))}
+        </div>
+      )}
+
       <Grid cols="3">
-        <Card interactive>
-          <div slot="title">
-            <Tag tone="accent">Placeholder</Tag>
-            <h2>TODO: project title</h2>
-          </div>
-          <p>TODO: project summary and status.</p>
-          <div slot="actions">
-            <Button variant="secondary" href="/writing">Related case study</Button>
-          </div>
-        </Card>
-
-        <Card interactive>
-          <div slot="title">
-            <Tag>Placeholder</Tag>
-            <h2>TODO: project title</h2>
-          </div>
-          <p>TODO: project summary and status.</p>
-          <div slot="actions">
-            <Button variant="secondary" href="/writing">Related case study</Button>
-          </div>
-        </Card>
-
-        <Card interactive variant="soft">
-          <div slot="title">
-            <Tag tone="muted">Placeholder</Tag>
-            <h2>TODO: project title</h2>
-          </div>
-          <p>TODO: project summary and status.</p>
-          <div slot="actions">
-            <Button variant="primary" href="/tools">Demo or tool</Button>
-          </div>
-        </Card>
+        {projects.map((project) => (
+          <ProjectCard {...project} />
+        ))}
       </Grid>
     </Container>
   </Section>
 </SiteShell>
+
+<style>
+  .section-head {
+    display: grid;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+    max-width: min(100%, 46rem);
+  }
+
+  .section-head p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
+  }
+
+  .tag-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+</style>

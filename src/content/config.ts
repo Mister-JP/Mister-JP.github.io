@@ -1,5 +1,11 @@
 import { defineCollection, z } from 'astro:content';
 
+const projectLinks = z.object({
+  caseStudy: z.string().min(1).optional(),
+  code: z.string().min(1).optional(),
+  demo: z.string().min(1).optional(),
+});
+
 const pages = defineCollection({
   type: 'content',
   schema: z.object({
@@ -43,6 +49,20 @@ const pages = defineCollection({
   }),
 });
 
+const projects = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    status: z.string(),
+    tags: z.array(z.string().min(1)).min(1),
+    featured: z.boolean(),
+    sortOrder: z.number().int(),
+    links: projectLinks,
+  }),
+});
+
 export const collections = {
   pages,
+  projects,
 };

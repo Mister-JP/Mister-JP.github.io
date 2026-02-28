@@ -1,0 +1,105 @@
+---
+import Button from '../ui/Button.astro';
+import Card from '../ui/Card.astro';
+import Tag from '../ui/Tag.astro';
+
+interface ProjectLinks {
+  caseStudy?: string;
+  code?: string;
+  demo?: string;
+}
+
+interface ProjectCardProps {
+  title: string;
+  summary: string;
+  status: string;
+  tags: string[];
+  links: ProjectLinks;
+  featured?: boolean;
+}
+
+const {
+  title,
+  summary,
+  status,
+  tags = [],
+  links = {},
+  featured = false,
+} = Astro.props as ProjectCardProps;
+
+const actions = [
+  { label: 'Case Study', href: links.caseStudy },
+  { label: 'Code', href: links.code },
+  { label: 'Demo', href: links.demo },
+]
+  .filter((action): action is { label: string; href: string } => Boolean(action.href))
+  .map((action) => ({
+    ...action,
+    isExternal: action.href.startsWith('http'),
+  }));
+---
+
+<Card
+  variant={featured ? 'soft' : 'default'}
+  interactive={actions.length > 0}
+  class="project-card"
+>
+  <div slot="title" class="project-card__title">
+    <div class="project-card__meta">
+      <Tag tone={featured ? 'accent' : 'default'}>{status}</Tag>
+      {featured && <Tag tone="muted">Featured</Tag>}
+    </div>
+    <h3>{title}</h3>
+  </div>
+
+  <p>{summary}</p>
+
+  <div class="project-card__tags" aria-label={`${title} tags`}>
+    {tags.map((tag) => (
+      <Tag tone="muted">{tag}</Tag>
+    ))}
+  </div>
+
+  {actions.length > 0 && (
+    <div slot="actions">
+      {actions.map((action, index) => (
+        <Button
+          variant={index === 0 ? 'primary' : 'secondary'}
+          href={action.href}
+          target={action.isExternal ? '_blank' : undefined}
+          rel={action.isExternal ? 'noreferrer' : undefined}
+        >
+          {action.label}
+        </Button>
+      ))}
+    </div>
+  )}
+</Card>
+
+<style>
+  .project-card {
+    height: 100%;
+  }
+
+  .project-card__title {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .project-card__meta,
+  .project-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .project-card h3,
+  .project-card p {
+    margin: 0;
+  }
+
+  .project-card p {
+    line-height: var(--line-relaxed);
+  }
+</style>
