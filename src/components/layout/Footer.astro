@@ -1,10 +1,20 @@
 ---
 import Container from '../ui/Container.astro';
 
+interface FooterLink {
+  href: string;
+  label: string;
+}
+
+interface FooterProps {
+  note?: string;
+  links?: FooterLink[];
+}
+
 const {
   note = '',
   links = [],
-} = Astro.props;
+} = Astro.props as FooterProps;
 
 const hasContent = Astro.slots.has('default');
 ---
@@ -33,7 +43,7 @@ const hasContent = Astro.slots.has('default');
 <style>
   .site-footer {
     border-top: var(--border-thin);
-    background: rgba(255, 255, 255, 0.78);
+    background: var(--surface-footer);
   }
 
   .site-footer__inner {

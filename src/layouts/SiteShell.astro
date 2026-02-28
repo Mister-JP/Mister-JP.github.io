@@ -3,6 +3,22 @@ import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 
+interface FooterLink {
+  href: string;
+  label: string;
+}
+
+interface SiteShellProps {
+  title?: string;
+  description?: string;
+  lang?: string;
+  brandLabel?: string;
+  brandHref?: string;
+  footerNote?: string;
+  footerLinks?: FooterLink[];
+  stickyHeader?: boolean;
+}
+
 const {
   title = 'Portfolio',
   description = '',
@@ -12,7 +28,7 @@ const {
   footerNote = '',
   footerLinks = [],
   stickyHeader = true,
-} = Astro.props;
+} = Astro.props as SiteShellProps;
 
 const currentPath = Astro.url.pathname;
 const hasHeaderActions = Astro.slots.has('header-actions');
@@ -26,6 +42,12 @@ const hasFooterContent = Astro.slots.has('footer');
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+    />
     <slot name="head" />
   </head>
   <body>
@@ -72,15 +94,20 @@ const hasFooterContent = Astro.slots.has('footer');
     top: var(--space-4);
     z-index: 30;
     padding: 0.75rem 1rem;
+    border: var(--border-accent);
     border-radius: var(--radius-pill);
-    background: var(--color-text-primary);
-    color: var(--color-surface-base);
+    background: var(--surface-panel-accent);
+    box-shadow: var(--shadow-soft);
+    color: var(--color-text-primary);
     text-decoration: none;
     transform: translateY(-200%);
-    transition: transform var(--transition-soft);
+    transition:
+      transform var(--transition-soft),
+      box-shadow var(--transition-soft);
   }
 
   .skip-link:focus {
     transform: translateY(0);
+    box-shadow: var(--shadow-raised);
   }
 </style>

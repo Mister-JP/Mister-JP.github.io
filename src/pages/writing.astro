@@ -6,6 +6,7 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Grid from '../components/ui/Grid.astro';
 import Tag from '../components/ui/Tag.astro';
+import GroupedPanel from '../components/ui/GroupedPanel.astro';
 import WritingCard from '../components/writing/WritingCard.astro';
 import { getProjectHref, getWritingHref } from '../lib/content-paths';
 import { shellConfig } from '../data/site';
@@ -55,11 +56,11 @@ const methods = writingCards.filter(({ entry }) => entry.data.kind === 'method')
   <Section size="sm">
     <Container size="wide">
       <Grid cols="2" gap="lg">
-        <section class="writing-group" aria-labelledby="case-studies-title">
-          <div class="writing-group__head">
-            <h2 id="case-studies-title">Case Studies</h2>
-            <p>Project-linked narratives that capture decisions, tradeoffs, and lessons learned.</p>
-          </div>
+        <GroupedPanel
+          title="Case Studies"
+          titleId="case-studies-title"
+          intro="Project-linked narratives that capture decisions, tradeoffs, and lessons learned."
+        >
           <div class="writing-group__list">
             {caseStudies.length > 0 ? (
               caseStudies.map(({ entry, href, relatedProjectHref, relatedProjectTitle }) => (
@@ -74,16 +75,14 @@ const methods = writingCards.filter(({ entry }) => entry.data.kind === 'method')
               <p class="writing-group__empty">Case studies will appear here as entries are added.</p>
             )}
           </div>
-        </section>
+        </GroupedPanel>
 
-        <section
-          class="writing-group writing-group--soft"
-          aria-labelledby="methods-title"
+        <GroupedPanel
+          title="Methods"
+          titleId="methods-title"
+          intro="Reusable engineering patterns that apply across projects and experiments."
+          tone="soft"
         >
-          <div class="writing-group__head">
-            <h2 id="methods-title">Methods</h2>
-            <p>Reusable engineering patterns that apply across projects and experiments.</p>
-          </div>
           <div class="writing-group__list">
             {methods.length > 0 ? (
               methods.map(({ entry, href, relatedProjectHref, relatedProjectTitle }) => (
@@ -98,43 +97,21 @@ const methods = writingCards.filter(({ entry }) => entry.data.kind === 'method')
               <p class="writing-group__empty">Methods will appear here as entries are added.</p>
             )}
           </div>
-        </section>
+        </GroupedPanel>
       </Grid>
     </Container>
   </Section>
 </SiteShell>
 
 <style>
-  .writing-group {
-    display: grid;
-    gap: var(--space-5);
-    padding: var(--card-padding);
-    border: var(--border-thin);
-    border-radius: var(--radius-lg);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 249, 251, 0.95));
-    box-shadow: var(--shadow-soft);
-  }
-
-  .writing-group--soft {
-    background:
-      linear-gradient(180deg, rgba(249, 238, 244, 0.86), rgba(255, 249, 251, 0.95));
-  }
-
-  .writing-group__head,
   .writing-group__list {
     display: grid;
     gap: var(--space-4);
   }
 
-  .writing-group__head p,
   .writing-group__empty {
     margin: 0;
     color: var(--color-text-secondary);
     line-height: var(--line-relaxed);
-  }
-
-  .writing-group__head h2 {
-    margin: 0;
   }
 </style>

@@ -1,8 +1,15 @@
 ---
+type TagTone = 'default' | 'accent' | 'muted';
+
+interface TagProps {
+  tone?: TagTone;
+  class?: string;
+}
+
 const {
   tone = 'default',
   class: className = '',
-} = Astro.props;
+} = Astro.props as TagProps;
 ---
 
 <span class:list={['tag', `tag--${tone}`, className]}>
@@ -18,22 +25,22 @@ const {
     border: var(--border-thin);
     border-radius: var(--radius-pill);
     font-family: var(--font-ui);
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     font-weight: 600;
     line-height: 1.2;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
     color: var(--color-text-secondary);
-    background: rgba(255, 255, 255, 0.78);
+    background: var(--surface-chip-default);
   }
 
   .tag--accent {
-    border-color: rgba(215, 163, 182, 0.42);
-    background: rgba(249, 238, 244, 0.9);
+    border: var(--border-accent);
+    background: var(--surface-chip-accent);
     color: var(--color-text-primary);
   }
 
   .tag--muted {
-    background: rgba(243, 238, 248, 0.82);
+    background: var(--surface-chip-muted);
     color: var(--color-text-muted);
   }
 </style>

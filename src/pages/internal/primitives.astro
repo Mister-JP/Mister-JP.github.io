@@ -8,6 +8,7 @@ import Card from '../../components/ui/Card.astro';
 import Button from '../../components/ui/Button.astro';
 import Tag from '../../components/ui/Tag.astro';
 import Divider from '../../components/ui/Divider.astro';
+import GroupedPanel from '../../components/ui/GroupedPanel.astro';
 import Prose from '../../components/ui/Prose.astro';
 import { shellConfig } from '../../data/site';
 ---
@@ -53,6 +54,40 @@ import { shellConfig } from '../../data/site';
           <a href="#anchor-check">Jump to anchor offset check</a>
         </p>
       </Prose>
+    </Container>
+  </Section>
+
+  <Section size="sm">
+    <Container size="wide">
+      <Divider>Typography & Grouping</Divider>
+      <Grid cols="2" gap="lg">
+        <Card variant="accent">
+          <div slot="title">
+            <Tag tone="accent">Type</Tag>
+            <h2>Hierarchy sample</h2>
+          </div>
+          <div class="type-specimen">
+            <p class="type-specimen__signature">Jignasu Pathak</p>
+            <h3>Editorial heading</h3>
+            <p>
+              Body text should stay calm and readable even when display accents are present.
+            </p>
+          </div>
+        </Card>
+
+        <GroupedPanel
+          title="Grouped panel shell"
+          titleId="grouped-panel-demo"
+          intro="Repeated grouped sections should rely on one shared shell so placeholder content can change without surface drift."
+          tone="soft"
+        >
+          <ul class="panel-checklist">
+            <li>Shared card shell</li>
+            <li>Shared heading rhythm</li>
+            <li>Stable body spacing</li>
+          </ul>
+        </GroupedPanel>
+      </Grid>
     </Container>
   </Section>
 
@@ -147,5 +182,36 @@ import { shellConfig } from '../../data/site';
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
+  }
+
+  .type-specimen {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .type-specimen h3,
+  .type-specimen p,
+  .panel-checklist {
+    margin: 0;
+  }
+
+  .type-specimen p {
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
+  }
+
+  .type-specimen__signature {
+    font-family: var(--font-signature);
+    font-size: clamp(2.75rem, 2.1rem + 2.1vw, 4.25rem);
+    line-height: 0.92;
+    color: var(--color-text-primary);
+  }
+
+  .panel-checklist {
+    display: grid;
+    gap: var(--space-3);
+    padding-left: 1.25rem;
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
   }
 </style>

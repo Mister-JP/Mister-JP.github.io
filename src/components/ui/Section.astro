@@ -1,11 +1,23 @@
 ---
+type SectionTag = 'section' | 'div' | 'article' | 'header';
+type SectionSize = 'sm' | 'md' | 'lg';
+type SectionTone = 'default' | 'soft' | 'muted';
+
+interface SectionProps {
+  as?: SectionTag;
+  size?: SectionSize;
+  tone?: SectionTone;
+  class?: string;
+  [key: string]: unknown;
+}
+
 const {
   as: Tag = 'section',
   size = 'md',
   tone = 'default',
   class: className = '',
   ...rest
-} = Astro.props;
+} = Astro.props as SectionProps;
 ---
 
 <Tag class:list={['section', `section--${size}`, `section--${tone}`, className]} {...rest}>
@@ -27,14 +39,12 @@ const {
   }
 
   .section--soft {
-    background:
-      linear-gradient(180deg, rgba(249, 238, 244, 0.82), rgba(255, 249, 251, 0.85));
+    background: var(--surface-section-soft);
     border-block: var(--border-thin);
   }
 
   .section--muted {
-    background:
-      linear-gradient(180deg, rgba(243, 238, 248, 0.9), rgba(255, 249, 251, 0.82));
+    background: var(--surface-section-muted);
     border-block: var(--border-thin);
   }
 </style>

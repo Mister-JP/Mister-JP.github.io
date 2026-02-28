@@ -1,11 +1,22 @@
 ---
+type GridCols = 'auto' | '2' | '3';
+type GridGap = 'sm' | 'md' | 'lg';
+
+interface GridProps {
+  cols?: GridCols;
+  gap?: GridGap;
+  minItemWidth?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
 const {
   cols = 'auto',
   gap = 'md',
   minItemWidth = '16rem',
   class: className = '',
   ...rest
-} = Astro.props;
+} = Astro.props as GridProps;
 
 const style = cols === 'auto'
   ? `--grid-template: repeat(auto-fit, minmax(min(100%, ${minItemWidth}), 1fr));`

@@ -54,7 +54,7 @@ const actions = [
       {featured && <Tag tone="muted">Featured</Tag>}
     </div>
     <h3>
-      <a class="project-card__title-link" href={detailHref}>{title}</a>
+      <a class="project-card__title-link text-link" href={detailHref}>{title}</a>
     </h3>
   </div>
 
@@ -103,17 +103,6 @@ const actions = [
   .project-card h3,
   .project-card p {
     margin: 0;
-  }
-
-  .project-card__title-link {
-    color: inherit;
-    text-decoration-color: rgba(215, 163, 182, 0.6);
-    text-underline-offset: 0.2em;
-  }
-
-  .project-card__title-link:hover,
-  .project-card__title-link:focus-visible {
-    text-decoration-color: rgba(201, 184, 230, 0.8);
   }
 
   .project-card p {

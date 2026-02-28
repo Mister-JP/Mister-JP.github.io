@@ -1,9 +1,15 @@
 ---
+interface ProseProps {
+  as?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
 const {
   as: Tag = 'div',
   class: className = '',
   ...rest
-} = Astro.props;
+} = Astro.props as ProseProps;
 ---
 
 <Tag class:list={['prose', className]} {...rest}>
@@ -62,20 +68,24 @@ const {
   }
 
   .prose :global(a) {
-    color: var(--color-text-primary);
-    text-decoration-color: rgba(215, 163, 182, 0.65);
-    text-underline-offset: 0.2em;
-    transition: color var(--transition-soft), text-decoration-color var(--transition-soft);
+    color: inherit;
+    text-decoration-color: var(--color-link-underline);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+    transition:
+      color var(--transition-soft),
+      text-decoration-color var(--transition-soft);
   }
 
   .prose :global(a:hover),
   .prose :global(a:focus-visible) {
-    text-decoration-color: rgba(201, 184, 230, 0.8);
+    color: var(--color-text-primary);
+    text-decoration-color: var(--color-link-underline-strong);
   }
 
   .prose :global(blockquote) {
     padding-left: var(--space-4);
-    border-left: 2px solid rgba(215, 163, 182, 0.45);
+    border-left: 2px solid var(--color-border-accent);
     color: var(--color-text-muted);
     font-style: italic;
   }
@@ -83,7 +93,7 @@ const {
   .prose :global(code) {
     padding: 0.14rem 0.35rem;
     border-radius: var(--radius-sm);
-    background: rgba(243, 238, 248, 0.85);
+    background: var(--surface-chip-muted);
     font-size: 0.9em;
   }
 
@@ -92,7 +102,7 @@ const {
     padding: var(--space-4);
     border: var(--border-thin);
     border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.76);
+    background: var(--surface-panel-neutral);
   }
 
   .prose :global(pre code) {

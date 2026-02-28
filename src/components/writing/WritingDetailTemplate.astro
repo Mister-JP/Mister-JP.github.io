@@ -97,7 +97,7 @@ const outline = headings.filter((heading) => heading.depth <= 2);
                 <Tag tone="accent">Project</Tag>
                 <Tag tone="muted">{relatedProject.status}</Tag>
                 <h3>
-                  <a href={relatedProject.href}>{relatedProject.title}</a>
+                  <a class="text-link" href={relatedProject.href}>{relatedProject.title}</a>
                 </h3>
                 <p>{relatedProject.summary}</p>
                 <div class="writing-detail-template__actions">
@@ -119,12 +119,12 @@ const outline = headings.filter((heading) => heading.depth <= 2);
               </div>
 
               <ol class="writing-detail-template__outline">
-                {outline.map((heading) => (
-                  <li>
-                    <a href={`#${heading.slug}`}>{heading.text}</a>
-                  </li>
-                ))}
-              </ol>
+              {outline.map((heading) => (
+                <li>
+                  <a class="text-link" href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+              ))}
+            </ol>
             </Card>
           </section>
         )}
@@ -190,8 +190,7 @@ const outline = headings.filter((heading) => heading.depth <= 2);
     padding: var(--card-padding);
     border: var(--border-thin);
     border-radius: var(--radius-lg);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(249, 238, 244, 0.82));
+    background: var(--surface-panel-soft);
     box-shadow: var(--shadow-soft);
   }
 
@@ -238,20 +237,6 @@ const outline = headings.filter((heading) => heading.depth <= 2);
   .writing-detail-template__panel h3,
   .writing-detail-template__full h2 {
     margin: 0;
-  }
-
-  .writing-detail-template__related a,
-  .writing-detail-template__outline a {
-    color: inherit;
-    text-decoration-color: rgba(215, 163, 182, 0.6);
-    text-underline-offset: 0.2em;
-  }
-
-  .writing-detail-template__related a:hover,
-  .writing-detail-template__related a:focus-visible,
-  .writing-detail-template__outline a:hover,
-  .writing-detail-template__outline a:focus-visible {
-    text-decoration-color: rgba(201, 184, 230, 0.8);
   }
 
   .writing-detail-template__outline {

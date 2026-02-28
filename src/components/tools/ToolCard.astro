@@ -53,7 +53,7 @@ const actions = [
       {featured && <Tag tone="muted">Featured</Tag>}
     </div>
     <h3>
-      <a class="tool-card__title-link" href={detailHref}>{title}</a>
+      <a class="tool-card__title-link text-link" href={detailHref}>{title}</a>
     </h3>
   </div>
 
@@ -114,8 +114,7 @@ const actions = [
     min-height: 11rem;
     border: var(--border-thin);
     border-radius: var(--radius-md);
-    background:
-      linear-gradient(135deg, rgba(243, 238, 248, 0.85), rgba(249, 238, 244, 0.7));
+    background: var(--surface-preview);
     overflow: hidden;
   }
 
@@ -146,17 +145,6 @@ const actions = [
   .tool-card h3,
   .tool-card p {
     margin: 0;
-  }
-
-  .tool-card__title-link {
-    color: inherit;
-    text-decoration-color: rgba(215, 163, 182, 0.6);
-    text-underline-offset: 0.2em;
-  }
-
-  .tool-card__title-link:hover,
-  .tool-card__title-link:focus-visible {
-    text-decoration-color: rgba(201, 184, 230, 0.8);
   }
 
   .tool-card p {

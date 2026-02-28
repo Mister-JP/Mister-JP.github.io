@@ -1,8 +1,15 @@
 ---
+type DividerSpace = 'sm' | 'md' | 'lg';
+
+interface DividerProps {
+  space?: DividerSpace;
+  class?: string;
+}
+
 const {
   space = 'md',
   class: className = '',
-} = Astro.props;
+} = Astro.props as DividerProps;
 
 const hasLabel = Astro.slots.has('default');
 ---
@@ -34,8 +41,8 @@ const hasLabel = Astro.slots.has('default');
   .divider__line {
     flex: 1;
     height: 1px;
-    background:
-      linear-gradient(90deg, transparent, var(--color-border-strong) 18%, var(--color-border-strong) 82%, transparent);
+    background: var(--color-border-strong);
+    opacity: 0.72;
   }
 
   .divider__label {

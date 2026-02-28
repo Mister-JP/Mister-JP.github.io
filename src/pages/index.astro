@@ -5,6 +5,7 @@ import Container from '../components/ui/Container.astro';
 import Grid from '../components/ui/Grid.astro';
 import Prose from '../components/ui/Prose.astro';
 import Section from '../components/ui/Section.astro';
+import GroupedPanel from '../components/ui/GroupedPanel.astro';
 import ProjectCard from '../components/projects/ProjectCard.astro';
 import ToolCard from '../components/tools/ToolCard.astro';
 import WritingCard from '../components/writing/WritingCard.astro';
@@ -76,20 +77,18 @@ const {
 
       <Grid cols="2" gap="lg">
         {selectedWriting.groups.map((group, index) => (
-          <section
-            class:list={['writing-group', index === 1 && 'writing-group--soft']}
-            aria-labelledby={`home-writing-group-${index}`}
+          <GroupedPanel
+            title={group.label}
+            titleId={`home-writing-group-${index}`}
+            tone={index === 1 ? 'soft' : 'default'}
+            headingTag="h3"
           >
-            <div class="writing-group__head">
-              <h3 id={`home-writing-group-${index}`}>{group.label}</h3>
-            </div>
-
             <div class="writing-group__list">
               {group.items.map((item) => (
                 <WritingCard {...item} />
               ))}
             </div>
-          </section>
+          </GroupedPanel>
         ))}
       </Grid>
     </Container>
@@ -150,9 +149,9 @@ const {
   }
 
   .hero-title {
-    max-width: 11ch;
-    font-size: clamp(3.25rem, 2.4rem + 3.8vw, 5.5rem);
-    line-height: 1.05;
+    max-width: min(100%, 12ch);
+    font-size: var(--hero-title-size);
+    line-height: var(--line-tight);
     letter-spacing: -0.035em;
     text-wrap: balance;
   }
@@ -193,37 +192,8 @@ const {
     line-height: var(--line-relaxed);
   }
 
-  .writing-group {
-    display: grid;
-    gap: var(--space-5);
-    height: 100%;
-    padding: var(--card-padding);
-    border: var(--border-thin);
-    border-radius: var(--radius-lg);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 249, 251, 0.95));
-    box-shadow: var(--shadow-soft);
-  }
-
-  .writing-group--soft {
-    background:
-      linear-gradient(180deg, rgba(249, 238, 244, 0.86), rgba(255, 249, 251, 0.95));
-  }
-
-  .writing-group__head,
   .writing-group__list {
     display: grid;
-  }
-
-  .writing-group__head {
-    gap: var(--space-3);
-  }
-
-  .writing-group__head h3 {
-    margin: 0;
-  }
-
-  .writing-group__list {
     gap: var(--space-4);
   }
 
@@ -231,11 +201,10 @@ const {
     display: grid;
     gap: var(--space-5);
     padding: clamp(1.5rem, 1rem + 1.6vw, 2.5rem);
-    border: var(--border-strong);
+    border: var(--border-accent);
     border-radius: var(--radius-lg);
-    background:
-      linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(249, 238, 244, 0.9));
-    box-shadow: var(--shadow-soft);
+    background: var(--surface-panel-accent);
+    box-shadow: var(--shadow-raised);
   }
 
   .resume-cta__copy {

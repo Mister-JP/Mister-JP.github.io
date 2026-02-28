@@ -1,0 +1,69 @@
+---
+import Card from './Card.astro';
+
+type GroupedPanelTone = 'default' | 'soft' | 'muted' | 'accent' | 'neutral';
+type GroupedPanelHeading = 'h2' | 'h3';
+
+interface GroupedPanelProps {
+  title: string;
+  titleId: string;
+  intro?: string;
+  tone?: GroupedPanelTone;
+  headingTag?: GroupedPanelHeading;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  title,
+  titleId,
+  intro,
+  tone = 'default',
+  headingTag = 'h2',
+  class: className = '',
+  ...rest
+} = Astro.props as GroupedPanelProps;
+
+const HeadingTag = headingTag;
+---
+
+<Card
+  as="section"
+  variant={tone}
+  class:list={['grouped-panel', className]}
+  aria-labelledby={titleId}
+  {...rest}
+>
+  <div slot="title" class="grouped-panel__head">
+    <HeadingTag id={titleId}>{title}</HeadingTag>
+    {intro && <p>{intro}</p>}
+  </div>
+
+  <div class="grouped-panel__body">
+    <slot />
+  </div>
+</Card>
+
+<style>
+  .grouped-panel {
+    height: 100%;
+  }
+
+  .grouped-panel__head,
+  .grouped-panel__body {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .grouped-panel__head h2,
+  .grouped-panel__head h3,
+  .grouped-panel__head p {
+    margin: 0;
+  }
+
+  .grouped-panel__head p {
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
+    max-width: 44ch;
+  }
+</style>

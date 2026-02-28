@@ -1,10 +1,20 @@
 ---
+type ContainerTag = 'div' | 'section' | 'article' | 'header' | 'main';
+type ContainerSize = 'default' | 'narrow' | 'wide';
+
+interface ContainerProps {
+  as?: ContainerTag;
+  size?: ContainerSize;
+  class?: string;
+  [key: string]: unknown;
+}
+
 const {
   as: Tag = 'div',
   size = 'default',
   class: className = '',
   ...rest
-} = Astro.props;
+} = Astro.props as ContainerProps;
 ---
 
 <Tag class:list={['container', `container--${size}`, className]} {...rest}>

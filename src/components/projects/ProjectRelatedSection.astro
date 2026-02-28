@@ -49,7 +49,7 @@ const sectionId = `project-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
             <h3>
               {item.href ? (
-                <a href={item.href}>{item.title}</a>
+                <a class="text-link" href={item.href}>{item.title}</a>
               ) : (
                 item.title
               )}
@@ -112,7 +112,7 @@ const sectionId = `project-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
     padding: var(--space-4);
     border: var(--border-thin);
     border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.68);
+    background: var(--surface-panel-neutral);
   }
 
   .project-related-section__item-meta,
@@ -140,17 +140,6 @@ const sectionId = `project-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
   .project-related-section__empty,
   .project-related-section__pending {
     line-height: var(--line-relaxed);
-  }
-
-  .project-related-section__item a {
-    color: inherit;
-    text-decoration-color: rgba(215, 163, 182, 0.6);
-    text-underline-offset: 0.2em;
-  }
-
-  .project-related-section__item a:hover,
-  .project-related-section__item a:focus-visible {
-    text-decoration-color: rgba(201, 184, 230, 0.8);
   }
 
   .project-related-section__empty,

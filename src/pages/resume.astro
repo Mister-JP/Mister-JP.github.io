@@ -5,6 +5,7 @@ import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
+import GroupedPanel from '../components/ui/GroupedPanel.astro';
 import Tag from '../components/ui/Tag.astro';
 import { shellConfig } from '../data/site';
 import { resumeConfig } from '../data/resume';
@@ -65,12 +66,13 @@ const hasResumePdf = resumeConfig.pdfReady;
 
   <Section tone="soft" aria-labelledby="resume-viewer-title">
     <Container size="wide">
-      <div class="resume-viewer-shell">
-        <div class="resume-viewer-shell__head">
-          <h2 id="resume-viewer-title">Preview</h2>
-          <p>The inline viewer is ready now, and it stays visually stable even when the expected PDF is not yet in place.</p>
-        </div>
-
+      <GroupedPanel
+        title="Preview"
+        titleId="resume-viewer-title"
+        intro="The inline viewer is ready now, and it stays visually stable even when the expected PDF is not yet in place."
+        tone="soft"
+        class="resume-viewer-shell"
+      >
         <div class="resume-viewer">
           {hasResumePdf ? (
             <iframe
@@ -88,7 +90,7 @@ const hasResumePdf = resumeConfig.pdfReady;
             </div>
           )}
         </div>
-      </div>
+      </GroupedPanel>
     </Container>
   </Section>
 
@@ -116,7 +118,6 @@ const hasResumePdf = resumeConfig.pdfReady;
   }
 
   .resume-summary p,
-  .resume-viewer-shell__head p,
   .resume-fallback p,
   .resume-highlights li {
     margin: 0;
@@ -130,34 +131,16 @@ const hasResumePdf = resumeConfig.pdfReady;
   }
 
   .resume-summary h2,
-  .resume-viewer-shell__head h2,
   .resume-fallback h3,
   .resume-highlights h2 {
     margin: 0;
-  }
-
-  .resume-viewer-shell {
-    display: grid;
-    gap: var(--space-5);
-    padding: var(--card-padding);
-    border: var(--border-thin);
-    border-radius: var(--radius-lg);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 249, 251, 0.96));
-    box-shadow: var(--shadow-soft);
-  }
-
-  .resume-viewer-shell__head {
-    display: grid;
-    gap: var(--space-3);
-    max-width: min(100%, 42rem);
   }
 
   .resume-viewer {
     min-height: 48rem;
     border: var(--border-thin);
     border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.92);
+    background: var(--surface-panel-neutral);
     overflow: hidden;
   }
 
