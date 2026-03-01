@@ -22,6 +22,16 @@ const {
   featuredTools,
   resumeCta,
 } = await getHomePageContent();
+
+const hasFeaturedProjects = featuredProjects.items.length > 0;
+const visibleWritingGroups = selectedWriting.groups
+  .map((group, index) => ({
+    ...group,
+    tone: index === 1 ? 'soft' : 'default',
+  }))
+  .filter((group) => group.items.length > 0);
+const hasSelectedWriting = visibleWritingGroups.length > 0;
+const hasFeaturedTools = featuredTools.items.length > 0;
 ---
 
 <SiteShell
@@ -55,64 +65,74 @@ const {
     </Container>
   </Section>
 
-  <Section aria-labelledby="home-projects-title">
-    <Container size="wide">
-      <SectionIntro
-        title={featuredProjects.sectionTitle}
-        titleId="home-projects-title"
-        description={featuredProjects.sectionIntro}
-      />
+  {hasFeaturedProjects && (
+    <Section aria-labelledby="home-projects-title">
+      <Container size="wide">
+        <SectionIntro
+          title={featuredProjects.sectionTitle}
+          titleId="home-projects-title"
+          description={featuredProjects.sectionIntro}
+        />
 
-      <Grid cols="3" gap="lg">
-        {featuredProjects.items.map((item) => (
-          <ProjectCard {...item} />
-        ))}
-      </Grid>
-    </Container>
-  </Section>
+        <Grid
+          cols={featuredProjects.items.length > 2 ? '3' : 'auto'}
+          gap="lg"
+          minItemWidth="18rem"
+        >
+          {featuredProjects.items.map((item) => (
+            <ProjectCard {...item} />
+          ))}
+        </Grid>
+      </Container>
+    </Section>
+  )}
 
-  <Section tone="muted" aria-labelledby="home-writing-title">
-    <Container size="wide">
-      <SectionIntro
-        title={selectedWriting.sectionTitle}
-        titleId="home-writing-title"
-        description={selectedWriting.sectionIntro}
-      />
+  {hasSelectedWriting && (
+    <Section tone="muted" aria-labelledby="home-writing-title">
+      <Container size="wide">
+        <SectionIntro
+          title={selectedWriting.sectionTitle}
+          titleId="home-writing-title"
+          description={selectedWriting.sectionIntro}
+        />
 
-      <Grid cols="2" gap="lg">
-        {selectedWriting.groups.map((group, index) => (
-          <GroupedPanel
-            title={group.label}
-            titleId={`home-writing-group-${index}`}
-            tone={index === 1 ? 'soft' : 'default'}
-            headingTag="h3"
-          >
-            <div class="writing-group__list">
-              {group.items.map((item) => (
-                <WritingCard {...item} />
-              ))}
-            </div>
-          </GroupedPanel>
-        ))}
-      </Grid>
-    </Container>
-  </Section>
+        <Grid cols={visibleWritingGroups.length > 1 ? '2' : 'auto'} gap="lg">
+          {visibleWritingGroups.map((group, index) => (
+            <GroupedPanel
+              title={group.label}
+              titleId={`home-writing-group-${index}`}
+              tone={group.tone}
+              headingTag="h3"
+            >
+              <div class="writing-group__list">
+                {group.items.map((item) => (
+                  <WritingCard {...item} />
+                ))}
+              </div>
+            </GroupedPanel>
+          ))}
+        </Grid>
+      </Container>
+    </Section>
+  )}
 
-  <Section aria-labelledby="home-tools-title">
-    <Container size="wide">
-      <SectionIntro
-        title={featuredTools.sectionTitle}
-        titleId="home-tools-title"
-        description={featuredTools.sectionIntro}
-      />
+  {hasFeaturedTools && (
+    <Section aria-labelledby="home-tools-title">
+      <Container size="wide">
+        <SectionIntro
+          title={featuredTools.sectionTitle}
+          titleId="home-tools-title"
+          description={featuredTools.sectionIntro}
+        />
 
-      <Grid gap="lg" minItemWidth="18rem">
-        {featuredTools.items.map((item) => (
-          <ToolCard {...item} />
-        ))}
-      </Grid>
-    </Container>
-  </Section>
+        <Grid gap="lg" minItemWidth="18rem">
+          {featuredTools.items.map((item) => (
+            <ToolCard {...item} />
+          ))}
+        </Grid>
+      </Container>
+    </Section>
+  )}
 
   <Section tone="soft" aria-labelledby="home-resume-title">
     <Container size="wide">
@@ -135,7 +155,7 @@ const {
 
 <style>
   .home-hero {
-    padding-top: clamp(4rem, 2.75rem + 4vw, 7rem);
+    padding-top: clamp(1rem, 0.55rem + 1.4vw, 2rem);
   }
 
   .hero-stack {

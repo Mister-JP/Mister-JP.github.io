@@ -20,19 +20,3 @@ const {
 <Tag class:list={['container', `container--${size}`, className]} {...rest}>
   <slot />
 </Tag>
-
-<style>
-  .container {
-    --container-max: var(--width-page);
-    width: min(calc(100% - (var(--container-gutter) * 2)), var(--container-max));
-    margin-inline: auto;
-  }
-
-  .container--narrow {
-    --container-max: var(--width-content);
-  }
-
-  .container--wide {
-    --container-max: var(--width-wide);
-  }
-</style>

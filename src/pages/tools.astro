@@ -27,6 +27,7 @@ if (pageEntry.data.template !== 'tools') {
 }
 
 const page = pageEntry.data;
+const toolGridCols = tools.length > 2 ? '3' : tools.length > 1 ? '2' : 'auto';
 ---
 
 <SiteShell
@@ -50,7 +51,7 @@ const page = pageEntry.data;
         description={page.library.intro}
       />
 
-      <Grid cols="3">
+      <Grid cols={toolGridCols} minItemWidth="18rem">
         {tools.length > 0 ? (
           tools.map((tool) => (
             <ToolCard {...tool.data} detailHref={getToolHref(tool)} />

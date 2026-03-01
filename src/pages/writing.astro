@@ -1,5 +1,6 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getEntries, getEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 import SiteShell from '../layouts/SiteShell.astro';
 import PageHeader from '../components/layout/PageHeader.astro';
 import Container from '../components/ui/Container.astro';
@@ -8,36 +9,42 @@ import Grid from '../components/ui/Grid.astro';
 import Tag from '../components/ui/Tag.astro';
 import GroupedPanel from '../components/ui/GroupedPanel.astro';
 import WritingCard from '../components/writing/WritingCard.astro';
-import { sortCollectionEntriesBySortOrderThenTitle } from '../lib/collection-utils';
 import { getProjectHref, getWritingHref } from '../lib/content-paths';
 import { getRelatedProjectsForEntry } from '../lib/content-relations';
 import { shellConfig } from '../data/site';
 
-const writing = (await getCollection('writing')).sort(
-  sortCollectionEntriesBySortOrderThenTitle,
-);
+type WritingEntry = CollectionEntry<'writing'>;
 
-const writingCards = await Promise.all(
-  writing.map(async (entry) => {
-    const relatedProjects = await getRelatedProjectsForEntry(entry);
+const buildWritingCards = async (
+  entries: WritingEntry[],
+  expectedKind: WritingEntry['data']['kind'],
+  label: string,
+) =>
+  Promise.all(
+    entries.map(async (entry) => {
+      if (entry.data.kind !== expectedKind) {
+        throw new Error(
+          `Writing curation group "${label}" includes "${entry.slug}", which is ${entry.data.kind}.`,
+        );
+      }
 
-    return {
-      entry,
-      href: getWritingHref(entry),
-      relatedProjects: relatedProjects.map((project) => ({
-        href: getProjectHref(project),
-        title: project.data.title,
-      })),
-    };
-  }),
-);
+      const relatedProjects = await getRelatedProjectsForEntry(entry);
 
-const caseStudies = writingCards.filter(
-  ({ entry }) => entry.data.kind === 'case-study',
-);
-const methods = writingCards.filter(({ entry }) => entry.data.kind === 'method');
+      return {
+        entry,
+        href: getWritingHref(entry),
+        relatedProjects: relatedProjects.map((project) => ({
+          href: getProjectHref(project),
+          title: project.data.title,
+        })),
+      };
+    }),
+  );
 
-const pageEntry = await getEntry('pages', 'writing');
+const [pageEntry, curationEntry] = await Promise.all([
+  getEntry('pages', 'writing'),
+  getEntry('curation', 'writing'),
+]);
 
 if (!pageEntry) {
   throw new Error('Missing content entry: src/content/pages/writing.md');
@@ -46,6 +53,32 @@ if (!pageEntry) {
 if (pageEntry.data.template !== 'writing') {
   throw new Error('The writing page entry must use the "writing" template.');
 }
+
+if (!curationEntry) {
+  throw new Error('Missing content entry: src/content/curation/writing.md');
+}
+
+if (curationEntry.data.surface !== 'writing') {
+  throw new Error('The writing curation entry must use the "writing" surface.');
+}
+
+const [caseStudyEntries, methodEntries] = await Promise.all([
+  getEntries(curationEntry.data.caseStudies),
+  getEntries(curationEntry.data.methods),
+]);
+
+const [caseStudies, methods] = await Promise.all([
+  buildWritingCards(
+    caseStudyEntries,
+    'case-study',
+    pageEntry.data.caseStudies.title,
+  ),
+  buildWritingCards(
+    methodEntries,
+    'method',
+    pageEntry.data.methods.title,
+  ),
+]);
 
 const page = pageEntry.data;
 ---

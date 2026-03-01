@@ -15,32 +15,3 @@ const {
 <span class:list={['tag', `tag--${tone}`, className]}>
   <slot />
 </span>
-
-<style>
-  .tag {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.3rem 0.7rem;
-    border: var(--border-thin);
-    border-radius: var(--radius-pill);
-    font-family: var(--font-ui);
-    font-size: 0.74rem;
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: 0.05em;
-    color: var(--color-text-secondary);
-    background: var(--surface-chip-default);
-  }
-
-  .tag--accent {
-    border: var(--border-accent);
-    background: var(--surface-chip-accent);
-    color: var(--color-text-primary);
-  }
-
-  .tag--muted {
-    background: var(--surface-chip-muted);
-    color: var(--color-text-muted);
-  }
-</style>

@@ -7,7 +7,6 @@ featuredProjects:
 featuredWriting:
   caseStudies:
     - bsccm-first-baseline
-    - future-case-study-placeholder
   methods:
     - reproducible-experiment-stack
     - experiment-observability

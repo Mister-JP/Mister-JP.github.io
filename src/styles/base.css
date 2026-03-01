@@ -27,6 +27,10 @@ body {
   font-kerning: normal;
 }
 
+.site-shell__main > .page-header + .section {
+  padding-block-start: clamp(1.5rem, 1rem + 0.9vw, 2.25rem);
+}
+
 main,
 section,
 article,

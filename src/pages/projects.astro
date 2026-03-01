@@ -84,7 +84,10 @@ const page = pageEntry.data;
           description={page.featuredSection.intro}
         />
 
-        <Grid cols="3">
+        <Grid
+          cols={featuredProjects.length > 2 ? '3' : 'auto'}
+          minItemWidth="18rem"
+        >
           {featuredProjects.map((project) => (
             <ProjectCard {...project} />
           ))}

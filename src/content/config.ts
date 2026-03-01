@@ -233,6 +233,11 @@ const curation = defineCollection({
       surface: z.literal('projects'),
       featuredProjects: projectReferences,
     }),
+    z.object({
+      surface: z.literal('writing'),
+      caseStudies: writingReferences,
+      methods: writingReferences,
+    }),
   ]),
 });
 

@@ -43,27 +43,3 @@ const HeadingTag = headingTag;
     <slot />
   </div>
 </Card>
-
-<style>
-  .grouped-panel {
-    height: 100%;
-  }
-
-  .grouped-panel__head,
-  .grouped-panel__body {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  .grouped-panel__head h2,
-  .grouped-panel__head h3,
-  .grouped-panel__head p {
-    margin: 0;
-  }
-
-  .grouped-panel__head p {
-    color: var(--color-text-secondary);
-    line-height: var(--line-relaxed);
-    max-width: 44ch;
-  }
-</style>
