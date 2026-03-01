@@ -4,6 +4,7 @@ import Card from '../ui/Card.astro';
 import Tag from '../ui/Tag.astro';
 import { getProjectHref } from '../../lib/content-paths';
 import { getProjectFeatureImage } from '../../lib/feature-images';
+import { toTagFilterValue } from '../../lib/tag-filters';
 
 interface ProjectLinks {
   code?: string;
@@ -19,6 +20,7 @@ interface ProjectCardProps {
   links: ProjectLinks;
   featureImage?: string;
   featured?: boolean;
+  filterableTags?: boolean;
 }
 
 const {
@@ -30,9 +32,14 @@ const {
   links = {},
   featureImage,
   featured = false,
+  filterableTags = false,
 } = Astro.props as ProjectCardProps;
 
 const detailHref = getProjectHref({ slug });
+const tagFilters = tags.map((tag) => ({
+  label: tag,
+  value: toTagFilterValue(tag),
+}));
 const actions = [
   { label: 'View project', href: detailHref },
   links.code ? { label: 'Code', href: links.code } : undefined,
@@ -49,6 +56,8 @@ const actions = [
   variant={featured ? 'soft' : 'default'}
   interactive={true}
   class="project-card"
+  data-project-card
+  data-project-tags={tagFilters.map(({ value }) => value).join(' ')}
 >
   <div slot="title" class="project-card__title">
     <div class="project-card__meta">
@@ -67,8 +76,21 @@ const actions = [
   <p>{summary}</p>
 
   <div class="project-card__tags" aria-label={`${title} tags`}>
-    {tags.map((tag) => (
-      <Tag tone="muted">{tag}</Tag>
+    {tagFilters.map(({ label, value }) => (
+      filterableTags ? (
+        <Tag
+          as="button"
+          tone="muted"
+          data-project-filter={value}
+          data-chip-removable="true"
+          aria-pressed="false"
+          aria-label={`Toggle project filter ${label}`}
+        >
+          {label}
+        </Tag>
+      ) : (
+        <Tag tone="muted">{label}</Tag>
+      )
     ))}
   </div>
 
@@ -87,46 +109,3 @@ const actions = [
     </div>
   )}
 </Card>
-
-<style>
-  .project-card {
-    height: 100%;
-  }
-
-  .project-card__title {
-    display: grid;
-    gap: var(--space-3);
-  }
-
-  .project-card__meta,
-  .project-card__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    align-items: center;
-  }
-
-  .project-card__preview {
-    min-height: 11rem;
-    border: var(--border-thin);
-    border-radius: var(--radius-md);
-    background: var(--surface-preview);
-    overflow: hidden;
-  }
-
-  .project-card__preview img {
-    display: block;
-    width: 100%;
-    min-height: 11rem;
-    object-fit: cover;
-  }
-
-  .project-card h3,
-  .project-card p {
-    margin: 0;
-  }
-
-  .project-card p {
-    line-height: var(--line-relaxed);
-  }
-</style>

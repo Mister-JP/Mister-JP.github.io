@@ -1,0 +1,183 @@
+---
+import Tag from '../ui/Tag.astro';
+import { toTagFilterValue } from '../../lib/tag-filters';
+
+interface ProjectFilterBarProps {
+  tags?: string[];
+}
+
+const {
+  tags = [],
+} = Astro.props as ProjectFilterBarProps;
+
+const filterTags = tags.map((tag) => ({
+  label: tag,
+  value: toTagFilterValue(tag),
+}));
+---
+
+<div class="project-filter">
+  <div class="project-filter__controls" aria-label="Filter all projects by tag">
+    <Tag as="button" tone="default" data-project-filter="all" aria-pressed="true">
+      All projects
+    </Tag>
+
+    {filterTags.map(({ label, value }) => (
+      <Tag
+        as="button"
+        tone="muted"
+        data-project-filter={value}
+        data-chip-removable="true"
+        aria-pressed="false"
+        aria-label={`Toggle project filter ${label}`}
+      >
+        {label}
+      </Tag>
+    ))}
+  </div>
+</div>
+
+<script>
+  const projectFilterRoots = document.querySelectorAll('[data-project-filter-root]');
+
+  const getFilterControls = (root) =>
+    Array.from(root.querySelectorAll('[data-project-filter]')).filter(
+      (element) => element instanceof HTMLElement,
+    );
+
+  const getFilterCards = (root) =>
+    Array.from(root.querySelectorAll('[data-project-card]')).filter(
+      (element) => element instanceof HTMLElement,
+    );
+
+  const normalizeFilter = (value) => {
+    if (typeof value !== 'string') {
+      return 'all';
+    }
+
+    const normalized = value.trim().toLowerCase();
+    return normalized || 'all';
+  };
+
+  const getAvailableFilters = (root) => {
+    const values = getFilterControls(root)
+      .map((control) => normalizeFilter(control.dataset.projectFilter))
+      .filter((value) => value !== 'all');
+
+    return Array.from(new Set(values));
+  };
+
+  const readInitialFilters = (root) => {
+    const url = new URL(window.location.href);
+    const rawValues = url.searchParams.get('tags')
+      ? url.searchParams.get('tags').split(',')
+      : url.searchParams.getAll('tag');
+    const allowedFilters = new Set(getAvailableFilters(root));
+
+    return Array.from(
+      new Set(
+        rawValues
+          .map((value) => normalizeFilter(value))
+          .filter((value) => allowedFilters.has(value)),
+      ),
+    );
+  };
+
+  const syncFilterUrl = (filters) => {
+    const url = new URL(window.location.href);
+    const normalizedFilters = Array.from(
+      new Set(filters.map((filter) => normalizeFilter(filter)).filter((filter) => filter !== 'all')),
+    );
+
+    url.searchParams.delete('tag');
+
+    if (normalizedFilters.length === 0) {
+      url.searchParams.delete('tags');
+    } else {
+      url.searchParams.set('tags', normalizedFilters.join(','));
+    }
+
+    window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+  };
+
+  const applyFilter = (root, requestedFilters, syncUrl = true) => {
+    const controls = getFilterControls(root);
+    const cards = getFilterCards(root);
+    const availableFilters = new Set(getAvailableFilters(root));
+    const activeFilters = Array.from(
+      new Set(
+        requestedFilters
+          .map((value) => normalizeFilter(value))
+          .filter((value) => availableFilters.has(value)),
+      ),
+    );
+    const activeFilterSet = new Set(activeFilters);
+
+    const showAll = activeFilters.length === 0;
+
+    cards.forEach((card) => {
+      const cardTags = (card.dataset.projectTags || '').split(' ').filter(Boolean);
+      const matches = showAll || activeFilters.some((filter) => cardTags.includes(filter));
+
+      card.hidden = !matches;
+    });
+
+    controls.forEach((control) => {
+      const filterValue = normalizeFilter(control.dataset.projectFilter);
+      const isActive = filterValue === 'all'
+        ? showAll
+        : activeFilterSet.has(filterValue);
+      control.setAttribute('aria-pressed', String(isActive));
+    });
+
+    if (syncUrl) {
+      syncFilterUrl(activeFilters);
+    }
+  };
+
+  projectFilterRoots.forEach((root) => {
+    if (!(root instanceof HTMLElement)) {
+      return;
+    }
+
+    const controls = getFilterControls(root);
+
+    if (controls.length === 0) {
+      return;
+    }
+
+    let activeFilters = readInitialFilters(root);
+
+    root.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element)) {
+        return;
+      }
+
+      const control = event.target.closest('[data-project-filter]');
+
+      if (!(control instanceof HTMLElement) || !root.contains(control)) {
+        return;
+      }
+
+      const filterValue = normalizeFilter(control.dataset.projectFilter);
+
+      if (filterValue === 'all') {
+        activeFilters = [];
+      } else {
+        const nextFilters = new Set(activeFilters);
+
+        if (nextFilters.has(filterValue)) {
+          nextFilters.delete(filterValue);
+        } else {
+          nextFilters.add(filterValue);
+        }
+
+        activeFilters = Array.from(nextFilters);
+      }
+
+      applyFilter(root, activeFilters);
+    });
+
+    applyFilter(root, activeFilters, false);
+  });
+</script>

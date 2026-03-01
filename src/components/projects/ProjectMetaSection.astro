@@ -31,37 +31,3 @@ const sectionId = `project-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
     )}
   </Card>
 </section>
-
-<style>
-  .project-meta-section {
-    height: 100%;
-  }
-
-  .project-meta-section__head,
-  .project-meta-section__body {
-    display: grid;
-    gap: var(--space-3);
-  }
-
-  .project-meta-section__title-row {
-    display: grid;
-    gap: var(--space-3);
-  }
-
-  .project-meta-section__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    align-items: center;
-  }
-
-  .project-meta-section h2,
-  .project-meta-section p {
-    margin: 0;
-  }
-
-  .project-meta-section__copy,
-  .project-meta-section__body :global(p) {
-    line-height: var(--line-relaxed);
-  }
-</style>

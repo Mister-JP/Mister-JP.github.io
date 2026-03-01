@@ -9,6 +9,7 @@ import Grid from '../components/ui/Grid.astro';
 import SectionIntro from '../components/ui/SectionIntro.astro';
 import Tag from '../components/ui/Tag.astro';
 import ProjectCard from '../components/projects/ProjectCard.astro';
+import ProjectFilterBar from '../components/projects/ProjectFilterBar.astro';
 import { shellConfig } from '../data/site';
 import { sortBySortOrderThenTitle } from '../lib/collection-utils';
 
@@ -104,42 +105,19 @@ const page = pageEntry.data;
         description={page.allSection.intro}
       />
 
-      {availableTags.length > 0 && (
-        <div class="tag-strip" aria-label="Available project tags">
-          {availableTags.map((tag) => (
-            <Tag tone="muted">{tag}</Tag>
-          ))}
-        </div>
-      )}
+      <div class="projects-catalog" data-project-filter-root>
+        {availableTags.length > 0 && <ProjectFilterBar tags={availableTags} />}
 
-      <Grid cols="3">
-        {projects.length > 0 ? (
-          projects.map((project) => (
-            <ProjectCard {...project} />
-          ))
-        ) : (
-          <p class="projects-empty">{page.allSection.emptyState}</p>
-        )}
-      </Grid>
+        <Grid cols="3">
+          {projects.length > 0 ? (
+            projects.map((project) => (
+              <ProjectCard {...project} filterableTags={availableTags.length > 0} />
+            ))
+          ) : (
+            <p class="projects-empty">{page.allSection.emptyState}</p>
+          )}
+        </Grid>
+      </div>
     </Container>
   </Section>
 </SiteShell>
-
-<style>
-  .projects-empty,
-  .tag-strip {
-    margin: 0;
-  }
-
-  .projects-empty {
-    color: var(--color-text-secondary);
-    line-height: var(--line-relaxed);
-  }
-
-  .tag-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-bottom: var(--space-6);
-  }
-</style>

@@ -40,6 +40,10 @@ nav {
   display: block;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 img,
 svg,
 video {

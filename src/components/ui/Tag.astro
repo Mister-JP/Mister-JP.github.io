@@ -1,17 +1,33 @@
 ---
 type TagTone = 'default' | 'accent' | 'muted';
+type TagElement = 'span' | 'button';
 
 interface TagProps {
   tone?: TagTone;
+  as?: TagElement;
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
   class?: string;
+  [key: string]: unknown;
 }
 
 const {
   tone = 'default',
+  as = 'span',
+  href,
+  type = 'button',
   class: className = '',
+  ...rest
 } = Astro.props as TagProps;
+
+const TagName = href ? 'a' : as;
 ---
 
-<span class:list={['tag', `tag--${tone}`, className]}>
+<TagName
+  class:list={['tag', `tag--${tone}`, className]}
+  href={TagName === 'a' ? href : undefined}
+  type={TagName === 'button' ? type : undefined}
+  {...rest}
+>
   <slot />
-</span>
+</TagName>

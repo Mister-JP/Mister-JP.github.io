@@ -82,52 +82,6 @@ const actions = [
       >
         {action.label}
       </Button>
-    ))}
+      ))}
   </div>
 </Card>
-
-<style>
-  .tool-card {
-    height: 100%;
-  }
-
-  .tool-card__title {
-    display: grid;
-    gap: var(--space-3);
-  }
-
-  .tool-card__meta,
-  .tool-card__tags {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  .tool-card__preview {
-    min-height: 11rem;
-    border: var(--border-thin);
-    border-radius: var(--radius-md);
-    background: var(--surface-preview);
-    overflow: hidden;
-  }
-
-  .tool-card__preview img {
-    display: block;
-    width: 100%;
-    min-height: 11rem;
-  }
-
-  .tool-card__preview img {
-    object-fit: cover;
-  }
-
-  .tool-card h3,
-  .tool-card p {
-    margin: 0;
-  }
-
-  .tool-card p {
-    line-height: var(--line-relaxed);
-  }
-</style>
