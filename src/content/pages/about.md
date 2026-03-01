@@ -33,19 +33,23 @@ focus:
   details:
     - Use it later for current project direction, present technical emphasis, and the experimentation track that matters most right now.
 contact:
-  heading: Contact / Links
-  intro: Keep this section structured and easy to update, with only the public paths you want visitors to use.
+  heading: Contact
+  intro: Reach out directly, or explore the work and profiles I keep current.
   links:
-    - label: GitHub
-      href: "https://github.com/your-handle"
-      note: Replace this with the primary public code profile you want tied to the portfolio.
-      ctaLabel: View profile
-    - label: LinkedIn
-      href: "https://www.linkedin.com/in/your-handle"
-      note: Replace this with the recruiter-facing profile that should stay easy to find.
-      ctaLabel: Open profile
-    - label: Email
-      href: "mailto:hello@example.com"
-      note: Replace this with the contact path you want to keep public once the final copy is ready.
-      ctaLabel: Send email
+    - kind: linkedin
+      label: LinkedIn
+      href: "https://www.linkedin.com/in/jignasu-pathak/"
+      description: Professional background, experience, and recent work.
+    - kind: github
+      label: GitHub
+      href: "https://github.com/Mister-JP"
+      description: Projects, experiments, and source code.
+    - kind: email
+      label: 1jignasu@gmail.com
+      href: "mailto:1jignasu@gmail.com"
+      description: Best way to reach me directly.
+    - kind: phone
+      label: (540) 824-8721
+      href: "tel:+15408248721"
+      description: Available for calls or texts.
 ---

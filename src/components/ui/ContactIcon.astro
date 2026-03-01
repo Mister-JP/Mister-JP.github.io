@@ -1,0 +1,21 @@
+---
+import type { ContactKind } from '../../data/contact';
+import linkedinIcon from '../../assets/icons/linkedin.svg?raw';
+import githubIcon from '../../assets/icons/github.svg?raw';
+import emailIcon from '../../assets/icons/email.svg?raw';
+import phoneIcon from '../../assets/icons/phone.svg?raw';
+
+interface ContactIconProps {
+  kind: ContactKind;
+}
+
+const { kind } = Astro.props as ContactIconProps;
+const icons: Record<ContactKind, string> = {
+  linkedin: linkedinIcon,
+  github: githubIcon,
+  email: emailIcon,
+  phone: phoneIcon,
+};
+---
+
+<Fragment set:html={icons[kind]} />

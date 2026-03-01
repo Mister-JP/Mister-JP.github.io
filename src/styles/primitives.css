@@ -517,6 +517,70 @@
   margin-top: auto;
 }
 
+.about-card,
+.contact-card {
+  height: 100%;
+}
+
+.about-copy {
+  max-width: none;
+}
+
+.contact-entry {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-2);
+  align-items: start;
+}
+
+.contact-entry__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-self: start;
+  flex-shrink: 0;
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  background: var(--surface-panel-neutral);
+  color: var(--color-text-primary);
+  transition:
+    border-color var(--transition-soft),
+    background-color var(--transition-soft);
+}
+
+.contact-entry__icon svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: currentColor;
+}
+
+.contact-card:is(:hover, :focus-visible, :focus-within) .contact-entry__icon {
+  border-color: var(--color-border-strong);
+  background: var(--surface-panel-soft);
+}
+
+.contact-entry__content {
+  min-width: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.contact-entry__label {
+  color: var(--color-text-primary);
+  font-size: var(--step-0);
+  font-weight: 700;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.contact-entry__meta {
+  color: var(--color-text-muted);
+  font-size: var(--step--1);
+  line-height: 1.4;
+}
+
 .divider {
   --divider-space: var(--space-6);
   display: flex;

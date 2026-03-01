@@ -49,10 +49,10 @@ const pages = defineCollection({
         links: z
           .array(
             z.object({
+              kind: z.enum(['linkedin', 'github', 'email', 'phone']),
               label: z.string(),
               href: z.string(),
-              note: z.string().optional(),
-              ctaLabel: z.string().optional(),
+              description: z.string(),
             }),
           )
           .default([]),

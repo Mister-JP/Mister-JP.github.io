@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { getEntry } from 'astro:content';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import type { ContactItem } from '../data/contact';
@@ -36,6 +37,15 @@ const {
 const currentPath = Astro.url.pathname;
 const hasHeaderActions = Astro.slots.has('header-actions');
 const hasFooterContent = Astro.slots.has('footer');
+const aboutEntry = await getEntry('pages', 'about');
+
+if (!aboutEntry || aboutEntry.data.template !== 'about') {
+  throw new Error('SiteShell requires src/content/pages/about.md to define contact links.');
+}
+
+const resolvedFooterContacts = footerContacts.length > 0
+  ? footerContacts
+  : aboutEntry.data.contact.links;
 ---
 
 <!doctype html>
@@ -73,7 +83,7 @@ const hasFooterContent = Astro.slots.has('footer');
         <slot />
       </main>
 
-      <Footer note={footerNote} links={footerLinks} contacts={footerContacts}>
+      <Footer note={footerNote} links={footerLinks} contacts={resolvedFooterContacts}>
         {hasFooterContent && <slot name="footer" />}
       </Footer>
     </div>

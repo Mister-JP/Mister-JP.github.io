@@ -2,8 +2,8 @@
 import { getEntry } from 'astro:content';
 import SiteShell from '../layouts/SiteShell.astro';
 import PageHeader from '../components/layout/PageHeader.astro';
-import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
+import ContactIcon from '../components/ui/ContactIcon.astro';
 import Container from '../components/ui/Container.astro';
 import Grid from '../components/ui/Grid.astro';
 import Section from '../components/ui/Section.astro';
@@ -23,6 +23,7 @@ if (aboutEntry.data.template !== 'about') {
 
 const { data } = aboutEntry;
 const { intro, background, work, focus, contact } = data;
+const isExternalContact = (href: string) => href.startsWith('http');
 ---
 
 <SiteShell
@@ -105,18 +106,22 @@ const { intro, background, work, focus, contact } = data;
 
       {contact.links.length > 0 && (
         <Grid gap="lg" minItemWidth="16rem">
-          {contact.links.map((link, index) => (
-            <Card variant={index === 0 ? 'soft' : 'default'} class="contact-card">
-              <div slot="title">
-                <h3>{link.label}</h3>
-              </div>
-
-              {link.note && <p>{link.note}</p>}
-
-              <div slot="actions">
-                <Button variant={index === 0 ? 'primary' : 'secondary'} href={link.href}>
-                  {link.ctaLabel ?? 'Open link'}
-                </Button>
+          {contact.links.map((item) => (
+            <Card
+              href={item.href}
+              target={isExternalContact(item.href) ? '_blank' : undefined}
+              rel={isExternalContact(item.href) ? 'noreferrer' : undefined}
+              variant="default"
+              class="contact-card"
+            >
+              <div class="contact-entry">
+                <span class="contact-entry__icon" aria-hidden="true">
+                  <ContactIcon kind={item.kind} />
+                </span>
+                <div class="contact-entry__content">
+                  <span class="contact-entry__label">{item.label}</span>
+                  <span class="contact-entry__meta">{item.description}</span>
+                </div>
               </div>
             </Card>
           ))}
@@ -125,14 +130,3 @@ const { intro, background, work, focus, contact } = data;
     </Container>
   </Section>
 </SiteShell>
-
-<style>
-  .about-card,
-  .contact-card {
-    height: 100%;
-  }
-
-  .about-copy {
-    max-width: none;
-  }
-</style>

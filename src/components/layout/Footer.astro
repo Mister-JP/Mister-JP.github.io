@@ -1,5 +1,6 @@
 ---
 import Container from '../ui/Container.astro';
+import ContactIcon from '../ui/ContactIcon.astro';
 import type { ContactItem } from '../../data/contact';
 
 interface FooterLink {
@@ -42,26 +43,7 @@ const hasContacts = contacts.length > 0;
                 rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
               >
                 <span class="site-footer__icon" aria-hidden="true">
-                  {item.kind === 'linkedin' && (
-                    <svg viewBox="0 0 24 24" role="presentation">
-                      <path d="M5.35 7.4a1.65 1.65 0 1 1 0-3.3 1.65 1.65 0 0 1 0 3.3Zm-1.4 12.5V8.9h2.8v11ZM8.95 8.9h2.7v1.5h.04c.38-.71 1.3-1.46 2.67-1.46 2.86 0 3.39 1.88 3.39 4.31v6.65h-2.8v-5.9c0-1.41-.03-3.22-1.96-3.22-1.97 0-2.27 1.54-2.27 3.12v6h-2.77Z" />
-                    </svg>
-                  )}
-                  {item.kind === 'github' && (
-                    <svg viewBox="0 0 24 24" role="presentation">
-                      <path d="M12 .7a11.3 11.3 0 0 0-3.58 22.02c.57.1.78-.25.78-.56v-1.95c-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.13.08 1.73 1.17 1.73 1.17 1.01 1.72 2.64 1.22 3.28.93.1-.73.39-1.22.72-1.5-2.52-.29-5.17-1.26-5.17-5.61 0-1.24.44-2.25 1.17-3.05-.12-.28-.5-1.42.11-2.95 0 0 .96-.3 3.14 1.16a10.9 10.9 0 0 1 5.72 0c2.17-1.46 3.13-1.16 3.13-1.16.62 1.53.23 2.67.12 2.95.73.8 1.16 1.81 1.16 3.05 0 4.36-2.65 5.32-5.18 5.6.4.35.76 1.02.76 2.07v3.07c0 .31.21.67.79.56A11.3 11.3 0 0 0 12 .7Z" />
-                    </svg>
-                  )}
-                  {item.kind === 'email' && (
-                    <svg viewBox="0 0 24 24" role="presentation">
-                      <path d="M3 5.5h18A1.5 1.5 0 0 1 22.5 7v10A1.5 1.5 0 0 1 21 18.5H3A1.5 1.5 0 0 1 1.5 17V7A1.5 1.5 0 0 1 3 5.5Zm0 1.8v.3l9 5.9 9-5.9v-.3Zm18 9.4V9.7l-8.5 5.58a.9.9 0 0 1-.98 0L3 9.7v7Z" />
-                    </svg>
-                  )}
-                  {item.kind === 'phone' && (
-                    <svg viewBox="0 0 24 24" role="presentation">
-                      <path d="M6.62 2.5h2.5c.45 0 .83.3.94.74l.9 3.63a1 1 0 0 1-.29.97L8.98 9.52a14.5 14.5 0 0 0 5.5 5.5l1.68-1.69a1 1 0 0 1 .97-.28l3.63.9c.44.1.74.49.74.94v2.49A1.12 1.12 0 0 1 20.38 18.5h-1.13C9.92 18.5 2.5 11.08 2.5 1.75V.62A1.12 1.12 0 0 1 3.62-.5h2.5a1 1 0 0 1 1 1v2Z" transform="translate(0 3)" />
-                    </svg>
-                  )}
+                  <ContactIcon kind={item.kind} />
                 </span>
                 <span>{item.label}</span>
               </a>
