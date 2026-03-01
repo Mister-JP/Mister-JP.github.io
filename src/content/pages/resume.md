@@ -2,7 +2,7 @@
 template: resume
 title: Resume
 description: Recruiter-facing resume page with a stable PDF contract, direct download, and embedded preview.
-eyebrow: Hiring
+eyebrow: ""
 pdf:
   path: /resume/jignasu-pathak-resume.pdf
   documentTitle: Resume PDF

@@ -841,3 +841,118 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+.resume-hero-section {
+  padding-block-start: clamp(3rem, 2rem + 2vw, 4.5rem);
+  padding-block-end: var(--space-5);
+}
+
+.resume-hero {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.resume-hero__bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.resume-hero__title {
+  grid-column: 2;
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+  justify-self: center;
+  max-width: none;
+  text-align: center;
+  font-size: var(--page-title-size);
+  line-height: var(--line-tight);
+  letter-spacing: -0.03em;
+}
+
+.resume-hero__title::after {
+  content: '';
+  width: clamp(3.5rem, 10vw, 5rem);
+  height: 1px;
+  background: var(--color-border-strong);
+}
+
+.resume-hero__action {
+  grid-column: 3;
+  justify-self: end;
+}
+
+.resume-highlights-card {
+  max-width: min(100%, 56rem);
+  margin: 0 auto;
+}
+
+.resume-highlights-card h2,
+.resume-fallback h2 {
+  margin: 0;
+  text-align: center;
+}
+
+.resume-highlights-card h2 {
+  font-size: var(--step-2);
+}
+
+.resume-highlights-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.resume-highlights-list li,
+.resume-fallback p {
+  color: var(--color-text-secondary);
+  line-height: var(--line-relaxed);
+}
+
+.resume-document-section {
+  padding-block-start: var(--space-2);
+}
+
+.resume-viewer {
+  width: 100%;
+}
+
+.resume-viewer iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 8.5 / 11;
+  border: 0;
+  background: transparent;
+}
+
+.resume-fallback {
+  display: grid;
+  place-items: center;
+  gap: var(--space-3);
+  min-height: clamp(38rem, 75vw, 84rem);
+  padding: var(--space-6);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .resume-hero__bar {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .resume-hero__spacer {
+    display: none;
+  }
+
+  .resume-hero__title,
+  .resume-hero__action {
+    grid-column: auto;
+    justify-self: center;
+  }
+}

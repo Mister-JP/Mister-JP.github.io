@@ -1,12 +1,9 @@
 ---
 import SiteShell from '../layouts/SiteShell.astro';
-import PageHeader from '../components/layout/PageHeader.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import GroupedPanel from '../components/ui/GroupedPanel.astro';
-import Tag from '../components/ui/Tag.astro';
 import { shellConfig } from '../data/site';
 import { getResumePageContent } from '../lib/resume-content';
 
@@ -16,8 +13,9 @@ const {
   highlights,
   hasPdf,
   fileName,
-  assetContractPath,
 } = await getResumePageContent();
+
+const previewSrc = `${pdf.path}#view=FitH&toolbar=0&navpanes=0&scrollbar=0`;
 ---
 
 <SiteShell
@@ -25,151 +23,54 @@ const {
   title={`${page.title} | Jignasu Pathak`}
   description={page.description}
 >
-  <PageHeader
-    eyebrow={page.eyebrow}
-    title={page.title}
-    description={page.description}
-  >
-    <Tag slot="meta" tone={hasPdf ? 'accent' : 'muted'}>
-      {hasPdf ? pdf.readyStatusLabel : pdf.pendingStatusLabel}
-    </Tag>
-  </PageHeader>
-
-  <Section size="sm">
+  <Section size="sm" aria-labelledby="resume-title" class="resume-hero-section">
     <Container size="wide">
-      <Card variant="soft" class="resume-summary">
-        <div slot="title">
-          <h2>{pdf.documentTitle}</h2>
+      <header class="resume-hero">
+        <div class="resume-hero__bar">
+          <div class="resume-hero__spacer" aria-hidden="true"></div>
+          <h1 id="resume-title" class="resume-hero__title">{page.title}</h1>
+          <div class="resume-hero__action">
+            {hasPdf ? (
+              <Button href={pdf.path} download={fileName}>
+                {pdf.downloadLabel}
+              </Button>
+            ) : (
+              <Button disabled>{pdf.downloadLabel}</Button>
+            )}
+          </div>
         </div>
-        <p>{pdf.summary}</p>
-        <p class="resume-summary__contract">
-          {pdf.contractLabel}: <code>{assetContractPath}</code>
-        </p>
-        <div slot="actions">
-          {hasPdf ? (
-            <Button href={pdf.path} download={fileName}>
-              {pdf.downloadLabel}
-            </Button>
-          ) : (
-            <Button disabled>{pdf.downloadLabel}</Button>
-          )}
-          {hasPdf ? (
-            <Button
-              variant="secondary"
-              href={pdf.path}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {pdf.openLabel}
-            </Button>
-          ) : (
-            <Button variant="secondary" disabled>{pdf.openLabel}</Button>
-          )}
-        </div>
-      </Card>
+
+        <Card as="section" class="resume-highlights-card" aria-labelledby="resume-highlights-title">
+          <div slot="title">
+            <h2 id="resume-highlights-title">{highlights.title}</h2>
+          </div>
+          <ul class="resume-highlights-list">
+            {highlights.items.map((highlight) => (
+              <li>{highlight}</li>
+            ))}
+          </ul>
+        </Card>
+      </header>
     </Container>
   </Section>
 
-  <Section tone="soft" aria-labelledby="resume-viewer-title">
+  <Section size="sm" aria-label={pdf.previewTitle} class="resume-document-section">
     <Container size="wide">
-      <GroupedPanel
-        title={pdf.previewTitle}
-        titleId="resume-viewer-title"
-        intro={pdf.previewIntro}
-        tone="soft"
-        class="resume-viewer-shell"
-      >
-        <div class="resume-viewer">
-          {hasPdf ? (
-            <iframe
-              src={pdf.path}
-              title={`${pdf.documentTitle} preview`}
-              loading="lazy"
-            />
-          ) : (
-            <div class="resume-fallback" role="status">
-              <h3>{pdf.fallbackTitle}</h3>
-              <p>{pdf.fallbackSummary}</p>
-              <p>
-                Expected asset: <code>{assetContractPath}</code>
-              </p>
-            </div>
-          )}
-        </div>
-      </GroupedPanel>
-    </Container>
-  </Section>
-
-  <Section size="sm" aria-labelledby="resume-highlights-title">
-    <Container size="narrow">
-      <Card class="resume-highlights">
-        <div slot="title">
-          <h2 id="resume-highlights-title">{highlights.title}</h2>
-        </div>
-        <ul>
-          {highlights.items.map((highlight) => (
-            <li>{highlight}</li>
-          ))}
-        </ul>
-      </Card>
+      <div class="resume-viewer">
+        {hasPdf ? (
+          <iframe
+            src={previewSrc}
+            title={`${pdf.documentTitle} preview`}
+            loading="lazy"
+            scrolling="no"
+          />
+        ) : (
+          <div class="resume-fallback" role="status">
+            <h2>{pdf.fallbackTitle}</h2>
+            <p>{pdf.fallbackSummary}</p>
+          </div>
+        )}
+      </div>
     </Container>
   </Section>
 </SiteShell>
-
-<style>
-  .resume-summary,
-  .resume-viewer-shell,
-  .resume-highlights {
-    height: 100%;
-  }
-
-  .resume-summary p,
-  .resume-fallback p,
-  .resume-highlights li {
-    margin: 0;
-    color: var(--color-text-secondary);
-    line-height: var(--line-relaxed);
-  }
-
-  .resume-summary__contract {
-    color: var(--color-text-primary);
-    font-size: var(--step--1);
-  }
-
-  .resume-summary h2,
-  .resume-fallback h3,
-  .resume-highlights h2 {
-    margin: 0;
-  }
-
-  .resume-viewer {
-    min-height: 48rem;
-    border: var(--border-thin);
-    border-radius: var(--radius-md);
-    background: var(--surface-panel-neutral);
-    overflow: hidden;
-  }
-
-  .resume-viewer iframe,
-  .resume-fallback {
-    display: block;
-    width: 100%;
-    min-height: 48rem;
-    border: 0;
-  }
-
-  .resume-fallback {
-    display: grid;
-    place-items: center;
-    gap: var(--space-3);
-    padding: var(--space-6);
-    text-align: center;
-  }
-
-  .resume-highlights ul {
-    display: grid;
-    gap: var(--space-3);
-    margin: 0;
-    padding-left: 1.25rem;
-  }
-</style>
