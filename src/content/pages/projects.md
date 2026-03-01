@@ -1,13 +1,13 @@
 ---
 template: projects
 title: Projects
-description: Content-driven project index with featured work, reusable cards, and structured project metadata.
-eyebrow: Work
+description: A curated index of systems, experiments, and technical builds.
+eyebrow: Selected Work
 featuredSection:
-  title: Featured Projects
-  intro: Highlighted proof-of-work that should be visible first without changing the shared card system.
+  title: Featured Work
+  intro: The strongest signals first, for readers who want the quickest sense of scope and technical taste.
 allSection:
-  title: All Projects
-  intro: Every entry is loaded from the project collection, so new work can be added through content only.
-  emptyState: Project entries will appear here once content files are added.
+  title: Project Library
+  intro: The wider catalog stays structured, searchable, and easy to scan as new work is added.
+  emptyState: Projects will appear here as the library grows.
 ---

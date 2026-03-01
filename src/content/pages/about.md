@@ -1,27 +1,31 @@
 ---
 template: about
 title: About
-description: A structured placeholder About page that keeps the content easy to revise without rewriting the layout.
+description: Background, technical interests, and the working habits that tie the portfolio together.
 eyebrow: Profile
 intro:
-  heading: Intro Summary
-  summary: This page will explain who you are, what kinds of problems you keep returning to, and how the rest of the portfolio should be read.
+  heading: A concise orientation
+  summary: I build technical systems that make experiments easier to evaluate, revisit, and explain.
   details:
-    - It should stay concise enough for a quick scan, but specific enough to frame the projects, writing, and tools as parts of one coherent body of work.
+    - Most of the work here lives where reproducibility, evaluation, and practical tooling overlap.
 background:
-  heading: Background / Journey
-  paragraphs:
-    - This section will explain how your interests matured into a focused body of work, with enough context to make your current projects feel coherent.
-    - The final version should emphasize learning, narrowing, and repeated building rather than turning into a full life-story timeline.
-work:
-  heading: What You Work On
+  heading: Background
   paragraphs:
     - >-
-      This section will outline the recurring themes in your work:
-      reproducible experiment systems, model benchmarking, computer vision and
-      machine learning, and technical tools that make thinking or building
-      easier.
-    - It should read like a pattern of technical interests, not a resume recap or a project index.
+      My interests have narrowed toward work that turns messy technical
+      processes into dependable systems: clearer evaluation loops, steadier
+      experiment setup, and artifacts that make decisions easier to review.
+    - >-
+      That focus keeps the portfolio grounded in a simple pattern: build,
+      inspect, refine, and leave the reasoning visible.
+work:
+  heading: What I Return To
+  paragraphs:
+    - >-
+      I keep returning to infrastructure that removes ambiguity from technical
+      work: experiment scaffolding, benchmarking workflows, and small tools
+      that make complex systems easier to read.
+    - The goal is less about building more interface and more about building better conditions for trust, iteration, and clear technical judgment.
   highlights:
     - Reproducible experiment systems
     - Model benchmarking and evaluation
@@ -29,27 +33,10 @@ work:
     - Technical tools that reduce friction in building and thinking
 focus:
   heading: Current Focus
-  summary: This section is reserved for the work you are actively building or studying right now, so it should stay shorter and change more often than the rest of the page.
+  summary: Right now the emphasis is on evaluation systems, reproducible workflows, and lightweight tooling that improves technical review without adding unnecessary ceremony.
   details:
-    - Use it later for current project direction, present technical emphasis, and the experimentation track that matters most right now.
+    - That includes benchmark harnesses, experiment lineage, and utilities that turn working notes into clearer artifacts.
 contact:
   heading: Contact
-  intro: Reach out directly, or explore the work and profiles I keep current.
-  links:
-    - kind: linkedin
-      label: LinkedIn
-      href: "https://www.linkedin.com/in/jignasu-pathak/"
-      description: Professional background, experience, and recent work.
-    - kind: github
-      label: GitHub
-      href: "https://github.com/Mister-JP"
-      description: Projects, experiments, and source code.
-    - kind: email
-      label: 1jignasu@gmail.com
-      href: "mailto:1jignasu@gmail.com"
-      description: Best way to reach me directly.
-    - kind: phone
-      label: (540) 824-8721
-      href: "tel:+15408248721"
-      description: Available for calls or texts.
+  intro: Reach out directly, or follow the work where it is easiest to keep current.
 ---

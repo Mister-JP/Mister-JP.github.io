@@ -1,6 +1,6 @@
 ---
 title: "Future Tool Placeholder"
-summary: "TODO: reserve a stable slot for the next utility once there is a concrete proof-of-work to surface."
+summary: "A reserved slot for the next utility once there is a concrete proof-of-work worth surfacing."
 featureImage: "/images/entry-previews/tool-detail.svg"
 status: "Queued"
 sortOrder: 20
@@ -9,19 +9,19 @@ tags:
   - Roadmap
 ---
 #### What It Does
-TODO: explain the next utility once the use case becomes concrete.
+This slot is held for the next utility that earns a place in the library through real use.
 
 ##### Why It Exists
-TODO: define the pain that justifies building it.
+Keeping the slot visible makes room for upcoming work without forcing a half-finished tool to masquerade as a completed artifact.
 
 # Usage
-TODO: outline the intended interaction flow.
+Once the use case is concrete, this page will document the workflow, the expected input, and the outcome it is designed to make easier.
 
 # Features
-TODO: list the first real capabilities.
+The first published version will focus on a narrow, high-signal capability rather than a long list of speculative options.
 
 # Limitations
-TODO: capture the constraints that keep it scoped.
+Until the tool is defined, the scope stays intentionally constrained and descriptive rather than aspirational.
 
 # Related Project / Writing
-TODO: note which project or article should anchor this tool later.
+The eventual tool will be linked back to the project or writing entry that provides its strongest context.

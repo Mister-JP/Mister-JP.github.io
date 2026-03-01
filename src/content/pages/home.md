@@ -1,52 +1,59 @@
 ---
 template: home
 title: Home
-description: Curated homepage sections that hydrate featured cards from the source content collections.
+description: A calm front door to projects, writing, tools, and the shortest path to a practical review.
 hero:
-  eyebrow: "TODO: hero eyebrow"
-  title: "TODO: hero headline"
+  eyebrow: "A considered body of work"
+  title: "Systems, tools, and technical work shaped with care."
   subtitle: >-
-    TODO: one-sentence positioning that points to projects, writing, and
-    proof-of-work without locking the final copy yet.
-  primaryCtaLabel: "TODO: browse projects"
+    I build evaluation workflows, research tooling, and structured technical
+    artifacts that make complex work easier to inspect, trust, and extend.
+  primaryCtaLabel: "Browse selected projects"
   primaryCtaHref: /projects
-  secondaryCtaLabel: "TODO: read writing"
+  secondaryCtaLabel: "Read the working notes"
   secondaryCtaHref: /writing
+proofStrip:
+  title: "What this work covers"
+  items:
+    - label: "Evaluation systems"
+      detail: "Benchmarking and review workflows designed for consistent comparison."
+    - label: "Research tooling"
+      detail: "Utilities that turn structured notes into repeatable technical artifacts."
+    - label: "Reproducible iteration"
+      detail: "Configuration lineage and observability that make reruns easier to trust."
 intro:
-  heading: "TODO: intro heading"
+  heading: "Start with the strongest proof"
   body: >-
-    TODO: brief site orientation that explains this portfolio will collect
-    projects, writing, tools, and a direct resume path without turning into a
-    biography block.
-  supportingNote: >-
-    TODO: optional supporting note that nudges visitors toward the strongest
-    next click while the final content is still pending.
+    Use the homepage as a fast triage path: projects first for concrete proof,
+    writing for the reasoning behind the systems, and tools for the smaller
+    utilities that make the work easier to inspect.
+  quickLinks:
+    - label: "Projects first"
+      description: "See the clearest build, evaluation, and systems work."
+      href: /projects
+    - label: "Read the methods"
+      description: "Review the decision patterns, experiments, and technical notes."
+      href: /writing
+    - label: "Open the resume"
+      description: "Go straight to the resume page for a quick read or PDF download."
+      href: /resume
 featuredProjects:
-  sectionTitle: "TODO: featured projects title"
+  sectionTitle: "Projects with the clearest signal"
   sectionIntro: >-
-    TODO: short section intro that frames these cards as the fastest
-    build-oriented proof on the homepage.
+    A focused set of builds that show how I frame technical work, structure
+    iteration, and move toward dependable results.
 selectedWriting:
-  sectionTitle: "TODO: selected writing title"
+  sectionTitle: "Reasoning, kept visible"
   sectionIntro: >-
-    TODO: short section intro that separates project-specific case studies from
-    reusable engineering methods.
+    Case studies stay close to specific work. Methods capture the patterns that
+    keep returning across projects and experiments.
   caseStudiesLabel: Case Studies
   methodsLabel: Methods
 featuredTools:
-  sectionTitle: "TODO: featured tools title"
+  sectionTitle: "Tools that make work legible"
   sectionIntro: >-
-    TODO: short section intro that frames these as interactive artifacts
-    distinct from projects and writing.
-resumeCta:
-  heading: "TODO: resume CTA heading"
-  body: >-
-    TODO: resume CTA body that keeps the closing action direct,
-    recruiter-friendly, and structurally separate from the footer.
-  primaryCtaLabel: "TODO: view resume"
-  primaryCtaHref: /resume
-  secondaryCtaLabel: "TODO: download resume"
-  secondaryCtaHref: /resume#download
+    Utilities and technical artifacts built to reduce friction, speed review,
+    and make decisions easier to inspect.
 ---
 
 <!-- Homepage copy lives here. Featured entries are curated in src/content/curation/home.md. -->

@@ -38,19 +38,15 @@ const filterTags = tags.map((tag) => ({
 </div>
 
 <script>
-  const projectFilterRoots = document.querySelectorAll('[data-project-filter-root]');
+  const projectFilterRoots = document.querySelectorAll<HTMLElement>('[data-project-filter-root]');
 
-  const getFilterControls = (root) =>
-    Array.from(root.querySelectorAll('[data-project-filter]')).filter(
-      (element) => element instanceof HTMLElement,
-    );
+  const getFilterControls = (root: HTMLElement): HTMLElement[] =>
+    Array.from(root.querySelectorAll<HTMLElement>('[data-project-filter]'));
 
-  const getFilterCards = (root) =>
-    Array.from(root.querySelectorAll('[data-project-card]')).filter(
-      (element) => element instanceof HTMLElement,
-    );
+  const getFilterCards = (root: HTMLElement): HTMLElement[] =>
+    Array.from(root.querySelectorAll<HTMLElement>('[data-project-card]'));
 
-  const normalizeFilter = (value) => {
+  const normalizeFilter = (value: string | null | undefined): string => {
     if (typeof value !== 'string') {
       return 'all';
     }
@@ -59,23 +55,24 @@ const filterTags = tags.map((tag) => ({
     return normalized || 'all';
   };
 
-  const getAvailableFilters = (root) => {
+  const getAvailableFilters = (root: HTMLElement): string[] => {
     const values = getFilterControls(root)
       .map((control) => normalizeFilter(control.dataset.projectFilter))
       .filter((value) => value !== 'all');
 
-    return Array.from(new Set(values));
+    return Array.from(new Set<string>(values));
   };
 
-  const readInitialFilters = (root) => {
+  const readInitialFilters = (root: HTMLElement): string[] => {
     const url = new URL(window.location.href);
-    const rawValues = url.searchParams.get('tags')
-      ? url.searchParams.get('tags').split(',')
+    const tagsParam = url.searchParams.get('tags');
+    const rawValues = tagsParam
+      ? tagsParam.split(',')
       : url.searchParams.getAll('tag');
-    const allowedFilters = new Set(getAvailableFilters(root));
+    const allowedFilters = new Set<string>(getAvailableFilters(root));
 
     return Array.from(
-      new Set(
+      new Set<string>(
         rawValues
           .map((value) => normalizeFilter(value))
           .filter((value) => allowedFilters.has(value)),
@@ -83,10 +80,14 @@ const filterTags = tags.map((tag) => ({
     );
   };
 
-  const syncFilterUrl = (filters) => {
+  const syncFilterUrl = (filters: string[]): void => {
     const url = new URL(window.location.href);
-    const normalizedFilters = Array.from(
-      new Set(filters.map((filter) => normalizeFilter(filter)).filter((filter) => filter !== 'all')),
+    const normalizedFilters: string[] = Array.from(
+      new Set<string>(
+        filters
+          .map((filter) => normalizeFilter(filter))
+          .filter((filter) => filter !== 'all'),
+      ),
     );
 
     url.searchParams.delete('tag');
@@ -100,12 +101,16 @@ const filterTags = tags.map((tag) => ({
     window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
   };
 
-  const applyFilter = (root, requestedFilters, syncUrl = true) => {
+  const applyFilter = (
+    root: HTMLElement,
+    requestedFilters: string[],
+    syncUrl = true,
+  ): void => {
     const controls = getFilterControls(root);
     const cards = getFilterCards(root);
-    const availableFilters = new Set(getAvailableFilters(root));
-    const activeFilters = Array.from(
-      new Set(
+    const availableFilters = new Set<string>(getAvailableFilters(root));
+    const activeFilters: string[] = Array.from(
+      new Set<string>(
         requestedFilters
           .map((value) => normalizeFilter(value))
           .filter((value) => availableFilters.has(value)),
@@ -146,7 +151,7 @@ const filterTags = tags.map((tag) => ({
       return;
     }
 
-    let activeFilters = readInitialFilters(root);
+    let activeFilters: string[] = readInitialFilters(root);
 
     root.addEventListener('click', (event) => {
       if (!(event.target instanceof Element)) {

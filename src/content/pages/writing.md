@@ -1,14 +1,14 @@
 ---
 template: writing
 title: Writing
-description: Content-driven writing index with separate case study and method groupings.
-eyebrow: Thinking
+description: Case studies and reusable methods that keep the reasoning visible.
+eyebrow: Writing
 caseStudies:
   title: Case Studies
-  intro: Project-linked narratives that capture decisions, tradeoffs, and lessons learned.
-  emptyState: Case studies will appear here as entries are added.
+  intro: Project-linked notes that keep decisions, tradeoffs, and changes in judgment close to the work itself.
+  emptyState: Case studies will appear here as they are published.
 methods:
   title: Methods
-  intro: Reusable engineering patterns that apply across projects and experiments.
-  emptyState: Methods will appear here as entries are added.
+  intro: Reusable engineering patterns that make experiments steadier, cleaner, and easier to trust.
+  emptyState: Methods will appear here as they are published.
 ---

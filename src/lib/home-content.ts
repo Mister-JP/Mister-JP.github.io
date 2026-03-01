@@ -30,7 +30,13 @@ type HomeProjectCardItem = {
   featured: true;
 } & Pick<
   ProjectEntry['data'],
-  'title' | 'summary' | 'status' | 'tags' | 'links' | 'featureImage'
+  | 'title'
+  | 'summary'
+  | 'status'
+  | 'tags'
+  | 'links'
+  | 'featureImage'
+  | 'currentMilestone'
 >;
 
 type HomeToolCardItem = Pick<
@@ -52,6 +58,7 @@ type HomeWritingCardItem = Pick<
 export interface HomePageContent {
   page: Pick<HomePageData, 'title' | 'description'>;
   hero: HomePageData['hero'];
+  proofStrip: HomePageData['proofStrip'];
   intro: HomePageData['intro'];
   featuredProjects: {
     sectionTitle: HomePageData['featuredProjects']['sectionTitle'];
@@ -71,7 +78,6 @@ export interface HomePageContent {
     sectionIntro: HomePageData['featuredTools']['sectionIntro'];
     items: HomeToolCardItem[];
   };
-  resumeCta: HomePageData['resumeCta'];
 }
 
 export async function getHomePageContent(): Promise<HomePageContent> {
@@ -182,6 +188,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
       description: pageCopy.description,
     },
     hero: pageCopy.hero,
+    proofStrip: pageCopy.proofStrip,
     intro: pageCopy.intro,
     featuredProjects: {
       sectionTitle: pageCopy.featuredProjects.sectionTitle,
@@ -192,6 +199,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
         summary: entry.data.summary,
         featureImage: getProjectFeatureImage(entry.data.featureImage),
         status: entry.data.status,
+        currentMilestone: entry.data.currentMilestone,
         tags: entry.data.tags,
         links: entry.data.links,
         featured: true,
@@ -216,6 +224,5 @@ export async function getHomePageContent(): Promise<HomePageContent> {
         featured: true,
       })),
     },
-    resumeCta: pageCopy.resumeCta,
   };
 }

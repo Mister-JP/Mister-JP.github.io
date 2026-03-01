@@ -1,46 +1,61 @@
 :root {
-  --color-surface-base: #fff9fb;
-  --color-surface-soft: #f9eef4;
-  --color-surface-muted: #f3eef8;
-  --color-surface-alt: #f6e7ee;
-  --color-accent-rose: #d7a3b6;
-  --color-accent-lilac: #c9b8e6;
-  --color-accent-sage: #cfdccf;
-  --color-text-primary: #2b2230;
-  --color-text-secondary: #554b5d;
-  --color-text-muted: #74697b;
-  --color-border-soft: #e7dbe5;
-  --color-border-strong: #d8c7d2;
-  --color-border-accent: rgba(215, 163, 182, 0.48);
-  --color-focus-ring: rgba(201, 184, 230, 0.68);
-  --color-link-underline: rgba(215, 163, 182, 0.6);
-  --color-link-underline-strong: rgba(201, 184, 230, 0.78);
+  --color-surface-base: #fdf6f4;
+  --color-accent-rose: #cfa4ad;
+  --color-accent-lilac: #bcaecc;
+  --color-accent-sage: #cad6cb;
+  --color-text-primary: #34262d;
+  --color-text-secondary: #5d4f58;
+  --color-text-muted: #7b6f78;
+  --color-border-soft: rgba(93, 79, 88, 0.14);
+  --color-border-strong: rgba(93, 79, 88, 0.22);
+  --color-border-accent: rgba(207, 164, 173, 0.38);
+  --color-border-lift: rgba(188, 174, 204, 0.28);
+  --color-focus-ring: rgba(188, 174, 204, 0.52);
+  --color-link-underline: rgba(207, 164, 173, 0.48);
+  --color-link-underline-strong: rgba(188, 174, 204, 0.68);
   --surface-page:
-    radial-gradient(circle at top right, rgba(215, 163, 182, 0.2), transparent 30%),
-    radial-gradient(circle at 0% 15%, rgba(201, 184, 230, 0.16), transparent 28%),
-    linear-gradient(180deg, #fffdfd 0%, var(--color-surface-base) 24%, #fffdfc 100%);
-  --surface-header: rgba(255, 249, 251, 0.84);
-  --surface-footer: rgba(255, 255, 255, 0.8);
+    radial-gradient(circle at 14% 10%, rgba(255, 255, 255, 0.84), transparent 18%),
+    radial-gradient(circle at 82% 12%, rgba(207, 164, 173, 0.18), transparent 26%),
+    radial-gradient(circle at 78% 40%, rgba(188, 174, 204, 0.16), transparent 28%),
+    radial-gradient(circle at 18% 74%, rgba(202, 214, 203, 0.12), transparent 24%),
+    linear-gradient(180deg, #fffdfb 0%, #fdf6f4 28%, #fbf1f1 62%, #fdf9f7 100%);
+  --surface-header:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(252, 244, 244, 0.8));
   --surface-panel:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 249, 251, 0.94));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(252, 244, 244, 0.88)),
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.62), transparent 42%);
   --surface-panel-soft:
-    linear-gradient(180deg, rgba(249, 238, 244, 0.92), rgba(255, 249, 251, 0.96));
-  --surface-panel-muted:
-    linear-gradient(180deg, rgba(243, 238, 248, 0.9), rgba(255, 249, 251, 0.9));
+    linear-gradient(180deg, rgba(249, 239, 241, 0.9), rgba(254, 247, 246, 0.88)),
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.54), transparent 44%);
   --surface-panel-accent:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(249, 238, 244, 0.9));
-  --surface-panel-neutral: rgba(255, 255, 255, 0.76);
+    linear-gradient(
+      140deg,
+      rgba(255, 255, 255, 0.94),
+      rgba(248, 236, 239, 0.9) 54%,
+      rgba(242, 236, 246, 0.84)
+    );
+  --surface-panel-elevated:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(253, 247, 247, 0.9)),
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.66), transparent 42%);
+  --surface-panel-inset:
+    linear-gradient(180deg, rgba(252, 246, 246, 0.78), rgba(244, 237, 240, 0.74));
+  --surface-panel-neutral: rgba(255, 255, 255, 0.64);
   --surface-section-soft:
-    linear-gradient(180deg, rgba(249, 238, 244, 0.82), rgba(255, 249, 251, 0.86));
+    linear-gradient(180deg, rgba(248, 238, 240, 0.68), rgba(253, 247, 246, 0.76));
   --surface-section-muted:
-    linear-gradient(180deg, rgba(243, 238, 248, 0.88), rgba(255, 249, 251, 0.84));
+    linear-gradient(180deg, rgba(244, 238, 245, 0.72), rgba(252, 246, 248, 0.74));
   --surface-preview:
-    linear-gradient(135deg, rgba(243, 238, 248, 0.86), rgba(249, 238, 244, 0.74));
-  --surface-chip-default: rgba(255, 255, 255, 0.78);
-  --surface-chip-accent: rgba(249, 238, 244, 0.9);
-  --surface-chip-muted: rgba(243, 238, 248, 0.82);
-  --surface-ghost-hover: rgba(249, 238, 244, 0.56);
-  --surface-selection: rgba(215, 163, 182, 0.32);
+    linear-gradient(145deg, rgba(246, 238, 244, 0.78), rgba(247, 240, 238, 0.7));
+  --surface-chip-default:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.68), rgba(252, 246, 246, 0.62));
+  --surface-chip-accent:
+    linear-gradient(180deg, rgba(248, 238, 240, 0.78), rgba(252, 245, 246, 0.72));
+  --surface-chip-muted:
+    linear-gradient(180deg, rgba(244, 238, 245, 0.7), rgba(252, 246, 248, 0.66));
+  --surface-chip-active:
+    linear-gradient(180deg, rgba(250, 240, 243, 0.84), rgba(244, 238, 246, 0.78));
+  --surface-ghost-hover: rgba(248, 239, 240, 0.48);
+  --surface-selection: rgba(207, 164, 173, 0.24);
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -49,36 +64,37 @@
   --space-6: 2rem;
   --space-7: 3rem;
   --space-8: 4rem;
-  --space-9: 5rem;
+  --space-9: 6rem;
   --radius-sm: 0.5rem;
-  --radius-md: 0.875rem;
-  --radius-lg: 1.25rem;
-  --radius-xl: 1.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.4rem;
+  --radius-xl: 1.8rem;
   --radius-pill: 999px;
   --border-thin: 1px solid var(--color-border-soft);
-  --border-strong: 1px solid var(--color-border-strong);
   --border-accent: 1px solid var(--color-border-accent);
-  --shadow-soft: 0 6px 24px rgba(43, 34, 48, 0.06);
-  --shadow-raised: 0 10px 28px rgba(43, 34, 48, 0.08);
-  --shadow-lift: 0 14px 34px rgba(43, 34, 48, 0.1);
-  --motion-duration-fast: 160ms;
-  --motion-duration-base: 240ms;
+  --shadow-soft: 0 18px 42px rgba(52, 38, 45, 0.045);
+  --shadow-raised: 0 24px 54px rgba(52, 38, 45, 0.065);
+  --shadow-lift: 0 30px 68px rgba(52, 38, 45, 0.085);
+  --shadow-inner-soft:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.16);
+  --motion-duration-fast: 200ms;
+  --motion-duration-base: 320ms;
   --motion-ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
-  --motion-lift-sm: -1px;
-  --motion-lift-md: -2px;
+  --motion-lift-sm: -0.5px;
+  --motion-lift-md: -1.5px;
   --transition-soft: var(--motion-duration-fast) var(--motion-ease-soft);
   --transition-base: var(--motion-duration-base) var(--motion-ease-soft);
   --width-content: 72ch;
   --width-page: 1120px;
   --width-wide: 1280px;
   --container-gutter: clamp(1rem, 0.6rem + 1.6vw, 2rem);
-  --section-space-sm: clamp(2.5rem, 2rem + 1vw, 3.5rem);
-  --section-space-md: clamp(4rem, 3rem + 2vw, 6rem);
-  --section-space-lg: clamp(5rem, 4rem + 3vw, 7.5rem);
-  --card-padding: clamp(1.1rem, 0.9rem + 0.7vw, 1.6rem);
-  --site-header-offset: 6rem;
+  --section-space-sm: clamp(3rem, 2.35rem + 1.4vw, 4.2rem);
+  --section-space-md: clamp(4.75rem, 3.8rem + 2.4vw, 6.75rem);
+  --section-space-lg: clamp(6rem, 5rem + 3.2vw, 8.75rem);
+  --card-padding: clamp(1.35rem, 1rem + 0.8vw, 1.95rem);
+  --site-header-offset: 7.25rem;
   --font-signature:
-    "Miss Fajardose",
     "Beau Rivage",
     "Apple Chancery",
     "Snell Roundhand",
@@ -96,6 +112,8 @@
     "Georgia",
     serif;
   --font-ui:
+    "Avenir Next",
+    "Avenir",
     ui-sans-serif,
     -apple-system,
     BlinkMacSystemFont,
@@ -104,14 +122,12 @@
   --step--1: clamp(0.92rem, 0.88rem + 0.12vw, 0.98rem);
   --step-0: clamp(1.02rem, 0.96rem + 0.2vw, 1.1rem);
   --step-1: clamp(1.2rem, 1.08rem + 0.44vw, 1.42rem);
-  --step-2: clamp(1.55rem, 1.32rem + 0.86vw, 1.95rem);
-  --step-3: clamp(2.05rem, 1.72rem + 1.34vw, 2.75rem);
-  --step-4: clamp(2.85rem, 2.3rem + 2.22vw, 4.2rem);
-  --step-5: clamp(3.45rem, 2.65rem + 3.2vw, 5.4rem);
-  --hero-title-size: var(--step-5);
-  --page-title-size: clamp(2.65rem, 2.05rem + 2.2vw, 4.2rem);
+  --step-2: clamp(1.26rem, 1.14rem + 0.5vw, 1.56rem);
+  --step-3: clamp(1.62rem, 1.42rem + 0.78vw, 2.02rem);
+  --hero-title-size: clamp(2.6rem, 2.02rem + 2.35vw, 4.2rem);
+  --page-title-size: clamp(2rem, 1.66rem + 1.4vw, 2.95rem);
   --line-tight: 1.08;
-  --line-title: 1.16;
-  --line-body: 1.7;
-  --line-relaxed: 1.84;
+  --line-title: 1.12;
+  --line-body: 1.74;
+  --line-relaxed: 1.92;
 }

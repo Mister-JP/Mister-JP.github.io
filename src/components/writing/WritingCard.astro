@@ -35,19 +35,13 @@ const {
   relatedProjects = [],
 } = Astro.props as WritingCardProps;
 
-const actions = [{ label: 'Open entry', href }]
-  .filter((action): action is { label: string; href: string } => Boolean(action))
-  .map((action) => ({
-    ...action,
-    isExternal: action.href.startsWith('http'),
-  }));
-
+const actionLabel = kind === 'case-study' ? 'Read case study' : 'Read method';
 const kindLabel = kind === 'case-study' ? 'Case Study' : 'Method';
 ---
 
 <Card
   variant={featured ? 'soft' : 'default'}
-  interactive={actions.length > 0}
+  interactive={true}
   class="writing-card"
 >
   <div slot="title" class="writing-card__title">
@@ -65,7 +59,7 @@ const kindLabel = kind === 'case-study' ? 'Case Study' : 'Method';
     <img src={getWritingFeatureImage(featureImage)} alt={`${title} preview`} loading="lazy" />
   </div>
 
-  <p>{summary}</p>
+  <p class="writing-card__summary">{summary}</p>
 
   {relatedProjects.length > 0 && (
     <p class="writing-card__related">
@@ -91,18 +85,7 @@ const kindLabel = kind === 'case-study' ? 'Case Study' : 'Method';
     </div>
   )}
 
-  {actions.length > 0 && (
-    <div slot="actions">
-      {actions.map((action, index) => (
-        <Button
-          variant={index === 0 ? 'primary' : 'secondary'}
-          href={action.href}
-          target={action.isExternal ? '_blank' : undefined}
-          rel={action.isExternal ? 'noreferrer' : undefined}
-        >
-          {action.label}
-        </Button>
-      ))}
-    </div>
-  )}
+  <div slot="actions">
+    <Button href={href}>{actionLabel}</Button>
+  </div>
 </Card>

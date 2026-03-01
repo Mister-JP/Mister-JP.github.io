@@ -2,12 +2,12 @@
 title: "TODO: method title"
 summary: "TODO: concise summary for the reusable engineering pattern."
 kind: "method"
+# featureImage: /images/writing-preview.png
 status: "Draft scaffold"
 tags:
   - TODO: tag
-featured: false
 sortOrder: 100
-# relatedProject: project-slug
+relatedProjects: []
 ---
 # Recurring Engineering Problem
 TODO: problem statement

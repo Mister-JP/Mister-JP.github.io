@@ -1,39 +1,34 @@
 ---
 import Container from '../ui/Container.astro';
 import MainNav from '../navigation/MainNav.astro';
+import ContactList from '../ui/ContactList.astro';
 
 interface HeaderProps {
   brandLabel?: string;
   brandHref?: string;
   pathname?: string;
-  sticky?: boolean;
 }
 
 const {
   brandLabel = '',
   brandHref = '/',
   pathname = '/',
-  sticky = false,
 } = Astro.props as HeaderProps;
-
-const hasBrandSlot = Astro.slots.has('brand');
-const hasActions = Astro.slots.has('actions');
 ---
 
-<header class:list={['site-header', sticky && 'site-header--sticky']}>
+<header class="site-header site-header--sticky">
   <Container size="wide" class="site-header__inner">
     <div class="site-header__brand">
-      {hasBrandSlot ? (
-        <slot name="brand" />
-      ) : brandLabel ? (
-        <a class="site-header__brand-link" href={brandHref}>{brandLabel}</a>
-      ) : null}
+      {brandLabel && (
+        <div class="site-header__brand-stack">
+          <a class="site-header__brand-link" href={brandHref}>{brandLabel}</a>
+          <ContactList />
+        </div>
+      )}
     </div>
 
     <div class="site-header__nav">
       <MainNav pathname={pathname} />
     </div>
-
-    {hasActions && <div class="site-header__actions"><slot name="actions" /></div>}
   </Container>
 </header>

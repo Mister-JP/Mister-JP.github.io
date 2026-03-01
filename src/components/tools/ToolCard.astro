@@ -32,15 +32,17 @@ const {
 } = Astro.props as ToolCardProps;
 
 const actions = [
-  { label: 'Details', href: detailHref },
-  { label: 'Open', href: links.open },
-  { label: 'Code', href: links.code },
+  { label: 'Read tool notes', href: detailHref },
+  { label: 'Open tool', href: links.open },
+  { label: 'View code', href: links.code },
 ]
   .filter((action): action is { label: string; href: string } => Boolean(action.href))
   .map((action) => ({
     ...action,
     isExternal: action.href.startsWith('http'),
   }));
+const primaryTags = tags.slice(0, 2);
+const visibleTags = tags.slice(primaryTags.length);
 ---
 
 <Card
@@ -49,6 +51,10 @@ const actions = [
   class="tool-card"
 >
   <div slot="title" class="tool-card__title">
+    <p class="tool-card__eyebrow">
+      <span>Tool</span>
+      {primaryTags.length > 0 && <span>{primaryTags.join(' / ')}</span>}
+    </p>
     <div class="tool-card__meta">
       <Tag tone={featured ? 'accent' : 'default'}>{status}</Tag>
       {featured && <Tag tone="muted">Featured</Tag>}
@@ -62,11 +68,11 @@ const actions = [
     <img src={getToolFeatureImage(featureImage)} alt={`${title} preview`} loading="lazy" />
   </div>
 
-  <p>{summary}</p>
+  <p class="tool-card__summary">{summary}</p>
 
-  {tags.length > 0 && (
+  {visibleTags.length > 0 && (
     <div class="tool-card__tags" aria-label={`${title} tags`}>
-      {tags.map((tag) => (
+      {visibleTags.map((tag) => (
         <Tag tone="muted">{tag}</Tag>
       ))}
     </div>

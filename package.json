@@ -2,7 +2,6 @@
   "name": "mister-jp.github.io",
   "version": "1.0.0",
   "description": "Clean `main` branch prepared for the next portfolio iteration.",
-  "main": "index.js",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -13,14 +12,15 @@
     "type": "git",
     "url": "git+https://github.com/Mister-JP/Mister-JP.github.io.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Mister-JP/Mister-JP.github.io/issues"
   },
   "homepage": "https://github.com/Mister-JP/Mister-JP.github.io#readme",
-  "dependencies": {
+  "engines": {
+    "node": ">=18.20.8"
+  },
+  "devDependencies": {
     "@astrojs/check": "^0.9.6",
     "astro": "^5.18.0",
     "typescript": "^5.9.3"

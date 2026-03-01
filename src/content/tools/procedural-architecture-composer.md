@@ -1,6 +1,6 @@
 ---
 title: "Procedural Architecture Composer"
-summary: "TODO: describe the diagramming utility that turns structured notes into review-ready architecture views."
+summary: "A utility that turns structured system notes into review-ready architecture views with consistent layout and labeling."
 featureImage: "/images/entry-previews/tool-detail.svg"
 status: "Prototype available"
 sortOrder: 10
@@ -13,19 +13,21 @@ relatedProjects:
   - architecture-diagram-composer
 ---
 # What It Does
-TODO: explain how the tool turns structured notes into review-ready diagrams.
+It transforms structured system notes into draft diagrams that are easier to review, share, and revise.
 
 # Why It Exists
-TODO: describe the pain point that made this utility necessary.
+Architecture reviews slow down when diagrams have to be rebuilt by hand every time the underlying system changes. This tool keeps the notes and the visual artifact closer together.
 
 # Usage
-TODO: show the expected input, trigger, and resulting output.
+Start with a structured description of components, relationships, and labels. The composer turns that input into a first-pass layout that can be reviewed as-is or refined further.
 
 # Features
-TODO: list the current capabilities that are stable enough to mention.
+- Consistent diagram scaffolding from structured input.
+- Faster draft generation for reviews and implementation planning.
+- A stable starting point for iteration instead of blank-canvas diagramming.
 
 # Limitations
-TODO: note what still requires manual cleanup or operator judgment.
+It still benefits from human judgment for naming, layout polish, and edge cases where the system shape is unusually complex.
 
 # Related Project / Writing
-TODO: explain how this tool supports the broader architecture work.
+It supports the broader diagram-composer project by proving the interaction layer and testing how fast the workflow becomes in practice.

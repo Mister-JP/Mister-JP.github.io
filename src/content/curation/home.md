@@ -12,7 +12,6 @@ featuredWriting:
     - experiment-observability
 featuredTools:
   - procedural-architecture-composer
-  - future-tool-placeholder
 ---
 
 <!-- Ordered homepage references only. Reuse canonical entry copy from the source collections. -->

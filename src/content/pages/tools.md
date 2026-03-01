@@ -1,10 +1,10 @@
 ---
 template: tools
 title: Tools
-description: Content-driven tool index using reusable cards and stable preview placeholders.
-eyebrow: Utilities
+description: Interactive utilities and technical artifacts built to clarify work.
+eyebrow: Working Tools
 library:
   title: Tool Library
-  intro: Each entry keeps a fixed preview area, so cards stay consistent whether a tool already has an image or is still using a placeholder state.
-  emptyState: Tool entries will appear here once content files are added.
+  intro: Utilities, interface experiments, and practical artifacts built to reduce friction in thinking, review, and iteration.
+  emptyState: Tools will appear here as the library grows.
 ---

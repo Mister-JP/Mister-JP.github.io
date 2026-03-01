@@ -4,7 +4,6 @@ import Card from '../ui/Card.astro';
 import Tag from '../ui/Tag.astro';
 import { getProjectHref } from '../../lib/content-paths';
 import { getProjectFeatureImage } from '../../lib/feature-images';
-import { toTagFilterValue } from '../../lib/tag-filters';
 
 interface ProjectLinks {
   code?: string;
@@ -16,11 +15,14 @@ interface ProjectCardProps {
   title: string;
   summary: string;
   status: string;
+  currentMilestone?: string;
   tags: string[];
   links: ProjectLinks;
   featureImage?: string;
   featured?: boolean;
-  filterableTags?: boolean;
+  emphasis?: 'default' | 'lead';
+  class?: string;
+  [key: string]: unknown;
 }
 
 const {
@@ -28,38 +30,43 @@ const {
   title,
   summary,
   status,
+  currentMilestone,
   tags = [],
   links = {},
   featureImage,
   featured = false,
-  filterableTags = false,
+  emphasis = 'default',
+  class: className = '',
+  ...rest
 } = Astro.props as ProjectCardProps;
 
 const detailHref = getProjectHref({ slug });
-const tagFilters = tags.map((tag) => ({
-  label: tag,
-  value: toTagFilterValue(tag),
-}));
 const actions = [
   { label: 'View project', href: detailHref },
-  links.code ? { label: 'Code', href: links.code } : undefined,
-  links.demo ? { label: 'Demo', href: links.demo } : undefined,
+  links.code ? { label: 'View code', href: links.code } : undefined,
+  links.demo ? { label: 'Open demo', href: links.demo } : undefined,
 ]
   .filter((action): action is { label: string; href: string } => Boolean(action))
   .map((action) => ({
     ...action,
     isExternal: action.href.startsWith('http'),
   }));
+const cardVariant = emphasis === 'lead' ? 'accent' : featured ? 'soft' : 'default';
+const primaryTags = tags.slice(0, 2);
+const visibleTags = tags.slice(primaryTags.length);
 ---
 
 <Card
-  variant={featured ? 'soft' : 'default'}
+  variant={cardVariant}
   interactive={true}
-  class="project-card"
-  data-project-card
-  data-project-tags={tagFilters.map(({ value }) => value).join(' ')}
+  class:list={['project-card', emphasis === 'lead' && 'project-card--lead', className]}
+  {...rest}
 >
   <div slot="title" class="project-card__title">
+    <p class="project-card__eyebrow">
+      <span>Project</span>
+      {primaryTags.length > 0 && <span>{primaryTags.join(' / ')}</span>}
+    </p>
     <div class="project-card__meta">
       <Tag tone={featured ? 'accent' : 'default'}>{status}</Tag>
       {featured && <Tag tone="muted">Featured</Tag>}
@@ -73,26 +80,22 @@ const actions = [
     <img src={getProjectFeatureImage(featureImage)} alt={`${title} preview`} loading="lazy" />
   </div>
 
-  <p>{summary}</p>
+  <p class="project-card__summary">{summary}</p>
 
-  <div class="project-card__tags" aria-label={`${title} tags`}>
-    {tagFilters.map(({ label, value }) => (
-      filterableTags ? (
-        <Tag
-          as="button"
-          tone="muted"
-          data-project-filter={value}
-          data-chip-removable="true"
-          aria-pressed="false"
-          aria-label={`Toggle project filter ${label}`}
-        >
-          {label}
-        </Tag>
-      ) : (
-        <Tag tone="muted">{label}</Tag>
-      )
-    ))}
-  </div>
+  {currentMilestone && (
+    <p class="project-card__focus">
+      <span class="project-card__focus-label">Current focus</span>
+      <span>{currentMilestone}</span>
+    </p>
+  )}
+
+  {visibleTags.length > 0 && (
+    <div class="project-card__tags" aria-label={`${title} tags`}>
+      {visibleTags.map((tag) => (
+        <Tag tone="muted">{tag}</Tag>
+      ))}
+    </div>
+  )}
 
   {actions.length > 0 && (
     <div slot="actions">

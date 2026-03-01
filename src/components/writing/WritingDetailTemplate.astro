@@ -59,7 +59,7 @@ const hasGuide = outline.length > 0 || relatedProjects.length > 0;
 </PageHeader>
 
 <Section size="sm">
-  <Container size="narrow">
+  <Container size="wide">
     <div class="writing-detail-template">
       <FeatureMedia src={featureImage} alt={`${title} preview`} />
 
@@ -98,7 +98,7 @@ const hasGuide = outline.length > 0 || relatedProjects.length > 0;
               {outline.length > 0 && (
                 <section class="writing-detail-template__guide-item" aria-labelledby="writing-outline">
                   <h2 id="writing-outline" class="writing-detail-template__card-title">
-                    Section Outline
+                    On this page
                   </h2>
 
                   <ol class="writing-detail-template__outline">
@@ -122,7 +122,7 @@ const hasGuide = outline.length > 0 || relatedProjects.length > 0;
           </Prose>
         </article>
       ) : (
-        <p class="writing-detail-template__empty">No content yet.</p>
+        <p class="writing-detail-template__empty">This entry is being shaped into a fuller note.</p>
       )}
     </div>
   </Container>

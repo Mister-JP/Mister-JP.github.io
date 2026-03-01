@@ -4,14 +4,13 @@ export interface NavItem {
   href: string;
   label: string;
   match?: NavMatchMode;
-  title?: string;
 }
 
 export interface ResolvedNavItem extends NavItem {
   isCurrent: boolean;
 }
 
-export const primaryNavigation: readonly NavItem[] = [
+const primaryNavigation: readonly NavItem[] = [
   { href: '/', label: 'Home', match: 'exact' },
   { href: '/about', label: 'About' },
   { href: '/projects', label: 'Projects' },
@@ -20,14 +19,14 @@ export const primaryNavigation: readonly NavItem[] = [
   { href: '/resume', label: 'Resume' },
 ];
 
-export function normalizePathname(pathname: string): string {
+function normalizePathname(pathname: string): string {
   const [pathOnly = '/'] = pathname.split(/[?#]/, 1);
   const withoutTrailingSlash = pathOnly.replace(/\/+$/, '');
 
   return withoutTrailingSlash === '' ? '/' : withoutTrailingSlash;
 }
 
-export function isNavItemCurrent(item: NavItem, pathname: string): boolean {
+function isNavItemCurrent(item: NavItem, pathname: string): boolean {
   const currentPath = normalizePathname(pathname);
   const itemPath = normalizePathname(item.href);
   const matchMode = item.match ?? (itemPath === '/' ? 'exact' : 'section');
@@ -39,7 +38,7 @@ export function isNavItemCurrent(item: NavItem, pathname: string): boolean {
   return currentPath === itemPath || currentPath.startsWith(`${itemPath}/`);
 }
 
-export function getActiveNavigationHref(pathname: string): string | undefined {
+function getActiveNavigationHref(pathname: string): string | undefined {
   const currentPath = normalizePathname(pathname);
 
   return primaryNavigation.find((item) => isNavItemCurrent(item, currentPath))?.href;

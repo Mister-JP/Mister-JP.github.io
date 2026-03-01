@@ -1,4 +1,7 @@
-.*/
-node_modules
-dist
+.astro/
+.agent-harness/
+node_modules/
+dist/
+feedback-screenshots/
+.DS_Store
 AGENTS.md

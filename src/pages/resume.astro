@@ -11,7 +11,6 @@ const {
   page,
   pdf,
   highlights,
-  hasPdf,
   fileName,
 } = await getResumePageContent();
 
@@ -30,16 +29,11 @@ const previewSrc = `${pdf.path}#view=FitH&toolbar=0&navpanes=0&scrollbar=0`;
           <div class="resume-hero__spacer" aria-hidden="true"></div>
           <h1 id="resume-title" class="resume-hero__title">{page.title}</h1>
           <div class="resume-hero__action">
-            {hasPdf ? (
-              <Button href={pdf.path} download={fileName}>
-                {pdf.downloadLabel}
-              </Button>
-            ) : (
-              <Button disabled>{pdf.downloadLabel}</Button>
-            )}
+            <Button id="resume-download" href={pdf.path} download={fileName}>
+              {pdf.downloadLabel}
+            </Button>
           </div>
         </div>
-
         <Card as="section" class="resume-highlights-card" aria-labelledby="resume-highlights-title">
           <div slot="title">
             <h2 id="resume-highlights-title">{highlights.title}</h2>
@@ -57,19 +51,11 @@ const previewSrc = `${pdf.path}#view=FitH&toolbar=0&navpanes=0&scrollbar=0`;
   <Section size="sm" aria-label={pdf.previewTitle} class="resume-document-section">
     <Container size="wide">
       <div class="resume-viewer">
-        {hasPdf ? (
-          <iframe
-            src={previewSrc}
-            title={`${pdf.documentTitle} preview`}
-            loading="lazy"
-            scrolling="no"
-          />
-        ) : (
-          <div class="resume-fallback" role="status">
-            <h2>{pdf.fallbackTitle}</h2>
-            <p>{pdf.fallbackSummary}</p>
-          </div>
-        )}
+        <iframe
+          src={previewSrc}
+          title={`${pdf.documentTitle} preview`}
+          loading="lazy"
+        />
       </div>
     </Container>
   </Section>

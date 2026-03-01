@@ -46,16 +46,6 @@ const pages = defineCollection({
       contact: z.object({
         heading: z.string(),
         intro: z.string(),
-        links: z
-          .array(
-            z.object({
-              kind: z.enum(['linkedin', 'github', 'email', 'phone']),
-              label: z.string(),
-              href: z.string(),
-              description: z.string(),
-            }),
-          )
-          .default([]),
       }),
     }),
     z.object({
@@ -71,10 +61,30 @@ const pages = defineCollection({
         secondaryCtaLabel: z.string(),
         secondaryCtaHref: z.string(),
       }),
+      proofStrip: z.object({
+        title: z.string(),
+        items: z
+          .array(
+            z.object({
+              label: z.string(),
+              detail: z.string(),
+            }),
+          )
+          .min(1),
+      }),
       intro: z.object({
         heading: z.string(),
         body: z.string(),
         supportingNote: z.string().optional(),
+        quickLinks: z
+          .array(
+            z.object({
+              label: z.string(),
+              description: z.string(),
+              href: z.string(),
+            }),
+          )
+          .default([]),
       }),
       featuredProjects: z.object({
         sectionTitle: z.string(),
@@ -89,14 +99,6 @@ const pages = defineCollection({
       featuredTools: z.object({
         sectionTitle: z.string(),
         sectionIntro: z.string(),
-      }),
-      resumeCta: z.object({
-        heading: z.string(),
-        body: z.string(),
-        primaryCtaLabel: z.string(),
-        primaryCtaHref: z.string(),
-        secondaryCtaLabel: z.string(),
-        secondaryCtaHref: z.string(),
       }),
     }),
     z.object({
@@ -145,20 +147,11 @@ const pages = defineCollection({
       template: z.literal('resume'),
       title: z.string(),
       description: z.string(),
-      eyebrow: z.string(),
       pdf: z.object({
         path: z.string(),
         documentTitle: z.string(),
-        summary: z.string(),
         downloadLabel: z.string(),
-        openLabel: z.string(),
-        readyStatusLabel: z.string(),
-        pendingStatusLabel: z.string(),
-        contractLabel: z.string(),
         previewTitle: z.string(),
-        previewIntro: z.string(),
-        fallbackTitle: z.string(),
-        fallbackSummary: z.string(),
       }),
       highlights: z.object({
         title: z.string(),
@@ -226,11 +219,6 @@ const curation = defineCollection({
     z.object({
       surface: z.literal('projects'),
       featuredProjects: projectReferences,
-    }),
-    z.object({
-      surface: z.literal('writing'),
-      caseStudies: writingReferences,
-      methods: writingReferences,
     }),
   ]),
 });

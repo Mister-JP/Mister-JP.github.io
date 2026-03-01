@@ -2,12 +2,12 @@
 title: "TODO: case study title"
 summary: "TODO: concise summary for the project-linked narrative."
 kind: "case-study"
+# featureImage: /images/writing-preview.png
 status: "Draft scaffold"
 tags:
   - TODO: tag
-featured: false
 sortOrder: 100
-# relatedProject: project-slug
+relatedProjects: []
 ---
 # Problem
 TODO: describe the concrete project problem worth studying.

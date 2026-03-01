@@ -9,6 +9,7 @@ import Grid from '../components/ui/Grid.astro';
 import Section from '../components/ui/Section.astro';
 import Prose from '../components/ui/Prose.astro';
 import SectionIntro from '../components/ui/SectionIntro.astro';
+import { contactItems } from '../data/contact';
 import { shellConfig } from '../data/site';
 
 const aboutEntry = await getEntry('pages', 'about');
@@ -104,9 +105,9 @@ const isExternalContact = (href: string) => href.startsWith('http');
         description={contact.intro}
       />
 
-      {contact.links.length > 0 && (
+      {contactItems.length > 0 && (
         <Grid gap="lg" minItemWidth="16rem">
-          {contact.links.map((item) => (
+          {contactItems.map((item) => (
             <Card
               href={item.href}
               target={isExternalContact(item.href) ? '_blank' : undefined}

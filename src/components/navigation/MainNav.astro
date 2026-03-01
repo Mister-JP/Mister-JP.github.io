@@ -5,16 +5,14 @@ import { resolvePrimaryNavigation } from '../../data/navigation';
 
 const {
   pathname = '/',
-  navLabel = 'Main',
 } = Astro.props as {
   pathname?: string;
-  navLabel?: string;
 };
 
 const items = resolvePrimaryNavigation(pathname);
 ---
 
-<nav class="main-nav" aria-label={navLabel}>
+<nav class="main-nav" aria-label="Main">
   <DesktopNav items={items} />
   <MobileNav items={items} />
 </nav>

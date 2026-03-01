@@ -1,17 +1,13 @@
-import { existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { getEntry } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
 type ResumePageData = Extract<CollectionEntry<'pages'>['data'], { template: 'resume' }>;
 
 export interface ResumePageContent {
-  page: Pick<ResumePageData, 'title' | 'description' | 'eyebrow'>;
+  page: Pick<ResumePageData, 'title' | 'description'>;
   pdf: ResumePageData['pdf'];
   highlights: ResumePageData['highlights'];
-  hasPdf: boolean;
   fileName: string;
-  assetContractPath: string;
 }
 
 export async function getResumePageContent(): Promise<ResumePageContent> {
@@ -26,21 +22,14 @@ export async function getResumePageContent(): Promise<ResumePageContent> {
   }
 
   const pdfPath = resumeEntry.data.pdf.path;
-  const assetContractPath = `public${pdfPath}`;
-  const assetFilePath = fileURLToPath(
-    new URL(`../../${assetContractPath}`, import.meta.url),
-  );
 
   return {
     page: {
       title: resumeEntry.data.title,
       description: resumeEntry.data.description,
-      eyebrow: resumeEntry.data.eyebrow,
     },
     pdf: resumeEntry.data.pdf,
     highlights: resumeEntry.data.highlights,
-    hasPdf: existsSync(assetFilePath),
     fileName: pdfPath.split('/').pop() ?? 'resume.pdf',
-    assetContractPath,
   };
 }

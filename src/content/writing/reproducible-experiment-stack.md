@@ -1,6 +1,6 @@
 ---
 title: "Reproducible Experiment Stack"
-summary: "TODO: describe the repeatable experiment stack for configs, lineage, and audit-ready reruns."
+summary: "A repeatable stack for configuration lineage, run tracking, and audit-ready reruns."
 featureImage: "/images/entry-previews/writing-detail.svg"
 kind: "method"
 status: "Draft scaffold"
@@ -12,19 +12,19 @@ relatedProjects:
   - experiment-reproducibility-framework
 ---
 # Recurring Engineering Problem
-TODO: problem statement
+Repeated experiment work breaks down when the path from configuration to output is too loose to retrace confidently.
 
 # Why It Matters
-TODO: explain why weak reproducibility breaks iteration and review.
+Weak reproducibility slows iteration because every comparison starts with doubt: what changed, what stayed fixed, and whether the result can be trusted again.
 
 # Approach
-TODO: describe the stack for config lineage and safe reruns.
+The stack centers on a clear contract for configuration capture, metadata lineage, and rerun behavior so each experiment leaves a dependable trail behind it.
 
 # Implementation Pattern
-TODO: architecture diagram
+The practical shape is lightweight but strict: store the inputs that matter, preserve the execution context, and make reruns deliberate instead of accidental.
 
 # Pitfalls
-TODO: call out the shortcuts that create drift.
+Drift usually appears through manual overrides, silent defaults, or missing metadata that looked unimportant until a result needed to be revisited.
 
 # Reuse Across Projects
-TODO: reusable checklist
+This method works well across research and product-facing workflows wherever repeatability is more valuable than momentary speed.

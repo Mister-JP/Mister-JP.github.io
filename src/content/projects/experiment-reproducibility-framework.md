@@ -1,10 +1,10 @@
 ---
 title: "Experiment Reproducibility Framework"
-summary: "TODO: concise project summary for a reproducibility layer that standardizes experiment setup, config lineage, and audit-ready reruns across iterative model work."
+summary: "A reproducibility layer that preserves setup, config lineage, and audit-ready reruns across iterative experiment work."
 featureImage: "/images/entry-previews/project-detail.svg"
-whyItMatters: "TODO: explain why reproducibility reduces hidden experiment drift, speeds review, and makes model comparisons safer to trust."
+whyItMatters: "Better reproducibility reduces hidden drift, speeds comparison, and makes experiment claims easier to verify under review."
 status: "Internal workflow foundation under active refactor"
-currentMilestone: "TODO: current milestone"
+currentMilestone: "Refactoring the core workflow so configuration capture, run metadata, and rerun contracts stay aligned across iterations."
 tags:
   - Reproducibility
   - Infra
@@ -14,4 +14,7 @@ sortOrder: 30
 links:
   code: https://github.com/jignasu/example-repro-framework
 ---
-Helo! This project page is still a work in progress as the reproducibility framework is currently being refactored. Once the new design stabilizes, I'll update this page with the project framing, current status, and first results. In the meantime, feel free to check out the code repo linked above for a peek at the ongoing work.
+
+This framework exists to make repeated experiment work easier to trust. It keeps configuration, execution context, and run metadata close enough together that a result can be revisited without reconstructing half the environment from memory.
+
+The current refactor is focused on simplifying the contract: capture the right state once, make reruns predictable, and reduce the small manual shortcuts that usually create drift over time.

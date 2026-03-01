@@ -1,15 +1,13 @@
 ---
 title: "TODO: tool title"
 summary: "TODO: concise summary for the utility."
+# featureImage: /images/tool-preview.png
 status: "Draft scaffold"
 sortOrder: 100
-featured: false
 links: {}
 tags:
   - TODO: tag
-# previewImage: /images/tool-preview.png
-# relatedProject: project-slug
-relatedWriting: []
+relatedProjects: []
 ---
 # What It Does
 TODO: explain the job the tool performs.

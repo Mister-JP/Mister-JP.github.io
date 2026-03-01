@@ -1,19 +1,14 @@
 ---
 title: "TODO: project title"
 summary: "TODO: concise project summary for the main project card and detail page."
+# featureImage: /images/project-preview.png
 whyItMatters: "TODO: explain why this project matters in practical terms."
 status: "Draft scaffold"
 currentMilestone: "TODO: current milestone"
 tags:
   - TODO: tag
-featured: false
 sortOrder: 100
 links: {}
-relatedWriting: []
-relatedTools: []
-resultSnapshot:
-  label: "TODO: result image/table"
-  caption: "TODO: describe the first visible proof, comparison, or artifact."
 ---
 # Project Context
 TODO: describe the problem space, scope, and intended user or reviewer.

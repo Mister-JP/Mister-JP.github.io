@@ -23,7 +23,7 @@ The current package already includes:
 - canonical reusable entries stored in `src/content/projects/`, `src/content/writing/`, and `src/content/tools/`
 - ordered surface-level featuring stored separately in `src/content/curation/`
 - static list routes and dynamic detail routes for projects, writing, and tools
-- a resume page that validates whether the configured PDF exists in `public/`
+- a resume page with a stable embedded PDF and direct download path
 - scaffold templates for adding new content entries without changing layout code
 
 This means the site structure is real and usable today, even though some portfolio copy is still placeholder content.
@@ -48,7 +48,7 @@ npm run build
 npm run preview
 ```
 
-`astro.config.mjs` is currently minimal (`defineConfig({})`), so there is no extra adapter or deployment-specific wiring documented in this snapshot.
+The site currently uses Astro's default config, so there is no extra adapter or deployment-specific wiring documented in this snapshot.
 
 ## Route Map
 
@@ -64,12 +64,6 @@ npm run preview
 - `/tools`
 - `/tools/[slug]`
 - `/resume`
-
-### Internal route
-
-- `/internal/primitives`
-
-The internal route is a composition harness for shared UI primitives. It is not part of the public portfolio surface.
 
 ## Deep Dive: How The Package Is Organized
 
@@ -164,7 +158,6 @@ The `curation` collection separates "what exists" from "what gets featured where
 
 - `home.md`: featured projects, featured writing groups, featured tools
 - `projects.md`: featured projects for the projects page
-- `writing.md`: ordered case studies and methods for the writing page
 
 This keeps canonical content in one place and page-level placement decisions in another.
 
@@ -183,7 +176,7 @@ The package uses a small set of focused helpers:
 - `content-paths.ts`: canonical URL builders for projects, tools, and writing
 - `content-relations.ts`: resolves related projects, writing, and tools across collections
 - `home-content.ts`: merges homepage page copy with homepage curation references
-- `resume-content.ts`: loads the resume page content and checks whether the configured PDF exists on disk
+- `resume-content.ts`: loads the resume page content and prepares the stable PDF path metadata
 - `writing-detail.ts`: prepares detail-template props for writing entries
 
 The pattern is consistent: page routes stay light, while route-ready data shaping lives in `src/lib/`.
@@ -205,7 +198,7 @@ Static passthrough assets. The current important contract is:
 
 - `public/resume/jignasu-pathak-resume.pdf`
 
-The resume route uses the path declared in `src/content/pages/resume.md`, then checks the filesystem to determine whether the file is actually present.
+The resume route uses the path declared in `src/content/pages/resume.md` as the stable source for both the embedded preview and download link.
 
 ### `scaffolds/`
 
@@ -217,6 +210,11 @@ Starter templates for content entry:
 - `tool-detail-template.md`
 
 These are the intended starting point for new content, instead of duplicating old entries by hand.
+They mirror the active Astro content schema:
+
+- projects own their own frontmatter only
+- writing and tools relate back to projects through `relatedProjects`
+- featured placement belongs in `src/content/curation/`, not entry frontmatter
 
 ## Content Schema Snapshot
 
@@ -292,8 +290,7 @@ That helper:
 
 - loads `src/content/pages/resume.md`
 - reads the configured `pdf.path`
-- maps it to a `public/...` asset contract path
-- checks whether the PDF exists
+- checks whether the PDF exists at the expected `public/` path
 - returns `hasPdf`, file metadata, and the structured copy used by the page
 
 This makes the resume route resilient even when the PDF has not been replaced yet.
@@ -335,6 +332,12 @@ Start from the scaffold templates in `scaffolds/`, then create the new entry in 
 - `src/content/tools/`
 
 If the new entry should surface on a page, add it to the matching curation file afterward.
+
+When you add related content:
+
+- writing entries use `relatedProjects: []` with Astro content references
+- tool entries use `relatedProjects: []` with Astro content references
+- project entries do not declare reverse links to writing or tools
 
 ### Change shared UI or layout behavior
 

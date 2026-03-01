@@ -1,6 +1,6 @@
 ---
 title: "BSCCM First Baseline"
-summary: "TODO: capture the first benchmark pass, baseline assumptions, and what changed after the initial signal review."
+summary: "Notes from the first microscopy baseline pass, including starting assumptions, comparison criteria, and what shifted after the initial review."
 featureImage: "/images/entry-previews/writing-detail.svg"
 kind: "case-study"
 status: "Outline ready"
@@ -12,22 +12,22 @@ relatedProjects:
   - microscopy-benchmark-pipeline
 ---
 # Problem
-TODO: describe the baseline question, the benchmark target, and the first uncertainty.
+The first task was to establish a baseline that could be compared later without constantly redefining the benchmark target.
 
 # What I Studied
-TODO: dataset/paper summary
+I focused on the dataset slices, the scoring contract, and the minimum comparison conditions needed to treat early results as meaningful rather than merely interesting.
 
 # Options Considered
-TODO: option matrix
+The main tradeoff was between moving quickly with a loose first pass or slowing down enough to make the initial comparison stable and repeatable.
 
 # Chosen Path
-TODO: explain which baseline setup won and why.
+I chose the steadier setup: fewer moving parts, clearer evaluation criteria, and a baseline that could survive a second look without reinterpretation.
 
 # Experiment Notes
-TODO: experiment takeaway
+The first pass was less about performance wins and more about learning which parts of the benchmark contract needed to be fixed before scaling comparison.
 
 # Lessons
-TODO: capture what changed after the first signal review.
+The main lesson was that the benchmark needed cleaner constraints early, otherwise every later result would carry too much uncertainty.
 
 # Next Step
-TODO: define the next benchmark iteration.
+The next iteration is to keep the contract stable while expanding the comparison set enough to make ranking decisions more informative.

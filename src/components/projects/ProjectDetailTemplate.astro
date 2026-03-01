@@ -63,7 +63,7 @@ const outline = (project.headings ?? []).filter((heading) => heading.depth <= 2)
 </PageHeader>
 
 <Section size="sm">
-  <Container size="narrow">
+  <Container size="wide">
     <div class="project-detail-template">
       <FeatureMedia src={project.featureImage} alt={`${project.title} preview`} />
 
@@ -103,7 +103,7 @@ const outline = (project.headings ?? []).filter((heading) => heading.depth <= 2)
 
             {outline.length > 0 && (
               <div class="project-detail-template__summary-item">
-                <p class="project-detail-template__label">Section outline</p>
+                <p class="project-detail-template__label">On this page</p>
                 <ol class="project-detail-template__outline">
                   {outline.map((heading) => (
                     <li>

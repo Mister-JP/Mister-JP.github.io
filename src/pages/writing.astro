@@ -1,5 +1,5 @@
 ---
-import { getEntries, getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import SiteShell from '../layouts/SiteShell.astro';
 import PageHeader from '../components/layout/PageHeader.astro';
@@ -10,6 +10,7 @@ import Tag from '../components/ui/Tag.astro';
 import GroupedPanel from '../components/ui/GroupedPanel.astro';
 import WritingCard from '../components/writing/WritingCard.astro';
 import { getProjectHref, getWritingHref } from '../lib/content-paths';
+import { sortCollectionEntriesBySortOrderThenTitle } from '../lib/collection-utils';
 import { getRelatedProjectsForEntry } from '../lib/content-relations';
 import { shellConfig } from '../data/site';
 
@@ -17,17 +18,9 @@ type WritingEntry = CollectionEntry<'writing'>;
 
 const buildWritingCards = async (
   entries: WritingEntry[],
-  expectedKind: WritingEntry['data']['kind'],
-  label: string,
 ) =>
   Promise.all(
     entries.map(async (entry) => {
-      if (entry.data.kind !== expectedKind) {
-        throw new Error(
-          `Writing curation group "${label}" includes "${entry.slug}", which is ${entry.data.kind}.`,
-        );
-      }
-
       const relatedProjects = await getRelatedProjectsForEntry(entry);
 
       return {
@@ -41,9 +34,10 @@ const buildWritingCards = async (
     }),
   );
 
-const [pageEntry, curationEntry] = await Promise.all([
+const [pageEntry, caseStudyEntries, methodEntries] = await Promise.all([
   getEntry('pages', 'writing'),
-  getEntry('curation', 'writing'),
+  getCollection('writing', ({ data }) => data.kind === 'case-study'),
+  getCollection('writing', ({ data }) => data.kind === 'method'),
 ]);
 
 if (!pageEntry) {
@@ -54,37 +48,9 @@ if (pageEntry.data.template !== 'writing') {
   throw new Error('The writing page entry must use the "writing" template.');
 }
 
-if (!curationEntry) {
-  throw new Error('Missing content entry: src/content/curation/writing.md');
-}
-
-if (curationEntry.data.surface !== 'writing') {
-  throw new Error('The writing curation entry must use the "writing" surface.');
-}
-
-const [caseStudyEntries, methodEntries] = await Promise.all([
-  getEntries(curationEntry.data.caseStudies),
-  getEntries(curationEntry.data.methods),
-]);
-
-const resolvedCaseStudyEntries = caseStudyEntries.filter(
-  (entry): entry is WritingEntry => Boolean(entry),
-);
-const resolvedMethodEntries = methodEntries.filter(
-  (entry): entry is WritingEntry => Boolean(entry),
-);
-
 const [caseStudies, methods] = await Promise.all([
-  buildWritingCards(
-    resolvedCaseStudyEntries,
-    'case-study',
-    pageEntry.data.caseStudies.title,
-  ),
-  buildWritingCards(
-    resolvedMethodEntries,
-    'method',
-    pageEntry.data.methods.title,
-  ),
+  buildWritingCards(caseStudyEntries.sort(sortCollectionEntriesBySortOrderThenTitle)),
+  buildWritingCards(methodEntries.sort(sortCollectionEntriesBySortOrderThenTitle)),
 ]);
 
 const page = pageEntry.data;

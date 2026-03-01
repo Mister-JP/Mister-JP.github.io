@@ -76,7 +76,7 @@ const hasGuide =
 </PageHeader>
 
 <Section size="sm">
-  <Container size="narrow">
+  <Container size="wide">
     <div class="tool-detail-template">
       <FeatureMedia src={featureImage} alt={`${title} preview`} />
 
@@ -86,7 +86,7 @@ const hasGuide =
             <div class="tool-detail-template__guide-list">
               {links.length > 0 && (
                 <section class="tool-detail-template__guide-item" aria-labelledby="tool-links">
-                  <h2 id="tool-links" class="tool-detail-template__card-title">Links</h2>
+                  <h2 id="tool-links" class="tool-detail-template__card-title">Open paths</h2>
                   <div class="tool-detail-template__links">
                     {links.map((link) => (
                       <a
@@ -165,7 +165,7 @@ const hasGuide =
               {outline.length > 0 && (
                 <section class="tool-detail-template__guide-item" aria-labelledby="tool-outline">
                   <h2 id="tool-outline" class="tool-detail-template__card-title">
-                    Section Outline
+                    On this page
                   </h2>
 
                   <ol class="tool-detail-template__outline">
@@ -189,7 +189,7 @@ const hasGuide =
           </Prose>
         </article>
       ) : (
-        <p class="tool-detail-template__empty">No notes yet.</p>
+        <p class="tool-detail-template__empty">Notes will arrive here as the tool settles.</p>
       )}
     </div>
   </Container>

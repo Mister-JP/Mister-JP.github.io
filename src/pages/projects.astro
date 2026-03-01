@@ -12,6 +12,7 @@ import ProjectCard from '../components/projects/ProjectCard.astro';
 import ProjectFilterBar from '../components/projects/ProjectFilterBar.astro';
 import { shellConfig } from '../data/site';
 import { sortBySortOrderThenTitle } from '../lib/collection-utils';
+import { toTagFilterValue } from '../lib/tag-filters';
 
 type ProjectEntry = CollectionEntry<'projects'>;
 type ProjectCardItem = {
@@ -111,7 +112,11 @@ const page = pageEntry.data;
         <Grid cols="3">
           {projects.length > 0 ? (
             projects.map((project) => (
-              <ProjectCard {...project} filterableTags={availableTags.length > 0} />
+              <ProjectCard
+                {...project}
+                data-project-card="true"
+                data-project-tags={project.tags.map((tag) => toTagFilterValue(tag)).join(' ')}
+              />
             ))
           ) : (
             <p class="projects-empty">{page.allSection.emptyState}</p>
