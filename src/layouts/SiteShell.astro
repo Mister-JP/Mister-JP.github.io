@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import type { ContactItem } from '../data/contact';
 
 interface FooterLink {
   href: string;
@@ -16,6 +17,7 @@ interface SiteShellProps {
   brandHref?: string;
   footerNote?: string;
   footerLinks?: FooterLink[];
+  footerContacts?: ContactItem[];
   stickyHeader?: boolean;
 }
 
@@ -27,6 +29,7 @@ const {
   brandHref = '/',
   footerNote = '',
   footerLinks = [],
+  footerContacts = [],
   stickyHeader = true,
 } = Astro.props as SiteShellProps;
 
@@ -46,7 +49,7 @@ const hasFooterContent = Astro.slots.has('footer');
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Miss+Fajardose&family=Cormorant+Garamond:wght@500;600;700&display=swap"
     />
     <slot name="head" />
   </head>
@@ -70,7 +73,7 @@ const hasFooterContent = Astro.slots.has('footer');
         <slot />
       </main>
 
-      <Footer note={footerNote} links={footerLinks}>
+      <Footer note={footerNote} links={footerLinks} contacts={footerContacts}>
         {hasFooterContent && <slot name="footer" />}
       </Footer>
     </div>

@@ -3,6 +3,7 @@ import Button from '../ui/Button.astro';
 import Card from '../ui/Card.astro';
 import Tag from '../ui/Tag.astro';
 import { getProjectHref } from '../../lib/content-paths';
+import { getProjectFeatureImage } from '../../lib/feature-images';
 
 interface ProjectLinks {
   code?: string;
@@ -16,6 +17,7 @@ interface ProjectCardProps {
   status: string;
   tags: string[];
   links: ProjectLinks;
+  featureImage?: string;
   featured?: boolean;
 }
 
@@ -26,6 +28,7 @@ const {
   status,
   tags = [],
   links = {},
+  featureImage,
   featured = false,
 } = Astro.props as ProjectCardProps;
 
@@ -55,6 +58,10 @@ const actions = [
     <h3>
       <a class="project-card__title-link text-link" href={detailHref}>{title}</a>
     </h3>
+  </div>
+
+  <div class="project-card__preview">
+    <img src={getProjectFeatureImage(featureImage)} alt={`${title} preview`} loading="lazy" />
   </div>
 
   <p>{summary}</p>
@@ -97,6 +104,21 @@ const actions = [
     flex-wrap: wrap;
     gap: var(--space-2);
     align-items: center;
+  }
+
+  .project-card__preview {
+    min-height: 11rem;
+    border: var(--border-thin);
+    border-radius: var(--radius-md);
+    background: var(--surface-preview);
+    overflow: hidden;
+  }
+
+  .project-card__preview img {
+    display: block;
+    width: 100%;
+    min-height: 11rem;
+    object-fit: cover;
   }
 
   .project-card h3,

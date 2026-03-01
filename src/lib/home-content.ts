@@ -5,7 +5,11 @@ import {
   getToolHref,
   getWritingHref,
 } from './content-paths';
-import { getToolFeatureImage } from './feature-images';
+import {
+  getProjectFeatureImage,
+  getToolFeatureImage,
+  getWritingFeatureImage,
+} from './feature-images';
 import { getRelatedProjectsForEntry } from './content-relations';
 
 type ProjectEntry = CollectionEntry<'projects'>;
@@ -26,7 +30,7 @@ type HomeProjectCardItem = {
   featured: true;
 } & Pick<
   ProjectEntry['data'],
-  'title' | 'summary' | 'status' | 'tags' | 'links'
+  'title' | 'summary' | 'status' | 'tags' | 'links' | 'featureImage'
 >;
 
 type HomeToolCardItem = Pick<
@@ -39,7 +43,7 @@ type HomeToolCardItem = Pick<
 
 type HomeWritingCardItem = Pick<
   WritingEntry['data'],
-  'title' | 'summary' | 'kind' | 'status' | 'tags'
+  'title' | 'summary' | 'kind' | 'status' | 'tags' | 'featureImage'
 > & {
   href: string;
   relatedProjects: LinkedProject[];
@@ -139,6 +143,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
         return {
           title: entry.data.title,
           summary: entry.data.summary,
+          featureImage: getWritingFeatureImage(entry.data.featureImage),
           kind: entry.data.kind,
           status: entry.data.status,
           tags: entry.data.tags,
@@ -185,6 +190,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
         slug: entry.slug,
         title: entry.data.title,
         summary: entry.data.summary,
+        featureImage: getProjectFeatureImage(entry.data.featureImage),
         status: entry.data.status,
         tags: entry.data.tags,
         links: entry.data.links,
