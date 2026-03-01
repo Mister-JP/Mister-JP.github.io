@@ -1,5 +1,6 @@
 import type { CollectionEntry } from 'astro:content';
 import { getProjectHref } from './content-paths';
+import { getWritingFeatureImage } from './feature-images';
 import { getRelatedProjectsForEntry } from './content-relations';
 
 type WritingEntry = CollectionEntry<'writing'>;
@@ -14,6 +15,7 @@ export async function getWritingDetailPageData(entry: WritingEntry) {
     templateProps: {
       title: entry.data.title,
       summary: entry.data.summary,
+      featureImage: getWritingFeatureImage(entry.data.featureImage),
       kind: entry.data.kind,
       status: entry.data.status,
       tags: entry.data.tags,
@@ -24,7 +26,6 @@ export async function getWritingDetailPageData(entry: WritingEntry) {
         href: getProjectHref(project),
       })),
       headings,
-      actions: [{ label: 'All writing', href: '/writing' }],
     },
   };
 }

@@ -2,6 +2,7 @@
 import Button from '../ui/Button.astro';
 import Card from '../ui/Card.astro';
 import Tag from '../ui/Tag.astro';
+import { getToolFeatureImage } from '../../lib/feature-images';
 
 interface ToolLinks {
   open?: string;
@@ -16,7 +17,7 @@ interface ToolCardProps {
   links?: ToolLinks;
   tags?: string[];
   featured?: boolean;
-  previewImage?: string;
+  featureImage?: string;
 }
 
 const {
@@ -27,7 +28,7 @@ const {
   links = {},
   tags = [],
   featured = false,
-  previewImage,
+  featureImage,
 } = Astro.props as ToolCardProps;
 
 const actions = [
@@ -58,14 +59,7 @@ const actions = [
   </div>
 
   <div class="tool-card__preview">
-    {previewImage ? (
-      <img src={previewImage} alt={`${title} preview`} loading="lazy" />
-    ) : (
-      <div class="tool-card__preview-placeholder" aria-hidden="true">
-        <span>Preview pending</span>
-        <small>Tool snapshot will appear here.</small>
-      </div>
-    )}
+    <img src={getToolFeatureImage(featureImage)} alt={`${title} preview`} loading="lazy" />
   </div>
 
   <p>{summary}</p>
@@ -118,28 +112,14 @@ const actions = [
     overflow: hidden;
   }
 
-  .tool-card__preview img,
-  .tool-card__preview-placeholder {
-    display: grid;
-    place-items: center;
+  .tool-card__preview img {
+    display: block;
     width: 100%;
     min-height: 11rem;
   }
 
   .tool-card__preview img {
     object-fit: cover;
-  }
-
-  .tool-card__preview-placeholder {
-    gap: var(--space-2);
-    padding: var(--space-4);
-    text-align: center;
-    color: var(--color-text-secondary);
-  }
-
-  .tool-card__preview-placeholder span {
-    color: var(--color-text-primary);
-    font-weight: 600;
   }
 
   .tool-card h3,

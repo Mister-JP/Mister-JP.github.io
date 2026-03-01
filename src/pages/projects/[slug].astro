@@ -7,6 +7,7 @@ import {
   getToolHref,
   getWritingHref,
 } from '../../lib/content-paths';
+import { getProjectFeatureImage } from '../../lib/feature-images';
 import {
   getToolEntriesForProject,
   getWritingEntriesForProject,
@@ -35,15 +36,17 @@ const [relatedWritingEntries, relatedToolEntries] = await Promise.all([
   getToolEntriesForProject(project),
 ]);
 const primaryWritingEntry = relatedWritingEntries[0];
-const { Content } = await project.render();
+const { Content, headings } = await project.render();
 const hasLongFormBody = Boolean(project.body?.trim());
 
 const detailProject = {
   title: project.data.title,
   summary: project.data.summary,
+  featureImage: getProjectFeatureImage(project.data.featureImage),
   whyItMatters: project.data.whyItMatters,
   status: project.data.status,
   currentMilestone: project.data.currentMilestone,
+  headings,
   tags: project.data.tags,
   links: [
     primaryWritingEntry
@@ -68,7 +71,6 @@ const detailProject = {
     status: entry.data.status,
     metaLabel: normalizeWritingKind(entry.data.kind),
     href: getWritingHref(entry),
-    actionLabel: 'Open entry',
     isExternal: false,
     tags: entry.data.tags,
   })),
@@ -78,11 +80,9 @@ const detailProject = {
     status: entry.data.status,
     metaLabel: 'Tool',
     href: getToolHref(entry),
-    actionLabel: 'Details',
     isExternal: false,
     tags: entry.data.tags,
   })),
-  resultSnapshot: project.data.resultSnapshot,
 };
 ---
 

@@ -2,19 +2,22 @@
 import PageHeader from '../layout/PageHeader.astro';
 import Card from '../ui/Card.astro';
 import Container from '../ui/Container.astro';
-import Grid from '../ui/Grid.astro';
+import FeatureMedia from '../ui/FeatureMedia.astro';
 import Prose from '../ui/Prose.astro';
 import Section from '../ui/Section.astro';
 import Tag from '../ui/Tag.astro';
-import ProjectLinksSection from './ProjectLinksSection.astro';
-import ProjectMetaSection from './ProjectMetaSection.astro';
 import ProjectRelatedSection from './ProjectRelatedSection.astro';
-import ProjectResultPlaceholder from './ProjectResultPlaceholder.astro';
 
 interface ProjectLinkAction {
   label: string;
   href: string;
   isExternal?: boolean;
+}
+
+interface HeadingLink {
+  depth: number;
+  slug: string;
+  text: string;
 }
 
 interface RelatedItem {
@@ -23,40 +26,36 @@ interface RelatedItem {
   status: string;
   metaLabel?: string;
   href?: string;
-  actionLabel?: string;
   isExternal?: boolean;
   tags?: string[];
-}
-
-interface ProjectResultSnapshot {
-  label: string;
-  caption: string;
-  image?: string;
-  alt?: string;
 }
 
 interface ProjectDetailData {
   title: string;
   summary: string;
+  featureImage: string;
   whyItMatters: string;
   status: string;
   currentMilestone: string;
   tags: string[];
   links: ProjectLinkAction[];
+  headings?: HeadingLink[];
   relatedWriting: RelatedItem[];
   relatedTools: RelatedItem[];
-  resultSnapshot: ProjectResultSnapshot;
 }
 
 const { project } = Astro.props as { project: ProjectDetailData };
 
 const hasLongFormBody = Astro.slots.has('default');
-const overview = project.summary.trim();
+const hasLinks = project.links.length > 0;
+const hasRelatedWriting = project.relatedWriting.length > 0;
+const hasRelatedTools = project.relatedTools.length > 0;
 const whyItMatters = project.whyItMatters.trim();
 const currentMilestone = project.currentMilestone.trim();
+const outline = (project.headings ?? []).filter((heading) => heading.depth <= 2);
 ---
 
-<PageHeader eyebrow="Project" title={project.title}>
+<PageHeader eyebrow="Project" title={project.title} description={project.summary}>
   <Tag slot="meta" tone="accent">{project.status}</Tag>
   {project.tags.map((tag) => (
     <Tag slot="meta" tone="muted">{tag}</Tag>
@@ -64,71 +63,151 @@ const currentMilestone = project.currentMilestone.trim();
 </PageHeader>
 
 <Section size="sm">
-  <Container size="wide">
-    <Grid cols="2" gap="lg" class="project-detail-template__grid">
-      <ProjectMetaSection title="Overview" content={overview} />
+  <Container size="narrow">
+    <div class="project-detail-template">
+      <FeatureMedia src={project.featureImage} alt={`${project.title} preview`} />
 
-      <ProjectMetaSection title="Why It Matters" content={whyItMatters} />
+      <section class="project-detail-template__summary" aria-label="Project summary">
+        <Card>
+          <div class="project-detail-template__summary-list">
+            <div class="project-detail-template__summary-item">
+              <p class="project-detail-template__label">Why it matters</p>
+              <p class="project-detail-template__copy">{whyItMatters}</p>
+            </div>
 
-      <ProjectMetaSection title="Current Status">
-        <Tag slot="meta" tone="accent">{project.status}</Tag>
-        <p>{currentMilestone}</p>
-      </ProjectMetaSection>
+            <div class="project-detail-template__summary-item">
+              <div class="project-detail-template__label-row">
+                <p class="project-detail-template__label">Current milestone</p>
+                <Tag tone="accent">{project.status}</Tag>
+              </div>
+              <p class="project-detail-template__copy">{currentMilestone}</p>
+            </div>
 
-      <ProjectLinksSection actions={project.links} />
+            {hasLinks && (
+              <div class="project-detail-template__summary-item">
+                <p class="project-detail-template__label">Links</p>
+                <div class="project-detail-template__links" aria-label="Project links">
+                  {project.links.map((action) => (
+                    <a
+                      class="text-link"
+                      href={action.href}
+                      target={action.isExternal ? '_blank' : undefined}
+                      rel={action.isExternal ? 'noreferrer' : undefined}
+                    >
+                      {action.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
 
-      <ProjectRelatedSection
-        title="Related Writing"
-        items={project.relatedWriting}
-        emptyState="No related writing yet."
-      />
-
-      <ProjectRelatedSection
-        title="Related Tools"
-        items={project.relatedTools}
-        emptyState="No related tools yet."
-      />
-
-      <div class="project-detail-template__full">
-        <ProjectResultPlaceholder snapshot={project.resultSnapshot} />
-      </div>
+            {outline.length > 0 && (
+              <div class="project-detail-template__summary-item">
+                <p class="project-detail-template__label">Section outline</p>
+                <ol class="project-detail-template__outline">
+                  {outline.map((heading) => (
+                    <li>
+                      <a class="text-link" href={`#${heading.slug}`}>{heading.text}</a>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+          </div>
+        </Card>
+      </section>
 
       {hasLongFormBody && (
-        <div class="project-detail-template__full">
-          <section aria-labelledby="project-long-form-notes">
-            <Card class="project-detail-template__body">
-              <div slot="title" class="project-detail-template__body-head">
-                <h2 id="project-long-form-notes">Long-form Notes</h2>
-              </div>
+        <article class="project-detail-template__body" aria-label="Project details">
+          <Prose>
+            <slot />
+          </Prose>
+        </article>
+      )}
 
-              <Prose>
-                <slot />
-              </Prose>
-            </Card>
-          </section>
+      {(hasRelatedWriting || hasRelatedTools) && (
+        <div class="project-detail-template__related">
+          {hasRelatedWriting && (
+            <ProjectRelatedSection title="Related Writing" items={project.relatedWriting} />
+          )}
+
+          {hasRelatedTools && (
+            <ProjectRelatedSection title="Related Tools" items={project.relatedTools} />
+          )}
         </div>
       )}
-    </Grid>
+    </div>
   </Container>
 </Section>
 
 <style>
-  .project-detail-template__full {
+  .project-detail-template {
     display: grid;
+    gap: var(--space-6);
   }
 
-  .project-detail-template__body-head {
+  .project-detail-template__summary-list {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .project-detail-template__summary-item {
     display: grid;
     gap: var(--space-3);
   }
 
-  .project-detail-template__body-head h2 {
+  .project-detail-template__summary-item + .project-detail-template__summary-item {
+    padding-top: var(--space-4);
+    border-top: var(--border-thin);
+  }
+
+  .project-detail-template__label-row,
+  .project-detail-template__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .project-detail-template__related {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .project-detail-template__label {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: var(--line-tight);
+    color: var(--color-text-primary);
+  }
+
+  .project-detail-template__summary-item p {
     margin: 0;
   }
 
-  @media (min-width: 48rem) {
-    .project-detail-template__full {
-      grid-column: 1 / -1;
-    }
+  .project-detail-template__links {
+    row-gap: var(--space-2);
+  }
+
+  .project-detail-template__copy {
+    line-height: var(--line-relaxed);
+    color: var(--color-text-secondary);
+  }
+
+  .project-detail-template__outline {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+
+  .project-detail-template__body {
+    padding-top: var(--space-1);
+  }
+
+  .project-detail-template__body :global(.prose) {
+    max-width: none;
   }
 </style>

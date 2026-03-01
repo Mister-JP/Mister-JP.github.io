@@ -1,6 +1,7 @@
 ---
 title: "BSCCM First Baseline"
 summary: "TODO: capture the first benchmark pass, baseline assumptions, and what changed after the initial signal review."
+featureImage: "/images/entry-previews/writing-detail.svg"
 kind: "case-study"
 status: "Outline ready"
 tags:

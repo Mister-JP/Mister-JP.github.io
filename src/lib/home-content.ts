@@ -5,6 +5,7 @@ import {
   getToolHref,
   getWritingHref,
 } from './content-paths';
+import { getToolFeatureImage } from './feature-images';
 import { getRelatedProjectsForEntry } from './content-relations';
 
 type ProjectEntry = CollectionEntry<'projects'>;
@@ -30,7 +31,7 @@ type HomeProjectCardItem = {
 
 type HomeToolCardItem = Pick<
   ToolEntry['data'],
-  'title' | 'summary' | 'status' | 'links' | 'tags' | 'previewImage'
+  'title' | 'summary' | 'status' | 'links' | 'tags' | 'featureImage'
 > & {
   detailHref: string;
   featured: true;
@@ -94,16 +95,29 @@ export async function getHomePageContent(): Promise<HomePageContent> {
   const pageCopy = homeEntry.data;
   const curation = curationEntry.data as HomeCurationData;
   const [
-    featuredProjectEntries,
-    featuredToolEntries,
-    featuredCaseStudyEntries,
-    featuredMethodEntries,
+    rawFeaturedProjectEntries,
+    rawFeaturedToolEntries,
+    rawFeaturedCaseStudyEntries,
+    rawFeaturedMethodEntries,
   ] = await Promise.all([
     getEntries(curation.featuredProjects),
     getEntries(curation.featuredTools),
     getEntries(curation.featuredWriting.caseStudies),
     getEntries(curation.featuredWriting.methods),
   ]);
+
+  const featuredProjectEntries = rawFeaturedProjectEntries.filter(
+    (entry): entry is ProjectEntry => Boolean(entry),
+  );
+  const featuredToolEntries = rawFeaturedToolEntries.filter(
+    (entry): entry is ToolEntry => Boolean(entry),
+  );
+  const featuredCaseStudyEntries = rawFeaturedCaseStudyEntries.filter(
+    (entry): entry is WritingEntry => Boolean(entry),
+  );
+  const featuredMethodEntries = rawFeaturedMethodEntries.filter(
+    (entry): entry is WritingEntry => Boolean(entry),
+  );
 
   const buildWritingGroupItems = async (
     entries: WritingEntry[],
@@ -191,7 +205,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
         status: entry.data.status,
         links: entry.data.links,
         tags: entry.data.tags,
-        previewImage: entry.data.previewImage,
+        featureImage: getToolFeatureImage(entry.data.featureImage),
         detailHref: getToolHref(entry),
         featured: true,
       })),

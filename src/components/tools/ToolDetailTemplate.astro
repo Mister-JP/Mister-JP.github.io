@@ -1,14 +1,13 @@
 ---
-import Button from '../ui/Button.astro';
 import Card from '../ui/Card.astro';
 import Container from '../ui/Container.astro';
-import Grid from '../ui/Grid.astro';
+import FeatureMedia from '../ui/FeatureMedia.astro';
 import Prose from '../ui/Prose.astro';
 import Section from '../ui/Section.astro';
 import Tag from '../ui/Tag.astro';
 import PageHeader from '../layout/PageHeader.astro';
 
-interface DetailAction {
+interface DetailLink {
   label: string;
   href: string;
   isExternal?: boolean;
@@ -41,8 +40,8 @@ interface ToolDetailTemplateProps {
   summary: string;
   status: string;
   tags?: string[];
-  previewImage?: string;
-  actions?: DetailAction[];
+  featureImage: string;
+  links?: DetailLink[];
   relatedProjects?: RelatedProjectLink[];
   relatedWriting?: RelatedWritingItem[];
   headings?: HeadingLink[];
@@ -53,8 +52,8 @@ const {
   summary,
   status,
   tags = [],
-  previewImage,
-  actions = [],
+  featureImage,
+  links = [],
   relatedProjects = [],
   relatedWriting = [],
   headings = [],
@@ -62,6 +61,11 @@ const {
 
 const hasBody = Astro.slots.has('default');
 const outline = headings.filter((heading) => heading.depth <= 2);
+const hasGuide =
+  links.length > 0 ||
+  relatedProjects.length > 0 ||
+  relatedWriting.length > 0 ||
+  outline.length > 0;
 ---
 
 <PageHeader eyebrow="Tool" title={title} description={summary}>
@@ -72,214 +76,149 @@ const outline = headings.filter((heading) => heading.depth <= 2);
 </PageHeader>
 
 <Section size="sm">
-  <Container size="wide">
-    <Grid cols="2" gap="lg" class="tool-detail-template__grid">
-      <section class="tool-detail-template__panel" aria-labelledby="tool-overview">
-        <Card class="tool-detail-template__overview">
-          <div slot="title" class="tool-detail-template__panel-head">
-            <h2 id="tool-overview">Preview & Actions</h2>
-          </div>
+  <Container size="narrow">
+    <div class="tool-detail-template">
+      <FeatureMedia src={featureImage} alt={`${title} preview`} />
 
-          <div class="tool-detail-template__preview">
-            {previewImage ? (
-              <img src={previewImage} alt={`${title} preview`} loading="lazy" />
-            ) : (
-              <div class="tool-detail-template__preview-placeholder" aria-hidden="true">
-                <span>Preview pending</span>
-                <small>Tool snapshot will appear here once a stable image exists.</small>
-              </div>
-            )}
-          </div>
-
-          {actions.length > 0 ? (
-            <div class="tool-detail-template__actions">
-              {actions.map((action, index) => (
-                <Button
-                  variant={index === 0 ? 'primary' : 'secondary'}
-                  href={action.href}
-                  target={action.isExternal ? '_blank' : undefined}
-                  rel={action.isExternal ? 'noreferrer' : undefined}
-                >
-                  {action.label}
-                </Button>
-              ))}
-            </div>
-          ) : (
-            <p class="tool-detail-template__empty">No links yet.</p>
-          )}
-        </Card>
-      </section>
-
-      {relatedProjects.length > 0 && (
-        <section class="tool-detail-template__panel" aria-labelledby="tool-related-project">
+      {hasGuide && (
+        <section class="tool-detail-template__guide" aria-label="Tool guide">
           <Card>
-            <div slot="title" class="tool-detail-template__panel-head">
-              <h2 id="tool-related-project">
-                {relatedProjects.length === 1 ? 'Related Project' : 'Related Projects'}
-              </h2>
-            </div>
-
-            <ul class="tool-detail-template__related-list">
-              {relatedProjects.map((project) => (
-                <li class="tool-detail-template__related-item">
-                  <Tag tone="accent">Project</Tag>
-                  <Tag tone="muted">{project.status}</Tag>
-                  <h3>
-                    <a class="text-link" href={project.href}>{project.title}</a>
-                  </h3>
-                  <p>{project.summary}</p>
-                  <div class="tool-detail-template__actions">
-                    <Button variant="secondary" href={project.href}>
-                      View project
-                    </Button>
+            <div class="tool-detail-template__guide-list">
+              {links.length > 0 && (
+                <section class="tool-detail-template__guide-item" aria-labelledby="tool-links">
+                  <h2 id="tool-links" class="tool-detail-template__card-title">Links</h2>
+                  <div class="tool-detail-template__links">
+                    {links.map((link) => (
+                      <a
+                        class="text-link"
+                        href={link.href}
+                        target={link.isExternal ? '_blank' : undefined}
+                        rel={link.isExternal ? 'noreferrer' : undefined}
+                      >
+                        {link.label}
+                      </a>
+                    ))}
                   </div>
-                </li>
-              ))}
-            </ul>
+                </section>
+              )}
+
+              {relatedProjects.length > 0 && (
+                <section class="tool-detail-template__guide-item" aria-labelledby="tool-related-project">
+                  <h2 id="tool-related-project" class="tool-detail-template__card-title">
+                    {relatedProjects.length === 1 ? 'Related Project' : 'Related Projects'}
+                  </h2>
+
+                  <ul class="tool-detail-template__related-list">
+                    {relatedProjects.map((project) => (
+                      <li>
+                        <Card variant="soft" class="tool-detail-template__related-card">
+                          <div class="tool-detail-template__related-meta">
+                            <Tag tone="accent">Project</Tag>
+                            <Tag tone="muted">{project.status}</Tag>
+                          </div>
+                          <h3 class="tool-detail-template__card-subtitle">
+                            <a class="text-link" href={project.href}>{project.title}</a>
+                          </h3>
+                          <p>{project.summary}</p>
+                        </Card>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {relatedWriting.length > 0 && (
+                <section class="tool-detail-template__guide-item" aria-labelledby="tool-related-writing">
+                  <h2 id="tool-related-writing" class="tool-detail-template__card-title">
+                    Related Writing
+                  </h2>
+
+                  <ul class="tool-detail-template__related-list">
+                    {relatedWriting.map((entry) => (
+                      <li>
+                        <Card variant="soft" class="tool-detail-template__related-card">
+                          <div class="tool-detail-template__related-meta">
+                            <Tag tone="accent">{entry.kindLabel}</Tag>
+                            <Tag tone="muted">{entry.status}</Tag>
+                          </div>
+
+                          <h3 class="tool-detail-template__card-subtitle">
+                            <a class="text-link" href={entry.href}>{entry.title}</a>
+                          </h3>
+
+                          <p>{entry.summary}</p>
+
+                          {entry.tags && entry.tags.length > 0 && (
+                            <div class="tool-detail-template__tag-strip" aria-label={`${entry.title} tags`}>
+                              {entry.tags.map((tag) => (
+                                <Tag tone="muted">{tag}</Tag>
+                              ))}
+                            </div>
+                          )}
+                        </Card>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {outline.length > 0 && (
+                <section class="tool-detail-template__guide-item" aria-labelledby="tool-outline">
+                  <h2 id="tool-outline" class="tool-detail-template__card-title">
+                    Section Outline
+                  </h2>
+
+                  <ol class="tool-detail-template__outline">
+                    {outline.map((heading) => (
+                      <li>
+                        <a class="text-link" href={`#${heading.slug}`}>{heading.text}</a>
+                      </li>
+                    ))}
+                  </ol>
+                </section>
+              )}
+            </div>
           </Card>
         </section>
       )}
 
-      {relatedWriting.length > 0 && (
-        <section class="tool-detail-template__panel" aria-labelledby="tool-related-writing">
-          <Card>
-            <div slot="title" class="tool-detail-template__panel-head">
-              <h2 id="tool-related-writing">Related Writing</h2>
-            </div>
-
-            <ul class="tool-detail-template__related-list">
-              {relatedWriting.map((entry) => (
-                <li class="tool-detail-template__related-item">
-                  <div class="tool-detail-template__related-meta">
-                    <Tag tone="accent">{entry.kindLabel}</Tag>
-                    <Tag tone="muted">{entry.status}</Tag>
-                  </div>
-
-                  <h3>
-                    <a class="text-link" href={entry.href}>{entry.title}</a>
-                  </h3>
-
-                  <p>{entry.summary}</p>
-
-                  {entry.tags && entry.tags.length > 0 && (
-                    <div class="tool-detail-template__tag-strip" aria-label={`${entry.title} tags`}>
-                      {entry.tags.map((tag) => (
-                        <Tag tone="muted">{tag}</Tag>
-                      ))}
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </Card>
-        </section>
+      {hasBody ? (
+        <article class="tool-detail-template__body">
+          <Prose class="tool-detail-template__prose">
+            <slot />
+          </Prose>
+        </article>
+      ) : (
+        <p class="tool-detail-template__empty">No notes yet.</p>
       )}
-
-      {outline.length > 0 && (
-        <section class="tool-detail-template__panel" aria-labelledby="tool-outline">
-          <Card>
-            <div slot="title" class="tool-detail-template__panel-head">
-              <h2 id="tool-outline">Section Outline</h2>
-            </div>
-
-            <ol class="tool-detail-template__outline">
-              {outline.map((heading) => (
-                <li>
-                  <a class="text-link" href={`#${heading.slug}`}>{heading.text}</a>
-                </li>
-              ))}
-            </ol>
-          </Card>
-        </section>
-      )}
-
-      <div class="tool-detail-template__full">
-        <section aria-labelledby="tool-entry-body">
-          <Card class="tool-detail-template__body">
-            <div slot="title" class="tool-detail-template__panel-head">
-              <h2 id="tool-entry-body">Tool Notes</h2>
-            </div>
-
-            {hasBody ? (
-              <Prose>
-                <slot />
-              </Prose>
-            ) : (
-              <p class="tool-detail-template__empty">
-                No notes yet.
-              </p>
-            )}
-          </Card>
-        </section>
-      </div>
-    </Grid>
+    </div>
   </Container>
 </Section>
 
 <style>
-  .tool-detail-template__panel,
-  .tool-detail-template__full {
+  .tool-detail-template {
     display: grid;
+    gap: var(--space-6);
   }
 
-  .tool-detail-template__panel-head,
-  .tool-detail-template__related-item,
+  .tool-detail-template__prose {
+    max-width: none;
+  }
+
+  .tool-detail-template__guide-list,
+  .tool-detail-template__guide-item,
+  .tool-detail-template__related-card,
   .tool-detail-template__related-list {
     display: grid;
     gap: var(--space-3);
   }
 
-  .tool-detail-template__panel h2,
-  .tool-detail-template__panel h3,
-  .tool-detail-template__full h2,
-  .tool-detail-template__panel p,
-  .tool-detail-template__panel ul {
-    margin: 0;
+  .tool-detail-template__guide-item + .tool-detail-template__guide-item {
+    padding-top: var(--space-4);
+    border-top: var(--border-thin);
   }
 
-  .tool-detail-template__related-item p,
-  .tool-detail-template__empty {
-    line-height: var(--line-relaxed);
-    color: var(--color-text-secondary);
-  }
-
-  .tool-detail-template__preview {
-    min-height: 14rem;
-    border: var(--border-thin);
-    border-radius: var(--radius-md);
-    background: var(--surface-preview);
-    overflow: hidden;
-  }
-
-  .tool-detail-template__preview img,
-  .tool-detail-template__preview-placeholder {
-    display: grid;
-    place-items: center;
-    width: 100%;
-    min-height: 14rem;
-  }
-
-  .tool-detail-template__preview img {
-    object-fit: cover;
-  }
-
-  .tool-detail-template__preview-placeholder {
-    gap: var(--space-2);
-    padding: var(--space-4);
-    text-align: center;
-  }
-
-  .tool-detail-template__preview-placeholder span {
-    color: var(--color-text-primary);
-    font-weight: 600;
-  }
-
-  .tool-detail-template__preview-placeholder small {
-    color: var(--color-text-secondary);
-    line-height: var(--line-relaxed);
-  }
-
-  .tool-detail-template__actions,
+  .tool-detail-template__links,
   .tool-detail-template__related-meta,
   .tool-detail-template__tag-strip {
     display: flex;
@@ -288,28 +227,43 @@ const outline = headings.filter((heading) => heading.depth <= 2);
     align-items: center;
   }
 
+  .tool-detail-template__card-title,
+  .tool-detail-template__card-subtitle {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: var(--line-tight);
+  }
+
+  .tool-detail-template__card-subtitle {
+    font-size: 0.98rem;
+  }
+
   .tool-detail-template__related-list {
+    margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .tool-detail-template__related-item {
-    padding: var(--space-4);
-    border: var(--border-thin);
-    border-radius: var(--radius-md);
-    background: var(--surface-panel-neutral);
+  .tool-detail-template__related-card {
+    --card-padding: var(--space-4);
+    gap: var(--space-3);
+    box-shadow: none;
   }
 
   .tool-detail-template__outline {
     display: grid;
     gap: var(--space-3);
     margin: 0;
-    padding-left: 1.25rem;
+    padding-left: 1.1rem;
   }
 
-  @media (min-width: 48rem) {
-    .tool-detail-template__full {
-      grid-column: 1 / -1;
-    }
+  .tool-detail-template__related-card p,
+  .tool-detail-template__empty {
+    margin: 0;
+    line-height: var(--line-relaxed);
+    color: var(--color-text-secondary);
   }
 </style>

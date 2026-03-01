@@ -1,16 +1,17 @@
 ---
 title: "Future Tool Placeholder"
 summary: "TODO: reserve a stable slot for the next utility once there is a concrete proof-of-work to surface."
+featureImage: "/images/entry-previews/tool-detail.svg"
 status: "Queued"
 sortOrder: 20
 links: {}
 tags:
   - Roadmap
 ---
-# What It Does
+#### What It Does
 TODO: explain the next utility once the use case becomes concrete.
 
-# Why It Exists
+##### Why It Exists
 TODO: define the pain that justifies building it.
 
 # Usage

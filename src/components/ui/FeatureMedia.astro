@@ -1,0 +1,40 @@
+---
+import Card from './Card.astro';
+
+interface FeatureMediaProps {
+  src: string;
+  alt: string;
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  class: className = '',
+} = Astro.props as FeatureMediaProps;
+---
+
+<div class:list={['feature-media', className]}>
+  <Card class="feature-media__card">
+    <img class="feature-media__image" src={src} alt={alt} loading="lazy" />
+  </Card>
+</div>
+
+<style>
+  .feature-media {
+    display: grid;
+  }
+
+  .feature-media__card {
+    --card-padding: 0;
+    overflow: hidden;
+    background: var(--surface-preview);
+  }
+
+  .feature-media__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+</style>

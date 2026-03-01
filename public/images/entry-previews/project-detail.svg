@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="projectTitle projectDesc">
+  <title id="projectTitle">Project detail preview</title>
+  <desc id="projectDesc">A soft abstract project detail layout illustration.</desc>
+  <defs>
+    <linearGradient id="projectBg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#fff7fa" />
+      <stop offset="100%" stop-color="#f3eef8" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#projectBg)" />
+  <rect x="84" y="72" width="1032" height="531" rx="34" fill="#fffdfd" opacity="0.92" />
+  <rect x="132" y="120" width="936" height="308" rx="28" fill="#f6e7ee" />
+  <rect x="168" y="164" width="412" height="22" rx="11" fill="#d7a3b6" opacity="0.82" />
+  <rect x="168" y="208" width="612" height="14" rx="7" fill="#c9b8e6" opacity="0.72" />
+  <rect x="168" y="238" width="552" height="14" rx="7" fill="#c9b8e6" opacity="0.52" />
+  <rect x="132" y="470" width="296" height="82" rx="22" fill="#fff7fa" />
+  <rect x="452" y="470" width="296" height="82" rx="22" fill="#fff7fa" />
+  <rect x="772" y="470" width="296" height="82" rx="22" fill="#fff7fa" />
+  <text x="168" y="525" fill="#5c5163" font-family="Georgia, serif" font-size="30">Project Preview</text>
+</svg>

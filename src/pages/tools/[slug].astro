@@ -7,6 +7,7 @@ import {
   getProjectHref,
   getWritingHref,
 } from '../../lib/content-paths';
+import { getToolFeatureImage } from '../../lib/feature-images';
 import {
   getRelatedProjectsForEntry,
   getWritingEntriesForProjectSet,
@@ -35,7 +36,7 @@ const relatedWritingEntries = await getWritingEntriesForProjectSet(relatedProjec
 const { Content, headings } = await tool.render();
 const hasBody = Boolean(tool.body?.trim());
 
-const actions = [
+const links = [
   tool.data.links.open ? { label: 'Open', href: tool.data.links.open } : undefined,
   tool.data.links.code ? { label: 'Code', href: tool.data.links.code } : undefined,
 ]
@@ -58,8 +59,8 @@ const actions = [
     summary={tool.data.summary}
     status={tool.data.status}
     tags={tool.data.tags}
-    previewImage={tool.data.previewImage}
-    actions={actions}
+    featureImage={getToolFeatureImage(tool.data.featureImage)}
+    links={links}
     relatedProjects={relatedProjects.map((project) => ({
       title: project.data.title,
       summary: project.data.summary,

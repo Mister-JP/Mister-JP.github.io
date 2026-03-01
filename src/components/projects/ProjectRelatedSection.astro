@@ -1,5 +1,4 @@
 ---
-import Button from '../ui/Button.astro';
 import Card from '../ui/Card.astro';
 import Tag from '../ui/Tag.astro';
 
@@ -9,7 +8,6 @@ interface RelatedItem {
   status: string;
   metaLabel?: string;
   href?: string;
-  actionLabel?: string;
   isExternal?: boolean;
   tags?: string[];
 }
@@ -49,7 +47,14 @@ const sectionId = `project-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
             <h3>
               {item.href ? (
-                <a class="text-link" href={item.href}>{item.title}</a>
+                <a
+                  class="text-link"
+                  href={item.href}
+                  target={item.isExternal ? '_blank' : undefined}
+                  rel={item.isExternal ? 'noreferrer' : undefined}
+                >
+                  {item.title}
+                </a>
               ) : (
                 item.title
               )}
@@ -63,21 +68,6 @@ const sectionId = `project-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
                   <Tag tone="muted">{tag}</Tag>
                 ))}
               </div>
-            )}
-
-            {item.href ? (
-              <div class="project-related-section__action">
-                <Button
-                  variant="secondary"
-                  href={item.href}
-                  target={item.isExternal ? '_blank' : undefined}
-                  rel={item.isExternal ? 'noreferrer' : undefined}
-                >
-                  {item.actionLabel ?? 'Open'}
-                </Button>
-              </div>
-            ) : (
-              <p class="project-related-section__pending">Link coming soon.</p>
             )}
           </li>
         ))}
@@ -123,27 +113,27 @@ const sectionId = `project-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
     align-items: center;
   }
 
-  .project-related-section__action {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-  }
-
   .project-related-section h2,
   .project-related-section h3,
   .project-related-section p {
     margin: 0;
   }
 
+  .project-related-section h2,
+  .project-related-section h3 {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: var(--line-tight);
+  }
+
   .project-related-section__head p,
   .project-related-section__item p,
-  .project-related-section__empty,
-  .project-related-section__pending {
+  .project-related-section__empty {
     line-height: var(--line-relaxed);
   }
 
-  .project-related-section__empty,
-  .project-related-section__pending {
+  .project-related-section__empty {
     color: var(--color-text-muted);
   }
 </style>

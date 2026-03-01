@@ -28,9 +28,9 @@ const toReferenceKey = (reference: EntryReferenceLike) =>
 export async function getRelatedProjectsForEntry(
   entry: HasRelatedProjects,
 ): Promise<ProjectEntry[]> {
-  return (await getEntries(entry.data.relatedProjects)).sort(
-    sortCollectionEntriesBySortOrderThenTitle,
-  );
+  return (await getEntries(entry.data.relatedProjects))
+    .filter((project): project is ProjectEntry => Boolean(project))
+    .sort(sortCollectionEntriesBySortOrderThenTitle);
 }
 
 export async function getWritingEntriesForProject(

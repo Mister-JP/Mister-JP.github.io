@@ -1,6 +1,7 @@
 ---
 title: "Reproducible Experiment Stack"
 summary: "TODO: describe the repeatable experiment stack for configs, lineage, and audit-ready reruns."
+featureImage: "/images/entry-previews/writing-detail.svg"
 kind: "method"
 status: "Draft scaffold"
 tags:

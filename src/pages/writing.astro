@@ -67,14 +67,21 @@ const [caseStudyEntries, methodEntries] = await Promise.all([
   getEntries(curationEntry.data.methods),
 ]);
 
+const resolvedCaseStudyEntries = caseStudyEntries.filter(
+  (entry): entry is WritingEntry => Boolean(entry),
+);
+const resolvedMethodEntries = methodEntries.filter(
+  (entry): entry is WritingEntry => Boolean(entry),
+);
+
 const [caseStudies, methods] = await Promise.all([
   buildWritingCards(
-    caseStudyEntries,
+    resolvedCaseStudyEntries,
     'case-study',
     pageEntry.data.caseStudies.title,
   ),
   buildWritingCards(
-    methodEntries,
+    resolvedMethodEntries,
     'method',
     pageEntry.data.methods.title,
   ),

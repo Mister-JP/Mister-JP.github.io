@@ -16,13 +16,6 @@ const toolLinks = z.object({
   code: linkField.optional(),
 });
 
-const projectResultSnapshot = z.object({
-  label: z.string().min(1),
-  caption: z.string().min(1),
-  image: linkField.optional(),
-  alt: z.string().min(1).optional(),
-});
-
 const pages = defineCollection({
   type: 'content',
   schema: z.discriminatedUnion('template', [
@@ -180,13 +173,13 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
+    featureImage: z.string().min(1).optional(),
     whyItMatters: z.string().min(1),
     status: z.string(),
     currentMilestone: z.string().min(1),
     tags: z.array(z.string().min(1)).min(1),
     sortOrder: z.number().int(),
     links: projectLinks,
-    resultSnapshot: projectResultSnapshot,
   }),
 });
 
@@ -195,6 +188,7 @@ const writing = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
+    featureImage: z.string().min(1).optional(),
     kind: writingKind,
     status: z.string(),
     tags: z.array(z.string().min(1)).default([]),
@@ -208,9 +202,9 @@ const tools = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
+    featureImage: z.string().min(1).optional(),
     status: z.string(),
     sortOrder: z.number().int(),
-    previewImage: z.string().min(1).optional(),
     links: toolLinks,
     tags: z.array(z.string().min(1)).default([]),
     relatedProjects: projectReferences,

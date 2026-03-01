@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="toolTitle toolDesc">
+  <title id="toolTitle">Tool detail preview</title>
+  <desc id="toolDesc">A soft abstract tool detail layout illustration.</desc>
+  <defs>
+    <linearGradient id="toolBg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#fff9fb" />
+      <stop offset="100%" stop-color="#eef6f1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#toolBg)" />
+  <rect x="88" y="76" width="1024" height="523" rx="34" fill="#fffdfd" opacity="0.94" />
+  <rect x="136" y="124" width="102" height="102" rx="24" fill="#cfdccf" />
+  <rect x="272" y="136" width="502" height="20" rx="10" fill="#d7a3b6" opacity="0.78" />
+  <rect x="272" y="174" width="426" height="12" rx="6" fill="#c9b8e6" opacity="0.62" />
+  <rect x="136" y="268" width="928" height="204" rx="28" fill="#f3eef8" />
+  <path d="M208 406C288 318 366 340 434 372C504 404 584 430 676 356C760 288 842 276 940 346" fill="none" stroke="#d7a3b6" stroke-linecap="round" stroke-width="18" />
+  <circle cx="286" cy="334" r="18" fill="#cfdccf" />
+  <circle cx="474" cy="386" r="18" fill="#c9b8e6" />
+  <circle cx="706" cy="344" r="18" fill="#d7a3b6" />
+  <rect x="136" y="510" width="264" height="52" rx="16" fill="#fff7fa" />
+  <rect x="432" y="510" width="264" height="52" rx="16" fill="#fff7fa" />
+  <text x="172" y="546" fill="#5c5163" font-family="Georgia, serif" font-size="28">Tool Preview</text>
+</svg>

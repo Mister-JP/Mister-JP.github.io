@@ -1,6 +1,7 @@
 ---
 title: "Experiment Observability"
 summary: "TODO: document the logging, guardrails, and review hooks that make iterative experiments easier to trust."
+featureImage: "/images/entry-previews/writing-detail.svg"
 kind: "method"
 status: "Notes in progress"
 tags:

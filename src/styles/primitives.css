@@ -658,6 +658,29 @@
   background: transparent;
 }
 
+.prose figure {
+  display: grid;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.prose figure:last-child {
+  margin-bottom: 0;
+}
+
+.prose img {
+  width: 100%;
+  border: var(--border-thin);
+  border-radius: var(--radius-lg);
+  background: var(--surface-panel-neutral);
+}
+
+.prose figcaption {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: var(--line-relaxed);
+}
+
 .grouped-panel {
   height: auto;
   align-self: start;

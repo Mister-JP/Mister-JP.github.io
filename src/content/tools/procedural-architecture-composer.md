@@ -1,6 +1,7 @@
 ---
 title: "Procedural Architecture Composer"
 summary: "TODO: describe the diagramming utility that turns structured notes into review-ready architecture views."
+featureImage: "/images/entry-previews/tool-detail.svg"
 status: "Prototype available"
 sortOrder: 10
 links:
