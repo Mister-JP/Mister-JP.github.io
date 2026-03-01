@@ -1,10 +1,8 @@
 # Mister-JP.github.io
 
-This repository is a working Astro portfolio scaffold for Jignasu Pathak. The route structure, shared layout system, content collections, and placeholder entries are already in place. It is not an empty starter, but it is also not content-complete yet.
+An Astro 5 portfolio package for Jignasu Pathak. This is not a blank starter: the route shells, content collections, reusable UI primitives, and content-entry workflow are already in place.
 
-## What this repo is
-
-This repo is a content-first Astro 5 site for a personal portfolio with a fixed top-level information architecture:
+The repository is designed as a content-first portfolio with a fixed top-level information architecture:
 
 - `Home`
 - `About`
@@ -13,340 +11,361 @@ This repo is a content-first Astro 5 site for a personal portfolio with a fixed 
 - `Tools`
 - `Resume`
 
-The current build already includes:
+That structure is part of the repository ground truth in `.agent-harness/` and should stay stable unless the architecture docs are updated alongside the code.
 
-- shared layout and navigation primitives
-- content collections for page copy, projects, writing, and tools
-- list and detail routes for projects, writing, and tools
-- a recruiter-facing resume route with an embedded PDF contract
-- placeholder content files and scaffolds that make future content entry predictable
+## What Is Implemented Right Now
 
-Most content is still placeholder content, but the site structure is real and already wired.
+The current package already includes:
 
-## Current architecture
+- a shared Astro site shell in `src/layouts/SiteShell.astro`
+- reusable layout, navigation, and card primitives in `src/components/`
+- page copy stored in `src/content/pages/`
+- canonical reusable entries stored in `src/content/projects/`, `src/content/writing/`, and `src/content/tools/`
+- ordered surface-level featuring stored separately in `src/content/curation/`
+- static list routes and dynamic detail routes for projects, writing, and tools
+- a resume page that validates whether the configured PDF exists in `public/`
+- scaffold templates for adding new content entries without changing layout code
 
-The current implementation is organized around four separate responsibilities and should stay that way:
+This means the site structure is real and usable today, even though some portfolio copy is still placeholder content.
 
-- layout: `src/layouts/` and `src/components/layout/`
-- content: `src/content/`
-- curation/config: `src/data/`
-- utility helpers: `src/lib/`
+## Tech Stack
 
-The main architectural contract today is:
+- `astro@^5.18.0`
+- `typescript@^5.9.3`
+- `@astrojs/check@^0.9.6`
 
-- `src/layouts/SiteShell.astro` is the shared page shell. It imports `src/styles/global.css`, wraps every page with the shared header and footer, and carries the HTML document shell.
-- `src/components/layout/` contains shared structural pieces such as `Header.astro`, `Footer.astro`, and `PageHeader.astro`.
-- `src/components/navigation/` contains the navigation primitives used by the shared header.
-- `src/components/ui/` contains reusable UI primitives such as `Container`, `Card`, `Button`, `Grid`, `Section`, `GroupedPanel`, `Divider`, `Tag`, `SectionIntro`, and `Prose`.
-- `src/components/projects/`, `src/components/tools/`, and `src/components/writing/` contain collection-specific cards and detail templates.
-- `src/pages/` contains route files only. The routes compose shared primitives and data helpers; they are not the source of truth for long-form content.
-- `src/content/config.ts` defines four Astro content collections: `pages`, `projects`, `writing`, and `tools`.
-- `src/data/` contains small non-article config such as primary navigation (`src/data/navigation.ts`) and shared shell/footer data (`src/data/site.ts`).
-- `src/lib/content-paths.ts` centralizes URL generation for projects, writing, and tools.
-- `src/lib/home-content.ts` resolves homepage copy and featured content references from `src/content/pages/home.md`, and it throws if a referenced entry is missing or grouped under the wrong writing kind.
-- `src/lib/resume-content.ts` resolves resume copy from `src/content/pages/resume.md` and checks whether the configured PDF exists in `public/`.
-- `src/lib/writing-detail.ts` prepares writing detail pages, including optional related-project data and rendered markdown headings.
-- `src/lib/collection-utils.ts` centralizes sorting by `sortOrder` and then `title`.
-- `src/styles/tokens.css` holds shared design tokens and CSS variables. `src/styles/base.css` holds shared global element rules. `src/styles/global.css` imports both.
+Runtime requirement:
 
-Current page ownership is split like this:
+- Node.js `>=18.20.8`
 
-- Fully content-driven: `/`, `/about`, `/projects`, `/tools`, `/writing`, `/resume`, `/projects/[slug]`, `/tools/[slug]`, `/writing/case-studies/[slug]`, `/writing/methods/[slug]`
-- Internal-only composition harness: `/internal/primitives`
+The package scripts are intentionally minimal:
 
-The current visual direction is intentionally soft, graceful, pastel, calm, highly controlled, and readable first, with calligraphic styling reserved for limited accent use. Keep that intent in design decisions, not in technical naming. Use neutral implementation names such as `SiteShell`, `PageHeader`, `Section`, and token names. Do not turn aesthetic language into structural labels, and keep the banned implementation term documented in `.agent-harness/` out of identifiers, class names, file names, and examples.
+```bash
+npm ci
+npm run dev
+npm run check
+npm run build
+npm run preview
+```
 
-## Local development
+`astro.config.mjs` is currently minimal (`defineConfig({})`), so there is no extra adapter or deployment-specific wiring documented in this snapshot.
 
-Run the site with the commands already defined in `package.json`:
+## Route Map
 
-1. `npm ci`
-2. `npm run dev`
-3. `npm run check`
-4. `npm run build`
-5. `npm run preview`
+### Public routes
 
-Current setup notes:
+- `/`
+- `/about`
+- `/projects`
+- `/projects/[slug]`
+- `/writing`
+- `/writing/case-studies/[slug]`
+- `/writing/methods/[slug]`
+- `/tools`
+- `/tools/[slug]`
+- `/resume`
 
-- `astro.config.mjs` is currently minimal: `defineConfig({})`
-- no deployment workflow is present in this snapshot
-- no extra environment-variable contract is documented in the repo right now
+### Internal route
 
-## Folder guide
+- `/internal/primitives`
 
-Use this as the current folder contract:
+The internal route is a composition harness for shared UI primitives. It is not part of the public portfolio surface.
 
-- `src/pages/`: route files only, including list pages, dynamic detail pages, and the internal primitive harness
-- `src/layouts/`: the shared page shell (`SiteShell.astro`)
-- `src/components/layout/`: header, footer, and shared page-header structure
-- `src/components/navigation/`: shared nav composition used by the header
-- `src/components/ui/`: reusable UI primitives
-- `src/components/projects/`: project cards and the project detail template
-- `src/components/tools/`: tool cards and the tool detail template
-- `src/components/writing/`: writing cards and the writing detail template
-- `src/content/pages/`: page-copy content entries for `home` and `about`
-- `src/content/projects/`: project entries
-- `src/content/writing/`: case studies and method articles
-- `src/content/tools/`: tool entries
-- `src/data/`: small config and curation data, not long-form content
-- `src/lib/`: helper utilities for sorting, URL paths, and route-ready data composition
-- `src/styles/`: shared tokens and base styles
-- `public/`: passthrough assets, including the current resume PDF
-- `scaffolds/`: markdown starter templates for new projects, writing entries, and tools
-- `.agent-harness/`: repository ground truth and architectural guardrails
+## Deep Dive: How The Package Is Organized
 
-## Content collections
+### `src/pages/`
 
-### `pages`
+Route files only. These files compose layouts, shared components, and content helpers. They should stay thin.
 
-Purpose:
-Owns structured page copy for the top-level `home` and `about` routes.
+### `src/layouts/`
 
-Main required fields:
-This collection is a discriminated union keyed by `template`.
+Contains the shared page shell:
 
-- `template: home` requires `title`, `description`, `hero`, `intro`, `featuredProjects`, `selectedWriting`, `featuredTools`, `resumeCta`, and optional `authorNotes`
-- `template: about` requires `title`, `description`, `eyebrow`, `intro`, `background`, `work`, `focus`, `contact`, and optional `authorNotes`
+- `SiteShell.astro`: wraps the document structure, imports global styles, and applies the shared header/footer shell
 
-Long-form markdown body:
-Not part of the public rendering contract right now. The current routes read frontmatter only.
+### `src/components/`
 
-How it appears in the site:
-`src/content/pages/home.md` powers `/`. `src/content/pages/about.md` powers `/about`.
+This is split by responsibility:
 
-References:
-No cross-collection references are defined here.
+- `layout/`: `Header`, `Footer`, `PageHeader`
+- `navigation/`: desktop/mobile navigation composition
+- `ui/`: shared primitives like `Button`, `Card`, `Container`, `Grid`, `GroupedPanel`, `Prose`, `Section`, `Tag`
+- `projects/`, `writing/`, `tools/`: collection-specific cards and detail templates
 
-### `projects`
+The package is built around reusable primitives first, not page-specific one-off markup.
 
-Purpose:
-Owns the main project library plus the per-project detail pages.
+### `src/content/`
 
-Main required fields:
-`title`, `summary`, `whyItMatters`, `status`, `currentMilestone`, `tags`, `featured`, `sortOrder`, `links`, `relatedWriting`, `relatedTools`, and `resultSnapshot`
+This is the main content source of truth. It is split into two layers:
 
-Long-form markdown body:
-Optional but supported. `src/pages/projects/[slug].astro` renders the markdown body when it exists.
+- canonical content entries
+- page/surface framing data
 
-How it appears in the site:
-Project entries appear in `/projects`, on the homepage featured-projects section, and at `/projects/[slug]`.
+#### `src/content/pages/`
 
-References:
-Yes. `relatedWriting` is an array of `writing` references. `relatedTools` is an array of `tools` references.
+One content entry per top-level page shell:
 
-### `writing`
+- `home.md`
+- `about.md`
+- `projects.md`
+- `writing.md`
+- `tools.md`
+- `resume.md`
 
-Purpose:
-Owns both case studies and reusable methods articles.
+These files store page copy and section framing. They do not store reusable project/tool/article identities.
 
-Main required fields:
-`title`, `summary`, `kind`, `status`, `sortOrder`, with optional/defaulted `tags`, `featured`, and `relatedProject`
+#### `src/content/projects/`
 
-Long-form markdown body:
-Expected for real articles. Both writing detail routes render the markdown body when it exists.
+Canonical project entries. Each project owns:
 
-How it appears in the site:
-Writing entries appear in `/writing`, on the homepage selected-writing section, and at either `/writing/case-studies/[slug]` or `/writing/methods/[slug]`.
+- title and summary
+- why it matters
+- status
+- milestone
+- tags
+- sort order
+- external links
+- a result snapshot block
+- optional markdown body for detail pages
 
-References:
-Yes. `relatedProject` can point to one `projects` entry.
+#### `src/content/writing/`
 
-Important split:
-`writing` uses `kind` to divide entries into `case-study` and `method`. `src/lib/content-paths.ts` and the two dynamic writing routes depend on that split.
+Canonical writing entries. Each item is classified by `kind`:
 
-### `tools`
+- `case-study`
+- `method`
 
-Purpose:
-Owns the tool library plus each tool detail page.
+Writing entries also support:
 
-Main required fields:
-`title`, `summary`, `status`, `sortOrder`, `links`, with optional/defaulted `featured`, `previewImage`, `tags`, `relatedProject`, and `relatedWriting`
+- summary
+- status
+- tags
+- sort order
+- related project references
+- optional markdown body rendered on detail pages
 
-Long-form markdown body:
-Expected for real tool detail pages. `src/pages/tools/[slug].astro` renders the markdown body when it exists.
+#### `src/content/tools/`
 
-How it appears in the site:
-Tool entries appear in `/tools`, on the homepage featured-tools section, and at `/tools/[slug]`.
+Canonical tool entries. Each tool owns:
 
-References:
-Yes. A tool can reference one related `projects` entry and multiple `writing` entries.
+- summary and status
+- sort order
+- optional preview image
+- external links
+- tags
+- related project references
+- optional markdown body rendered on detail pages
 
-## How maintainers update structure
+#### `src/content/curation/`
 
-Use these steps before changing layout, routes, or shared behavior:
+This is the key package detail the old README missed.
 
-1. Preserve the current separation exactly: layout in `src/layouts/` and `src/components/layout/`, content in `src/content/`, shared non-content config in `src/data/`, and utility helpers in `src/lib/`.
-2. Treat `src/layouts/SiteShell.astro` as the shared page wrapper. Structural changes that affect every page should start there, not inside individual routes.
-3. Treat `src/components/ui/` as the shared UI primitive layer. If a pattern repeats, add or update a primitive there instead of cloning markup into multiple pages.
-4. Keep route files in `src/pages/` thin. Their job is to compose layouts, shared components, and data helpers, not to become long-term content stores.
-5. Remember which pages are already content-driven: every public route except `src/pages/internal/primitives.astro` reads structured content and should stay that way.
-6. Keep content references valid. `projects` can reference `writing` and `tools`; `writing` can reference one `project`; `tools` can reference one `project` and many `writing` entries; `src/content/pages/home.md` also references featured `projects`, `writing`, and `tools`.
-7. Add a new route only when the existing content model cannot express the new need. If the change is “new project,” “new tool,” “new article,” or “new homepage selection,” add content instead of adding a route.
-8. Use shared tokens from `src/styles/tokens.css` and shared global rules from `src/styles/base.css`. Page-specific styling hacks create drift, make visual fixes harder to propagate, and break the current design-system contract.
-9. If you intentionally change architecture, route ownership, or folder responsibilities, update the matching `.agent-harness/` document as part of the same change. In practice, that usually means `repo-structure.md` for folder ownership and `architecture.md` for route/IA changes.
+The `curation` collection separates "what exists" from "what gets featured where." These files hold ordered references only:
 
-## How content managers update content
+- `home.md`: featured projects, featured writing groups, featured tools
+- `projects.md`: featured projects for the projects page
+- `writing.md`: ordered case studies and methods for the writing page
 
-For normal content work, prefer `src/content/` over `src/pages/`. Use `src/data/` only for shared non-content config such as navigation and shell metadata. Use the task checklists below.
+This keeps canonical content in one place and page-level placement decisions in another.
 
-### Update homepage copy
+### `src/data/`
 
-1. Edit `src/content/pages/home.md`.
-2. Update the frontmatter blocks you need: `hero`, `intro`, `featuredProjects`, `selectedWriting`, `featuredTools`, and `resumeCta`.
-3. Keep `selectedWriting.groups` aligned to the existing kinds: one `case-study` group and one `method` group.
-4. Keep CTA links valid, especially `/projects`, `/writing`, and `/resume`, unless you are intentionally changing navigation.
-5. Test afterward: run `npm run check`, then open `/` and confirm the hero, section intros, and CTA labels changed as expected.
+Small static configuration, not long-form content:
 
-### Change featured project order
+- `navigation.ts`: the fixed primary nav and active-route matching logic
+- `site.ts`: shell-level brand/footer config
 
-1. Edit `src/content/pages/home.md`.
-2. Update `featuredProjects.entries` in the exact order you want the cards to appear.
-3. Keep every entry reference matched to an existing file in `src/content/projects/`; `src/lib/home-content.ts` throws if a reference is missing.
-4. Test afterward: open `/` and confirm the featured-project cards appear in the same order as the `entries` list.
+### `src/lib/`
 
-### Add a new project
+The package uses a small set of focused helpers:
 
-1. Copy `scaffolds/project-template.md` into `src/content/projects/<slug>.md`.
-2. Replace the placeholder frontmatter with real values for `title`, `summary`, `whyItMatters`, `status`, `currentMilestone`, `tags`, `featured`, `sortOrder`, `links`, `relatedWriting`, `relatedTools`, and `resultSnapshot`.
-3. Add markdown body content if the project should have long-form detail on `/projects/<slug>`. The route renders the body only when it exists.
-4. Keep every `relatedWriting` and `relatedTools` reference pointed at real entry slugs in the matching collections.
-5. If the project should appear on the homepage, add it to `src/content/pages/home.md` under `featuredProjects.entries`.
-6. Test afterward: run `npm run check`, then open `/projects`, `/projects/<slug>`, and `/` if you featured it.
+- `collection-utils.ts`: sort helpers used across collections
+- `content-paths.ts`: canonical URL builders for projects, tools, and writing
+- `content-relations.ts`: resolves related projects, writing, and tools across collections
+- `home-content.ts`: merges homepage page copy with homepage curation references
+- `resume-content.ts`: loads the resume page content and checks whether the configured PDF exists on disk
+- `writing-detail.ts`: prepares detail-template props for writing entries
 
-### Add a new case study
+The pattern is consistent: page routes stay light, while route-ready data shaping lives in `src/lib/`.
 
-1. Copy `scaffolds/case-study-template.md` into `src/content/writing/<slug>.md`.
-2. Keep `kind: case-study`.
-3. Fill the frontmatter fields: `title`, `summary`, `status`, `tags`, `featured`, `sortOrder`, and optional `relatedProject`.
-4. Keep `relatedProject` pointed at a real project slug if you set it.
-5. Write the markdown body sections. The detail route expects the article body to carry the actual narrative.
-6. If this case study should appear on the homepage, add it to the `case-study` group in `src/content/pages/home.md`.
-7. Test afterward: run `npm run check`, then open `/writing`, `/writing/case-studies/<slug>`, and the related project page if one is linked.
+### `src/styles/`
 
-### Add a new method article
+Shared styling only:
 
-1. Copy `scaffolds/method-template.md` into `src/content/writing/<slug>.md`.
-2. Keep `kind: method`.
-3. Fill the frontmatter fields: `title`, `summary`, `status`, `tags`, `featured`, `sortOrder`, and optional `relatedProject`.
-4. Keep `relatedProject` pointed at a real project slug if you set it.
-5. Write the markdown body sections so `/writing/methods/<slug>` has real long-form content.
-6. If this method should appear on the homepage, add it to the `method` group in `src/content/pages/home.md`.
-7. Test afterward: run `npm run check`, then open `/writing`, `/writing/methods/<slug>`, and the related project page if one is linked.
+- `tokens.css`: design tokens and reusable CSS variables
+- `base.css`: shared element-level base rules
+- `primitives.css`: shared primitive/component-level styles
+- `global.css`: imports the shared style layers
 
-### Add a new tool
+This repository's ground truth expects shared visual rules to live here instead of being scattered as page-specific hacks.
 
-1. Copy `scaffolds/tool-detail-template.md` into `src/content/tools/<slug>.md`.
-2. Fill the frontmatter fields: `title`, `summary`, `status`, `sortOrder`, `featured`, `links`, `tags`, optional `previewImage`, optional `relatedProject`, and `relatedWriting`.
-3. Keep `relatedProject` and every `relatedWriting` value pointed at real entry slugs if you use them.
-4. Add markdown body content so `/tools/<slug>` has a real detail page. The route renders the body only when it exists.
-5. If the tool should appear on the homepage, add it to `src/content/pages/home.md` under `featuredTools.entries`.
-6. Test afterward: run `npm run check`, then open `/tools`, `/tools/<slug>`, and `/` if you featured it.
+### `public/`
 
-### Update About page
+Static passthrough assets. The current important contract is:
 
-1. Edit `src/content/pages/about.md`.
-2. Update the frontmatter sections you need: `intro`, `background`, `work`, `focus`, and `contact`.
-3. Keep every `contact.links[].href` value valid, especially external profile URLs and `mailto:` links.
-4. Leave `template: about` unchanged.
-5. Test afterward: open `/about` and verify the revised copy, links, and section ordering.
+- `public/resume/jignasu-pathak-resume.pdf`
 
-### Replace resume PDF
+The resume route uses the path declared in `src/content/pages/resume.md`, then checks the filesystem to determine whether the file is actually present.
 
-1. Replace the file at `public/resume/jignasu-pathak-resume.pdf` if you are keeping the current contract.
-2. If you change the file name or location, also edit `src/content/pages/resume.md` and update `pdf.path`.
-3. Keep `pdf.path` aligned with the actual file location; the page now derives availability from the file system and does not use a manual ready flag.
-4. Do not forget that the same `pdf.path` drives the download button, the open-in-new-tab action, and the inline iframe preview.
-5. Test afterward: open `/resume`, use both buttons, and confirm the inline preview still loads.
+### `scaffolds/`
 
-### Change recruiter-facing resume summary
+Starter templates for content entry:
 
-1. Edit `src/content/pages/resume.md`.
-2. Update `pdf.summary` for the short recruiter-facing overview.
-3. Update `highlights.items` for the quick-highlight bullets if the pitch changed.
-4. Keep `pdf.path` unchanged unless you are also moving the PDF.
-5. Test afterward: open `/resume` and confirm the summary and highlight copy render correctly.
+- `project-template.md`
+- `case-study-template.md`
+- `method-template.md`
+- `tool-detail-template.md`
 
-## How homepage curation works
+These are the intended starting point for new content, instead of duplicating old entries by hand.
 
-The homepage uses a single content entry:
+## Content Schema Snapshot
 
-- `src/content/pages/home.md` controls both homepage copy and homepage composition
+The Astro content collections are defined in `src/content/config.ts`. There are five active collections:
 
-Current behavior:
+- `pages`
+- `projects`
+- `writing`
+- `tools`
+- `curation`
 
-- `src/content/pages/home.md` owns the visible text and the featured entry references for projects, writing groups, and tools.
-- `src/lib/home-content.ts` resolves those references into the final homepage payload.
-- Homepage ordering follows the order of the `entries` arrays in `src/content/pages/home.md`.
-- If a referenced entry does not exist, the build fails.
-- If a homepage writing group includes an entry whose `kind` does not match the configured group, the build fails.
+The most important schema decisions are:
 
-Most important rule:
-Changing homepage cards now happens in `src/content/pages/home.md`.
+- `pages` is a discriminated union keyed by `template`
+- `writing` is a single collection split by `kind`, not two separate collections
+- `curation` is a discriminated union keyed by `surface`
+- cross-entry relations use Astro content references, not raw string slugs
 
-## How resume updates work
+That schema choice is what lets the package keep page copy, canonical entries, and feature ordering separate without losing type safety.
 
-The resume route is driven by one content entry plus one static asset:
+## How Pages Are Composed
 
-- content: `src/content/pages/resume.md`
-- asset: `public/resume/jignasu-pathak-resume.pdf`
+### Homepage
 
-Current contract:
+`src/pages/index.astro` loads `getHomePageContent()` from `src/lib/home-content.ts`.
 
-- `pdf.path` is the public URL used for download, open-in-new-tab, and preview
-- `src/lib/resume-content.ts` checks whether the file exists at `public${pdf.path}`
-- `pdf.summary` and `highlights.items` control the recruiter-facing copy
-- The page automatically switches between active buttons/iframe and the fallback state based on whether the file exists
-- The rest of the `pdf.*` fields control labels and fallback copy
+That helper:
 
-The current snapshot already includes the PDF at the configured path. The placeholder copy in `pdf.summary` and `highlights.items` still needs to be replaced.
+- loads `src/content/pages/home.md`
+- loads `src/content/curation/home.md`
+- resolves the referenced projects, writing entries, and tools
+- validates that featured writing references are grouped under the correct `kind`
+- returns route-ready card props
 
-## Authoring workflow using scaffolds
+### Projects
 
-Use the existing scaffold files instead of hand-inventing frontmatter:
+`src/pages/projects.astro` combines:
 
-1. Choose the matching starter in `scaffolds/`: `project-template.md`, `case-study-template.md`, `method-template.md`, or `tool-detail-template.md`.
-2. Copy it into the correct collection folder under `src/content/`.
-3. Rename the file to the slug you want in the final URL. The filename becomes the route slug.
-4. Replace every `TODO:` placeholder in the frontmatter that applies to the entry.
-5. Add or revise the markdown body so the detail page has real long-form content where the route supports it.
-6. Keep cross-collection references valid. Do not point at slugs that do not exist.
-7. If the new entry should be featured on the homepage, update `src/content/pages/home.md`.
-8. Run the validation checklist at the end of this README before considering the entry done.
+- all project entries from `projects`
+- page framing from `src/content/pages/projects.md`
+- featured project references from `src/content/curation/projects.md`
 
-## Known gaps / pending setup
+The page shows both a featured section and the full project library.
 
-### Current state / pending work
+### Writing
 
-- Content is still mostly placeholder content.
-- Many existing entries still contain explicit `TODO:` markers in frontmatter, markdown body content, or both.
-- The resume route is structurally complete, but the recruiter-facing summary and highlights still contain placeholder copy.
-- Deployment workflow is not present in this snapshot.
-- `astro.config.mjs` is intentionally minimal right now.
-- The internal primitives harness still exists as a route-level composition reference in `src/pages/internal/primitives.astro`.
+`src/pages/writing.astro` combines:
 
-Maintainer caution about ignored files:
+- page framing from `src/content/pages/writing.md`
+- ordered writing references from `src/content/curation/writing.md`
 
-- The current `.gitignore` starts with `.*`, which ignores root dot-directories.
-- That means future paths such as `.github/workflows/` can be accidentally ignored until the rule is narrowed.
-- `.gitignore` also explicitly ignores `AGENTS.md`.
+It validates that the curation groups contain the expected kinds:
 
-## Common mistakes to avoid
+- case studies in the case-study group
+- methods in the method group
 
-- Editing `src/pages/index.astro` to change homepage copy when that copy already belongs in `src/content/pages/home.md`.
-- Changing homepage section text in `src/content/pages/home.md` and forgetting that the same file also owns the featured entry references.
-- Changing a content filename slug without updating every collection reference and every homepage `entries` array that points to it.
-- Forgetting that `writing.kind` controls whether an entry routes to `/writing/case-studies/` or `/writing/methods/`.
-- Adding a new route when the change only requires a new content entry.
-- Pushing page-specific style literals instead of using the shared token layer in `src/styles/tokens.css`.
-- Moving the resume PDF without updating `src/content/pages/resume.md`.
-- Leaving placeholder external links such as `your-handle`, `hello@example.com`, or placeholder GitHub URLs in public content.
+The two dynamic writing detail routes split at the route layer, but both read from the same `writing` collection.
 
-## Validation checklist
+### Tools
 
-- `npm ci`
-- `npm run check`
-- `npm run build`
-- Click through every affected route
-- Verify collection references resolve
-- Verify no placeholder links remain accidentally
-- Verify the resume asset path still works if you changed it
+`src/pages/tools.astro` reads:
+
+- all tool entries from `tools`
+- page framing from `src/content/pages/tools.md`
+
+Unlike `projects` and `writing`, the tools page currently does not use a separate curation file.
+
+### Resume
+
+`src/pages/resume.astro` uses `getResumePageContent()` from `src/lib/resume-content.ts`.
+
+That helper:
+
+- loads `src/content/pages/resume.md`
+- reads the configured `pdf.path`
+- maps it to a `public/...` asset contract path
+- checks whether the PDF exists
+- returns `hasPdf`, file metadata, and the structured copy used by the page
+
+This makes the resume route resilient even when the PDF has not been replaced yet.
+
+## Working In This Repository
+
+### Update page copy
+
+Edit the relevant file in `src/content/pages/`.
+
+Use this for:
+
+- page intros
+- section headings
+- empty states
+- CTA copy
+- resume labels and summary text
+
+### Change what gets featured
+
+Edit the relevant file in `src/content/curation/`.
+
+Use this for:
+
+- homepage featured projects
+- homepage featured writing
+- homepage featured tools
+- projects-page featured entries
+- writing-page ordered case studies and methods
+
+Do not duplicate titles or summaries in curation files. Those files should contain ordered references only.
+
+### Add a new project, article, or tool
+
+Start from the scaffold templates in `scaffolds/`, then create the new entry in the matching canonical content collection:
+
+- `src/content/projects/`
+- `src/content/writing/`
+- `src/content/tools/`
+
+If the new entry should surface on a page, add it to the matching curation file afterward.
+
+### Change shared UI or layout behavior
+
+Prefer these layers in order:
+
+- `src/components/ui/` for reusable primitives
+- `src/components/layout/` or `src/layouts/` for shell-level structure
+- `src/styles/` for shared visual rules
+
+Avoid hardcoding page content into components or scattering page-specific style overrides when a shared primitive should be updated instead.
+
+## Repository Guardrails
+
+Before meaningful changes, this repository expects a preflight against `.agent-harness/`. The important constraints are:
+
+- preserve the fixed top-level route structure
+- keep content, curation, layout, and styles separated
+- keep route files thin
+- favor shared primitives over one-off page logic
+- update `.agent-harness/` when architecture or folder ownership changes
+
+If you change the package in a way that alters folder responsibility, route ownership, or content flow, the matching `.agent-harness/` document should be updated in the same change so the documentation does not drift again.
+
+## Practical Summary
+
+This package is best understood as:
+
+- a structured Astro portfolio, not a generic starter
+- a typed content system with five collections
+- a reusable UI/layout layer that drives all public routes
+- a repository that deliberately separates canonical content from featuring/curation
+
+If you are updating content, most work belongs in `src/content/`.
+If you are updating layout or shared behavior, most work belongs in `src/components/`, `src/layouts/`, `src/lib/`, and `src/styles/`.
