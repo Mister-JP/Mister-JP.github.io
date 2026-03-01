@@ -1,13 +1,16 @@
 ---
-import { getCollection, getEntries, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import ToolDetailTemplate from '../../components/tools/ToolDetailTemplate.astro';
 import { shellConfig } from '../../data/site';
-import { sortCollectionEntriesBySortOrderThenTitle } from '../../lib/collection-utils';
 import {
   getProjectHref,
   getWritingHref,
 } from '../../lib/content-paths';
+import {
+  getRelatedProjectsForEntry,
+  getWritingEntriesForProjectSet,
+} from '../../lib/content-relations';
 import SiteShell from '../../layouts/SiteShell.astro';
 
 type ToolEntry = CollectionEntry<'tools'>;
@@ -27,13 +30,8 @@ export async function getStaticPaths() {
 
 const { tool } = Astro.props as { tool: ToolEntry };
 
-const relatedProject = tool.data.relatedProject
-  ? await getEntry(tool.data.relatedProject)
-  : undefined;
-const relatedProjectHref = relatedProject ? getProjectHref(relatedProject) : undefined;
-const relatedWritingEntries = (await getEntries(tool.data.relatedWriting)).sort(
-  sortCollectionEntriesBySortOrderThenTitle,
-);
+const relatedProjects = await getRelatedProjectsForEntry(tool);
+const relatedWritingEntries = await getWritingEntriesForProjectSet(relatedProjects);
 const { Content, headings } = await tool.render();
 const hasBody = Boolean(tool.body?.trim());
 
@@ -62,14 +60,12 @@ const actions = [
     tags={tool.data.tags}
     previewImage={tool.data.previewImage}
     actions={actions}
-    relatedProject={relatedProject && relatedProjectHref
-      ? {
-          title: relatedProject.data.title,
-          summary: relatedProject.data.summary,
-          status: relatedProject.data.status,
-          href: relatedProjectHref,
-        }
-      : undefined}
+    relatedProjects={relatedProjects.map((project) => ({
+      title: project.data.title,
+      summary: project.data.summary,
+      status: project.data.status,
+      href: getProjectHref(project),
+    }))}
     relatedWriting={relatedWritingEntries.map((entry) => ({
       title: entry.data.title,
       summary: entry.data.summary,

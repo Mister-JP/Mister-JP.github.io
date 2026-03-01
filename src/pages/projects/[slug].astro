@@ -1,13 +1,16 @@
 ---
-import { getCollection, getEntries } from 'astro:content';
+import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import ProjectDetailTemplate from '../../components/projects/ProjectDetailTemplate.astro';
 import { shellConfig } from '../../data/site';
-import { sortCollectionEntriesBySortOrderThenTitle } from '../../lib/collection-utils';
 import {
   getToolHref,
   getWritingHref,
 } from '../../lib/content-paths';
+import {
+  getToolEntriesForProject,
+  getWritingEntriesForProject,
+} from '../../lib/content-relations';
 import SiteShell from '../../layouts/SiteShell.astro';
 
 type ProjectEntry = CollectionEntry<'projects'>;
@@ -27,12 +30,10 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props as { project: ProjectEntry };
 
-const relatedWritingEntries = (await getEntries(project.data.relatedWriting)).sort(
-  sortCollectionEntriesBySortOrderThenTitle,
-);
-const relatedToolEntries = (await getEntries(project.data.relatedTools)).sort(
-  sortCollectionEntriesBySortOrderThenTitle,
-);
+const [relatedWritingEntries, relatedToolEntries] = await Promise.all([
+  getWritingEntriesForProject(project),
+  getToolEntriesForProject(project),
+]);
 const primaryWritingEntry = relatedWritingEntries[0];
 const { Content } = await project.render();
 const hasLongFormBody = Boolean(project.body?.trim());
@@ -44,16 +45,13 @@ const detailProject = {
   status: project.data.status,
   currentMilestone: project.data.currentMilestone,
   tags: project.data.tags,
-  featured: project.data.featured,
   links: [
     primaryWritingEntry
       ? {
           label: normalizeWritingKind(primaryWritingEntry.data.kind),
           href: getWritingHref(primaryWritingEntry),
         }
-      : project.data.links.caseStudy
-        ? { label: 'Case Study', href: project.data.links.caseStudy }
-        : undefined,
+      : undefined,
     { label: 'Code', href: project.data.links.code },
     { label: 'Demo', href: project.data.links.demo },
   ]

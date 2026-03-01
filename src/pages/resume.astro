@@ -8,24 +8,30 @@ import Button from '../components/ui/Button.astro';
 import GroupedPanel from '../components/ui/GroupedPanel.astro';
 import Tag from '../components/ui/Tag.astro';
 import { shellConfig } from '../data/site';
-import { resumeConfig } from '../data/resume';
+import { getResumePageContent } from '../lib/resume-content';
 
-const resumeFileName = resumeConfig.pdfPath.split('/').pop() ?? 'resume.pdf';
-const hasResumePdf = resumeConfig.pdfReady;
+const {
+  page,
+  pdf,
+  highlights,
+  hasPdf,
+  fileName,
+  assetContractPath,
+} = await getResumePageContent();
 ---
 
 <SiteShell
   {...shellConfig}
-  title="Resume | Jignasu Pathak"
-  description="Recruiter-facing resume page with a stable PDF contract, direct download, and embedded preview."
+  title={`${page.title} | Jignasu Pathak`}
+  description={page.description}
 >
   <PageHeader
-    eyebrow="Hiring"
-    title="Resume"
-    description="The resume route stays direct and calm, with a stable asset path, a primary download action, and a ready-to-use preview region."
+    eyebrow={page.eyebrow}
+    title={page.title}
+    description={page.description}
   >
-    <Tag slot="meta" tone={hasResumePdf ? 'accent' : 'muted'}>
-      {hasResumePdf ? 'PDF ready' : 'PDF pending'}
+    <Tag slot="meta" tone={hasPdf ? 'accent' : 'muted'}>
+      {hasPdf ? pdf.readyStatusLabel : pdf.pendingStatusLabel}
     </Tag>
   </PageHeader>
 
@@ -33,31 +39,31 @@ const hasResumePdf = resumeConfig.pdfReady;
     <Container size="wide">
       <Card variant="soft" class="resume-summary">
         <div slot="title">
-          <h2>{resumeConfig.title}</h2>
+          <h2>{pdf.documentTitle}</h2>
         </div>
-        <p>{resumeConfig.summary}</p>
+        <p>{pdf.summary}</p>
         <p class="resume-summary__contract">
-          Stable asset contract: <code>{resumeConfig.expectedAssetPath}</code>
+          {pdf.contractLabel}: <code>{assetContractPath}</code>
         </p>
         <div slot="actions">
-          {hasResumePdf ? (
-            <Button href={resumeConfig.pdfPath} download={resumeFileName}>
-              {resumeConfig.actions.download}
+          {hasPdf ? (
+            <Button href={pdf.path} download={fileName}>
+              {pdf.downloadLabel}
             </Button>
           ) : (
-            <Button disabled>{resumeConfig.actions.download}</Button>
+            <Button disabled>{pdf.downloadLabel}</Button>
           )}
-          {hasResumePdf ? (
+          {hasPdf ? (
             <Button
               variant="secondary"
-              href={resumeConfig.pdfPath}
+              href={pdf.path}
               target="_blank"
               rel="noreferrer"
             >
-              {resumeConfig.actions.open}
+              {pdf.openLabel}
             </Button>
           ) : (
-            <Button variant="secondary" disabled>{resumeConfig.actions.open}</Button>
+            <Button variant="secondary" disabled>{pdf.openLabel}</Button>
           )}
         </div>
       </Card>
@@ -67,25 +73,25 @@ const hasResumePdf = resumeConfig.pdfReady;
   <Section tone="soft" aria-labelledby="resume-viewer-title">
     <Container size="wide">
       <GroupedPanel
-        title="Preview"
+        title={pdf.previewTitle}
         titleId="resume-viewer-title"
-        intro="The inline viewer is ready now, and it stays visually stable even when the expected PDF is not yet in place."
+        intro={pdf.previewIntro}
         tone="soft"
         class="resume-viewer-shell"
       >
         <div class="resume-viewer">
-          {hasResumePdf ? (
+          {hasPdf ? (
             <iframe
-              src={resumeConfig.pdfPath}
-              title={`${resumeConfig.title} preview`}
+              src={pdf.path}
+              title={`${pdf.documentTitle} preview`}
               loading="lazy"
             />
           ) : (
             <div class="resume-fallback" role="status">
-              <h3>{resumeConfig.fallback.title}</h3>
-              <p>{resumeConfig.fallback.summary}</p>
+              <h3>{pdf.fallbackTitle}</h3>
+              <p>{pdf.fallbackSummary}</p>
               <p>
-                Expected asset: <code>{resumeConfig.expectedAssetPath}</code>
+                Expected asset: <code>{assetContractPath}</code>
               </p>
             </div>
           )}
@@ -98,10 +104,10 @@ const hasResumePdf = resumeConfig.pdfReady;
     <Container size="narrow">
       <Card class="resume-highlights">
         <div slot="title">
-          <h2 id="resume-highlights-title">Quick Highlights</h2>
+          <h2 id="resume-highlights-title">{highlights.title}</h2>
         </div>
         <ul>
-          {resumeConfig.highlights.map((highlight) => (
+          {highlights.items.map((highlight) => (
             <li>{highlight}</li>
           ))}
         </ul>

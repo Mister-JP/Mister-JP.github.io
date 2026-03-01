@@ -1,41 +1,47 @@
-import { getCollection, getEntry } from 'astro:content';
+import { getEntries, getEntry } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { homeComposition } from '../data/home';
-import { sortCollectionEntriesBySortOrderThenTitle } from './collection-utils';
 import {
   getProjectHref,
   getToolHref,
   getWritingHref,
 } from './content-paths';
+import { getRelatedProjectsForEntry } from './content-relations';
 
 type ProjectEntry = CollectionEntry<'projects'>;
 type ToolEntry = CollectionEntry<'tools'>;
 type WritingEntry = CollectionEntry<'writing'>;
 type HomePageData = Extract<CollectionEntry<'pages'>['data'], { template: 'home' }>;
-type HomeCollectionConfig = (typeof homeComposition)['featuredProjects'];
-type HomeWritingGroupConfig = (typeof homeComposition)['selectedWriting']['groups'][number];
+type HomeCurationData = Extract<
+  CollectionEntry<'curation'>['data'],
+  { surface: 'home' }
+>;
+type LinkedProject = {
+  href: string;
+  title: string;
+};
 
 type HomeProjectCardItem = {
   slug: ProjectEntry['slug'];
+  featured: true;
 } & Pick<
   ProjectEntry['data'],
-  'title' | 'summary' | 'status' | 'tags' | 'links' | 'featured'
+  'title' | 'summary' | 'status' | 'tags' | 'links'
 >;
 
 type HomeToolCardItem = Pick<
   ToolEntry['data'],
-  'title' | 'summary' | 'status' | 'links' | 'tags' | 'featured' | 'previewImage'
+  'title' | 'summary' | 'status' | 'links' | 'tags' | 'previewImage'
 > & {
   detailHref: string;
+  featured: true;
 };
 
 type HomeWritingCardItem = Pick<
   WritingEntry['data'],
-  'title' | 'summary' | 'kind' | 'status' | 'tags' | 'featured'
+  'title' | 'summary' | 'kind' | 'status' | 'tags'
 > & {
   href: string;
-  relatedProjectHref?: string;
-  relatedProjectTitle?: string;
+  relatedProjects: LinkedProject[];
 };
 
 export interface HomePageContent {
@@ -63,72 +69,11 @@ export interface HomePageContent {
   resumeCta: HomePageData['resumeCta'];
 }
 
-const createSlugMap = <T extends { slug: string }>(entries: T[]): Map<string, T> =>
-  new Map<string, T>(entries.map((entry): [string, T] => [entry.slug, entry]));
-
-const resolveEntriesInOrder = <T extends { slug: string }>(
-  entries: T[],
-  slugs: string[],
-  collectionName: string,
-) => {
-  const entryBySlug = createSlugMap(entries);
-
-  return slugs.map((slug) => {
-    const entry = entryBySlug.get(slug);
-
-    if (!entry) {
-      throw new Error(
-        `Home content references missing ${collectionName} slug "${slug}".`,
-      );
-    }
-
-    return entry;
-  });
-};
-
-const getConfiguredEntries = <
-  T extends { slug: string; data: { featured: boolean; sortOrder: number; title: string } },
->(
-  entries: T[],
-  config: HomeCollectionConfig,
-  collectionName: string,
-) => {
-  if (config.slugs && config.slugs.length > 0) {
-    return resolveEntriesInOrder(entries, config.slugs, collectionName);
-  }
-
-  return entries
-    .filter((entry) => entry.data.featured)
-    .sort(sortCollectionEntriesBySortOrderThenTitle)
-    .slice(0, config.limit);
-};
-
-const getConfiguredWritingEntries = (
-  entries: WritingEntry[],
-  config: HomeWritingGroupConfig,
-) => {
-  const selectedEntries = config.slugs && config.slugs.length > 0
-    ? resolveEntriesInOrder(entries, config.slugs, `writing entries for ${config.kind}`)
-    : entries
-        .filter(
-          (entry) => entry.data.kind === config.kind && entry.data.featured,
-        )
-        .sort(sortCollectionEntriesBySortOrderThenTitle)
-        .slice(0, config.limit);
-
-  selectedEntries.forEach((entry) => {
-    if (entry.data.kind !== config.kind) {
-      throw new Error(
-        `Home writing config for "${config.kind}" includes "${entry.slug}", which is ${entry.data.kind}.`,
-      );
-    }
-  });
-
-  return selectedEntries;
-};
-
 export async function getHomePageContent(): Promise<HomePageContent> {
-  const homeEntry = await getEntry('pages', 'home');
+  const [homeEntry, curationEntry] = await Promise.all([
+    getEntry('pages', 'home'),
+    getEntry('curation', 'home'),
+  ]);
 
   if (!homeEntry) {
     throw new Error('Missing content entry: src/content/pages/home.md');
@@ -138,70 +83,79 @@ export async function getHomePageContent(): Promise<HomePageContent> {
     throw new Error('The home page entry must use the "home" template.');
   }
 
+  if (!curationEntry) {
+    throw new Error('Missing content entry: src/content/curation/home.md');
+  }
+
+  if (curationEntry.data.surface !== 'home') {
+    throw new Error('The home curation entry must use the "home" surface.');
+  }
+
   const pageCopy = homeEntry.data;
-  const [projectEntries, toolEntries, writingEntries]: [
-    ProjectEntry[],
-    ToolEntry[],
-    WritingEntry[],
+  const curation = curationEntry.data as HomeCurationData;
+  const [
+    featuredProjectEntries,
+    featuredToolEntries,
+    featuredCaseStudyEntries,
+    featuredMethodEntries,
   ] = await Promise.all([
-    getCollection('projects'),
-    getCollection('tools'),
-    getCollection('writing'),
+    getEntries(curation.featuredProjects),
+    getEntries(curation.featuredTools),
+    getEntries(curation.featuredWriting.caseStudies),
+    getEntries(curation.featuredWriting.methods),
   ]);
 
-  const featuredProjectEntries = getConfiguredEntries(
-    projectEntries,
-    homeComposition.featuredProjects,
-    'projects',
-  );
-  const featuredToolEntries = getConfiguredEntries(
-    toolEntries,
-    homeComposition.featuredTools,
-    'tools',
-  );
-  const writingGroupCopyByKind = new Map(
-    pageCopy.selectedWriting.groups.map((group) => [group.kind, group]),
-  );
-
-  const selectedWritingGroups = await Promise.all(
-    homeComposition.selectedWriting.groups.map(async (groupConfig) => {
-      const groupCopy = writingGroupCopyByKind.get(groupConfig.kind);
-
-      if (!groupCopy) {
+  const buildWritingGroupItems = async (
+    entries: WritingEntry[],
+    expectedKind: WritingEntry['data']['kind'],
+    label: string,
+  ): Promise<HomeWritingCardItem[]> => {
+    entries.forEach((entry) => {
+      if (entry.data.kind !== expectedKind) {
         throw new Error(
-          `Home page copy is missing a selected writing label for "${groupConfig.kind}".`,
+          `Home writing group "${label}" includes "${entry.slug}", which is ${entry.data.kind}.`,
         );
       }
+    });
 
-      const entries = getConfiguredWritingEntries(writingEntries, groupConfig);
-      const items = await Promise.all(
-        entries.map(async (entry) => {
-          const relatedProject = entry.data.relatedProject
-            ? await getEntry(entry.data.relatedProject)
-            : undefined;
+    return Promise.all(
+      entries.map(async (entry) => {
+        const relatedProjects = await getRelatedProjectsForEntry(entry);
 
-          return {
-            title: entry.data.title,
-            summary: entry.data.summary,
-            kind: entry.data.kind,
-            status: entry.data.status,
-            tags: entry.data.tags,
-            featured: entry.data.featured,
-            href: getWritingHref(entry),
-            relatedProjectHref: relatedProject
-              ? getProjectHref(relatedProject)
-              : undefined,
-            relatedProjectTitle: relatedProject?.data.title,
-          };
-        }),
-      );
+        return {
+          title: entry.data.title,
+          summary: entry.data.summary,
+          kind: entry.data.kind,
+          status: entry.data.status,
+          tags: entry.data.tags,
+          href: getWritingHref(entry),
+          relatedProjects: relatedProjects.map((project) => ({
+            href: getProjectHref(project),
+            title: project.data.title,
+          })),
+        };
+      }),
+    );
+  };
 
-      return {
-        label: groupCopy.label,
-        items,
-      };
-    }),
-  );
+  const selectedWritingGroups = [
+    {
+      label: pageCopy.selectedWriting.caseStudiesLabel,
+      items: await buildWritingGroupItems(
+        featuredCaseStudyEntries,
+        'case-study',
+        pageCopy.selectedWriting.caseStudiesLabel,
+      ),
+    },
+    {
+      label: pageCopy.selectedWriting.methodsLabel,
+      items: await buildWritingGroupItems(
+        featuredMethodEntries,
+        'method',
+        pageCopy.selectedWriting.methodsLabel,
+      ),
+    },
+  ];
 
   return {
     page: {
@@ -220,7 +174,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
         status: entry.data.status,
         tags: entry.data.tags,
         links: entry.data.links,
-        featured: entry.data.featured,
+        featured: true,
       })),
     },
     selectedWriting: {
@@ -237,9 +191,9 @@ export async function getHomePageContent(): Promise<HomePageContent> {
         status: entry.data.status,
         links: entry.data.links,
         tags: entry.data.tags,
-        featured: entry.data.featured,
         previewImage: entry.data.previewImage,
         detailHref: getToolHref(entry),
+        featured: true,
       })),
     },
     resumeCta: pageCopy.resumeCta,

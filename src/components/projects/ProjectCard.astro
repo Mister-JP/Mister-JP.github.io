@@ -5,7 +5,6 @@ import Tag from '../ui/Tag.astro';
 import { getProjectHref } from '../../lib/content-paths';
 
 interface ProjectLinks {
-  caseStudy?: string;
   code?: string;
   demo?: string;
 }
@@ -33,7 +32,6 @@ const {
 const detailHref = getProjectHref({ slug });
 const actions = [
   { label: 'View project', href: detailHref },
-  links.caseStudy ? { label: 'Case Study', href: links.caseStudy } : undefined,
   links.code ? { label: 'Code', href: links.code } : undefined,
   links.demo ? { label: 'Demo', href: links.demo } : undefined,
 ]

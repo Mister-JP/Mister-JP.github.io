@@ -5,6 +5,11 @@ import Tag from '../ui/Tag.astro';
 
 type WritingKind = 'case-study' | 'method';
 
+interface RelatedProjectLink {
+  href?: string;
+  title: string;
+}
+
 interface WritingCardProps {
   title: string;
   summary: string;
@@ -13,8 +18,7 @@ interface WritingCardProps {
   tags?: string[];
   featured?: boolean;
   href: string;
-  relatedProjectHref?: string;
-  relatedProjectTitle?: string;
+  relatedProjects?: RelatedProjectLink[];
 }
 
 const {
@@ -25,16 +29,10 @@ const {
   tags = [],
   featured = false,
   href,
-  relatedProjectHref,
-  relatedProjectTitle,
+  relatedProjects = [],
 } = Astro.props as WritingCardProps;
 
-const actions = [
-  { label: 'Open entry', href },
-  relatedProjectHref
-    ? { label: 'Related project', href: relatedProjectHref }
-    : undefined,
-]
+const actions = [{ label: 'Open entry', href }]
   .filter((action): action is { label: string; href: string } => Boolean(action))
   .map((action) => ({
     ...action,
@@ -62,14 +60,19 @@ const kindLabel = kind === 'case-study' ? 'Case Study' : 'Method';
 
   <p>{summary}</p>
 
-  {relatedProjectTitle && (
+  {relatedProjects.length > 0 && (
     <p class="writing-card__related">
-      Related project:{' '}
-      {relatedProjectHref ? (
-        <a class="text-link" href={relatedProjectHref}>{relatedProjectTitle}</a>
-      ) : (
-        <span>{relatedProjectTitle}</span>
-      )}
+      {relatedProjects.length === 1 ? 'Related project: ' : 'Related projects: '}
+      {relatedProjects.map((project, index) => (
+        <span>
+          {index > 0 && <span>, </span>}
+          {project.href ? (
+            <a class="text-link" href={project.href}>{project.title}</a>
+          ) : (
+            <span>{project.title}</span>
+          )}
+        </span>
+      ))}
     </p>
   )}
 

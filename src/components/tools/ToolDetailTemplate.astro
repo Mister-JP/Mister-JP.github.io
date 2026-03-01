@@ -43,7 +43,7 @@ interface ToolDetailTemplateProps {
   tags?: string[];
   previewImage?: string;
   actions?: DetailAction[];
-  relatedProject?: RelatedProjectLink;
+  relatedProjects?: RelatedProjectLink[];
   relatedWriting?: RelatedWritingItem[];
   headings?: HeadingLink[];
 }
@@ -55,7 +55,7 @@ const {
   tags = [],
   previewImage,
   actions = [],
-  relatedProject,
+  relatedProjects = [],
   relatedWriting = [],
   headings = [],
 } = Astro.props as ToolDetailTemplateProps;
@@ -78,7 +78,6 @@ const outline = headings.filter((heading) => heading.depth <= 2);
         <Card class="tool-detail-template__overview">
           <div slot="title" class="tool-detail-template__panel-head">
             <h2 id="tool-overview">Preview & Actions</h2>
-            <p>Keep the durable explanation here even when the live deployment changes or disappears.</p>
           </div>
 
           <div class="tool-detail-template__preview">
@@ -106,32 +105,37 @@ const outline = headings.filter((heading) => heading.depth <= 2);
               ))}
             </div>
           ) : (
-            <p class="tool-detail-template__empty">Live links are not attached yet.</p>
+            <p class="tool-detail-template__empty">No links yet.</p>
           )}
         </Card>
       </section>
 
-      {relatedProject && (
+      {relatedProjects.length > 0 && (
         <section class="tool-detail-template__panel" aria-labelledby="tool-related-project">
           <Card>
             <div slot="title" class="tool-detail-template__panel-head">
-              <h2 id="tool-related-project">Related Project</h2>
-              <p>Anchor the tool inside the portfolio so the utility stays tied to the work it supports.</p>
+              <h2 id="tool-related-project">
+                {relatedProjects.length === 1 ? 'Related Project' : 'Related Projects'}
+              </h2>
             </div>
 
-            <div class="tool-detail-template__related-item">
-              <Tag tone="accent">Project</Tag>
-              <Tag tone="muted">{relatedProject.status}</Tag>
-              <h3>
-                <a class="text-link" href={relatedProject.href}>{relatedProject.title}</a>
-              </h3>
-              <p>{relatedProject.summary}</p>
-              <div class="tool-detail-template__actions">
-                <Button variant="secondary" href={relatedProject.href}>
-                  View project
-                </Button>
-              </div>
-            </div>
+            <ul class="tool-detail-template__related-list">
+              {relatedProjects.map((project) => (
+                <li class="tool-detail-template__related-item">
+                  <Tag tone="accent">Project</Tag>
+                  <Tag tone="muted">{project.status}</Tag>
+                  <h3>
+                    <a class="text-link" href={project.href}>{project.title}</a>
+                  </h3>
+                  <p>{project.summary}</p>
+                  <div class="tool-detail-template__actions">
+                    <Button variant="secondary" href={project.href}>
+                      View project
+                    </Button>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </Card>
         </section>
       )}
@@ -141,7 +145,6 @@ const outline = headings.filter((heading) => heading.depth <= 2);
           <Card>
             <div slot="title" class="tool-detail-template__panel-head">
               <h2 id="tool-related-writing">Related Writing</h2>
-              <p>Keep the surrounding reasoning close to the tool without turning this page into a sidebar dump.</p>
             </div>
 
             <ul class="tool-detail-template__related-list">
@@ -177,7 +180,6 @@ const outline = headings.filter((heading) => heading.depth <= 2);
           <Card>
             <div slot="title" class="tool-detail-template__panel-head">
               <h2 id="tool-outline">Section Outline</h2>
-              <p>The markdown headings define the content contract, so this outline stays synced with the file.</p>
             </div>
 
             <ol class="tool-detail-template__outline">
@@ -196,7 +198,6 @@ const outline = headings.filter((heading) => heading.depth <= 2);
           <Card class="tool-detail-template__body">
             <div slot="title" class="tool-detail-template__panel-head">
               <h2 id="tool-entry-body">Tool Notes</h2>
-              <p>The markdown body owns the long-form explanation, so new tools can be added as content files only.</p>
             </div>
 
             {hasBody ? (
@@ -205,7 +206,7 @@ const outline = headings.filter((heading) => heading.depth <= 2);
               </Prose>
             ) : (
               <p class="tool-detail-template__empty">
-                Long-form notes will appear here once the tool body is added.
+                No notes yet.
               </p>
             )}
           </Card>
@@ -236,7 +237,6 @@ const outline = headings.filter((heading) => heading.depth <= 2);
     margin: 0;
   }
 
-  .tool-detail-template__panel-head p,
   .tool-detail-template__related-item p,
   .tool-detail-template__empty {
     line-height: var(--line-relaxed);

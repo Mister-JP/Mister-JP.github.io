@@ -6,9 +6,9 @@ status: "Outline ready"
 tags:
   - Microscopy
   - Benchmarking
-featured: true
 sortOrder: 10
-relatedProject: microscopy-benchmark-pipeline
+relatedProjects:
+  - microscopy-benchmark-pipeline
 ---
 # Problem
 TODO: describe the baseline question, the benchmark target, and the first uncertainty.

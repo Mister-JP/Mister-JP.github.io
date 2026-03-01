@@ -48,12 +48,4 @@ contact:
       href: "mailto:hello@example.com"
       note: Replace this with the contact path you want to keep public once the final copy is ready.
       ctaLabel: Send email
-authorNotes:
-  - Replace the short bio with a clear explanation of who you are, how you think, and what kind of work this portfolio represents.
-  - Explain the journey from broad exploration toward concrete technical execution without turning the page into a full autobiography.
-  - Clarify the current technical focus so the About page stays aligned with the latest active work.
-  - Decide which contact paths are public, which are recruiter-facing only, and which should remain secondary.
-  - In the final voice of this page, explain why softness, grace, calligraphic restraint, pastel control, and deliberate beauty matter to how you present technical work.
 ---
-
-<!-- Public rendering is driven from frontmatter so these author notes stay private. -->

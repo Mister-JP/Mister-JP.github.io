@@ -16,15 +16,15 @@ interface RelatedItem {
 
 interface ProjectRelatedSectionProps {
   title: string;
-  intro: string;
-  emptyState: string;
+  intro?: string;
+  emptyState?: string;
   items?: RelatedItem[];
 }
 
 const {
   title,
   intro,
-  emptyState,
+  emptyState = 'No entries yet.',
   items = [],
 } = Astro.props as ProjectRelatedSectionProps;
 
@@ -35,7 +35,7 @@ const sectionId = `project-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
   <Card>
     <div slot="title" class="project-related-section__head">
       <h2 id={sectionId}>{title}</h2>
-      <p>{intro}</p>
+      {intro && <p>{intro}</p>}
     </div>
 
     {items.length > 0 ? (

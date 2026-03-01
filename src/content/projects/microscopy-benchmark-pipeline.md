@@ -8,15 +8,10 @@ tags:
   - Microscopy
   - Benchmarking
   - Evaluation
-featured: true
 sortOrder: 10
 links:
-  caseStudy: /writing
   code: https://github.com/jignasu/example-microscopy-benchmark
   demo: /tools
-relatedWriting:
-  - bsccm-first-baseline
-relatedTools: []
 resultSnapshot:
   label: "TODO: result image/table"
   caption: "Reserve this slot for the first benchmark artifact, comparison grid, or evaluation summary."

@@ -31,11 +31,8 @@ selectedWriting:
   sectionIntro: >-
     TODO: short section intro that separates project-specific case studies from
     reusable engineering methods.
-  groups:
-    - kind: case-study
-      label: Case Studies
-    - kind: method
-      label: Methods
+  caseStudiesLabel: Case Studies
+  methodsLabel: Methods
 featuredTools:
   sectionTitle: "TODO: featured tools title"
   sectionIntro: >-
@@ -50,10 +47,6 @@ resumeCta:
   primaryCtaHref: /resume
   secondaryCtaLabel: "TODO: download resume"
   secondaryCtaHref: /resume#download
-authorNotes:
-  - Replace the placeholder homepage copy with concise, recruiter-legible language.
-  - Keep this file focused on public-facing text; use src/data/home.ts only for homepage curation rules.
-  - Remove explicit slug ordering from src/data/home.ts only when the featured fallback is good enough.
 ---
 
-<!-- Homepage rendering is driven from frontmatter so these author notes stay private. -->
+<!-- Homepage copy lives here. Featured entries are curated in src/content/curation/home.md. -->

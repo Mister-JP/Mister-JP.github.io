@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import SiteShell from '../layouts/SiteShell.astro';
 import PageHeader from '../components/layout/PageHeader.astro';
 import Container from '../components/ui/Container.astro';
@@ -15,17 +15,29 @@ import { shellConfig } from '../data/site';
 const tools = (await getCollection('tools')).sort(
   sortCollectionEntriesBySortOrderThenTitle,
 );
+
+const pageEntry = await getEntry('pages', 'tools');
+
+if (!pageEntry) {
+  throw new Error('Missing content entry: src/content/pages/tools.md');
+}
+
+if (pageEntry.data.template !== 'tools') {
+  throw new Error('The tools page entry must use the "tools" template.');
+}
+
+const page = pageEntry.data;
 ---
 
 <SiteShell
   {...shellConfig}
-  title="Tools | Jignasu Pathak"
-  description="Content-driven tool index using reusable cards and stable preview placeholders."
+  title={`${page.title} | Jignasu Pathak`}
+  description={page.description}
 >
   <PageHeader
-    eyebrow="Utilities"
-    title="Tools"
-    description="Interactive utilities now render from structured content, so new tools can be added without editing the route."
+    eyebrow={page.eyebrow}
+    title={page.title}
+    description={page.description}
   >
     <Tag slot="meta" tone="accent">{tools.length} tools</Tag>
   </PageHeader>
@@ -33,9 +45,9 @@ const tools = (await getCollection('tools')).sort(
   <Section size="sm" aria-labelledby="all-tools-title">
     <Container size="wide">
       <SectionIntro
-        title="Tool Library"
+        title={page.library.title}
         titleId="all-tools-title"
-        description="Each entry keeps a fixed preview area, so cards stay consistent whether a tool already has an image or is still using a placeholder state."
+        description={page.library.intro}
       />
 
       <Grid cols="3">
@@ -44,7 +56,7 @@ const tools = (await getCollection('tools')).sort(
             <ToolCard {...tool.data} detailHref={getToolHref(tool)} />
           ))
         ) : (
-          <p class="tools-empty">Tool entries will appear here once content files are added.</p>
+          <p class="tools-empty">{page.library.emptyState}</p>
         )}
       </Grid>
     </Container>

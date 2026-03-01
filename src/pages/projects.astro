@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntries, getEntry } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import SiteShell from '../layouts/SiteShell.astro';
 import PageHeader from '../components/layout/PageHeader.astro';
@@ -13,29 +13,61 @@ import { shellConfig } from '../data/site';
 import { sortBySortOrderThenTitle } from '../lib/collection-utils';
 
 type ProjectEntry = CollectionEntry<'projects'>;
-type ProjectListItem = { slug: ProjectEntry['slug'] } & ProjectEntry['data'];
+type ProjectCardItem = {
+  slug: ProjectEntry['slug'];
+  featured?: boolean;
+} & ProjectEntry['data'];
 
-const projects: ProjectListItem[] = (await getCollection('projects'))
+const [projectEntries, pageEntry, curationEntry] = await Promise.all([
+  getCollection('projects'),
+  getEntry('pages', 'projects'),
+  getEntry('curation', 'projects'),
+]);
+
+const projects: ProjectCardItem[] = projectEntries
   .map(({ data, slug }) => ({ slug, ...data }))
   .sort(sortBySortOrderThenTitle);
 
-const featuredProjects: ProjectListItem[] = projects.filter(
-  (project) => project.featured,
-);
 const availableTags: string[] = Array.from(
   new Set<string>(projects.flatMap((project): string[] => project.tags)),
 ).sort((left, right) => left.localeCompare(right));
+
+if (!pageEntry) {
+  throw new Error('Missing content entry: src/content/pages/projects.md');
+}
+
+if (pageEntry.data.template !== 'projects') {
+  throw new Error('The projects page entry must use the "projects" template.');
+}
+
+if (!curationEntry) {
+  throw new Error('Missing content entry: src/content/curation/projects.md');
+}
+
+if (curationEntry.data.surface !== 'projects') {
+  throw new Error('The projects curation entry must use the "projects" surface.');
+}
+
+const featuredProjects: ProjectCardItem[] = (await getEntries(
+  curationEntry.data.featuredProjects,
+)).map((entry) => ({
+  slug: entry.slug,
+  ...entry.data,
+  featured: true,
+}));
+
+const page = pageEntry.data;
 ---
 
 <SiteShell
   {...shellConfig}
-  title="Projects | Jignasu Pathak"
-  description="Content-driven project index with featured work, reusable cards, and structured project metadata."
+  title={`${page.title} | Jignasu Pathak`}
+  description={page.description}
 >
   <PageHeader
-    eyebrow="Work"
-    title="Projects"
-    description="The main project index now reads from structured content, surfaces featured work first, and keeps the full library easy to scan."
+    eyebrow={page.eyebrow}
+    title={page.title}
+    description={page.description}
   >
     <Tag slot="meta" tone="accent">{projects.length} projects</Tag>
     {featuredProjects.length > 0 && (
@@ -47,9 +79,9 @@ const availableTags: string[] = Array.from(
     <Section size="sm" aria-labelledby="featured-projects-title">
       <Container size="wide">
         <SectionIntro
-          title="Featured Projects"
+          title={page.featuredSection.title}
           titleId="featured-projects-title"
-          description="Highlighted proof-of-work that should be visible first without changing the shared card system."
+          description={page.featuredSection.intro}
         />
 
         <Grid cols="3">
@@ -64,9 +96,9 @@ const availableTags: string[] = Array.from(
   <Section tone="soft" aria-labelledby="all-projects-title">
     <Container size="wide">
       <SectionIntro
-        title="All Projects"
+        title={page.allSection.title}
         titleId="all-projects-title"
-        description="Every entry is loaded from the project collection, so new work can be added through content only."
+        description={page.allSection.intro}
       />
 
       {availableTags.length > 0 && (
@@ -78,15 +110,29 @@ const availableTags: string[] = Array.from(
       )}
 
       <Grid cols="3">
-        {projects.map((project) => (
-          <ProjectCard {...project} />
-        ))}
+        {projects.length > 0 ? (
+          projects.map((project) => (
+            <ProjectCard {...project} />
+          ))
+        ) : (
+          <p class="projects-empty">{page.allSection.emptyState}</p>
+        )}
       </Grid>
     </Container>
   </Section>
 </SiteShell>
 
 <style>
+  .projects-empty,
+  .tag-strip {
+    margin: 0;
+  }
+
+  .projects-empty {
+    color: var(--color-text-secondary);
+    line-height: var(--line-relaxed);
+  }
+
   .tag-strip {
     display: flex;
     flex-wrap: wrap;

@@ -10,6 +10,7 @@ import GroupedPanel from '../components/ui/GroupedPanel.astro';
 import WritingCard from '../components/writing/WritingCard.astro';
 import { sortCollectionEntriesBySortOrderThenTitle } from '../lib/collection-utils';
 import { getProjectHref, getWritingHref } from '../lib/content-paths';
+import { getRelatedProjectsForEntry } from '../lib/content-relations';
 import { shellConfig } from '../data/site';
 
 const writing = (await getCollection('writing')).sort(
@@ -18,15 +19,15 @@ const writing = (await getCollection('writing')).sort(
 
 const writingCards = await Promise.all(
   writing.map(async (entry) => {
-    const relatedProject = entry.data.relatedProject
-      ? await getEntry(entry.data.relatedProject)
-      : undefined;
+    const relatedProjects = await getRelatedProjectsForEntry(entry);
 
     return {
       entry,
       href: getWritingHref(entry),
-      relatedProjectHref: relatedProject ? getProjectHref(relatedProject) : undefined,
-      relatedProjectTitle: relatedProject?.data.title,
+      relatedProjects: relatedProjects.map((project) => ({
+        href: getProjectHref(project),
+        title: project.data.title,
+      })),
     };
   }),
 );
@@ -35,17 +36,29 @@ const caseStudies = writingCards.filter(
   ({ entry }) => entry.data.kind === 'case-study',
 );
 const methods = writingCards.filter(({ entry }) => entry.data.kind === 'method');
+
+const pageEntry = await getEntry('pages', 'writing');
+
+if (!pageEntry) {
+  throw new Error('Missing content entry: src/content/pages/writing.md');
+}
+
+if (pageEntry.data.template !== 'writing') {
+  throw new Error('The writing page entry must use the "writing" template.');
+}
+
+const page = pageEntry.data;
 ---
 
 <SiteShell
   {...shellConfig}
-  title="Writing | Jignasu Pathak"
-  description="Content-driven writing index with separate case study and method groupings."
+  title={`${page.title} | Jignasu Pathak`}
+  description={page.description}
 >
   <PageHeader
-    eyebrow="Thinking"
-    title="Writing"
-    description="Writing remains grouped by meaning rather than becoming one undifferentiated stream, and every entry now comes from structured content."
+    eyebrow={page.eyebrow}
+    title={page.title}
+    description={page.description}
   >
     <Tag slot="meta" tone="accent">{caseStudies.length} case studies</Tag>
     <Tag slot="meta">{methods.length} methods</Tag>
@@ -55,44 +68,42 @@ const methods = writingCards.filter(({ entry }) => entry.data.kind === 'method')
     <Container size="wide">
       <Grid cols="2" gap="lg">
         <GroupedPanel
-          title="Case Studies"
+          title={page.caseStudies.title}
           titleId="case-studies-title"
-          intro="Project-linked narratives that capture decisions, tradeoffs, and lessons learned."
+          intro={page.caseStudies.intro}
         >
           <div class="writing-group__list">
             {caseStudies.length > 0 ? (
-              caseStudies.map(({ entry, href, relatedProjectHref, relatedProjectTitle }) => (
+              caseStudies.map(({ entry, href, relatedProjects }) => (
                 <WritingCard
                   {...entry.data}
                   href={href}
-                  relatedProjectHref={relatedProjectHref}
-                  relatedProjectTitle={relatedProjectTitle}
+                  relatedProjects={relatedProjects}
                 />
               ))
             ) : (
-              <p class="writing-group__empty">Case studies will appear here as entries are added.</p>
+              <p class="writing-group__empty">{page.caseStudies.emptyState}</p>
             )}
           </div>
         </GroupedPanel>
 
         <GroupedPanel
-          title="Methods"
+          title={page.methods.title}
           titleId="methods-title"
-          intro="Reusable engineering patterns that apply across projects and experiments."
+          intro={page.methods.intro}
           tone="soft"
         >
           <div class="writing-group__list">
             {methods.length > 0 ? (
-              methods.map(({ entry, href, relatedProjectHref, relatedProjectTitle }) => (
+              methods.map(({ entry, href, relatedProjects }) => (
                 <WritingCard
                   {...entry.data}
                   href={href}
-                  relatedProjectHref={relatedProjectHref}
-                  relatedProjectTitle={relatedProjectTitle}
+                  relatedProjects={relatedProjects}
                 />
               ))
             ) : (
-              <p class="writing-group__empty">Methods will appear here as entries are added.</p>
+              <p class="writing-group__empty">{page.methods.emptyState}</p>
             )}
           </div>
         </GroupedPanel>

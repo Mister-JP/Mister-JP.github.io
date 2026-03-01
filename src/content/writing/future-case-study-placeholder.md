@@ -6,7 +6,8 @@ status: "Queued"
 tags:
   - Roadmap
 sortOrder: 20
-relatedProject: architecture-diagram-composer
+relatedProjects:
+  - architecture-diagram-composer
 ---
 # Problem
 TODO: describe the next project milestone worth documenting.

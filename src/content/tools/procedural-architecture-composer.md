@@ -3,15 +3,13 @@ title: "Procedural Architecture Composer"
 summary: "TODO: describe the diagramming utility that turns structured notes into review-ready architecture views."
 status: "Prototype available"
 sortOrder: 10
-featured: true
 links:
   code: https://github.com/jignasu/example-architecture-composer
 tags:
   - Diagrams
   - Tooling
-relatedProject: architecture-diagram-composer
-relatedWriting:
-  - future-case-study-placeholder
+relatedProjects:
+  - architecture-diagram-composer
 ---
 # What It Does
 TODO: explain how the tool turns structured notes into review-ready diagrams.

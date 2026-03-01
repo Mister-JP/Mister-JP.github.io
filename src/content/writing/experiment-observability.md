@@ -7,7 +7,8 @@ tags:
   - Observability
   - Evaluation
 sortOrder: 20
-relatedProject: experiment-reproducibility-framework
+relatedProjects:
+  - experiment-reproducibility-framework
 ---
 # Recurring Engineering Problem
 TODO: problem statement

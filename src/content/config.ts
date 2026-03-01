@@ -2,9 +2,11 @@ import { defineCollection, reference, z } from 'astro:content';
 
 const linkField = z.string().min(1);
 const writingKind = z.enum(['case-study', 'method']);
+const projectReferences = z.array(reference('projects')).default([]);
+const writingReferences = z.array(reference('writing')).default([]);
+const toolReferences = z.array(reference('tools')).default([]);
 
 const projectLinks = z.object({
-  caseStudy: linkField.optional(),
   code: linkField.optional(),
   demo: linkField.optional(),
 });
@@ -62,7 +64,6 @@ const pages = defineCollection({
           )
           .default([]),
       }),
-      authorNotes: z.array(z.string()).default([]),
     }),
     z.object({
       template: z.literal('home'),
@@ -89,12 +90,8 @@ const pages = defineCollection({
       selectedWriting: z.object({
         sectionTitle: z.string(),
         sectionIntro: z.string(),
-        groups: z.array(
-          z.object({
-            kind: writingKind,
-            label: z.string(),
-          }),
-        ),
+        caseStudiesLabel: z.string(),
+        methodsLabel: z.string(),
       }),
       featuredTools: z.object({
         sectionTitle: z.string(),
@@ -108,7 +105,72 @@ const pages = defineCollection({
         secondaryCtaLabel: z.string(),
         secondaryCtaHref: z.string(),
       }),
-      authorNotes: z.array(z.string()).default([]),
+    }),
+    z.object({
+      template: z.literal('projects'),
+      title: z.string(),
+      description: z.string(),
+      eyebrow: z.string(),
+      featuredSection: z.object({
+        title: z.string(),
+        intro: z.string(),
+      }),
+      allSection: z.object({
+        title: z.string(),
+        intro: z.string(),
+        emptyState: z.string(),
+      }),
+    }),
+    z.object({
+      template: z.literal('writing'),
+      title: z.string(),
+      description: z.string(),
+      eyebrow: z.string(),
+      caseStudies: z.object({
+        title: z.string(),
+        intro: z.string(),
+        emptyState: z.string(),
+      }),
+      methods: z.object({
+        title: z.string(),
+        intro: z.string(),
+        emptyState: z.string(),
+      }),
+    }),
+    z.object({
+      template: z.literal('tools'),
+      title: z.string(),
+      description: z.string(),
+      eyebrow: z.string(),
+      library: z.object({
+        title: z.string(),
+        intro: z.string(),
+        emptyState: z.string(),
+      }),
+    }),
+    z.object({
+      template: z.literal('resume'),
+      title: z.string(),
+      description: z.string(),
+      eyebrow: z.string(),
+      pdf: z.object({
+        path: z.string(),
+        documentTitle: z.string(),
+        summary: z.string(),
+        downloadLabel: z.string(),
+        openLabel: z.string(),
+        readyStatusLabel: z.string(),
+        pendingStatusLabel: z.string(),
+        contractLabel: z.string(),
+        previewTitle: z.string(),
+        previewIntro: z.string(),
+        fallbackTitle: z.string(),
+        fallbackSummary: z.string(),
+      }),
+      highlights: z.object({
+        title: z.string(),
+        items: z.array(z.string()).default([]),
+      }),
     }),
   ]),
 });
@@ -122,11 +184,8 @@ const projects = defineCollection({
     status: z.string(),
     currentMilestone: z.string().min(1),
     tags: z.array(z.string().min(1)).min(1),
-    featured: z.boolean(),
     sortOrder: z.number().int(),
     links: projectLinks,
-    relatedWriting: z.array(reference('writing')),
-    relatedTools: z.array(reference('tools')),
     resultSnapshot: projectResultSnapshot,
   }),
 });
@@ -139,9 +198,8 @@ const writing = defineCollection({
     kind: writingKind,
     status: z.string(),
     tags: z.array(z.string().min(1)).default([]),
-    featured: z.boolean().default(false),
     sortOrder: z.number().int(),
-    relatedProject: reference('projects').optional(),
+    relatedProjects: projectReferences,
   }),
 });
 
@@ -152,13 +210,30 @@ const tools = defineCollection({
     summary: z.string(),
     status: z.string(),
     sortOrder: z.number().int(),
-    featured: z.boolean().default(false),
     previewImage: z.string().min(1).optional(),
     links: toolLinks,
     tags: z.array(z.string().min(1)).default([]),
-    relatedProject: reference('projects').optional(),
-    relatedWriting: z.array(reference('writing')).default([]),
+    relatedProjects: projectReferences,
   }),
+});
+
+const curation = defineCollection({
+  type: 'content',
+  schema: z.discriminatedUnion('surface', [
+    z.object({
+      surface: z.literal('home'),
+      featuredProjects: projectReferences,
+      featuredWriting: z.object({
+        caseStudies: writingReferences,
+        methods: writingReferences,
+      }),
+      featuredTools: toolReferences,
+    }),
+    z.object({
+      surface: z.literal('projects'),
+      featuredProjects: projectReferences,
+    }),
+  ]),
 });
 
 export const collections = {
@@ -166,4 +241,5 @@ export const collections = {
   projects,
   writing,
   tools,
+  curation,
 };

@@ -9,13 +9,9 @@ tags:
   - Infra
   - MLOps
   - Experiment Design
-featured: false
 sortOrder: 30
 links:
   code: https://github.com/jignasu/example-repro-framework
-relatedWriting:
-  - reproducible-experiment-stack
-relatedTools: []
 resultSnapshot:
   label: "TODO: result image/table"
   caption: "Reserve this slot for a lineage snapshot, config diff, or rerun proof once the refactor settles."

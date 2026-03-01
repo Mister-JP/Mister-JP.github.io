@@ -6,9 +6,9 @@ status: "Draft scaffold"
 tags:
   - Reproducibility
   - Workflow
-featured: true
 sortOrder: 10
-relatedProject: experiment-reproducibility-framework
+relatedProjects:
+  - experiment-reproducibility-framework
 ---
 # Recurring Engineering Problem
 TODO: problem statement
