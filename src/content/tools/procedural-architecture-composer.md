@@ -1,14 +1,13 @@
 ---
 title: "Procedural Architecture Composer"
-summary: "A utility that turns structured system notes into review-ready architecture views with consistent layout and labeling."
+summary: "A utility for turning structured model notes into clean, review-ready architecture diagrams with consistent layout and labeling. Built to support technical communication when generic diagram tools were too slow, too rigid, or too imprecise for the workflow I wanted."
 featureImage: "/images/entry-previews/tool-detail.svg"
-status: "Prototype available"
+cardEyebrowDetail: "Diagrams + communication"
+featuredLabel: "Built for real workflow"
+status: "Actively used"
 sortOrder: 10
 links:
   code: https://github.com/jignasu/example-architecture-composer
-tags:
-  - Diagrams
-  - Tooling
 relatedProjects:
   - architecture-diagram-composer
 ---

@@ -2,7 +2,10 @@
 import Button from '../ui/Button.astro';
 import Card from '../ui/Card.astro';
 import Tag from '../ui/Tag.astro';
-import { getToolFeatureImage } from '../../lib/feature-images';
+import {
+  getToolFeatureImage,
+  hasToolFeatureImage,
+} from '../../lib/feature-images';
 
 interface ToolLinks {
   open?: string;
@@ -12,37 +15,51 @@ interface ToolLinks {
 interface ToolCardProps {
   title: string;
   summary: string;
+  cardEyebrowDetail?: string;
+  featuredLabel?: string;
   status: string;
   detailHref: string;
   links?: ToolLinks;
   tags?: string[];
   featured?: boolean;
   featureImage?: string;
+  showPreview?: boolean;
+  primaryActionLabel?: string;
+  openActionLabel?: string;
+  codeActionLabel?: string;
 }
 
 const {
   title,
   summary,
+  cardEyebrowDetail,
+  featuredLabel = 'Featured',
   status,
   detailHref,
   links = {},
   tags = [],
   featured = false,
   featureImage,
+  showPreview = true,
+  primaryActionLabel = 'Inspect tool notes',
+  openActionLabel = 'Use tool',
+  codeActionLabel = 'Review code',
 } = Astro.props as ToolCardProps;
 
+const resolvedFeatureImage = getToolFeatureImage(featureImage);
+const shouldShowPreview = showPreview && hasToolFeatureImage(resolvedFeatureImage);
 const actions = [
-  { label: 'Read tool notes', href: detailHref },
-  { label: 'Open tool', href: links.open },
-  { label: 'View code', href: links.code },
+  { label: primaryActionLabel, href: detailHref },
+  { label: openActionLabel, href: links.open },
+  { label: codeActionLabel, href: links.code },
 ]
   .filter((action): action is { label: string; href: string } => Boolean(action.href))
   .map((action) => ({
     ...action,
     isExternal: action.href.startsWith('http'),
   }));
-const primaryTags = tags.slice(0, 2);
-const visibleTags = tags.slice(primaryTags.length);
+const eyebrowDetail = cardEyebrowDetail ?? tags.slice(0, 2).join(' / ');
+const visibleTags = cardEyebrowDetail ? tags : tags.slice(2);
 ---
 
 <Card
@@ -53,20 +70,22 @@ const visibleTags = tags.slice(primaryTags.length);
   <div slot="title" class="tool-card__title">
     <p class="tool-card__eyebrow">
       <span>Tool</span>
-      {primaryTags.length > 0 && <span>{primaryTags.join(' / ')}</span>}
+      {eyebrowDetail && <span>{eyebrowDetail}</span>}
     </p>
     <div class="tool-card__meta">
       <Tag tone={featured ? 'accent' : 'default'}>{status}</Tag>
-      {featured && <Tag tone="muted">Featured</Tag>}
+      {featured && <Tag tone="muted">{featuredLabel}</Tag>}
     </div>
     <h3>
       <a class="tool-card__title-link text-link" href={detailHref}>{title}</a>
     </h3>
   </div>
 
-  <div class="tool-card__preview">
-    <img src={getToolFeatureImage(featureImage)} alt={`${title} preview`} loading="lazy" />
-  </div>
+  {shouldShowPreview && (
+    <div class="tool-card__preview">
+      <img src={resolvedFeatureImage} alt={`${title} preview`} loading="lazy" />
+    </div>
+  )}
 
   <p class="tool-card__summary">{summary}</p>
 

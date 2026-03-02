@@ -1,18 +1,19 @@
 ---
-title: "Microscopy Benchmark Pipeline"
-summary: "A reproducible microscopy benchmark for comparing model variants under one stable evaluation contract."
+title: "BSCCM Microscopy Benchmark Pipeline"
+summary: "A reproducible benchmark pipeline built around the BSCCM dataset as a disciplined entry point into microscopy computer vision. The project combines dataset framing, model training, experiment tracking, and evaluation structure for 23-channel to 6-channel image prediction, with the goal of building a reliable foundation before chasing model complexity."
 featureImage: "/images/entry-previews/project-detail.svg"
-whyItMatters: "Trustworthy microscopy benchmarks make model selection faster, reduce false confidence, and keep iteration grounded in comparable evidence."
-status: "Active calibration sprint"
-currentMilestone: "Calibrating the first comparison pass so baseline metrics, dataset slices, and evaluation criteria stay consistent."
+cardEyebrowDetail: "Microscopy + evaluation"
+featuredLabel: "Flagship work"
+whyItMatters: "A trustworthy microscopy benchmark foundation makes model behavior easier to compare, audit, and improve before complexity hides the failure modes."
+status: "Active calibration"
+currentMilestone: "Establishing a baseline that is actually trustworthy to compare: fixed data handling, explicit run configuration, stable metrics, and artifacts that make failures easier to inspect."
 tags:
   - Microscopy
-  - Benchmarking
+  - Reproducibility
   - Evaluation
 sortOrder: 10
 links:
   code: https://github.com/jignasu/example-microscopy-benchmark
-  demo: /tools
 ---
 
 This pipeline is built to compare microscopy model variants under the same evaluation contract instead of relying on ad hoc spot checks. The emphasis is on clean comparisons, repeatable scoring, and faster iteration when a baseline changes.

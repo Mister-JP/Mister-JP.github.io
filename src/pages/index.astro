@@ -1,7 +1,6 @@
 ---
 import SiteShell from '../layouts/SiteShell.astro';
 import Button from '../components/ui/Button.astro';
-import Card from '../components/ui/Card.astro';
 import Container from '../components/ui/Container.astro';
 import Grid from '../components/ui/Grid.astro';
 import Section from '../components/ui/Section.astro';
@@ -12,20 +11,28 @@ import ToolCard from '../components/tools/ToolCard.astro';
 import WritingCard from '../components/writing/WritingCard.astro';
 import { shellConfig } from '../data/site';
 import { getHomePageContent } from '../lib/home-content';
+import { getResumePageContent } from '../lib/resume-content';
 import { getWritingCategoryMeta } from '../lib/writing-categories';
 
-const {
-  page,
-  hero,
-  proofStrip,
-  intro,
-  featuredProjects,
-  selectedWriting,
-  featuredTools,
-} = await getHomePageContent();
+const [
+  {
+    page,
+    hero,
+    proofStrip,
+    intro,
+    featuredProjects,
+    selectedWriting,
+    featuredTools,
+  },
+  resume,
+] = await Promise.all([
+  getHomePageContent(),
+  getResumePageContent(),
+]);
 
 const hasFeaturedProjects = featuredProjects.items.length > 0;
-const hasIntroLinks = intro.quickLinks.length > 0;
+const [leadProject, ...supportingProjects] = featuredProjects.items;
+const hasSupportingProjects = supportingProjects.length > 0;
 const visibleWritingGroups = selectedWriting.groups
   .map((group) => ({
     ...group,
@@ -34,6 +41,8 @@ const visibleWritingGroups = selectedWriting.groups
   .filter((group) => group.items.length > 0);
 const hasSelectedWriting = visibleWritingGroups.length > 0;
 const hasFeaturedTools = featuredTools.items.length > 0;
+const hasResumeHeading = intro.heading.trim().length > 0;
+const resumeSectionLabel = intro.eyebrow ?? 'Resume';
 ---
 
 <SiteShell
@@ -46,13 +55,18 @@ const hasFeaturedTools = featuredTools.items.length > 0;
       <div class="home-hero__layout">
         <div class="hero-stack">
           <p class="hero-eyebrow">{hero.eyebrow}</p>
-          <h1 id="home-hero-title" class="hero-title">{hero.title}</h1>
-          <p class="hero-subtitle">{hero.subtitle}</p>
-          <div class="hero-actions">
-            <Button href={hero.primaryCtaHref}>{hero.primaryCtaLabel}</Button>
-            <Button variant="secondary" href={hero.secondaryCtaHref}>
-              {hero.secondaryCtaLabel}
-            </Button>
+          <div class="hero-main">
+            <h1 id="home-hero-title" class="hero-title">{hero.title}</h1>
+            <div class="hero-copy">
+              <p class="hero-subtitle">{hero.subtitle}</p>
+
+              <div class="hero-actions">
+                <Button href={hero.primaryCtaHref}>{hero.primaryCtaLabel}</Button>
+                <Button variant="secondary" href={hero.secondaryCtaHref}>
+                  {hero.secondaryCtaLabel}
+                </Button>
+              </div>
+            </div>
           </div>
 
           <div class="hero-proof" aria-labelledby="home-proof-title">
@@ -67,40 +81,35 @@ const hasFeaturedTools = featuredTools.items.length > 0;
             </ul>
           </div>
         </div>
-
-        <Card
-          as="section"
-          variant="neutral"
-          class="home-orientation"
-          aria-labelledby="home-intro-title"
-        >
-          <div slot="title" class="home-orientation__head">
-            <h2 id="home-intro-title">{intro.heading}</h2>
-            <p>{intro.body}</p>
-          </div>
-
-          <div class="home-orientation__body">
-            {hasIntroLinks && (
-              <ul class="home-orientation__list">
-                {intro.quickLinks.map((link) => (
-                  <li class="home-orientation__item">
-                    <a class="text-link" href={link.href}>{link.label}</a>
-                    <p>{link.description}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {intro.supportingNote && (
-              <p class="home-orientation__note">{intro.supportingNote}</p>
-            )}
-          </div>
-        </Card>
       </div>
     </Container>
   </Section>
 
-  {hasFeaturedProjects && (
+  <Section size="sm" class="home-resume" aria-label={resumeSectionLabel}>
+    <Container size="wide">
+      <section class="resume-cta">
+        <div class="resume-cta__copy">
+          <p class="resume-cta__eyebrow">{resumeSectionLabel}</p>
+          {hasResumeHeading && <h2>{intro.heading}</h2>}
+          <p>{intro.body}</p>
+        </div>
+
+        <div class="resume-cta__actions">
+          <Button href="/resume">Open resume page</Button>
+          <Button
+            variant="secondary"
+            href={resume.pdf.path}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {resume.pdf.downloadLabel}
+          </Button>
+        </div>
+      </section>
+    </Container>
+  </Section>
+
+  {hasFeaturedProjects && leadProject && (
     <Section size="sm" aria-labelledby="home-projects-title">
       <Container size="wide">
         <SectionIntro
@@ -110,15 +119,35 @@ const hasFeaturedTools = featuredTools.items.length > 0;
           class="home-section-intro"
         />
 
-        <Grid
-          cols={featuredProjects.items.length > 2 ? '3' : 'auto'}
-          gap="lg"
-          minItemWidth="18rem"
-        >
-          {featuredProjects.items.map((item, index) => (
-            <ProjectCard {...item} emphasis={index === 0 ? 'lead' : 'default'} />
-          ))}
-        </Grid>
+        <div class="home-projects__lead">
+          <ProjectCard
+            {...leadProject}
+            emphasis="lead"
+            showPreview={false}
+            primaryActionLabel="Inspect flagship brief"
+          />
+        </div>
+
+        {hasSupportingProjects && (
+          <div class="home-projects__supporting">
+            <p class="home-supporting-label">Supporting systems</p>
+
+            <Grid
+              cols={supportingProjects.length > 1 ? '2' : 'auto'}
+              gap="lg"
+              minItemWidth="18rem"
+            >
+              {supportingProjects.map((item) => (
+                <ProjectCard
+                  {...item}
+                  featured={false}
+                  showPreview={false}
+                  primaryActionLabel="Inspect supporting brief"
+                />
+              ))}
+            </Grid>
+          </div>
+        )}
       </Container>
     </Section>
   )}
@@ -146,7 +175,7 @@ const hasFeaturedTools = featuredTools.items.length > 0;
             >
               <div class="writing-group__list">
                 {group.items.map((item) => (
-                  <WritingCard {...item} />
+                  <WritingCard {...item} compact={true} />
                 ))}
               </div>
             </GroupedPanel>
@@ -172,11 +201,14 @@ const hasFeaturedTools = featuredTools.items.length > 0;
           minItemWidth="18rem"
         >
           {featuredTools.items.map((item) => (
-            <ToolCard {...item} />
+            <ToolCard
+              {...item}
+              showPreview={false}
+              primaryActionLabel="Inspect tool notes"
+            />
           ))}
         </Grid>
       </Container>
     </Section>
   )}
-
 </SiteShell>

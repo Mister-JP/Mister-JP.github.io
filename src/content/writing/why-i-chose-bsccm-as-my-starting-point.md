@@ -1,11 +1,13 @@
 ---
-title: "Why I chose BSCCM as my starting point"
-summary: "A placeholder project note for the decision to anchor the first microscopy benchmark work in BSCCM."
+title: "Why BSCCM is my starting point"
+summary: "A structured explanation of why I chose BSCCM as my entry point into microscopy computer vision: the field is fragmented, task definitions vary across domains, and 'best model' discussions become noisy fast. This case study explains why a single, well-scoped dataset is a better foundation for disciplined learning than chasing a scattered benchmark landscape."
 featureImage: "/images/entry-previews/writing-detail.svg"
 category: "project-note"
 series: "BSCCM Project Notes"
 listed: true
-status: "Draft scaffold"
+cardLabel: "Case study"
+cardCtaLabel: "Read case study"
+status: "Foundational"
 tags:
   - Microscopy
   - Benchmarking

@@ -1,12 +1,15 @@
 ---
-title: "Architecture Diagram Composer"
-summary: "A note-to-diagram workflow that turns structured system descriptions into review-ready architecture maps."
+title: "Procedural Architecture Composer"
+summary: "A custom diagramming tool for turning model structures into clean, review-ready architecture visuals. I built it because existing tools did not give me the level of control I wanted for presenting model design clearly, especially while learning, documenting, and comparing architectures."
 featureImage: "/images/entry-previews/project-detail.svg"
-whyItMatters: "Clear diagrams shorten technical review cycles, reduce alignment drift, and make implementation plans easier to share."
-status: "Prototype available"
-currentMilestone: "Stabilizing the note-to-layout pipeline and tightening export quality for repeatable review snapshots."
+cardEyebrowDetail: "Tooling + diagrams"
+featuredLabel: "Featured tool"
+whyItMatters: "Clear architecture visuals reduce review friction, improve communication, and make technical decisions easier to inspect before implementation drifts."
+status: "Actively used"
+currentMilestone: "Improving layout control, consistency, and export quality so architecture diagrams can be reused across project pages, notes, and technical writeups."
 tags:
   - Tooling
+  - Architecture
   - Diagrams
 sortOrder: 20
 links:

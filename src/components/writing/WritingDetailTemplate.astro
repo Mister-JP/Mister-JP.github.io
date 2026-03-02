@@ -8,6 +8,7 @@ import Tag from '../ui/Tag.astro';
 import PageHeader from '../layout/PageHeader.astro';
 import type { WritingCategory } from '../../lib/writing-categories';
 import { getWritingCategoryMeta } from '../../lib/writing-categories';
+import { hasWritingFeatureImage } from '../../lib/feature-images';
 
 interface HeadingLink {
   depth: number;
@@ -64,7 +65,9 @@ const hasGuide = outline.length > 0 || relatedProjects.length > 0;
 <Section size="sm">
   <Container size="wide">
     <div class="writing-detail-template">
-      <FeatureMedia src={featureImage} alt={`${title} preview`} />
+      {hasWritingFeatureImage(featureImage) && (
+        <FeatureMedia src={featureImage} alt={`${title} preview`} />
+      )}
 
       {hasGuide && (
         <section class="writing-detail-template__guide" aria-label="Writing guide">

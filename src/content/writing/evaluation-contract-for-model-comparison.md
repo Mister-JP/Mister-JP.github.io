@@ -1,17 +1,17 @@
 ---
-title: "An evaluation contract for model comparison"
-summary: "A placeholder method for defining the stable comparison rules a model evaluation needs before results can be trusted."
+title: "Evaluation Before Optimization"
+summary: "A method for defining what must stay fixed before model comparisons mean anything: data handling, split discipline, metric interpretation, and output inspection. The goal is to reduce false confidence and make early results more trustworthy."
 featureImage: "/images/entry-previews/writing-detail.svg"
 category: "method"
 series: "Experiment Design"
 listed: true
-status: "Draft scaffold"
+status: "In progress"
 tags:
   - Evaluation
-  - Methodology
+  - Model comparison
 sortOrder: 40
 relatedProjects:
-  - experiment-reproducibility-framework
+  - microscopy-benchmark-pipeline
 ---
 # Recurring Engineering Problem
 TODO: define how model comparison fails when evaluation rules shift between runs.

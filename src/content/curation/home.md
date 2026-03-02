@@ -2,22 +2,17 @@
 surface: home
 featuredProjects:
   - microscopy-benchmark-pipeline
-  - architecture-diagram-composer
   - experiment-reproducibility-framework
 featuredWriting:
-  - label: Research
-    category: research
-    entries:
-      - what-makes-modern-microscopy-cv-hard
-  - label: Project Notes
+  - label: Case study
     category: project-note
     entries:
-      - bsccm-first-baseline
+      - why-i-chose-bsccm-as-my-starting-point
   - label: Methods
     category: method
     entries:
       - reproducible-experiment-stack
-      - experiment-observability
+      - evaluation-contract-for-model-comparison
 featuredTools:
   - procedural-architecture-composer
 ---

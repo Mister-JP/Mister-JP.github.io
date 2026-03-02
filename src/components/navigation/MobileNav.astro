@@ -11,7 +11,10 @@ const { items = [] } = Astro.props as {
     {items.map((item) => (
       <li>
         <a
-          class="mobile-nav__link"
+          class:list={[
+            'mobile-nav__link',
+            item.href === '/resume' && 'mobile-nav__link--resume',
+          ]}
           href={item.href}
           aria-current={item.isCurrent ? 'page' : undefined}
         >

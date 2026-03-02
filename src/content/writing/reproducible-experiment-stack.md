@@ -1,16 +1,16 @@
 ---
-title: "A reproducible experiment stack for computer vision research"
-summary: "A repeatable stack for configuration lineage, run tracking, and audit-ready reruns."
+title: "Reproducible Experiment Stack"
+summary: "The working structure behind the BSCCM project: configuration lineage, validated inputs, run tracking, metric logging, and artifact discipline designed to make experiments easier to repeat, audit, and compare."
 featureImage: "/images/entry-previews/writing-detail.svg"
 category: "method"
 series: "Experiment Design"
-status: "Draft scaffold"
+status: "Core workflow"
 tags:
   - Reproducibility
   - Workflow
 sortOrder: 10
 relatedProjects:
-  - experiment-reproducibility-framework
+  - microscopy-benchmark-pipeline
 ---
 # Recurring Engineering Problem
 Repeated experiment work breaks down when the path from configuration to output is too loose to retrace confidently.

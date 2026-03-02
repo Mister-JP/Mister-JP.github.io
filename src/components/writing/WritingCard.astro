@@ -2,7 +2,10 @@
 import Button from '../ui/Button.astro';
 import Card from '../ui/Card.astro';
 import Tag from '../ui/Tag.astro';
-import { getWritingFeatureImage } from '../../lib/feature-images';
+import {
+  getWritingFeatureImage,
+  hasWritingFeatureImage,
+} from '../../lib/feature-images';
 import type { WritingCategory } from '../../lib/writing-categories';
 import { getWritingCategoryMeta } from '../../lib/writing-categories';
 
@@ -16,6 +19,8 @@ interface WritingCardProps {
   summary: string;
   featureImage?: string;
   category: WritingCategory;
+  cardLabel?: string;
+  cardCtaLabel?: string;
   status: string;
   tags?: string[];
   featured?: boolean;
@@ -29,6 +34,8 @@ const {
   summary,
   featureImage,
   category,
+  cardLabel,
+  cardCtaLabel,
   status,
   tags = [],
   featured = false,
@@ -38,6 +45,10 @@ const {
 } = Astro.props as WritingCardProps;
 
 const categoryMeta = getWritingCategoryMeta(category);
+const visibleCardLabel = cardLabel ?? categoryMeta.label;
+const visibleCtaLabel = cardCtaLabel ?? categoryMeta.ctaLabel;
+const resolvedFeatureImage = getWritingFeatureImage(featureImage);
+const shouldShowPreview = !compact && hasWritingFeatureImage(resolvedFeatureImage);
 ---
 
 <Card
@@ -47,7 +58,7 @@ const categoryMeta = getWritingCategoryMeta(category);
 >
   <div slot="title" class="writing-card__title">
     <div class="writing-card__meta">
-      <Tag tone={categoryMeta.tagTone}>{categoryMeta.label}</Tag>
+      <Tag tone={categoryMeta.tagTone}>{visibleCardLabel}</Tag>
       <Tag tone="muted">{status}</Tag>
       {featured && <Tag tone="accent">Featured</Tag>}
     </div>
@@ -56,9 +67,9 @@ const categoryMeta = getWritingCategoryMeta(category);
     </h3>
   </div>
 
-  {!compact && (
+  {shouldShowPreview && (
     <div class="writing-card__preview">
-      <img src={getWritingFeatureImage(featureImage)} alt={`${title} preview`} loading="lazy" />
+      <img src={resolvedFeatureImage} alt={`${title} preview`} loading="lazy" />
     </div>
   )}
 
@@ -90,7 +101,7 @@ const categoryMeta = getWritingCategoryMeta(category);
 
   {!compact && (
     <div slot="actions">
-      <Button href={href}>{categoryMeta.ctaLabel}</Button>
+      <Button href={href}>{visibleCtaLabel}</Button>
     </div>
   )}
 </Card>

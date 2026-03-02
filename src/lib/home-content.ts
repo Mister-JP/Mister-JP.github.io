@@ -36,6 +36,9 @@ type HomeProjectCardItem = {
   ProjectEntry['data'],
   | 'title'
   | 'summary'
+  | 'cardEyebrowDetail'
+  | 'featuredLabel'
+  | 'whyItMatters'
   | 'status'
   | 'tags'
   | 'links'
@@ -45,7 +48,14 @@ type HomeProjectCardItem = {
 
 type HomeToolCardItem = Pick<
   ToolEntry['data'],
-  'title' | 'summary' | 'status' | 'links' | 'tags' | 'featureImage'
+  | 'title'
+  | 'summary'
+  | 'cardEyebrowDetail'
+  | 'featuredLabel'
+  | 'status'
+  | 'links'
+  | 'tags'
+  | 'featureImage'
 > & {
   detailHref: string;
   featured: true;
@@ -53,7 +63,14 @@ type HomeToolCardItem = Pick<
 
 type HomeWritingCardItem = Pick<
   WritingEntry['data'],
-  'title' | 'summary' | 'category' | 'status' | 'tags' | 'featureImage'
+  | 'title'
+  | 'summary'
+  | 'category'
+  | 'cardLabel'
+  | 'cardCtaLabel'
+  | 'status'
+  | 'tags'
+  | 'featureImage'
 > & {
   href: string;
   relatedProjects: LinkedProject[];
@@ -164,6 +181,8 @@ export async function getHomePageContent(): Promise<HomePageContent> {
           summary: entry.data.summary,
           featureImage: getWritingFeatureImage(entry.data.featureImage),
           category: normalizeWritingCategory(entry.data.category),
+          cardLabel: entry.data.cardLabel,
+          cardCtaLabel: entry.data.cardCtaLabel,
           status: entry.data.status,
           tags: entry.data.tags,
           href: getWritingHref(entry),
@@ -200,6 +219,9 @@ export async function getHomePageContent(): Promise<HomePageContent> {
         title: entry.data.title,
         summary: entry.data.summary,
         featureImage: getProjectFeatureImage(entry.data.featureImage),
+        cardEyebrowDetail: entry.data.cardEyebrowDetail,
+        featuredLabel: entry.data.featuredLabel,
+        whyItMatters: entry.data.whyItMatters,
         status: entry.data.status,
         currentMilestone: entry.data.currentMilestone,
         tags: entry.data.tags,
@@ -218,6 +240,8 @@ export async function getHomePageContent(): Promise<HomePageContent> {
       items: featuredToolEntries.map((entry) => ({
         title: entry.data.title,
         summary: entry.data.summary,
+        cardEyebrowDetail: entry.data.cardEyebrowDetail,
+        featuredLabel: entry.data.featuredLabel,
         status: entry.data.status,
         links: entry.data.links,
         tags: entry.data.tags,

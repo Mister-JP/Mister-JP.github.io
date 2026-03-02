@@ -6,6 +6,7 @@ import Prose from '../ui/Prose.astro';
 import Section from '../ui/Section.astro';
 import Tag from '../ui/Tag.astro';
 import PageHeader from '../layout/PageHeader.astro';
+import { hasToolFeatureImage } from '../../lib/feature-images';
 
 interface DetailLink {
   label: string;
@@ -78,7 +79,9 @@ const hasGuide =
 <Section size="sm">
   <Container size="wide">
     <div class="tool-detail-template">
-      <FeatureMedia src={featureImage} alt={`${title} preview`} />
+      {hasToolFeatureImage(featureImage) && (
+        <FeatureMedia src={featureImage} alt={`${title} preview`} />
+      )}
 
       {hasGuide && (
         <section class="tool-detail-template__guide" aria-label="Tool guide">

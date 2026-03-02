@@ -3,7 +3,10 @@ import Button from '../ui/Button.astro';
 import Card from '../ui/Card.astro';
 import Tag from '../ui/Tag.astro';
 import { getProjectHref } from '../../lib/content-paths';
-import { getProjectFeatureImage } from '../../lib/feature-images';
+import {
+  getProjectFeatureImage,
+  hasProjectFeatureImage,
+} from '../../lib/feature-images';
 
 interface ProjectLinks {
   code?: string;
@@ -14,6 +17,9 @@ interface ProjectCardProps {
   slug: string;
   title: string;
   summary: string;
+  cardEyebrowDetail?: string;
+  featuredLabel?: string;
+  whyItMatters: string;
   status: string;
   currentMilestone?: string;
   tags: string[];
@@ -21,6 +27,10 @@ interface ProjectCardProps {
   featureImage?: string;
   featured?: boolean;
   emphasis?: 'default' | 'lead';
+  showPreview?: boolean;
+  primaryActionLabel?: string;
+  codeActionLabel?: string;
+  demoActionLabel?: string;
   class?: string;
   [key: string]: unknown;
 }
@@ -29,6 +39,9 @@ const {
   slug,
   title,
   summary,
+  cardEyebrowDetail,
+  featuredLabel = 'Featured',
+  whyItMatters,
   status,
   currentMilestone,
   tags = [],
@@ -36,15 +49,21 @@ const {
   featureImage,
   featured = false,
   emphasis = 'default',
+  showPreview = true,
+  primaryActionLabel = 'Inspect project brief',
+  codeActionLabel = 'Review code',
+  demoActionLabel = 'Open live demo',
   class: className = '',
   ...rest
 } = Astro.props as ProjectCardProps;
 
 const detailHref = getProjectHref({ slug });
+const resolvedFeatureImage = getProjectFeatureImage(featureImage);
+const shouldShowPreview = showPreview && hasProjectFeatureImage(resolvedFeatureImage);
 const actions = [
-  { label: 'View project', href: detailHref },
-  links.code ? { label: 'View code', href: links.code } : undefined,
-  links.demo ? { label: 'Open demo', href: links.demo } : undefined,
+  { label: primaryActionLabel, href: detailHref },
+  links.code ? { label: codeActionLabel, href: links.code } : undefined,
+  links.demo ? { label: demoActionLabel, href: links.demo } : undefined,
 ]
   .filter((action): action is { label: string; href: string } => Boolean(action))
   .map((action) => ({
@@ -52,8 +71,8 @@ const actions = [
     isExternal: action.href.startsWith('http'),
   }));
 const cardVariant = emphasis === 'lead' ? 'accent' : featured ? 'soft' : 'default';
-const primaryTags = tags.slice(0, 2);
-const visibleTags = tags.slice(primaryTags.length);
+const eyebrowDetail = cardEyebrowDetail ?? tags.slice(0, 2).join(' / ');
+const visibleTags = cardEyebrowDetail ? tags : tags.slice(2);
 ---
 
 <Card
@@ -65,26 +84,33 @@ const visibleTags = tags.slice(primaryTags.length);
   <div slot="title" class="project-card__title">
     <p class="project-card__eyebrow">
       <span>Project</span>
-      {primaryTags.length > 0 && <span>{primaryTags.join(' / ')}</span>}
+      {eyebrowDetail && <span>{eyebrowDetail}</span>}
     </p>
     <div class="project-card__meta">
       <Tag tone={featured ? 'accent' : 'default'}>{status}</Tag>
-      {featured && <Tag tone="muted">Featured</Tag>}
+      {featured && <Tag tone="muted">{featuredLabel}</Tag>}
     </div>
     <h3>
       <a class="project-card__title-link text-link" href={detailHref}>{title}</a>
     </h3>
   </div>
 
-  <div class="project-card__preview">
-    <img src={getProjectFeatureImage(featureImage)} alt={`${title} preview`} loading="lazy" />
-  </div>
+  {shouldShowPreview && (
+    <div class="project-card__preview">
+      <img src={resolvedFeatureImage} alt={`${title} preview`} loading="lazy" />
+    </div>
+  )}
 
   <p class="project-card__summary">{summary}</p>
 
+  <p class="project-card__evidence">
+    <span class="project-card__section-label">Why it matters</span>
+    <span>{whyItMatters}</span>
+  </p>
+
   {currentMilestone && (
     <p class="project-card__focus">
-      <span class="project-card__focus-label">Current focus</span>
+      <span class="project-card__section-label">Current checkpoint</span>
       <span>{currentMilestone}</span>
     </p>
   )}
