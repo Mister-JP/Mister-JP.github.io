@@ -12,13 +12,10 @@ import {
   getRelatedProjectsForEntry,
   getWritingEntriesForProjectSet,
 } from '../../lib/content-relations';
+import { getWritingCategoryLabel } from '../../lib/writing-categories';
 import SiteShell from '../../layouts/SiteShell.astro';
 
 type ToolEntry = CollectionEntry<'tools'>;
-type WritingEntry = CollectionEntry<'writing'>;
-
-const getWritingKindLabel = (kind: WritingEntry['data']['kind']) =>
-  kind === 'case-study' ? 'Case Study' : 'Method';
 
 export async function getStaticPaths() {
   const tools = await getCollection('tools');
@@ -71,7 +68,7 @@ const links = [
       title: entry.data.title,
       summary: entry.data.summary,
       status: entry.data.status,
-      kindLabel: getWritingKindLabel(entry.data.kind),
+      categoryLabel: getWritingCategoryLabel(entry.data.category),
       href: getWritingHref(entry),
       tags: entry.data.tags,
     }))}

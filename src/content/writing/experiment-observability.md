@@ -1,13 +1,14 @@
 ---
-title: "Experiment Observability"
+title: "Run observability for machine learning experiments"
 summary: "A method for logging, guardrails, and review hooks that make iterative experiments easier to trust."
 featureImage: "/images/entry-previews/writing-detail.svg"
-kind: "method"
+category: "method"
+series: "Experiment Design"
 status: "Notes in progress"
 tags:
   - Observability
   - Evaluation
-sortOrder: 20
+sortOrder: 30
 relatedProjects:
   - experiment-reproducibility-framework
 ---

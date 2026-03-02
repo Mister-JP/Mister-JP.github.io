@@ -38,7 +38,7 @@ export async function getWritingEntriesForProject(
 ): Promise<WritingEntry[]> {
   return (
     await getCollection('writing', ({ data }) =>
-      matchesEntryReference(data.relatedProjects, project),
+      data.listed && matchesEntryReference(data.relatedProjects, project),
     )
   ).sort(sortCollectionEntriesBySortOrderThenTitle);
 }
@@ -68,6 +68,7 @@ export async function getWritingEntriesForProjectSet(
 
   return (
     await getCollection('writing', ({ data }) =>
+      data.listed &&
       data.relatedProjects.some((reference) => projectKeys.has(toReferenceKey(reference))),
     )
   ).sort(sortCollectionEntriesBySortOrderThenTitle);

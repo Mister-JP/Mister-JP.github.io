@@ -59,8 +59,7 @@ The site currently uses Astro's default config, so there is no extra adapter or 
 - `/projects`
 - `/projects/[slug]`
 - `/writing`
-- `/writing/case-studies/[slug]`
-- `/writing/methods/[slug]`
+- `/writing/[category]/[slug]`
 - `/tools`
 - `/tools/[slug]`
 - `/resume`
@@ -124,10 +123,12 @@ Canonical project entries. Each project owns:
 
 #### `src/content/writing/`
 
-Canonical writing entries. Each item is classified by `kind`:
+Canonical writing entries. Each item is classified by `category`:
 
-- `case-study`
+- `research`
+- `project-note`
 - `method`
+- `technical-note`
 
 Writing entries also support:
 
@@ -205,8 +206,10 @@ The resume route uses the path declared in `src/content/pages/resume.md` as the 
 Starter templates for content entry:
 
 - `project-template.md`
-- `case-study-template.md`
+- `project-note-template.md`
+- `research-template.md`
 - `method-template.md`
+- `technical-note-template.md`
 - `tool-detail-template.md`
 
 These are the intended starting point for new content, instead of duplicating old entries by hand.
@@ -229,7 +232,7 @@ The Astro content collections are defined in `src/content/config.ts`. There are 
 The most important schema decisions are:
 
 - `pages` is a discriminated union keyed by `template`
-- `writing` is a single collection split by `kind`, not two separate collections
+- `writing` is a single collection split by `category`, not two separate collections
 - `curation` is a discriminated union keyed by `surface`
 - cross-entry relations use Astro content references, not raw string slugs
 
@@ -246,7 +249,7 @@ That helper:
 - loads `src/content/pages/home.md`
 - loads `src/content/curation/home.md`
 - resolves the referenced projects, writing entries, and tools
-- validates that featured writing references are grouped under the correct `kind`
+- validates that featured writing references are grouped under the correct `category`
 - returns route-ready card props
 
 ### Projects
@@ -264,14 +267,16 @@ The page shows both a featured section and the full project library.
 `src/pages/writing.astro` combines:
 
 - page framing from `src/content/pages/writing.md`
-- ordered writing references from `src/content/curation/writing.md`
+- all listed writing entries from the `writing` collection
 
-It validates that the curation groups contain the expected kinds:
+It groups entries under the ordered sections declared in the page content:
 
-- case studies in the case-study group
-- methods in the method group
+- research
+- project notes
+- methods
+- technical notes
 
-The two dynamic writing detail routes split at the route layer, but both read from the same `writing` collection.
+The dynamic writing detail route uses the category path segment but still reads from the same `writing` collection.
 
 ### Tools
 
@@ -319,7 +324,6 @@ Use this for:
 - homepage featured writing
 - homepage featured tools
 - projects-page featured entries
-- writing-page ordered case studies and methods
 
 Do not duplicate titles or summaries in curation files. Those files should contain ordered references only.
 

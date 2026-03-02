@@ -1,8 +1,10 @@
 ---
-title: "TODO: case study title"
+title: "TODO: project note title"
 summary: "TODO: concise summary for the project-linked narrative."
-kind: "case-study"
+category: "project-note"
+# series: "TODO: optional series"
 # featureImage: /images/writing-preview.png
+listed: false
 status: "Draft scaffold"
 tags:
   - TODO: tag

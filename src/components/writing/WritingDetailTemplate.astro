@@ -6,8 +6,8 @@ import Prose from '../ui/Prose.astro';
 import Section from '../ui/Section.astro';
 import Tag from '../ui/Tag.astro';
 import PageHeader from '../layout/PageHeader.astro';
-
-type WritingKind = 'case-study' | 'method';
+import type { WritingCategory } from '../../lib/writing-categories';
+import { getWritingCategoryMeta } from '../../lib/writing-categories';
 
 interface HeadingLink {
   depth: number;
@@ -26,7 +26,8 @@ interface WritingDetailTemplateProps {
   title: string;
   summary: string;
   featureImage: string;
-  kind: WritingKind;
+  category: WritingCategory;
+  series?: string;
   status: string;
   tags?: string[];
   relatedProjects?: RelatedProjectLink[];
@@ -37,7 +38,8 @@ const {
   title,
   summary,
   featureImage,
-  kind,
+  category,
+  series,
   status,
   tags = [],
   relatedProjects = [],
@@ -45,14 +47,15 @@ const {
 } = Astro.props as WritingDetailTemplateProps;
 
 const hasBody = Astro.slots.has('default');
-const kindLabel = kind === 'case-study' ? 'Case Study' : 'Method';
+const categoryMeta = getWritingCategoryMeta(category);
 const outline = headings.filter((heading) => heading.depth <= 2);
 const hasGuide = outline.length > 0 || relatedProjects.length > 0;
 ---
 
 <PageHeader eyebrow="Writing" title={title} description={summary}>
-  <Tag slot="meta" tone="muted">{kindLabel}</Tag>
+  <Tag slot="meta" tone={categoryMeta.tagTone}>{categoryMeta.label}</Tag>
   <Tag slot="meta" tone="accent">{status}</Tag>
+  {series && <Tag slot="meta">{series}</Tag>}
   {tags.map((tag) => (
     <Tag slot="meta" tone="muted">{tag}</Tag>
   ))}

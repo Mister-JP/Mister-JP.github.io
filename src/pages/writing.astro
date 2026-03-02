@@ -6,19 +6,34 @@ import PageHeader from '../components/layout/PageHeader.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
 import Grid from '../components/ui/Grid.astro';
+import SectionIntro from '../components/ui/SectionIntro.astro';
 import Tag from '../components/ui/Tag.astro';
-import GroupedPanel from '../components/ui/GroupedPanel.astro';
 import WritingCard from '../components/writing/WritingCard.astro';
 import { getProjectHref, getWritingHref } from '../lib/content-paths';
 import { sortCollectionEntriesBySortOrderThenTitle } from '../lib/collection-utils';
 import { getRelatedProjectsForEntry } from '../lib/content-relations';
+import {
+  getWritingCategoryCountLabel,
+  getWritingCategoryMeta,
+  normalizeWritingCategory,
+  type WritingCategory,
+} from '../lib/writing-categories';
 import { shellConfig } from '../data/site';
 
 type WritingEntry = CollectionEntry<'writing'>;
 
+type WritingCardData = {
+  entry: WritingEntry;
+  href: string;
+  relatedProjects: Array<{
+    href?: string;
+    title: string;
+  }>;
+};
+
 const buildWritingCards = async (
   entries: WritingEntry[],
-) =>
+): Promise<WritingCardData[]> =>
   Promise.all(
     entries.map(async (entry) => {
       const relatedProjects = await getRelatedProjectsForEntry(entry);
@@ -34,10 +49,9 @@ const buildWritingCards = async (
     }),
   );
 
-const [pageEntry, caseStudyEntries, methodEntries] = await Promise.all([
+const [pageEntry, writingEntries] = await Promise.all([
   getEntry('pages', 'writing'),
-  getCollection('writing', ({ data }) => data.kind === 'case-study'),
-  getCollection('writing', ({ data }) => data.kind === 'method'),
+  getCollection('writing', ({ data }) => data.listed),
 ]);
 
 if (!pageEntry) {
@@ -48,10 +62,73 @@ if (pageEntry.data.template !== 'writing') {
   throw new Error('The writing page entry must use the "writing" template.');
 }
 
-const [caseStudies, methods] = await Promise.all([
-  buildWritingCards(caseStudyEntries.sort(sortCollectionEntriesBySortOrderThenTitle)),
-  buildWritingCards(methodEntries.sort(sortCollectionEntriesBySortOrderThenTitle)),
-]);
+const entriesByCategory = new Map<WritingCategory, WritingEntry[]>();
+
+writingEntries
+  .sort(sortCollectionEntriesBySortOrderThenTitle)
+  .forEach((entry) => {
+    const normalizedCategory = normalizeWritingCategory(entry.data.category);
+    const categoryEntries = entriesByCategory.get(normalizedCategory) ?? [];
+    categoryEntries.push(entry);
+    entriesByCategory.set(normalizedCategory, categoryEntries);
+  });
+
+const sections = (
+  await Promise.all(
+    pageEntry.data.sections.map(async (section) => {
+      const normalizedSectionCategory = normalizeWritingCategory(section.category);
+      const entries = entriesByCategory.get(normalizedSectionCategory) ?? [];
+
+      if (entries.length === 0) {
+        return undefined;
+      }
+
+      return {
+        category: normalizedSectionCategory,
+        title: section.title,
+        intro: section.intro,
+        meta: getWritingCategoryMeta(normalizedSectionCategory),
+        items: await buildWritingCards(entries),
+      };
+    }),
+  )
+).filter(
+  (
+    section,
+  ): section is {
+    category: WritingCategory;
+    title: string;
+    intro: string;
+    meta: ReturnType<typeof getWritingCategoryMeta>;
+    items: WritingCardData[];
+  } => Boolean(section),
+);
+
+const getSectionTone = (
+  panelTone: ReturnType<typeof getWritingCategoryMeta>['panelTone'],
+) => {
+  if (panelTone === 'soft') {
+    return 'soft';
+  }
+
+  if (panelTone === 'muted') {
+    return 'muted';
+  }
+
+  return 'default';
+};
+
+const getGridCols = (count: number) => {
+  if (count > 2) {
+    return '3';
+  }
+
+  if (count > 1) {
+    return '2';
+  }
+
+  return 'auto';
+};
 
 const page = pageEntry.data;
 ---
@@ -66,54 +143,44 @@ const page = pageEntry.data;
     title={page.title}
     description={page.description}
   >
-    <Tag slot="meta" tone="accent">{caseStudies.length} case studies</Tag>
-    <Tag slot="meta">{methods.length} methods</Tag>
+    {sections.map((section) => (
+      <Tag slot="meta" tone={section.meta.tagTone}>
+        {getWritingCategoryCountLabel(section.category, section.items.length)}
+      </Tag>
+    ))}
   </PageHeader>
 
-  <Section size="sm">
-    <Container size="wide">
-      <Grid cols="2" gap="lg">
-        <GroupedPanel
-          title={page.caseStudies.title}
-          titleId="case-studies-title"
-          intro={page.caseStudies.intro}
+  {sections.map((section, index) => (
+    <Section
+      size="sm"
+      tone={getSectionTone(section.meta.panelTone)}
+      aria-labelledby={`writing-section-${index}`}
+    >
+      <Container size="wide">
+        <SectionIntro
+          title={section.title}
+          titleId={`writing-section-${index}`}
+          description={section.intro}
         >
-          <div class="writing-group__list">
-            {caseStudies.length > 0 ? (
-              caseStudies.map(({ entry, href, relatedProjects }) => (
-                <WritingCard
-                  {...entry.data}
-                  href={href}
-                  relatedProjects={relatedProjects}
-                />
-              ))
-            ) : (
-              <p class="writing-group__empty">{page.caseStudies.emptyState}</p>
-            )}
-          </div>
-        </GroupedPanel>
+          <Tag slot="meta" tone={section.meta.tagTone}>
+            {getWritingCategoryCountLabel(section.category, section.items.length)}
+          </Tag>
+        </SectionIntro>
 
-        <GroupedPanel
-          title={page.methods.title}
-          titleId="methods-title"
-          intro={page.methods.intro}
-          tone="soft"
+        <Grid
+          cols={getGridCols(section.items.length)}
+          gap="lg"
         >
-          <div class="writing-group__list">
-            {methods.length > 0 ? (
-              methods.map(({ entry, href, relatedProjects }) => (
-                <WritingCard
-                  {...entry.data}
-                  href={href}
-                  relatedProjects={relatedProjects}
-                />
-              ))
-            ) : (
-              <p class="writing-group__empty">{page.methods.emptyState}</p>
-            )}
-          </div>
-        </GroupedPanel>
-      </Grid>
-    </Container>
-  </Section>
+          {section.items.map(({ entry, href, relatedProjects }) => (
+            <WritingCard
+              {...entry.data}
+              href={href}
+              relatedProjects={relatedProjects}
+              compact={section.meta.indexPresentation === 'compact'}
+            />
+          ))}
+        </Grid>
+      </Container>
+    </Section>
+  ))}
 </SiteShell>

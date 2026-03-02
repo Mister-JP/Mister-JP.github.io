@@ -5,11 +5,19 @@ featuredProjects:
   - architecture-diagram-composer
   - experiment-reproducibility-framework
 featuredWriting:
-  caseStudies:
-    - bsccm-first-baseline
-  methods:
-    - reproducible-experiment-stack
-    - experiment-observability
+  - label: Research
+    category: research
+    entries:
+      - what-makes-modern-microscopy-cv-hard
+  - label: Project Notes
+    category: project-note
+    entries:
+      - bsccm-first-baseline
+  - label: Methods
+    category: method
+    entries:
+      - reproducible-experiment-stack
+      - experiment-observability
 featuredTools:
   - procedural-architecture-composer
 ---

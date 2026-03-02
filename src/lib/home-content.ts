@@ -11,6 +11,10 @@ import {
   getWritingFeatureImage,
 } from './feature-images';
 import { getRelatedProjectsForEntry } from './content-relations';
+import {
+  getWritingCategoryMeta,
+  normalizeWritingCategory,
+} from './writing-categories';
 
 type ProjectEntry = CollectionEntry<'projects'>;
 type ToolEntry = CollectionEntry<'tools'>;
@@ -49,7 +53,7 @@ type HomeToolCardItem = Pick<
 
 type HomeWritingCardItem = Pick<
   WritingEntry['data'],
-  'title' | 'summary' | 'kind' | 'status' | 'tags' | 'featureImage'
+  'title' | 'summary' | 'category' | 'status' | 'tags' | 'featureImage'
 > & {
   href: string;
   relatedProjects: LinkedProject[];
@@ -70,6 +74,7 @@ export interface HomePageContent {
     sectionIntro: HomePageData['selectedWriting']['sectionIntro'];
     groups: Array<{
       label: string;
+      category: WritingEntry['data']['category'];
       items: HomeWritingCardItem[];
     }>;
   };
@@ -107,13 +112,18 @@ export async function getHomePageContent(): Promise<HomePageContent> {
   const [
     rawFeaturedProjectEntries,
     rawFeaturedToolEntries,
-    rawFeaturedCaseStudyEntries,
-    rawFeaturedMethodEntries,
+    rawFeaturedWritingGroups,
   ] = await Promise.all([
     getEntries(curation.featuredProjects),
     getEntries(curation.featuredTools),
-    getEntries(curation.featuredWriting.caseStudies),
-    getEntries(curation.featuredWriting.methods),
+    Promise.all(
+      curation.featuredWriting.map(async (group) => ({
+        ...group,
+        entries: (await getEntries(group.entries)).filter(
+          (entry): entry is WritingEntry => Boolean(entry),
+        ),
+      })),
+    ),
   ]);
 
   const featuredProjectEntries = rawFeaturedProjectEntries.filter(
@@ -122,22 +132,25 @@ export async function getHomePageContent(): Promise<HomePageContent> {
   const featuredToolEntries = rawFeaturedToolEntries.filter(
     (entry): entry is ToolEntry => Boolean(entry),
   );
-  const featuredCaseStudyEntries = rawFeaturedCaseStudyEntries.filter(
-    (entry): entry is WritingEntry => Boolean(entry),
-  );
-  const featuredMethodEntries = rawFeaturedMethodEntries.filter(
-    (entry): entry is WritingEntry => Boolean(entry),
-  );
-
   const buildWritingGroupItems = async (
     entries: WritingEntry[],
-    expectedKind: WritingEntry['data']['kind'],
+    expectedCategory: WritingEntry['data']['category'],
     label: string,
   ): Promise<HomeWritingCardItem[]> => {
+    const normalizedExpectedCategory = normalizeWritingCategory(expectedCategory);
+
     entries.forEach((entry) => {
-      if (entry.data.kind !== expectedKind) {
+      const normalizedCategory = normalizeWritingCategory(entry.data.category);
+
+      if (!entry.data.listed) {
         throw new Error(
-          `Home writing group "${label}" includes "${entry.slug}", which is ${entry.data.kind}.`,
+          `Home writing group "${label}" includes "${entry.slug}", which is not listed.`,
+        );
+      }
+
+      if (normalizedCategory !== normalizedExpectedCategory) {
+        throw new Error(
+          `Home writing group "${label}" includes "${entry.slug}", which resolves to ${normalizedCategory}.`,
         );
       }
     });
@@ -150,7 +163,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
           title: entry.data.title,
           summary: entry.data.summary,
           featureImage: getWritingFeatureImage(entry.data.featureImage),
-          kind: entry.data.kind,
+          category: normalizeWritingCategory(entry.data.category),
           status: entry.data.status,
           tags: entry.data.tags,
           href: getWritingHref(entry),
@@ -163,24 +176,13 @@ export async function getHomePageContent(): Promise<HomePageContent> {
     );
   };
 
-  const selectedWritingGroups = [
-    {
-      label: pageCopy.selectedWriting.caseStudiesLabel,
-      items: await buildWritingGroupItems(
-        featuredCaseStudyEntries,
-        'case-study',
-        pageCopy.selectedWriting.caseStudiesLabel,
-      ),
-    },
-    {
-      label: pageCopy.selectedWriting.methodsLabel,
-      items: await buildWritingGroupItems(
-        featuredMethodEntries,
-        'method',
-        pageCopy.selectedWriting.methodsLabel,
-      ),
-    },
-  ];
+  const selectedWritingGroups = await Promise.all(
+    rawFeaturedWritingGroups.map(async (group) => ({
+      label: group.label || getWritingCategoryMeta(group.category).pluralLabel,
+      category: normalizeWritingCategory(group.category),
+      items: await buildWritingGroupItems(group.entries, group.category, group.label),
+    })),
+  );
 
   return {
     page: {

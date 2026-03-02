@@ -31,8 +31,8 @@ intro:
     - label: "Projects first"
       description: "See the clearest build, evaluation, and systems work."
       href: /projects
-    - label: "Read the methods"
-      description: "Review the decision patterns, experiments, and technical notes."
+    - label: "Read the writing"
+      description: "Review research, project notes, methods, and technical notes."
       href: /writing
     - label: "Open the resume"
       description: "Go straight to the resume page for a quick read or PDF download."
@@ -45,10 +45,8 @@ featuredProjects:
 selectedWriting:
   sectionTitle: "Reasoning, kept visible"
   sectionIntro: >-
-    Case studies stay close to specific work. Methods capture the patterns that
-    keep returning across projects and experiments.
-  caseStudiesLabel: Case Studies
-  methodsLabel: Methods
+    Research keeps field framing visible. Project notes and methods keep the
+    specific decisions and reusable practice inspectable.
 featuredTools:
   sectionTitle: "Tools that make work legible"
   sectionIntro: >-

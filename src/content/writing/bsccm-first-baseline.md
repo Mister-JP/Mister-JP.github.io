@@ -1,13 +1,14 @@
 ---
-title: "BSCCM First Baseline"
+title: "Designing the first BSCCM baseline"
 summary: "Notes from the first microscopy baseline pass, including starting assumptions, comparison criteria, and what shifted after the initial review."
 featureImage: "/images/entry-previews/writing-detail.svg"
-kind: "case-study"
+category: "project-note"
+series: "BSCCM Project Notes"
 status: "Outline ready"
 tags:
   - Microscopy
   - Benchmarking
-sortOrder: 10
+sortOrder: 50
 relatedProjects:
   - microscopy-benchmark-pipeline
 ---

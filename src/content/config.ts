@@ -1,7 +1,8 @@
 import { defineCollection, reference, z } from 'astro:content';
+import { WRITING_CATEGORY_VALUES } from '../lib/writing-categories';
 
 const linkField = z.string().min(1);
-const writingKind = z.enum(['case-study', 'method']);
+const writingCategory = z.enum(WRITING_CATEGORY_VALUES);
 const projectReferences = z.array(reference('projects')).default([]);
 const writingReferences = z.array(reference('writing')).default([]);
 const toolReferences = z.array(reference('tools')).default([]);
@@ -93,8 +94,6 @@ const pages = defineCollection({
       selectedWriting: z.object({
         sectionTitle: z.string(),
         sectionIntro: z.string(),
-        caseStudiesLabel: z.string(),
-        methodsLabel: z.string(),
       }),
       featuredTools: z.object({
         sectionTitle: z.string(),
@@ -121,16 +120,15 @@ const pages = defineCollection({
       title: z.string(),
       description: z.string(),
       eyebrow: z.string(),
-      caseStudies: z.object({
-        title: z.string(),
-        intro: z.string(),
-        emptyState: z.string(),
-      }),
-      methods: z.object({
-        title: z.string(),
-        intro: z.string(),
-        emptyState: z.string(),
-      }),
+      sections: z
+        .array(
+          z.object({
+            category: writingCategory,
+            title: z.string(),
+            intro: z.string(),
+          }),
+        )
+        .min(1),
     }),
     z.object({
       template: z.literal('tools'),
@@ -182,7 +180,9 @@ const writing = defineCollection({
     title: z.string(),
     summary: z.string(),
     featureImage: z.string().min(1).optional(),
-    kind: writingKind,
+    category: writingCategory,
+    series: z.string().min(1).optional(),
+    listed: z.boolean().default(true),
     status: z.string(),
     tags: z.array(z.string().min(1)).default([]),
     sortOrder: z.number().int(),
@@ -210,10 +210,13 @@ const curation = defineCollection({
     z.object({
       surface: z.literal('home'),
       featuredProjects: projectReferences,
-      featuredWriting: z.object({
-        caseStudies: writingReferences,
-        methods: writingReferences,
-      }),
+      featuredWriting: z.array(
+        z.object({
+          label: z.string(),
+          category: writingCategory,
+          entries: writingReferences,
+        }),
+      ),
       featuredTools: toolReferences,
     }),
     z.object({

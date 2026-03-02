@@ -3,8 +3,8 @@ import Button from '../ui/Button.astro';
 import Card from '../ui/Card.astro';
 import Tag from '../ui/Tag.astro';
 import { getWritingFeatureImage } from '../../lib/feature-images';
-
-type WritingKind = 'case-study' | 'method';
+import type { WritingCategory } from '../../lib/writing-categories';
+import { getWritingCategoryMeta } from '../../lib/writing-categories';
 
 interface RelatedProjectLink {
   href?: string;
@@ -15,10 +15,11 @@ interface WritingCardProps {
   title: string;
   summary: string;
   featureImage?: string;
-  kind: WritingKind;
+  category: WritingCategory;
   status: string;
   tags?: string[];
   featured?: boolean;
+  compact?: boolean;
   href: string;
   relatedProjects?: RelatedProjectLink[];
 }
@@ -27,26 +28,26 @@ const {
   title,
   summary,
   featureImage,
-  kind,
+  category,
   status,
   tags = [],
   featured = false,
+  compact = false,
   href,
   relatedProjects = [],
 } = Astro.props as WritingCardProps;
 
-const actionLabel = kind === 'case-study' ? 'Read case study' : 'Read method';
-const kindLabel = kind === 'case-study' ? 'Case Study' : 'Method';
+const categoryMeta = getWritingCategoryMeta(category);
 ---
 
 <Card
-  variant={featured ? 'soft' : 'default'}
+  variant={featured ? 'soft' : compact ? 'neutral' : 'default'}
   interactive={true}
   class="writing-card"
 >
   <div slot="title" class="writing-card__title">
     <div class="writing-card__meta">
-      <Tag tone={kind === 'case-study' ? 'accent' : 'default'}>{kindLabel}</Tag>
+      <Tag tone={categoryMeta.tagTone}>{categoryMeta.label}</Tag>
       <Tag tone="muted">{status}</Tag>
       {featured && <Tag tone="accent">Featured</Tag>}
     </div>
@@ -55,9 +56,11 @@ const kindLabel = kind === 'case-study' ? 'Case Study' : 'Method';
     </h3>
   </div>
 
-  <div class="writing-card__preview">
-    <img src={getWritingFeatureImage(featureImage)} alt={`${title} preview`} loading="lazy" />
-  </div>
+  {!compact && (
+    <div class="writing-card__preview">
+      <img src={getWritingFeatureImage(featureImage)} alt={`${title} preview`} loading="lazy" />
+    </div>
+  )}
 
   <p class="writing-card__summary">{summary}</p>
 
@@ -85,7 +88,9 @@ const kindLabel = kind === 'case-study' ? 'Case Study' : 'Method';
     </div>
   )}
 
-  <div slot="actions">
-    <Button href={href}>{actionLabel}</Button>
-  </div>
+  {!compact && (
+    <div slot="actions">
+      <Button href={href}>{categoryMeta.ctaLabel}</Button>
+    </div>
+  )}
 </Card>

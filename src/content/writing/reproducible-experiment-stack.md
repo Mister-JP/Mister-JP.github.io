@@ -1,8 +1,9 @@
 ---
-title: "Reproducible Experiment Stack"
+title: "A reproducible experiment stack for computer vision research"
 summary: "A repeatable stack for configuration lineage, run tracking, and audit-ready reruns."
 featureImage: "/images/entry-previews/writing-detail.svg"
-kind: "method"
+category: "method"
+series: "Experiment Design"
 status: "Draft scaffold"
 tags:
   - Reproducibility

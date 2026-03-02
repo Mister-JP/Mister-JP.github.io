@@ -12,6 +12,7 @@ import ToolCard from '../components/tools/ToolCard.astro';
 import WritingCard from '../components/writing/WritingCard.astro';
 import { shellConfig } from '../data/site';
 import { getHomePageContent } from '../lib/home-content';
+import { getWritingCategoryMeta } from '../lib/writing-categories';
 
 const {
   page,
@@ -26,9 +27,9 @@ const {
 const hasFeaturedProjects = featuredProjects.items.length > 0;
 const hasIntroLinks = intro.quickLinks.length > 0;
 const visibleWritingGroups = selectedWriting.groups
-  .map((group, index) => ({
+  .map((group) => ({
     ...group,
-    tone: index === 1 ? 'soft' : 'default',
+    tone: getWritingCategoryMeta(group.category).panelTone,
   }))
   .filter((group) => group.items.length > 0);
 const hasSelectedWriting = visibleWritingGroups.length > 0;
@@ -132,7 +133,10 @@ const hasFeaturedTools = featuredTools.items.length > 0;
           class="home-section-intro"
         />
 
-        <Grid cols={visibleWritingGroups.length > 1 ? '2' : 'auto'} gap="lg">
+        <Grid
+          cols={visibleWritingGroups.length > 2 ? '3' : visibleWritingGroups.length > 1 ? '2' : 'auto'}
+          gap="lg"
+        >
           {visibleWritingGroups.map((group, index) => (
             <GroupedPanel
               title={group.label}

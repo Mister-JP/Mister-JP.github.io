@@ -2,6 +2,7 @@ import type { CollectionEntry } from 'astro:content';
 import { getProjectHref } from './content-paths';
 import { getWritingFeatureImage } from './feature-images';
 import { getRelatedProjectsForEntry } from './content-relations';
+import { normalizeWritingCategory } from './writing-categories';
 
 type WritingEntry = CollectionEntry<'writing'>;
 
@@ -16,7 +17,8 @@ export async function getWritingDetailPageData(entry: WritingEntry) {
       title: entry.data.title,
       summary: entry.data.summary,
       featureImage: getWritingFeatureImage(entry.data.featureImage),
-      kind: entry.data.kind,
+      category: normalizeWritingCategory(entry.data.category),
+      series: entry.data.series,
       status: entry.data.status,
       tags: entry.data.tags,
       relatedProjects: relatedProjects.map((project) => ({

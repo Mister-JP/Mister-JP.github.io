@@ -4,29 +4,34 @@ import type { CollectionEntry } from 'astro:content';
 import WritingDetailTemplate from '../../../components/writing/WritingDetailTemplate.astro';
 import { shellConfig } from '../../../data/site';
 import { getWritingDetailPageData } from '../../../lib/writing-detail';
+import {
+  getWritingCategoryCollectionLabel,
+  getWritingCategoryPathSegment,
+} from '../../../lib/writing-categories';
 import SiteShell from '../../../layouts/SiteShell.astro';
 
 type WritingEntry = CollectionEntry<'writing'>;
 
 export async function getStaticPaths() {
-  const caseStudies = await getCollection(
-    'writing',
-    ({ data }) => data.kind === 'case-study',
-  );
+  const entries = await getCollection('writing', ({ data }) => data.listed);
 
-  return caseStudies.map((entry) => ({
-    params: { slug: entry.slug },
+  return entries.map((entry) => ({
+    params: {
+      category: getWritingCategoryPathSegment(entry.data.category),
+      slug: entry.slug,
+    },
     props: { entry },
   }));
 }
 
 const { entry } = Astro.props as { entry: WritingEntry };
 const { Content, hasBody, templateProps } = await getWritingDetailPageData(entry);
+const categoryTitle = getWritingCategoryCollectionLabel(entry.data.category);
 ---
 
 <SiteShell
   {...shellConfig}
-  title={`${entry.data.title} | Case Studies | Jignasu Pathak`}
+  title={`${entry.data.title} | ${categoryTitle} | Jignasu Pathak`}
   description={entry.data.summary}
 >
   <WritingDetailTemplate {...templateProps}>

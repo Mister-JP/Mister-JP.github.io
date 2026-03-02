@@ -30,7 +30,7 @@ interface RelatedWritingItem {
   title: string;
   summary: string;
   status: string;
-  kindLabel: string;
+  categoryLabel: string;
   href: string;
   tags?: string[];
 }
@@ -138,7 +138,7 @@ const hasGuide =
                       <li>
                         <Card variant="soft" class="tool-detail-template__related-card">
                           <div class="tool-detail-template__related-meta">
-                            <Tag tone="accent">{entry.kindLabel}</Tag>
+                            <Tag tone="accent">{entry.categoryLabel}</Tag>
                             <Tag tone="muted">{entry.status}</Tag>
                           </div>
 

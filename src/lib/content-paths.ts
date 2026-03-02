@@ -1,4 +1,5 @@
 import type { CollectionEntry } from 'astro:content';
+import { getWritingCategoryPathSegment } from './writing-categories';
 
 type ProjectLike = Pick<CollectionEntry<'projects'>, 'slug'>;
 type ToolLike = Pick<CollectionEntry<'tools'>, 'slug'>;
@@ -9,6 +10,4 @@ export const getProjectHref = (entry: ProjectLike) => `/projects/${entry.slug}`;
 export const getToolHref = (entry: ToolLike) => `/tools/${entry.slug}`;
 
 export const getWritingHref = (entry: WritingLike) =>
-  entry.data.kind === 'case-study'
-    ? `/writing/case-studies/${entry.slug}`
-    : `/writing/methods/${entry.slug}`;
+  `/writing/${getWritingCategoryPathSegment(entry.data.category)}/${entry.slug}`;

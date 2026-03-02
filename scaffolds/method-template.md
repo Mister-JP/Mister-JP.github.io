@@ -1,8 +1,10 @@
 ---
 title: "TODO: method title"
 summary: "TODO: concise summary for the reusable engineering pattern."
-kind: "method"
+category: "method"
+# series: "TODO: optional series"
 # featureImage: /images/writing-preview.png
+listed: false
 status: "Draft scaffold"
 tags:
   - TODO: tag
