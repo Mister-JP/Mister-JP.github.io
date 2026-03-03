@@ -1,6 +1,6 @@
 ---
 title: "Procedural Architecture Composer"
-summary: "A utility for turning structured model notes into clean, review-ready architecture diagrams with consistent layout and labeling. Built to support technical communication when generic diagram tools were too slow, too rigid, or too imprecise for the workflow I wanted."
+summary: "A utility for turning structured model notes into clean, review-ready architecture diagrams with consistent layout and labeling. Built to support technical communication when generic diagram tools were too rigid, or too imprecise for the workflow I wanted."
 featureImage: "/images/entry-previews/tool-detail.svg"
 cardEyebrowDetail: "Diagrams + communication"
 featuredLabel: "Built for real workflow"

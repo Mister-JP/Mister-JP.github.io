@@ -9,8 +9,8 @@ hero:
     My current work centers on the Berkley Single Cell Computation Microscopy(BSCCM) benchmark pipeline for
     image to image translation, predicting whiteblood cell flourescence from unlabelled cell images. 
     This project is a proof of concept for my approach to building trustworthy machine learning systems: start with a clear, reviewable baseline and iterate with disciplined comparison instead of chasing complexity from the start.
-  primaryCtaLabel: "View BSCCM Project"
-  primaryCtaHref: /projects/microscopy-benchmark-pipeline
+  primaryCtaLabel: "View Projects"
+  primaryCtaHref: /projects
   secondaryCtaLabel: "Open the resume"
   secondaryCtaHref: /resume
 proofStrip:
@@ -23,24 +23,22 @@ proofStrip:
     
 intro:
   eyebrow: "Professional background and resume"
-  heading: ""
-  body: "Review prior roles, technical grounding, and the experience behind the work presented here."
+  heading: "Review prior experience here"
+  body: ""
 featuredProjects:
-  sectionTitle: "Flagship system and supporting infrastructure"
+  sectionTitle: "Projects"
   sectionIntro: >-
-    One serious benchmark system carries the main proof load here. The
-    supporting build exists to keep experiment work stable, comparable, and
-    easier to review.
+    Selected projects that reflect the problems I tackled, the technical decisions I made, and the outcomes they produced.
+
 selectedWriting:
-  sectionTitle: "Methods and decision notes"
+  sectionTitle: "Writings"
   sectionIntro: >-
-    The notes below document scope choices, experiment structure, and the
-    reusable rules behind the benchmark.
+    Technical notes covering project scope, experimental structure, implementation choices, and results.
+
 featuredTools:
-  sectionTitle: "Supporting tool"
+  sectionTitle: "Tools"
   sectionIntro: >-
-    A workflow utility built to make architecture review and technical
-    communication faster, cleaner, and easier to inspect.
+    Reusable tooling built to support project with diagrams, workflows, dashboards, and internal utilities that strengthen future projects.
 ---
 
 <!-- Homepage copy lives here. Featured entries are curated in src/content/curation/home.md. -->

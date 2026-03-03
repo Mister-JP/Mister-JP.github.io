@@ -2,7 +2,6 @@
 surface: home
 featuredProjects:
   - microscopy-benchmark-pipeline
-  - experiment-reproducibility-framework
 featuredWriting:
   - label: Case study
     category: project-note
@@ -12,7 +11,6 @@ featuredWriting:
     category: method
     entries:
       - reproducible-experiment-stack
-      - evaluation-contract-for-model-comparison
 featuredTools:
   - procedural-architecture-composer
 ---

@@ -23,7 +23,7 @@ if (aboutEntry.data.template !== 'about') {
 }
 
 const { data } = aboutEntry;
-const { intro, background, work, focus, contact } = data;
+const { background, work, focus, contact } = data;
 const isExternalContact = (href: string) => href.startsWith('http');
 ---
 
@@ -33,23 +33,6 @@ const isExternalContact = (href: string) => href.startsWith('http');
   description={data.description}
 >
   <PageHeader eyebrow={data.eyebrow} title={data.title} description={data.description} />
-
-  <Section size="sm" aria-labelledby="about-intro-title">
-    <Container size="narrow">
-      <Card variant="soft" class="about-card">
-        <div slot="title">
-          <h2 id="about-intro-title">{intro.heading}</h2>
-        </div>
-
-        <Prose class="about-copy">
-          <p>{intro.summary}</p>
-          {intro.details.map((detail) => (
-            <p>{detail}</p>
-          ))}
-        </Prose>
-      </Card>
-    </Container>
-  </Section>
 
   <Section tone="soft" aria-labelledby="about-background-title">
     <Container size="narrow">
