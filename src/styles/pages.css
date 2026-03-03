@@ -43,6 +43,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  white-space: pre-line;
 }
 
 .hero-title {
@@ -120,6 +121,7 @@
   color: var(--color-text-secondary);
   font-size: var(--step--1);
   line-height: 1.56;
+  white-space: pre-line;
 }
 
 .home-projects__lead {
@@ -181,6 +183,7 @@
 .resume-cta__copy p {
   color: var(--color-text-secondary);
   line-height: 1.58;
+  white-space: pre-line;
 }
 
 .resume-cta__eyebrow {
@@ -217,7 +220,7 @@
 
 @media (min-width: 64rem) {
   .hero-proof__list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--hero-proof-columns, 1), minmax(0, 1fr));
   }
 
   .resume-cta {

@@ -3,26 +3,24 @@ template: home
 title: Home
 description: A proof-first homepage for microscopy computer vision, reproducible evaluation, and direct recruiter review.
 hero:
-  eyebrow: "Computer vision + reproducible evaluation"
-  title: "Computer vision engineer building trustworthy microscopy benchmarks."
+  eyebrow: "Degree: Masters of Computer Science from Virginia Tech(2023 grad) \n Experience: 2 Years of SDE experience at Amazon"
+  title: "I am a Software engineer with 2 years of experience building and maintaining highly scaled trustworthy computer vision system in production."
   subtitle: >-
-    Current work centers on a BSCCM benchmark pipeline for 23-channel to
-    6-channel microscopy prediction. It combines dataset framing,
-    reproducible experiment structure, and inspection-first evaluation so the
-    first baseline is worth trusting before model complexity scales.
-  primaryCtaLabel: "Inspect the flagship system"
+    My current work centers on the Berkley Single Cell Computation Microscopy(BSCCM) benchmark pipeline for
+    image to image translation, predicting whiteblood cell flourescence from unlabelled cell images. 
+    This project is a proof of concept for my approach to building trustworthy machine learning systems: start with a clear, reviewable baseline and iterate with disciplined comparison instead of chasing complexity from the start.
+  primaryCtaLabel: "View BSCCM Project"
   primaryCtaHref: /projects/microscopy-benchmark-pipeline
   secondaryCtaLabel: "Open the resume"
   secondaryCtaHref: /resume
 proofStrip:
-  title: "Hard proof up front"
+  title: "Professional snapshot"
   items:
-    - label: "Current flagship"
-      detail: "A BSCCM benchmark pipeline built as a repeatable baseline for 23-channel to 6-channel microscopy prediction, not a one-off experiment."
-    - label: "Technical focus"
-      detail: "Microscopy computer vision, evaluation contracts, configuration lineage, and reviewable artifacts that make failures easier to inspect."
-    - label: "Prior grounding"
-      detail: "Human-AI trust research plus production software work, now applied to domains where silent model failure is expensive."
+    - label: "Experience"
+      detail: "As an SDE at Amazon I developed and maintained business critical(Tier-1) highly scaled systems for automated defect detection using computer-vision and customer facing full-stack application. My Masters Thesis was studying how AI explanation can affect accuracy of Human-AI team and how human tendancy to avoid cognitive load makes us prone to overreliance, shallow judgment, and uncritical acceptance of AI outputs. I want to combine these two experience and apply to the domains(eg. computational microscopy) where silent model failures are expensive and requires scalable verification with human-centered design."
+    - label: "Skills"
+      detail: "Cloud: AWS (Certified), Google Cloud \n Languages: Python, Java, TypeScript \n Databases: MySQL, DynamoDB \n Frameworks: PyTorch, TensorFlow, Keras, JAX, React, Flask \n Tools: Git, CloudWatch, Docker, TensorBoard \n Engineering Practices: CI/CD, Integration Testing, Rollback Readiness, Observability, Agile Delivery \n Concepts: Machine Learning, Computer Vision, Reproducibility, Evaluation Design"
+    
 intro:
   eyebrow: "Professional background and resume"
   heading: ""

@@ -33,6 +33,7 @@ const [
 const hasFeaturedProjects = featuredProjects.items.length > 0;
 const [leadProject, ...supportingProjects] = featuredProjects.items;
 const hasSupportingProjects = supportingProjects.length > 0;
+const heroProofColumnCount = Math.max(1, proofStrip.items.length);
 const visibleWritingGroups = selectedWriting.groups
   .map((group) => ({
     ...group,
@@ -71,7 +72,10 @@ const resumeSectionLabel = intro.eyebrow ?? 'Resume';
 
           <div class="hero-proof" aria-labelledby="home-proof-title">
             <p id="home-proof-title" class="hero-proof__title">{proofStrip.title}</p>
-            <ul class="hero-proof__list">
+            <ul
+              class="hero-proof__list"
+              style={`--hero-proof-columns: ${heroProofColumnCount};`}
+            >
               {proofStrip.items.map((item) => (
                 <li class="hero-proof__item">
                   <span class="hero-proof__label">{item.label}</span>

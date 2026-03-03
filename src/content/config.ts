@@ -1,7 +1,14 @@
 import { defineCollection, reference, z } from 'astro:content';
 import { WRITING_CATEGORY_VALUES } from '../lib/writing-categories';
 
+const normalizeContentWhitespace = (value: string): string =>
+  value.replace(/\s+/g, ' ').trim();
+
 const linkField = z.string().min(1);
+const singleLineCopyField = z
+  .string()
+  .transform(normalizeContentWhitespace)
+  .pipe(z.string().min(1));
 const writingCategory = z.enum(WRITING_CATEGORY_VALUES);
 const projectReferences = z.array(reference('projects')).default([]);
 const writingReferences = z.array(reference('writing')).default([]);
@@ -56,7 +63,7 @@ const pages = defineCollection({
       hero: z.object({
         eyebrow: z.string(),
         title: z.string(),
-        subtitle: z.string(),
+        subtitle: singleLineCopyField,
         primaryCtaLabel: z.string(),
         primaryCtaHref: z.string(),
         secondaryCtaLabel: z.string(),
