@@ -43,5 +43,210 @@ const currentPath = Astro.url.pathname;
         <slot />
       </main>
     </div>
+
+    <dialog id="media-overlay" class="media-overlay" aria-label="Expanded image preview">
+      <form method="dialog" class="media-overlay__close-wrap">
+        <button type="submit" class="media-overlay__close" aria-label="Close image preview">
+          Close
+        </button>
+      </form>
+      <div class="media-overlay__viewport">
+        <img class="media-overlay__image" data-media-overlay-image alt="" />
+      </div>
+    </dialog>
+
+    <script is:inline>
+      (() => {
+        if (window.__mediaOverlayInitialized) {
+          return;
+        }
+        window.__mediaOverlayInitialized = true;
+
+        const dialog = document.getElementById('media-overlay');
+        if (!(dialog instanceof HTMLDialogElement)) {
+          return;
+        }
+
+        const image = dialog.querySelector('[data-media-overlay-image]');
+        const viewport = dialog.querySelector('.media-overlay__viewport');
+        if (!(image instanceof HTMLImageElement) || !(viewport instanceof HTMLElement)) {
+          return;
+        }
+
+        const isImageHref = (href) =>
+          /\.(png|jpe?g|webp|gif|svg)([#?].*)?$/i.test(href);
+
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        const ZOOM_DURATION_MS = 240;
+
+        let zoomAnimationFrame = 0;
+
+        const computeFitWidth = () => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+
+          if (!naturalWidth || !naturalHeight) {
+            return 0;
+          }
+
+          const widthScale = viewport.clientWidth / naturalWidth;
+          const heightScale = viewport.clientHeight / naturalHeight;
+          const scale = Math.min(1, widthScale, heightScale);
+
+          return Math.max(1, Math.floor(naturalWidth * scale));
+        };
+
+        const easeOutCubic = (progress) => 1 - Math.pow(1 - progress, 3);
+
+        const cancelZoomAnimation = () => {
+          if (zoomAnimationFrame) {
+            window.cancelAnimationFrame(zoomAnimationFrame);
+            zoomAnimationFrame = 0;
+          }
+        };
+
+        const applyFitState = () => {
+          cancelZoomAnimation();
+          const fitWidth = computeFitWidth();
+          if (fitWidth > 0) {
+            image.style.width = `${fitWidth}px`;
+          } else {
+            image.style.removeProperty('width');
+          }
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.scrollTo({ left: 0, top: 0 });
+        };
+
+        const animateZoomToPoint = (ratioX, ratioY) => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+          const startWidth = image.offsetWidth;
+          const startHeight = image.offsetHeight;
+
+          if (!naturalWidth || !naturalHeight || !startWidth || !startHeight) {
+            return;
+          }
+
+          cancelZoomAnimation();
+          image.classList.add('media-overlay__image--zoomed');
+
+          const startedAt = performance.now();
+
+          const step = (now) => {
+            const progress = clamp((now - startedAt) / ZOOM_DURATION_MS, 0, 1);
+            const eased = easeOutCubic(progress);
+            const currentWidth = startWidth + (naturalWidth - startWidth) * eased;
+            const currentHeight = startHeight + (naturalHeight - startHeight) * eased;
+
+            image.style.width = `${currentWidth}px`;
+
+            const targetLeft = ratioX * currentWidth - viewport.clientWidth / 2;
+            const targetTop = ratioY * currentHeight - viewport.clientHeight / 2;
+            const maxLeft = Math.max(0, currentWidth - viewport.clientWidth);
+            const maxTop = Math.max(0, currentHeight - viewport.clientHeight);
+
+            viewport.scrollLeft = clamp(targetLeft, 0, maxLeft);
+            viewport.scrollTop = clamp(targetTop, 0, maxTop);
+
+            if (progress < 1) {
+              zoomAnimationFrame = window.requestAnimationFrame(step);
+              return;
+            }
+
+            image.style.width = `${naturalWidth}px`;
+            zoomAnimationFrame = 0;
+          };
+
+          zoomAnimationFrame = window.requestAnimationFrame(step);
+        };
+
+        const openOverlay = (href, alt) => {
+          if (typeof dialog.showModal !== 'function') {
+            window.location.assign(href.toString());
+            return;
+          }
+
+          image.src = href.toString();
+          image.alt = alt;
+          dialog.showModal();
+
+          if (image.complete && image.naturalWidth > 0) {
+            applyFitState();
+          } else {
+            image.addEventListener(
+              'load',
+              () => {
+                applyFitState();
+              },
+              { once: true },
+            );
+          }
+        };
+
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+
+          if (!(target instanceof Element)) {
+            return;
+          }
+
+          const link = target.closest('.prose figure a[href]');
+
+          if (!(link instanceof HTMLAnchorElement)) {
+            return;
+          }
+
+          const href = link.getAttribute('href');
+
+          if (!href || !isImageHref(href)) {
+            return;
+          }
+
+          if (
+            event.defaultPrevented ||
+            event.button === 1 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
+            return;
+          }
+
+          event.preventDefault();
+          const linkedImage = link.querySelector('img');
+          const alt = linkedImage instanceof HTMLImageElement ? linkedImage.alt : '';
+          openOverlay(link.href, alt);
+        });
+
+        image.addEventListener('click', (event) => {
+          const rect = image.getBoundingClientRect();
+          const ratioX = clamp((event.clientX - rect.left) / rect.width, 0, 1);
+          const ratioY = clamp((event.clientY - rect.top) / rect.height, 0, 1);
+          const isZoomed = image.classList.contains('media-overlay__image--zoomed');
+
+          if (isZoomed) {
+            applyFitState();
+            return;
+          }
+
+          animateZoomToPoint(ratioX, ratioY);
+        });
+
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog) {
+            dialog.close();
+          }
+        });
+
+        dialog.addEventListener('close', () => {
+          cancelZoomAnimation();
+          image.removeAttribute('src');
+          image.setAttribute('alt', '');
+          image.style.removeProperty('width');
+          image.classList.remove('media-overlay__image--zoomed');
+        });
+      })();
+    </script>
   </body>
 </html>
