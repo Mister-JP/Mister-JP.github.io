@@ -14,7 +14,8 @@ const {
   fileName,
 } = await getResumePageContent();
 
-const previewSrc = `${pdf.path}#view=FitH&toolbar=0&navpanes=0&scrollbar=0`;
+const previewSrc = `${pdf.path}#view=FitH&zoom=page-fit&toolbar=0&navpanes=0&scrollbar=0`;
+const pdfJsCdnBase = 'https://cdn.jsdelivr.net/npm/pdfjs-dist/build';
 ---
 
 <SiteShell
@@ -50,8 +51,39 @@ const previewSrc = `${pdf.path}#view=FitH&toolbar=0&navpanes=0&scrollbar=0`;
 
   <Section size="sm" aria-label={pdf.previewTitle} class="resume-document-section">
     <Container size="wide">
-      <div class="resume-viewer">
+      <div class="resume-viewer" data-resume-mobile-viewer data-pdf-url={pdf.path} data-pdfjs-base={pdfJsCdnBase}>
+        <div class="resume-mobile-viewer" data-resume-mobile-canvas hidden>
+          <div class="resume-mobile-viewer__toolbar" data-resume-mobile-toolbar>
+            <div class="resume-mobile-viewer__controls" role="group" aria-label="Resume zoom controls">
+              <button
+                class="resume-mobile-viewer__control"
+                type="button"
+                data-resume-zoom-out
+                aria-label="Zoom out"
+              >
+                -
+              </button>
+              <button
+                class="resume-mobile-viewer__control resume-mobile-viewer__control--label"
+                type="button"
+                data-resume-zoom-fit
+              >
+                Fit
+              </button>
+              <button
+                class="resume-mobile-viewer__control"
+                type="button"
+                data-resume-zoom-in
+                aria-label="Zoom in"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <div class="resume-mobile-viewer__pages" data-resume-mobile-pages></div>
+        </div>
         <iframe
+          class="resume-viewer__native"
           src={previewSrc}
           title={`${pdf.documentTitle} preview`}
           loading="lazy"
@@ -59,4 +91,146 @@ const previewSrc = `${pdf.path}#view=FitH&toolbar=0&navpanes=0&scrollbar=0`;
       </div>
     </Container>
   </Section>
+  <script is:inline type="module">
+    const mobileViewerRoot = document.querySelector('[data-resume-mobile-viewer]');
+
+    if (mobileViewerRoot && window.matchMedia('(max-width: 720px)').matches) {
+      const mobileCanvasShell = mobileViewerRoot.querySelector('[data-resume-mobile-canvas]');
+      const mobilePages = mobileViewerRoot.querySelector('[data-resume-mobile-pages]');
+      const zoomOutButton = mobileViewerRoot.querySelector('[data-resume-zoom-out]');
+      const zoomInButton = mobileViewerRoot.querySelector('[data-resume-zoom-in]');
+      const zoomFitButton = mobileViewerRoot.querySelector('[data-resume-zoom-fit]');
+      const nativeViewer = mobileViewerRoot.querySelector('.resume-viewer__native');
+      const pdfUrl = mobileViewerRoot.getAttribute('data-pdf-url');
+      const pdfJsBase = mobileViewerRoot.getAttribute('data-pdfjs-base');
+
+      if (
+        mobileCanvasShell &&
+        mobilePages &&
+        zoomOutButton &&
+        zoomInButton &&
+        zoomFitButton &&
+        nativeViewer &&
+        pdfUrl &&
+        pdfJsBase
+      ) {
+        mobileCanvasShell.hidden = false;
+        nativeViewer.hidden = true;
+
+        try {
+          const pdfjsLib = await import(`${pdfJsBase}/pdf.mjs`);
+          pdfjsLib.GlobalWorkerOptions.workerSrc = `${pdfJsBase}/pdf.worker.mjs`;
+
+          const pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
+          const outputScale = Math.max(window.devicePixelRatio || 1, 1);
+          const firstPage = await pdfDocument.getPage(1);
+          const baseViewport = firstPage.getViewport({ scale: 1 });
+          const getBaseScale = () => {
+            const availableWidth = Math.max(mobilePages.clientWidth - 20, 220);
+            return availableWidth / baseViewport.width;
+          };
+
+          const setControlsDisabled = (disabled) => {
+            zoomOutButton.disabled = disabled;
+            zoomInButton.disabled = disabled;
+            zoomFitButton.disabled = disabled;
+          };
+
+          let zoomLevel = 1;
+          let resizeTimer;
+          let renderChain = Promise.resolve();
+
+          const renderPages = async () => {
+            setControlsDisabled(true);
+
+            const scale = getBaseScale() * zoomLevel;
+            const fragment = document.createDocumentFragment();
+
+            for (let pageNumber = 1; pageNumber <= pdfDocument.numPages; pageNumber += 1) {
+              const page = await pdfDocument.getPage(pageNumber);
+              const viewport = page.getViewport({ scale });
+              const pageShell = document.createElement('section');
+              const canvas = document.createElement('canvas');
+              const context = canvas.getContext('2d', { alpha: false });
+              const transform =
+                outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null;
+
+              if (!context) {
+                throw new Error('Canvas rendering is unavailable in this browser.');
+              }
+
+              pageShell.className = 'resume-mobile-viewer__page';
+              canvas.className = 'resume-mobile-viewer__canvas';
+              canvas.width = Math.floor(viewport.width * outputScale);
+              canvas.height = Math.floor(viewport.height * outputScale);
+              canvas.style.width = `${Math.floor(viewport.width)}px`;
+              canvas.style.height = `${Math.floor(viewport.height)}px`;
+
+              await page.render({
+                canvasContext: context,
+                transform,
+                viewport,
+              }).promise;
+
+              pageShell.append(canvas);
+              fragment.append(pageShell);
+            }
+
+            mobilePages.replaceChildren(fragment);
+            zoomOutButton.disabled = zoomLevel <= 1;
+            zoomInButton.disabled = zoomLevel >= 2.5;
+            zoomFitButton.disabled = zoomLevel === 1;
+          };
+
+          const updateZoom = async (nextZoomLevel) => {
+            const clampedZoomLevel = Math.min(2.5, Math.max(1, nextZoomLevel));
+
+            if (clampedZoomLevel === zoomLevel && mobilePages.childElementCount > 0) {
+              zoomOutButton.disabled = zoomLevel <= 1;
+              zoomInButton.disabled = zoomLevel >= 2.5;
+              zoomFitButton.disabled = zoomLevel === 1;
+              return;
+            }
+
+            zoomLevel = clampedZoomLevel;
+            await queueRender();
+          };
+
+          const queueRender = () => {
+            const nextRender = renderChain
+              .catch(() => undefined)
+              .then(() => renderPages());
+
+            renderChain = nextRender;
+            return nextRender;
+          };
+
+          zoomOutButton.addEventListener('click', () => {
+            void updateZoom(zoomLevel - 0.25);
+          });
+
+          zoomInButton.addEventListener('click', () => {
+            void updateZoom(zoomLevel + 0.25);
+          });
+
+          zoomFitButton.addEventListener('click', () => {
+            void updateZoom(1);
+          });
+
+          window.addEventListener('resize', () => {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(() => {
+              void queueRender();
+            }, 120);
+          });
+
+          await queueRender();
+        } catch (error) {
+          nativeViewer.hidden = false;
+          mobileCanvasShell.hidden = true;
+          console.error('Unable to load the mobile PDF.js viewer. Falling back to the native embedded PDF.', error);
+        }
+      }
+    }
+  </script>
 </SiteShell>
