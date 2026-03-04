@@ -6,7 +6,7 @@ hero:
   eyebrow: "Degree: Masters of Computer Science from Virginia Tech(2023 grad) \n Experience: 2 Years of SDE experience at Amazon"
   title: "I am a Software engineer with 2 years of experience building and maintaining highly scaled trustworthy computer vision system in production."
   subtitle: >-
-    My current work centers on the Berkley Single Cell Computation Microscopy(BSCCM) benchmark pipeline for
+    My current work centers on the Berkley Single Cell Computational Microscopy(BSCCM) benchmark pipeline for
     image to image translation, predicting whiteblood cell flourescence from unlabelled cell images. 
     This project is a proof of concept for my approach to building trustworthy machine learning systems: start with a clear, reviewable baseline and iterate with disciplined comparison instead of chasing complexity from the start.
   primaryCtaLabel: "View Projects"
