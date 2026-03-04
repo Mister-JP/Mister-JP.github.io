@@ -114,6 +114,7 @@ const currentPath = Astro.url.pathname;
             image.style.removeProperty('width');
           }
           image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.add('media-overlay__viewport--fit');
           viewport.scrollTo({ left: 0, top: 0 });
         };
 
@@ -129,6 +130,7 @@ const currentPath = Astro.url.pathname;
 
           cancelZoomAnimation();
           image.classList.add('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
 
           const startedAt = performance.now();
 
@@ -245,6 +247,7 @@ const currentPath = Astro.url.pathname;
           image.setAttribute('alt', '');
           image.style.removeProperty('width');
           image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
         });
       })();
     </script>

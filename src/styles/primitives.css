@@ -872,6 +872,11 @@
   padding: 0;
 }
 
+.media-overlay__viewport--fit {
+  display: grid;
+  place-items: center;
+}
+
 .media-overlay__image {
   display: block;
   max-width: none;
