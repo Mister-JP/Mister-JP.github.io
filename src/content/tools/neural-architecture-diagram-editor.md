@@ -1,19 +1,22 @@
 ---
 title: "Neural Architecture Diagram Editor"
 summary: "An interactive diagram editor for composing clean neural-network architecture visuals while learning, designing, and documenting models. Built to make architecture reasoning inspectable and reusable instead of redrawn by hand."
-featureImage: "/images/entry-previews/project-detail.svg"
+featureImage: "/images/entry-previews/tool-detail.svg"
 cardEyebrowDetail: "Tooling + diagrams"
 featuredLabel: "Diagram editor"
-whyItMatters: "Clear architecture diagrams reduce review friction, make design decisions easier to critique, and help prevent implementation drift from hiding weak assumptions."
 status: "Actively used"
-currentMilestone: "Improving layout control, readability, and export quality so diagrams can be reused across project pages, notes, and technical writeups."
 tags:
   - Tooling
   - Architecture
   - Diagrams
-sortOrder: 20
+sortOrder: 10
+aliases:
+  - architecture-diagram-composer
 links:
+  open: https://mister-jp.github.io/neural-architecture-diagram-editor/
   code: https://github.com/Mister-JP/neural-architecture-diagram-editor
+relatedProjects:
+  - microscopy-benchmark-pipeline
 ---
 ## Overview
 
@@ -23,13 +26,13 @@ This tool edits diagrams of architectures, not model code or training graphs. Th
 
 A live build is available here: https://mister-jp.github.io/neural-architecture-diagram-editor/
 
-## Why this project exists
+## Why this tool exists
 
 Neural network diagrams are easy to treat as decoration. In practice, though, they can expose whether the architecture is actually understood clearly.
 
 That became obvious to me while working through early model design decisions. It is easy to describe a model loosely in words, but much harder to represent it cleanly enough that the relationships, stages, and sources of complexity are all visible at once. When that clarity is missing, design decisions become harder to question and unnecessary complexity can slip in without enough scrutiny.
 
-This project exists to reduce that ambiguity. I wanted a tool that helps build the diagram as part of the reasoning process itself, not only as a final presentation step once decisions are already locked in.
+This tool exists to reduce that ambiguity. I wanted a tool that helps build the diagram as part of the reasoning process itself, not only as a final presentation step once decisions are already locked in.
 
 ## The gap I was trying to close
 
@@ -43,7 +46,7 @@ I wanted something that supported the full loop: think through the structure, ma
 
 ## What I am building
 
-The project is a diagram editor built around a small set of reusable architecture primitives and a structured representation of the scene. The goal is to make architecture diagrams editable and repeatable rather than disposable.
+The tool is a diagram editor built around a small set of reusable architecture primitives and a structured representation of the scene. The goal is to make architecture diagrams editable and repeatable rather than disposable.
 
 In practical terms, that means the tool supports authoring, adjustment, annotation, and export in a way that stays useful across multiple stages of work. A diagram can begin as a thinking aid, become a review artifact, and later serve as part of project documentation without needing to be recreated each time the model changes.
 

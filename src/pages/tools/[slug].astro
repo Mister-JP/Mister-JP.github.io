@@ -20,10 +20,29 @@ type ToolEntry = CollectionEntry<'tools'>;
 export async function getStaticPaths() {
   const tools = await getCollection('tools');
 
-  return tools.map((tool) => ({
-    params: { slug: tool.slug },
-    props: { tool },
-  }));
+  const seenSlugs = new Set<string>();
+  const paths: Array<{ params: { slug: string }; props: { tool: ToolEntry } }> = [];
+
+  const registerPath = (slug: string, tool: ToolEntry) => {
+    if (seenSlugs.has(slug)) {
+      throw new Error(`Duplicate tool route slug "${slug}" detected in tools collection.`);
+    }
+
+    seenSlugs.add(slug);
+    paths.push({
+      params: { slug },
+      props: { tool },
+    });
+  };
+
+  tools.forEach((tool) => {
+    registerPath(tool.slug, tool);
+    tool.data.aliases
+      .filter((alias) => alias !== tool.slug)
+      .forEach((alias) => registerPath(alias, tool));
+  });
+
+  return paths;
 }
 
 const { tool } = Astro.props as { tool: ToolEntry };
@@ -34,8 +53,8 @@ const { Content, headings } = await tool.render();
 const hasBody = Boolean(tool.body?.trim());
 
 const links = [
-  tool.data.links.open ? { label: 'Open', href: tool.data.links.open } : undefined,
-  tool.data.links.code ? { label: 'Code', href: tool.data.links.code } : undefined,
+  tool.data.links.open ? { label: 'Launch tool', href: tool.data.links.open } : undefined,
+  tool.data.links.code ? { label: 'View source code', href: tool.data.links.code } : undefined,
 ]
   .filter(
     (action): action is { label: string; href: string } => Boolean(action?.href),

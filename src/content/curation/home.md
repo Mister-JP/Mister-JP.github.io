@@ -12,7 +12,7 @@ featuredWriting:
     entries:
       - reproducible-experiment-stack
 featuredTools:
-  - procedural-architecture-composer
+  - neural-architecture-diagram-editor
 ---
 
 <!-- Ordered homepage references only. Reuse canonical entry copy from the source collections. -->

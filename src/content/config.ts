@@ -207,6 +207,7 @@ const tools = defineCollection({
     featuredLabel: z.string().min(1).optional(),
     status: z.string(),
     sortOrder: z.number().int(),
+    aliases: z.array(z.string().min(1)).default([]),
     links: toolLinks,
     tags: z.array(z.string().min(1)).default([]),
     relatedProjects: projectReferences,
