@@ -6,11 +6,11 @@ featuredWriting:
   - label: Case study
     category: project-note
     entries:
-      - why-i-chose-bsccm-as-my-starting-point
+      - why-bsccm-became-my-starting-point
   - label: Methods
     category: method
     entries:
-      - reproducible-experiment-stack
+      - the-reproducible-experiment-stack
 featuredTools:
   - neural-architecture-diagram-editor
 ---
