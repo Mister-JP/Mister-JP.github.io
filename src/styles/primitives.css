@@ -749,6 +749,33 @@
   margin-top: var(--space-2);
 }
 
+.prose sup + sup > a[data-footnote-ref]::before {
+  content: ", ";
+}
+
+.prose li[id^='user-content-fn-'] p:has(a[data-footnote-backref] + a[data-footnote-backref]) {
+  counter-reset: footnote-backref;
+}
+
+.prose li[id^='user-content-fn-'] p:has(a[data-footnote-backref] + a[data-footnote-backref])
+  > a[data-footnote-backref] {
+  counter-increment: footnote-backref;
+}
+
+.prose li[id^='user-content-fn-'] p:has(a[data-footnote-backref] + a[data-footnote-backref])
+  > a[data-footnote-backref]::after {
+  content: counter(footnote-backref);
+  font-size: 0.75em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+.prose li[id^='user-content-fn-'] p:has(a[data-footnote-backref] + a[data-footnote-backref])
+  > a[data-footnote-backref]
+  sup {
+  display: none;
+}
+
 .prose a {
   color: inherit;
   text-decoration-color: var(--color-link-underline);
