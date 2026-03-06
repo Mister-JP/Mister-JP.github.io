@@ -251,5 +251,17 @@ const currentPath = Astro.url.pathname;
         });
       })();
     </script>
+
+    <script is:inline>
+      document.querySelectorAll('.prose a[href^="http"]').forEach((link) => {
+        if (!(link instanceof HTMLAnchorElement) || link.origin === window.location.origin) {
+          return;
+        }
+
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+      });
+    </script>
+
   </body>
 </html>

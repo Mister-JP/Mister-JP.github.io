@@ -49,7 +49,10 @@ const {
 
 const hasBody = Astro.slots.has('default');
 const categoryMeta = getWritingCategoryMeta(category);
-const outline = headings.filter((heading) => heading.depth <= 2);
+// Astro footnotes inject a hidden heading; keep it out of the visible outline.
+const outline = headings.filter(
+  (heading) => heading.depth <= 2 && heading.slug !== 'footnote-label',
+);
 const hasGuide = outline.length > 0 || relatedProjects.length > 0;
 ---
 
