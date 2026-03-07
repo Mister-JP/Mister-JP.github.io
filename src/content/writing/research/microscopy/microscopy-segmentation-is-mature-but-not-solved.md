@@ -1,7 +1,7 @@
 ---
-title: "State of segmentation in biomedical and microscopy imaging"
-slug: "state-of-segmentation-in-biomedical-and-microscopy-imaging"
-summary: "A literature-oriented map of the major model families, benchmark habits, and open comparison problems in biomedical and microscopy segmentation."
+title: "Microscopy segmentation is mature, but not solved"
+slug: "microscopy-segmentation-is-mature-but-not-solved"
+summary: "A literature-oriented view of why microscopy segmentation looks mature at the model level while portability, trust, and operational usability remain unresolved."
 featureImage: "/images/entry-previews/writing-detail.svg"
 category: "research"
 series: "Microscopy Research"
