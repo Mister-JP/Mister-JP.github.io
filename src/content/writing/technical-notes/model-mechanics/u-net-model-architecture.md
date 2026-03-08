@@ -6,7 +6,7 @@ featureImage: "/images/entry-previews/writing-detail.svg"
 category: "technical-note"
 series: "Model Mechanics"
 listed: true
-status: "Outline ready"
+in_draft: true
 tags:
   - U-Net
   - Dense Prediction

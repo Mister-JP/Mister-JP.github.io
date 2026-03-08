@@ -6,7 +6,7 @@ featureImage: "/images/entry-previews/writing-detail.svg"
 category: "technical-note"
 series: "Dense Prediction"
 listed: true
-status: "Draft in progress"
+in_draft: true
 tags:
   - Dense Prediction
   - Metrics

@@ -6,7 +6,7 @@ featureImage: "/images/entry-previews/writing-detail.svg"
 category: "research"
 series: "Microscopy Research"
 listed: true
-status: "Literature Review on microscopy benchmarks"
+in_draft: false
 tags:
   - Microscopy
   - Benchmarking

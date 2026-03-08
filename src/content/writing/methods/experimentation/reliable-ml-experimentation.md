@@ -6,7 +6,7 @@ featureImage: "/images/entry-previews/writing-detail.svg"
 category: "method"
 series: "Experiment Design"
 listed: true
-status: "Draft in progress"
+in_draft: false
 tags:
   - Reproducibility
   - System Design

@@ -29,7 +29,7 @@ interface WritingDetailTemplateProps {
   featureImage: string;
   category: WritingCategory;
   series?: string;
-  status: string;
+  in_draft?: boolean;
   tags?: string[];
   relatedProjects?: RelatedProjectLink[];
   headings?: HeadingLink[];
@@ -41,7 +41,7 @@ const {
   featureImage,
   category,
   series,
-  status,
+  in_draft = false,
   tags = [],
   relatedProjects = [],
   headings = [],
@@ -58,7 +58,7 @@ const hasGuide = outline.length > 0 || relatedProjects.length > 0;
 
 <PageHeader eyebrow="Writing" title={title} description={summary}>
   <Tag slot="meta" tone={categoryMeta.tagTone}>{categoryMeta.label}</Tag>
-  <Tag slot="meta" tone="accent">{status}</Tag>
+  {in_draft && <Tag slot="meta" tone="accent">In progress</Tag>}
   {series && <Tag slot="meta">{series}</Tag>}
   {tags.map((tag) => (
     <Tag slot="meta" tone="muted">{tag}</Tag>

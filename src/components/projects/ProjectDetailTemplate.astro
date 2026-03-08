@@ -24,7 +24,8 @@ interface HeadingLink {
 interface RelatedItem {
   title: string;
   summary: string;
-  status: string;
+  status?: string;
+  in_draft?: boolean;
   metaLabel?: string;
   href?: string;
   isExternal?: boolean;

@@ -68,7 +68,7 @@ type HomeWritingCardItem = Pick<
   | 'category'
   | 'cardLabel'
   | 'cardCtaLabel'
-  | 'status'
+  | 'in_draft'
   | 'tags'
   | 'featureImage'
 > & {
@@ -183,7 +183,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
           category: normalizeWritingCategory(entry.data.category),
           cardLabel: entry.data.cardLabel,
           cardCtaLabel: entry.data.cardCtaLabel,
-          status: entry.data.status,
+          in_draft: entry.data.in_draft,
           tags: entry.data.tags,
           href: getWritingHref(entry),
           relatedProjects: relatedProjects.map((project) => ({

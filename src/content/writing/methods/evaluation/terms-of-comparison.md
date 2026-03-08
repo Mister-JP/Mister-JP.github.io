@@ -1,12 +1,12 @@
 ---
-title: "The Comparison Contract Behind Trustworthy Model Iteration"
-slug: "the-comparison-contract-behind-trustworthy-model-iteration"
+title: "Terms of Comparison: The Contract Behind Trustworthy Model Iteration"
+slug: "terms-of-comparison"
 summary: "A method for defining the comparison contract before optimization begins: split discipline, target definitions, metric interpretation, artifact review, and the checks that keep early results from becoming false confidence."
 featureImage: "/images/entry-previews/writing-detail.svg"
 category: "method"
 series: "Experiment Design"
 listed: true
-status: "Published"
+in_draft: false
 tags:
   - Evaluation
   - Model comparison

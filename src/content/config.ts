@@ -190,7 +190,7 @@ const writing = defineCollection({
     listed: z.boolean().default(true),
     cardLabel: z.string().min(1).optional(),
     cardCtaLabel: z.string().min(1).optional(),
-    status: z.string(),
+    in_draft: z.boolean().default(false),
     tags: z.array(z.string().min(1)).default([]),
     sortOrder: z.number().int(),
     relatedProjects: projectReferences,

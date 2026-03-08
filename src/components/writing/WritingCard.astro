@@ -21,7 +21,7 @@ interface WritingCardProps {
   category: WritingCategory;
   cardLabel?: string;
   cardCtaLabel?: string;
-  status: string;
+  in_draft?: boolean;
   tags?: string[];
   featured?: boolean;
   compact?: boolean;
@@ -36,7 +36,7 @@ const {
   category,
   cardLabel,
   cardCtaLabel,
-  status,
+  in_draft = false,
   tags = [],
   featured = false,
   compact = false,
@@ -59,7 +59,7 @@ const shouldShowPreview = !compact && hasWritingFeatureImage(resolvedFeatureImag
   <div slot="title" class="writing-card__title">
     <div class="writing-card__meta">
       <Tag tone={categoryMeta.tagTone}>{visibleCardLabel}</Tag>
-      <Tag tone="muted">{status}</Tag>
+      {in_draft && <Tag tone="muted">In progress</Tag>}
       {featured && <Tag tone="accent">Featured</Tag>}
     </div>
     <h3>

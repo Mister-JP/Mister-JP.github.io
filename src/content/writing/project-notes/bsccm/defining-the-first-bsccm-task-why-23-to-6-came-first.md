@@ -6,7 +6,7 @@ featureImage: "/images/entry-previews/writing-detail.svg"
 category: "project-note"
 series: "BSCCM Project Notes"
 listed: true
-status: "Task framing locked"
+in_draft: false
 tags:
   - Microscopy
   - BSCCM

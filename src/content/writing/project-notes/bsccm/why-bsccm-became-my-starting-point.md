@@ -8,9 +8,10 @@ series: "BSCCM Project Notes"
 listed: true
 cardLabel: "Case study"
 cardCtaLabel: "Read case study"
-status: "Foundational"
+in_draft: false
 tags:
   - Microscopy
+  - BSCCM
   - Benchmarking
 sortOrder: 10
 relatedProjects:

@@ -841,6 +841,14 @@
   box-shadow: var(--shadow-soft), var(--shadow-inner-soft);
 }
 
+.prose video {
+  width: 100%;
+  border: var(--border-thin);
+  border-radius: var(--radius-lg);
+  background: var(--surface-panel-neutral);
+  box-shadow: var(--shadow-soft), var(--shadow-inner-soft);
+}
+
 .prose figcaption {
   color: var(--color-text-muted);
   font-size: 0.95rem;

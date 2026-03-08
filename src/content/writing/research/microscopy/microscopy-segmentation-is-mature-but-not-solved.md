@@ -6,7 +6,7 @@ featureImage: "/images/entry-previews/writing-detail.svg"
 category: "research"
 series: "Microscopy Research"
 listed: true
-status: "Literature Review on microscopy segmentation"
+in_draft: false
 tags:
   - Microscopy
   - Segmentation

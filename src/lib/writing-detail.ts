@@ -19,7 +19,7 @@ export async function getWritingDetailPageData(entry: WritingEntry) {
       featureImage: getWritingFeatureImage(entry.data.featureImage),
       category: normalizeWritingCategory(entry.data.category),
       series: entry.data.series,
-      status: entry.data.status,
+      in_draft: entry.data.in_draft,
       tags: entry.data.tags,
       relatedProjects: relatedProjects.map((project) => ({
         title: project.data.title,

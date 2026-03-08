@@ -5,7 +5,8 @@ import Tag from '../ui/Tag.astro';
 interface RelatedItem {
   title: string;
   summary: string;
-  status: string;
+  status?: string;
+  in_draft?: boolean;
   metaLabel?: string;
   href?: string;
   isExternal?: boolean;
@@ -42,7 +43,8 @@ const sectionId = `project-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
           <li class="project-related-section__item">
             <div class="project-related-section__item-meta">
               {item.metaLabel && <Tag tone="accent">{item.metaLabel}</Tag>}
-              <Tag tone="muted">{item.status}</Tag>
+              {item.status ? <Tag tone="muted">{item.status}</Tag> : null}
+              {!item.status && item.in_draft ? <Tag tone="muted">In progress</Tag> : null}
             </div>
 
             <h3>
