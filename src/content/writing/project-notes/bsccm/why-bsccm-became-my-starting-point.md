@@ -13,7 +13,7 @@ tags:
   - Microscopy
   - BSCCM
   - Benchmarking
-sortOrder: 10
+sortOrder: 1
 relatedProjects:
   - microscopy-benchmark-pipeline
 ---

@@ -11,7 +11,7 @@ tags:
   - Microscopy
   - BSCCM
   - Dense Prediction
-sortOrder: 20
+sortOrder: 2
 relatedProjects:
   - microscopy-benchmark-pipeline
 

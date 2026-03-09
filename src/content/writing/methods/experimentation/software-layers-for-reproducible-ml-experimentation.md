@@ -13,7 +13,7 @@ tags:
   - Pydantic
   - PyTorch
   - System Design
-sortOrder: 41
+sortOrder: 4
 relatedProjects:
   - microscopy-benchmark-pipeline
 ---

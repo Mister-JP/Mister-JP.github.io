@@ -13,7 +13,7 @@ tags:
   - Segmentation
   - Architecture
   - Baselines
-sortOrder: 50
+sortOrder: 1
 relatedProjects:
   - microscopy-benchmark-pipeline
 ---

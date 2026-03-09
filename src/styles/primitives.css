@@ -738,6 +738,12 @@
 .prose p,
 .prose li {
   line-height: var(--line-relaxed);
+  overflow-wrap: anywhere;
+}
+
+.prose blockquote,
+.prose figcaption {
+  overflow-wrap: anywhere;
 }
 
 .prose ul,
@@ -781,6 +787,8 @@
   text-decoration-color: var(--color-link-underline);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   transition:
     color var(--transition-soft),
     text-decoration-color var(--transition-soft);
@@ -807,6 +815,8 @@
   border-radius: var(--radius-sm);
   background: var(--surface-chip-muted);
   font-size: 0.9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .prose pre {
@@ -843,10 +853,32 @@
 
 .prose video {
   width: 100%;
+  max-width: 100%;
   border: var(--border-thin);
   border-radius: var(--radius-lg);
   background: var(--surface-panel-neutral);
   box-shadow: var(--shadow-soft), var(--shadow-inner-soft);
+}
+
+.prose .katex-display {
+  margin: 0 0 var(--space-4);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: var(--space-1);
+}
+
+.prose .katex-display:last-child {
+  margin-bottom: 0;
+}
+
+.prose .katex {
+  color: var(--color-text-primary);
+}
+
+.prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .prose figcaption {

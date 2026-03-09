@@ -12,7 +12,7 @@ tags:
   - Benchmarking
   - Domain Shift
   - Evaluation
-sortOrder: 10
+sortOrder: 2
 relatedProjects:
   - microscopy-benchmark-pipeline
 ---

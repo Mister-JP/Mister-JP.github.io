@@ -11,7 +11,7 @@ tags:
   - Reproducibility
   - System Design
   - Tooling
-sortOrder: 40
+sortOrder: 1
 relatedProjects:
   - microscopy-benchmark-pipeline
 ---

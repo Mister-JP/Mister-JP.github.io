@@ -10,7 +10,7 @@ featuredWriting:
   - label: Methods
     category: method
     entries:
-      - the-reproducible-experiment-stack
+      - software-layers-for-reproducible-ml-experimentation
 featuredTools:
   - neural-architecture-diagram-editor
 ---

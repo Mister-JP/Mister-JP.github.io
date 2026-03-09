@@ -11,7 +11,7 @@ tags:
   - Evaluation
   - Model comparison
   - Data Splits
-sortOrder: 30
+sortOrder: 2
 relatedProjects:
   - microscopy-benchmark-pipeline
 ---

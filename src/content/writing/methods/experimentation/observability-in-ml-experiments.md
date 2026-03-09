@@ -13,7 +13,7 @@ tags:
   - TorchMetrics
   - TensorBoard
   - Tooling
-sortOrder: 41
+sortOrder: 3
 relatedProjects:
   - microscopy-benchmark-pipeline
 ---

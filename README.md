@@ -33,6 +33,9 @@ This means the site structure is real and usable today, even though some portfol
 - `astro@^5.18.0`
 - `typescript@^5.9.3`
 - `@astrojs/check@^0.9.6`
+- `remark-math@^6.0.0`
+- `rehype-katex@^7.0.1`
+- `katex@^0.16.38`
 
 Runtime requirement:
 
@@ -48,7 +51,27 @@ npm run build
 npm run preview
 ```
 
-The site currently uses Astro's default config, so there is no extra adapter or deployment-specific wiring documented in this snapshot.
+The site now uses a small Astro markdown config in `astro.config.mjs` to support LaTeX-style math in markdown content through `remark-math` and `rehype-katex`.
+
+## Markdown Math
+
+Writing entries can render real formulas directly in markdown.
+
+Inline math:
+
+```md
+$k^2MN$
+```
+
+Display math:
+
+```md
+$$
+y[i, j, n] = \sum_{u, v, m} W[u, v, m, n] \, x[i + u, j + v, m]
+$$
+```
+
+The KaTeX stylesheet is imported once through `src/styles/global.css`, and the dependency lockfile should be committed alongside any future package changes so the content pipeline stays reproducible across machines.
 
 ## Route Map
 
@@ -138,6 +161,8 @@ Writing entries also support:
 - sort order
 - related project references
 - optional markdown body rendered on detail pages
+
+Technical notes can also include LaTeX-style math syntax in their markdown bodies. That rendering is configured centrally rather than page by page.
 
 #### `src/content/tools/`
 

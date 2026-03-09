@@ -11,7 +11,7 @@ tags:
   - Microscopy
   - Segmentation
   - Literature Review
-sortOrder: 20
+sortOrder: 1
 relatedProjects:
   - microscopy-benchmark-pipeline
 ---
