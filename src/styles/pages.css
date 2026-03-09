@@ -147,6 +147,10 @@
   margin-bottom: clamp(1rem, 0.85rem + 0.4vw, 1.35rem);
 }
 
+.home-section-intro .section-intro__meta {
+  justify-content: flex-start;
+}
+
 .writing-group__list {
   display: grid;
   gap: var(--space-3);
@@ -230,6 +234,15 @@
   }
 
   .resume-cta__actions {
+    justify-content: flex-end;
+  }
+
+  .home-section-intro {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+
+  .home-section-intro .section-intro__meta {
     justify-content: flex-end;
   }
 }

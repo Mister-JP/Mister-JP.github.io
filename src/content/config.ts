@@ -24,6 +24,13 @@ const toolLinks = z.object({
   code: linkField.optional(),
 });
 
+const homeSectionCta = z.object({
+  sectionTitle: z.string(),
+  sectionIntro: z.string(),
+  ctaLabel: z.string(),
+  ctaHref: z.string(),
+});
+
 const pages = defineCollection({
   type: 'content',
   schema: z.discriminatedUnion('template', [
@@ -90,18 +97,9 @@ const pages = defineCollection({
           )
           .default([]),
       }),
-      featuredProjects: z.object({
-        sectionTitle: z.string(),
-        sectionIntro: z.string(),
-      }),
-      selectedWriting: z.object({
-        sectionTitle: z.string(),
-        sectionIntro: z.string(),
-      }),
-      featuredTools: z.object({
-        sectionTitle: z.string(),
-        sectionIntro: z.string(),
-      }),
+      featuredProjects: homeSectionCta,
+      selectedWriting: homeSectionCta,
+      featuredTools: homeSectionCta,
     }),
     z.object({
       template: z.literal('projects'),

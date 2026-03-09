@@ -29,16 +29,22 @@ featuredProjects:
   sectionTitle: "Projects"
   sectionIntro: >-
     Selected projects that reflect the problems I tackled, the technical decisions I made, and the outcomes they produced.
+  ctaLabel: "See all projects"
+  ctaHref: /projects
 
 selectedWriting:
   sectionTitle: "Writings"
   sectionIntro: >-
     Technical notes covering project scope, experimental structure, implementation choices, and results.
+  ctaLabel: "Browse all writing"
+  ctaHref: /writing
 
 featuredTools:
   sectionTitle: "Tools"
   sectionIntro: >-
     Reusable tooling built to support project with diagrams, workflows, dashboards, and internal utilities that strengthen future projects.
+  ctaLabel: "Open tools library"
+  ctaHref: /tools
 ---
 
 <!-- Homepage copy lives here. Featured entries are curated in src/content/curation/home.md. -->

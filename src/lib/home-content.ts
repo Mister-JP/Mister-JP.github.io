@@ -84,11 +84,15 @@ export interface HomePageContent {
   featuredProjects: {
     sectionTitle: HomePageData['featuredProjects']['sectionTitle'];
     sectionIntro: HomePageData['featuredProjects']['sectionIntro'];
+    ctaLabel: HomePageData['featuredProjects']['ctaLabel'];
+    ctaHref: HomePageData['featuredProjects']['ctaHref'];
     items: HomeProjectCardItem[];
   };
   selectedWriting: {
     sectionTitle: HomePageData['selectedWriting']['sectionTitle'];
     sectionIntro: HomePageData['selectedWriting']['sectionIntro'];
+    ctaLabel: HomePageData['selectedWriting']['ctaLabel'];
+    ctaHref: HomePageData['selectedWriting']['ctaHref'];
     groups: Array<{
       label: string;
       category: WritingEntry['data']['category'];
@@ -98,6 +102,8 @@ export interface HomePageContent {
   featuredTools: {
     sectionTitle: HomePageData['featuredTools']['sectionTitle'];
     sectionIntro: HomePageData['featuredTools']['sectionIntro'];
+    ctaLabel: HomePageData['featuredTools']['ctaLabel'];
+    ctaHref: HomePageData['featuredTools']['ctaHref'];
     items: HomeToolCardItem[];
   };
 }
@@ -214,6 +220,8 @@ export async function getHomePageContent(): Promise<HomePageContent> {
     featuredProjects: {
       sectionTitle: pageCopy.featuredProjects.sectionTitle,
       sectionIntro: pageCopy.featuredProjects.sectionIntro,
+      ctaLabel: pageCopy.featuredProjects.ctaLabel,
+      ctaHref: pageCopy.featuredProjects.ctaHref,
       items: featuredProjectEntries.map((entry) => ({
         slug: entry.slug,
         title: entry.data.title,
@@ -232,11 +240,15 @@ export async function getHomePageContent(): Promise<HomePageContent> {
     selectedWriting: {
       sectionTitle: pageCopy.selectedWriting.sectionTitle,
       sectionIntro: pageCopy.selectedWriting.sectionIntro,
+      ctaLabel: pageCopy.selectedWriting.ctaLabel,
+      ctaHref: pageCopy.selectedWriting.ctaHref,
       groups: selectedWritingGroups,
     },
     featuredTools: {
       sectionTitle: pageCopy.featuredTools.sectionTitle,
       sectionIntro: pageCopy.featuredTools.sectionIntro,
+      ctaLabel: pageCopy.featuredTools.ctaLabel,
+      ctaHref: pageCopy.featuredTools.ctaHref,
       items: featuredToolEntries.map((entry) => ({
         title: entry.data.title,
         summary: entry.data.summary,

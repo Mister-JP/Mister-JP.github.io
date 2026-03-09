@@ -121,7 +121,11 @@ const resumeSectionLabel = intro.eyebrow ?? 'Resume';
           titleId="home-projects-title"
           description={featuredProjects.sectionIntro}
           class="home-section-intro"
-        />
+        >
+          <Button slot="meta" variant="secondary" href={featuredProjects.ctaHref}>
+            {featuredProjects.ctaLabel}
+          </Button>
+        </SectionIntro>
 
         <div class="home-projects__lead">
           <ProjectCard
@@ -164,7 +168,11 @@ const resumeSectionLabel = intro.eyebrow ?? 'Resume';
           titleId="home-writing-title"
           description={selectedWriting.sectionIntro}
           class="home-section-intro"
-        />
+        >
+          <Button slot="meta" variant="secondary" href={selectedWriting.ctaHref}>
+            {selectedWriting.ctaLabel}
+          </Button>
+        </SectionIntro>
 
         <Grid
           cols={visibleWritingGroups.length > 2 ? '3' : visibleWritingGroups.length > 1 ? '2' : 'auto'}
@@ -197,7 +205,11 @@ const resumeSectionLabel = intro.eyebrow ?? 'Resume';
           titleId="home-tools-title"
           description={featuredTools.sectionIntro}
           class="home-section-intro"
-        />
+        >
+          <Button slot="meta" variant="secondary" href={featuredTools.ctaHref}>
+            {featuredTools.ctaLabel}
+          </Button>
+        </SectionIntro>
 
         <Grid
           cols={featuredTools.items.length === 1 ? '2' : 'auto'}
