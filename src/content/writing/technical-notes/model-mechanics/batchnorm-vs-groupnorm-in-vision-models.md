@@ -36,7 +36,7 @@ $$
 
 then $N$ is the batch size, $C$ is the number of channels, and $H, W$ are the spatial dimensions. This is the object the normalization layer receives. Both BatchNorm and GroupNorm operate on this same kind of tensor. The difference is not in the shape of the input they receive, but in how they choose the subset of values used to compute normalization statistics.[^4][^5]
 
-## The shared normalize-then-affine structure
+## The shared structure
 
 At a mathematical level, both layers share the same basic structure. First, they standardize the selected activations,
 
@@ -54,7 +54,7 @@ This second step is important and often underexplained. The normalization layer 
 
 This means a normalization layer is doing more than a fixed statistical cleanup step. It first standardizes the selected activations, then learns how strongly each channel should be stretched or shifted afterward. That learned affine step gives the network back its freedom. Without it, normalization would force every feature into a standardized form with no way to recover a more useful scale or offset. If normalization produces values like $[-1, 0, 1]$, and the layer learns $\gamma = 2$ and $\beta = 3$, then the final output becomes $[1, 3, 5]$. The feature was normalized first, but the model still decided what final scale and position it wanted.
 
-## The real axis difference
+## The real difference
 
 The real difference between BatchNorm and GroupNorm appears when deciding what set of values should contribute to $\mu$ and $\sigma^2$. BatchNorm computes statistics per channel, pooling across the batch dimension and the spatial dimensions. For a fixed channel $c$, it uses the set
 
@@ -80,7 +80,7 @@ A small tensor example makes this concrete. Suppose a convolution outputs a tens
 
 ## Training versus inference
 
-The training story makes BatchNorm more subtle. During training, BatchNorm computes mean and variance from the current mini-batch and uses them immediately. At the same time, it maintains running estimates of those statistics for later use. During inference, it usually stops using the current batch and instead uses the stored running mean and running variance collected during training. So BatchNorm has a built-in train/eval split: during training it depends on the current batch, and during inference it usually depends on running estimates. This is a central part of how the layer works, not an implementation footnote.[^1][^4]
+During training, BatchNorm computes mean and variance from the current mini-batch and uses them immediately. At the same time, it maintains running estimates of those statistics for later use. During inference, it usually stops using the current batch and instead uses the stored running mean and running variance collected during training. So BatchNorm has a built-in train/eval split: during training it depends on the current batch, and during inference it usually depends on running estimates. This is a central part of how the layer works, not an implementation footnote.[^1][^4]
 
 GroupNorm is simpler in this respect. Because its statistics are computed within each sample rather than across the batch, it does not depend on batch-level running statistics in the same way. Its behavior stays much more consistent between training and inference. This is one of the reasons it became attractive in vision workloads where batch size is small, unstable, or constrained by memory.[^2][^5]
 
