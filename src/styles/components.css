@@ -96,6 +96,10 @@
   gap: var(--space-8);
 }
 
+.tool-detail-template > * {
+  min-width: 0;
+}
+
 .tool-detail-template__prose {
   max-width: min(100%, var(--width-content));
 }
@@ -262,6 +266,10 @@
 .project-detail-template {
   display: grid;
   gap: var(--space-8);
+}
+
+.project-detail-template > * {
+  min-width: 0;
 }
 
 .project-detail-template__summary-list {
@@ -470,6 +478,10 @@
 .writing-detail-template {
   display: grid;
   gap: var(--space-8);
+}
+
+.writing-detail-template > * {
+  min-width: 0;
 }
 
 .writing-detail-template__prose {

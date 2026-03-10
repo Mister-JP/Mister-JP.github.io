@@ -873,6 +873,15 @@
 
 .prose .katex {
   color: var(--color-text-primary);
+  white-space: normal;
+}
+
+.prose .katex .base {
+  margin-block: 0.08em;
+}
+
+.prose .katex-display > .katex {
+  white-space: nowrap;
 }
 
 .prose table {
