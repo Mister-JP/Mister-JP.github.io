@@ -6,7 +6,7 @@ featureImage: "/images/entry-previews/writing-detail.svg"
 category: "technical-note"
 series: "Model Mechanics"
 listed: true
-in_draft: true
+in_draft: false
 tags:
   - Encoder-Decoder
   - Dense Prediction
