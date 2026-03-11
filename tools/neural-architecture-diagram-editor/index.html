@@ -1,0 +1,264 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Neural Architecture Diagram Editor | Tools | Jignasu Pathak</title><meta name="description" content="An interactive diagram editor for composing clean neural-network architecture visuals while learning, designing, and documenting models. Built to make architecture reasoning inspectable and reusable instead of redrawn by hand."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Cormorant+Garamond:wght@500;600;700&display=swap"><link rel="stylesheet" href="/_astro/about.CvJM-s6k.css"></head> <body> <a class="skip-link" href="#main-content">Skip to content</a> <div class="site-shell"> <header class="site-header site-header--sticky"> <div class="container container--wide site-header__inner">  <div class="site-header__brand"> <div class="site-header__brand-stack"> <a class="site-header__brand-link" href="/">Jignasu Pathak</a> <nav aria-label="Contact"> <ul class="contact-list"> <li> <a class="contact-list__link" href="https://www.linkedin.com/in/jignasu-pathak/" target="_blank" rel="noreferrer"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M5.35 7.4a1.65 1.65 0 1 1 0-3.3 1.65 1.65 0 0 1 0 3.3Zm-1.4 12.5V8.9h2.8v11ZM8.95 8.9h2.7v1.5h.04c.38-.71 1.3-1.46 2.67-1.46 2.86 0 3.39 1.88 3.39 4.31v6.65h-2.8v-5.9c0-1.41-.03-3.22-1.96-3.22-1.97 0-2.27 1.54-2.27 3.12v6h-2.77Z" />
+</svg>
+ </span> <span>LinkedIn</span> </a> </li><li> <a class="contact-list__link" href="https://github.com/Mister-JP" target="_blank" rel="noreferrer"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M12 .7a11.3 11.3 0 0 0-3.58 22.02c.57.1.78-.25.78-.56v-1.95c-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.13.08 1.73 1.17 1.73 1.17 1.01 1.72 2.64 1.22 3.28.93.1-.73.39-1.22.72-1.5-2.52-.29-5.17-1.26-5.17-5.61 0-1.24.44-2.25 1.17-3.05-.12-.28-.5-1.42.11-2.95 0 0 .96-.3 3.14 1.16a10.9 10.9 0 0 1 5.72 0c2.17-1.46 3.13-1.16 3.13-1.16.62 1.53.23 2.67.12 2.95.73.8 1.16 1.81 1.16 3.05 0 4.36-2.65 5.32-5.18 5.6.4.35.76 1.02.76 2.07v3.07c0 .31.21.67.79.56A11.3 11.3 0 0 0 12 .7Z" />
+</svg>
+ </span> <span>GitHub</span> </a> </li><li> <a class="contact-list__link" href="mailto:1jignasu@gmail.com"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M3 5.5h18A1.5 1.5 0 0 1 22.5 7v10A1.5 1.5 0 0 1 21 18.5H3A1.5 1.5 0 0 1 1.5 17V7A1.5 1.5 0 0 1 3 5.5Zm0 1.8v.3l9 5.9 9-5.9v-.3Zm18 9.4V9.7l-8.5 5.58a.9.9 0 0 1-.98 0L3 9.7v7Z" />
+</svg>
+ </span> <span>1jignasu@gmail.com</span> </a> </li><li> <a class="contact-list__link" href="tel:+15408248721"> <span class="contact-list__icon" aria-hidden="true"> <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.13641 12.764L8.15456 9.08664C8.46255 8.69065 8.61655 8.49264 8.69726 8.27058C8.76867 8.07409 8.79821 7.86484 8.784 7.65625C8.76793 7.42053 8.67477 7.18763 8.48846 6.72184L7.77776 4.9451C7.50204 4.25579 7.36417 3.91113 7.12635 3.68522C6.91678 3.48615 6.65417 3.35188 6.37009 3.29854C6.0477 3.238 5.68758 3.32804 4.96733 3.5081L3 4C3 14 9.99969 21 20 21L20.4916 19.0324C20.6717 18.3121 20.7617 17.952 20.7012 17.6296C20.6478 17.3456 20.5136 17.0829 20.3145 16.8734C20.0886 16.6355 19.7439 16.4977 19.0546 16.222L17.4691 15.5877C16.9377 15.3752 16.672 15.2689 16.4071 15.2608C16.1729 15.2536 15.9404 15.3013 15.728 15.4001C15.4877 15.512 15.2854 15.7143 14.8807 16.119L11.8274 19.1733M12.9997 7C13.9765 7.19057 14.8741 7.66826 15.5778 8.37194C16.2815 9.07561 16.7592 9.97326 16.9497 10.95M12.9997 3C15.029 3.22544 16.9213 4.13417 18.366 5.57701C19.8106 7.01984 20.7217 8.91101 20.9497 10.94" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> </span> <span>(540) 824-8721</span> </a> </li> </ul> </nav> </div> </div> <div class="site-header__nav"> <nav class="main-nav" aria-label="Main"> <div class="desktop-nav"> <ul class="desktop-nav__list"> <li> <a class="desktop-nav__link" href="/"> Home </a> </li><li> <a class="desktop-nav__link" href="/about"> About </a> </li><li> <a class="desktop-nav__link" href="/projects"> Projects </a> </li><li> <a class="desktop-nav__link" href="/writing"> Writing </a> </li><li> <a class="desktop-nav__link" href="/tools" aria-current="page"> Tools </a> </li><li> <a class="desktop-nav__link desktop-nav__link--resume" href="/resume"> Resume </a> </li> </ul> </div> <div class="mobile-nav"> <ul class="mobile-nav__list"> <li> <a class="mobile-nav__link" href="/"> Home </a> </li><li> <a class="mobile-nav__link" href="/about"> About </a> </li><li> <a class="mobile-nav__link" href="/projects"> Projects </a> </li><li> <a class="mobile-nav__link" href="/writing"> Writing </a> </li><li> <a class="mobile-nav__link" href="/tools" aria-current="page"> Tools </a> </li><li> <a class="mobile-nav__link mobile-nav__link--resume" href="/resume"> Resume </a> </li> </ul> </div> </nav> </div>  </div> </header> <main id="main-content" class="site-shell__main">  <header class="page-header"> <div class="container container--narrow page-header__inner"> <p class="page-header__eyebrow">Tool</p><h1 class="page-header__title">Neural Architecture Diagram Editor</h1><p class="page-header__description">An interactive diagram editor for composing clean neural-network architecture visuals while learning, designing, and documenting models. Built to make architecture reasoning inspectable and reusable instead of redrawn by hand.</p><div class="page-header__meta"><span slot="meta" class="tag tag--accent"> Actively used </span><span slot="meta" class="tag tag--muted"> Tooling </span><span slot="meta" class="tag tag--muted"> Architecture </span><span slot="meta" class="tag tag--muted"> Diagrams </span></div> </div> </header> <section class="section section--sm section--default">  <div class="container container--wide">  <div class="tool-detail-template">  <section class="tool-detail-template__guide" aria-label="Tool guide"> <article class="card card--default"><div class="card__body">  <div class="tool-detail-template__guide-list"> <section class="tool-detail-template__guide-item" aria-labelledby="tool-links"> <h2 id="tool-links" class="tool-detail-template__card-title">Quick links</h2> <div class="tool-detail-template__links"> <a class="text-link" href="https://mister-jp.github.io/neural-architecture-diagram-editor/" target="_blank" rel="noreferrer"> Launch tool </a><a class="text-link" href="https://github.com/Mister-JP/neural-architecture-diagram-editor" target="_blank" rel="noreferrer"> View source code </a> </div> </section> <section class="tool-detail-template__guide-item" aria-labelledby="tool-related-project"> <h2 id="tool-related-project" class="tool-detail-template__card-title"> Related Project </h2> <ul class="tool-detail-template__related-list"> <li> <article class="card card--soft tool-detail-template__related-card"><div class="card__body">  <div class="tool-detail-template__related-meta"> <span class="tag tag--accent"> Project </span> <span class="tag tag--muted"> Building the first comparison-ready baseline </span> </div> <h3 class="tool-detail-template__card-subtitle"> <a class="text-link" href="/projects/microscopy-benchmark-pipeline">BSCCM microscopy image-to-image pipeline</a> </h3> <p>A reproducible image-to-image benchmark pipeline built on the BSCCM dataset. The project uses 23 label-free microscopy views to predict 6 fluorescence channels, with an emphasis on controlled data handling, explicit run configuration, and stable evaluation before broader model comparisons.</p>  </div> </article> </li> </ul> </section>  <section class="tool-detail-template__guide-item" aria-labelledby="tool-outline"> <h2 id="tool-outline" class="tool-detail-template__card-title">
+On this page
+</h2> <ol class="tool-detail-template__outline"> <li> <a class="text-link" href="#overview">Overview</a> </li><li> <a class="text-link" href="#why-this-tool-exists">Why this tool exists</a> </li><li> <a class="text-link" href="#the-gap-i-was-trying-to-close">The gap I was trying to close</a> </li><li> <a class="text-link" href="#what-i-am-building">What I am building</a> </li><li> <a class="text-link" href="#real-use-case">Real use case</a> </li><li> <a class="text-link" href="#what-the-u-net-exercise-clarified">What the U-Net exercise clarified</a> </li><li> <a class="text-link" href="#outcomes">Outcomes</a> </li><li> <a class="text-link" href="#limits-and-next-steps">Limits and next steps</a> </li> </ol> </section> </div>  </div> </article> </section> <article class="tool-detail-template__body"> <div class="prose tool-detail-template__prose">  <h2 id="overview">Overview</h2>
+<p>Neural Architecture Diagram Editor is a custom diagramming tool for building neural network architecture visuals as structured, reusable artifacts rather than one-off drawings. I built it because I wanted a better way to think through model structure while learning, not just a cleaner way to present it afterward.</p>
+<p>This tool edits diagrams of architectures, not model code or training graphs. The value is that it makes architecture reasoning easier to inspect. Instead of keeping the model in my head as a rough sketch, I can externalize the structure, refine it, and reuse the same artifact later in project notes, technical writeups, and comparison discussions.</p>
+<p>A live build is available here: <a href="https://mister-jp.github.io/neural-architecture-diagram-editor/">https://mister-jp.github.io/neural-architecture-diagram-editor/</a></p>
+<h2 id="why-this-tool-exists">Why this tool exists</h2>
+<p>Neural network diagrams are easy to treat as decoration. In practice, though, they can expose whether the architecture is actually understood clearly.</p>
+<p>That became obvious to me while working through early model design decisions. It is easy to describe a model loosely in words, but much harder to represent it cleanly enough that the relationships, stages, and sources of complexity are all visible at once. When that clarity is missing, design decisions become harder to question and unnecessary complexity can slip in without enough scrutiny.</p>
+<p>This tool exists to reduce that ambiguity. I wanted a tool that helps build the diagram as part of the reasoning process itself, not only as a final presentation step once decisions are already locked in.</p>
+<h2 id="the-gap-i-was-trying-to-close">The gap I was trying to close</h2>
+<p>Existing tooling tends to help with only part of the workflow.</p>
+<p>Some tools are good at generating polished static diagrams. Others are useful for inspecting model graphs. Some explain isolated concepts well. What I wanted, though, was something narrower and more practical for my workflow: a way to author and revise an architecture visually while I was still trying to understand it, then keep that same artifact as a reusable explanation surface.</p>
+<p>The gap was not simply visual quality. The gap was in the workflow.</p>
+<p>I wanted something that supported the full loop: think through the structure, make relationships explicit, revise the diagram as the architecture evolved, and reuse the result in technical communication without redrawing it from scratch.</p>
+<h2 id="what-i-am-building">What I am building</h2>
+<p>The tool is a diagram editor built around a small set of reusable architecture primitives and a structured representation of the scene. The goal is to make architecture diagrams editable and repeatable rather than disposable.</p>
+<p>In practical terms, that means the tool supports authoring, adjustment, annotation, and export in a way that stays useful across multiple stages of work. A diagram can begin as a thinking aid, become a review artifact, and later serve as part of project documentation without needing to be recreated each time the model changes.</p>
+<p>The important idea is that the diagram is not treated as the final output of thought. It is treated as one of the tools used to make the thought itself clearer.</p>
+<h2 id="real-use-case">Real use case</h2>
+<p>This tool became most useful while I was working through the first U-Net-style baseline for my BSCCM image-to-image project.</p>
+<p>As I started sketching the baseline, I realized that drawing the architecture forced me to answer questions that were easy to leave vague in plain text. Once the structure had to be represented visually, I had to become more precise about stage progression, skip pathways, bottleneck behavior, decoder reconstruction, and where added complexity was actually justified.</p>
+<p>That changed the role of the diagram. It stopped being a presentation layer and became part of the learning process.</p>
+<figure>
+  <a href="/images/u-net/architecture-view.png">
+    <img src="/images/u-net/architecture-view.png" alt="Final composed U-Net architecture diagram" loading="lazy">
+  </a>
+  <figcaption>
+    Final composed U-Net view used to reason through encoder depth, skip pathways, decoder
+    reconstruction, and bottleneck design for the first BSCCM baseline.
+  </figcaption>
+</figure>
+<h2 id="what-the-u-net-exercise-clarified">What the U-Net exercise clarified</h2>
+<p>The most valuable outcome of using the tool was not that it produced a clean final image. The more important outcome was that it forced clearer architectural judgment.</p>
+<p>While working through the U-Net baseline, the act of building the diagram made it easier to separate ideas that are often spoken about too loosely. Skip connections and residual connections, for example, serve different roles. Once they had to be represented clearly, the distinction became harder to blur.</p>
+<p>The bottleneck was another place where the visual representation helped. It became easier to see where I was adding structure because it served a real purpose and where I was at risk of adding complexity simply because it sounded more advanced. That mattered while thinking through a richer bottleneck design and deciding how much of that belonged in an early baseline.</p>
+<p>The same was true for decisions I chose not to keep. I considered adding <a href="https://arxiv.org/pdf/1807.10165">U-Net++</a> style skip-path refinement, but kept it out of the baseline. While the approach has shown gains in segmentation settings, the added complexity was too significant for the role I wanted this first baseline to serve: a simple, interpretable reference point for clean comparison. Representing the architecture visually made that tradeoff easier to inspect rather than leaving it as an abstract idea.</p>
+<p>This is the kind of judgment I wanted the tool to support: not just drawing what is there, but making it easier to see what should not be there.</p>
+<h2 id="outcomes">Outcomes</h2>
+<p>The clearest outcome of this project is that it gave me a more reliable way to reason about architecture structure before implementation details became too noisy.</p>
+<p>It improved my own understanding of the models I was building, made architecture choices easier to review, and produced reusable visuals that could carry across project pages and notes. It also reduced the amount of re-drawing and one-off cleanup that usually comes from treating diagrams as disposable presentation assets.</p>
+<p>Just as importantly, it created a public starting point that can be extended further. The project is not valuable only as a private utility. It is also a foundation that could be expanded with additional primitives, stronger layout controls, and more expressive ways to represent modern model components.</p>
+<h2 id="limits-and-next-steps">Limits and next steps</h2>
+<p>This is still an intentionally scoped tool.</p>
+<p>Right now, it is strongest when used for CNN-style structural diagrams, especially cases where the architecture benefits from staged, multi-scale visual reasoning. It is not yet a complete semantic editor for every modern block type, and there is still a practical balance to manage between detail and readability, especially when diagrams need to work well on the web.</p>
+<p>The next stage is not about adding features for the sake of feature count. The next stage is about making the tool more useful in the same direction it already serves well: better layout control, cleaner exports, stronger readability, and more modular support for common architecture patterns.</p>  </div> </article> </div>  </div>  </section>  </main> </div> <dialog id="media-overlay" class="media-overlay" aria-label="Expanded image preview"> <form method="dialog" class="media-overlay__close-wrap"> <button type="submit" class="media-overlay__close" aria-label="Close image preview">
+Close
+</button> </form> <div class="media-overlay__viewport"> <img class="media-overlay__image" data-media-overlay-image alt=""> </div> </dialog> <script>
+      (() => {
+        if (window.__mediaOverlayInitialized) {
+          return;
+        }
+        window.__mediaOverlayInitialized = true;
+
+        const dialog = document.getElementById('media-overlay');
+        if (!(dialog instanceof HTMLDialogElement)) {
+          return;
+        }
+
+        const image = dialog.querySelector('[data-media-overlay-image]');
+        const viewport = dialog.querySelector('.media-overlay__viewport');
+        if (!(image instanceof HTMLImageElement) || !(viewport instanceof HTMLElement)) {
+          return;
+        }
+
+        const isImageHref = (href) =>
+          /\.(png|jpe?g|webp|gif|svg)([#?].*)?$/i.test(href);
+
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        const ZOOM_DURATION_MS = 240;
+
+        let zoomAnimationFrame = 0;
+
+        const computeFitWidth = () => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+
+          if (!naturalWidth || !naturalHeight) {
+            return 0;
+          }
+
+          const widthScale = viewport.clientWidth / naturalWidth;
+          const heightScale = viewport.clientHeight / naturalHeight;
+          const scale = Math.min(1, widthScale, heightScale);
+
+          return Math.max(1, Math.floor(naturalWidth * scale));
+        };
+
+        const easeOutCubic = (progress) => 1 - Math.pow(1 - progress, 3);
+
+        const cancelZoomAnimation = () => {
+          if (zoomAnimationFrame) {
+            window.cancelAnimationFrame(zoomAnimationFrame);
+            zoomAnimationFrame = 0;
+          }
+        };
+
+        const applyFitState = () => {
+          cancelZoomAnimation();
+          const fitWidth = computeFitWidth();
+          if (fitWidth > 0) {
+            image.style.width = `${fitWidth}px`;
+          } else {
+            image.style.removeProperty('width');
+          }
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.add('media-overlay__viewport--fit');
+          viewport.scrollTo({ left: 0, top: 0 });
+        };
+
+        const animateZoomToPoint = (ratioX, ratioY) => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+          const startWidth = image.offsetWidth;
+          const startHeight = image.offsetHeight;
+
+          if (!naturalWidth || !naturalHeight || !startWidth || !startHeight) {
+            return;
+          }
+
+          cancelZoomAnimation();
+          image.classList.add('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
+
+          const startedAt = performance.now();
+
+          const step = (now) => {
+            const progress = clamp((now - startedAt) / ZOOM_DURATION_MS, 0, 1);
+            const eased = easeOutCubic(progress);
+            const currentWidth = startWidth + (naturalWidth - startWidth) * eased;
+            const currentHeight = startHeight + (naturalHeight - startHeight) * eased;
+
+            image.style.width = `${currentWidth}px`;
+
+            const targetLeft = ratioX * currentWidth - viewport.clientWidth / 2;
+            const targetTop = ratioY * currentHeight - viewport.clientHeight / 2;
+            const maxLeft = Math.max(0, currentWidth - viewport.clientWidth);
+            const maxTop = Math.max(0, currentHeight - viewport.clientHeight);
+
+            viewport.scrollLeft = clamp(targetLeft, 0, maxLeft);
+            viewport.scrollTop = clamp(targetTop, 0, maxTop);
+
+            if (progress < 1) {
+              zoomAnimationFrame = window.requestAnimationFrame(step);
+              return;
+            }
+
+            image.style.width = `${naturalWidth}px`;
+            zoomAnimationFrame = 0;
+          };
+
+          zoomAnimationFrame = window.requestAnimationFrame(step);
+        };
+
+        const openOverlay = (href, alt) => {
+          if (typeof dialog.showModal !== 'function') {
+            window.location.assign(href.toString());
+            return;
+          }
+
+          image.src = href.toString();
+          image.alt = alt;
+          dialog.showModal();
+
+          if (image.complete && image.naturalWidth > 0) {
+            applyFitState();
+          } else {
+            image.addEventListener(
+              'load',
+              () => {
+                applyFitState();
+              },
+              { once: true },
+            );
+          }
+        };
+
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+
+          if (!(target instanceof Element)) {
+            return;
+          }
+
+          const link = target.closest('.prose figure a[href]');
+
+          if (!(link instanceof HTMLAnchorElement)) {
+            return;
+          }
+
+          const href = link.getAttribute('href');
+
+          if (!href || !isImageHref(href)) {
+            return;
+          }
+
+          if (
+            event.defaultPrevented ||
+            event.button === 1 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
+            return;
+          }
+
+          event.preventDefault();
+          const linkedImage = link.querySelector('img');
+          const alt = linkedImage instanceof HTMLImageElement ? linkedImage.alt : '';
+          openOverlay(link.href, alt);
+        });
+
+        image.addEventListener('click', (event) => {
+          const rect = image.getBoundingClientRect();
+          const ratioX = clamp((event.clientX - rect.left) / rect.width, 0, 1);
+          const ratioY = clamp((event.clientY - rect.top) / rect.height, 0, 1);
+          const isZoomed = image.classList.contains('media-overlay__image--zoomed');
+
+          if (isZoomed) {
+            applyFitState();
+            return;
+          }
+
+          animateZoomToPoint(ratioX, ratioY);
+        });
+
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog) {
+            dialog.close();
+          }
+        });
+
+        dialog.addEventListener('close', () => {
+          cancelZoomAnimation();
+          image.removeAttribute('src');
+          image.setAttribute('alt', '');
+          image.style.removeProperty('width');
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
+        });
+      })();
+    </script> <script>
+      document.querySelectorAll('.prose a[href^="http"]').forEach((link) => {
+        if (!(link instanceof HTMLAnchorElement) || link.origin === window.location.origin) {
+          return;
+        }
+
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+      });
+    </script> </body> </html>

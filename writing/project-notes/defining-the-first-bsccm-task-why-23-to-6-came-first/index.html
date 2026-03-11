@@ -1,0 +1,280 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Defining the first BSCCM task | Project Notes | Jignasu Pathak</title><meta name="description" content="A project note on making the BSCCM benchmark concrete: what the 23-input to 6-target task actually is, why it is a disciplined first scope, and why it came before more semantic or less directly assay-linked alternatives."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Cormorant+Garamond:wght@500;600;700&display=swap"><link rel="stylesheet" href="/_astro/about.CvJM-s6k.css"></head> <body> <a class="skip-link" href="#main-content">Skip to content</a> <div class="site-shell"> <header class="site-header site-header--sticky"> <div class="container container--wide site-header__inner">  <div class="site-header__brand"> <div class="site-header__brand-stack"> <a class="site-header__brand-link" href="/">Jignasu Pathak</a> <nav aria-label="Contact"> <ul class="contact-list"> <li> <a class="contact-list__link" href="https://www.linkedin.com/in/jignasu-pathak/" target="_blank" rel="noreferrer"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M5.35 7.4a1.65 1.65 0 1 1 0-3.3 1.65 1.65 0 0 1 0 3.3Zm-1.4 12.5V8.9h2.8v11ZM8.95 8.9h2.7v1.5h.04c.38-.71 1.3-1.46 2.67-1.46 2.86 0 3.39 1.88 3.39 4.31v6.65h-2.8v-5.9c0-1.41-.03-3.22-1.96-3.22-1.97 0-2.27 1.54-2.27 3.12v6h-2.77Z" />
+</svg>
+ </span> <span>LinkedIn</span> </a> </li><li> <a class="contact-list__link" href="https://github.com/Mister-JP" target="_blank" rel="noreferrer"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M12 .7a11.3 11.3 0 0 0-3.58 22.02c.57.1.78-.25.78-.56v-1.95c-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.13.08 1.73 1.17 1.73 1.17 1.01 1.72 2.64 1.22 3.28.93.1-.73.39-1.22.72-1.5-2.52-.29-5.17-1.26-5.17-5.61 0-1.24.44-2.25 1.17-3.05-.12-.28-.5-1.42.11-2.95 0 0 .96-.3 3.14 1.16a10.9 10.9 0 0 1 5.72 0c2.17-1.46 3.13-1.16 3.13-1.16.62 1.53.23 2.67.12 2.95.73.8 1.16 1.81 1.16 3.05 0 4.36-2.65 5.32-5.18 5.6.4.35.76 1.02.76 2.07v3.07c0 .31.21.67.79.56A11.3 11.3 0 0 0 12 .7Z" />
+</svg>
+ </span> <span>GitHub</span> </a> </li><li> <a class="contact-list__link" href="mailto:1jignasu@gmail.com"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M3 5.5h18A1.5 1.5 0 0 1 22.5 7v10A1.5 1.5 0 0 1 21 18.5H3A1.5 1.5 0 0 1 1.5 17V7A1.5 1.5 0 0 1 3 5.5Zm0 1.8v.3l9 5.9 9-5.9v-.3Zm18 9.4V9.7l-8.5 5.58a.9.9 0 0 1-.98 0L3 9.7v7Z" />
+</svg>
+ </span> <span>1jignasu@gmail.com</span> </a> </li><li> <a class="contact-list__link" href="tel:+15408248721"> <span class="contact-list__icon" aria-hidden="true"> <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.13641 12.764L8.15456 9.08664C8.46255 8.69065 8.61655 8.49264 8.69726 8.27058C8.76867 8.07409 8.79821 7.86484 8.784 7.65625C8.76793 7.42053 8.67477 7.18763 8.48846 6.72184L7.77776 4.9451C7.50204 4.25579 7.36417 3.91113 7.12635 3.68522C6.91678 3.48615 6.65417 3.35188 6.37009 3.29854C6.0477 3.238 5.68758 3.32804 4.96733 3.5081L3 4C3 14 9.99969 21 20 21L20.4916 19.0324C20.6717 18.3121 20.7617 17.952 20.7012 17.6296C20.6478 17.3456 20.5136 17.0829 20.3145 16.8734C20.0886 16.6355 19.7439 16.4977 19.0546 16.222L17.4691 15.5877C16.9377 15.3752 16.672 15.2689 16.4071 15.2608C16.1729 15.2536 15.9404 15.3013 15.728 15.4001C15.4877 15.512 15.2854 15.7143 14.8807 16.119L11.8274 19.1733M12.9997 7C13.9765 7.19057 14.8741 7.66826 15.5778 8.37194C16.2815 9.07561 16.7592 9.97326 16.9497 10.95M12.9997 3C15.029 3.22544 16.9213 4.13417 18.366 5.57701C19.8106 7.01984 20.7217 8.91101 20.9497 10.94" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> </span> <span>(540) 824-8721</span> </a> </li> </ul> </nav> </div> </div> <div class="site-header__nav"> <nav class="main-nav" aria-label="Main"> <div class="desktop-nav"> <ul class="desktop-nav__list"> <li> <a class="desktop-nav__link" href="/"> Home </a> </li><li> <a class="desktop-nav__link" href="/about"> About </a> </li><li> <a class="desktop-nav__link" href="/projects"> Projects </a> </li><li> <a class="desktop-nav__link" href="/writing" aria-current="page"> Writing </a> </li><li> <a class="desktop-nav__link" href="/tools"> Tools </a> </li><li> <a class="desktop-nav__link desktop-nav__link--resume" href="/resume"> Resume </a> </li> </ul> </div> <div class="mobile-nav"> <ul class="mobile-nav__list"> <li> <a class="mobile-nav__link" href="/"> Home </a> </li><li> <a class="mobile-nav__link" href="/about"> About </a> </li><li> <a class="mobile-nav__link" href="/projects"> Projects </a> </li><li> <a class="mobile-nav__link" href="/writing" aria-current="page"> Writing </a> </li><li> <a class="mobile-nav__link" href="/tools"> Tools </a> </li><li> <a class="mobile-nav__link mobile-nav__link--resume" href="/resume"> Resume </a> </li> </ul> </div> </nav> </div>  </div> </header> <main id="main-content" class="site-shell__main">  <header class="page-header"> <div class="container container--narrow page-header__inner"> <p class="page-header__eyebrow">Writing</p><h1 class="page-header__title">Defining the first BSCCM task</h1><p class="page-header__description">A project note on making the BSCCM benchmark concrete: what the 23-input to 6-target task actually is, why it is a disciplined first scope, and why it came before more semantic or less directly assay-linked alternatives.</p><div class="page-header__meta"><span slot="meta" class="tag tag--accent"> Project Note </span><span slot="meta" class="tag tag--default"> BSCCM Project Notes </span><span slot="meta" class="tag tag--muted"> Microscopy </span><span slot="meta" class="tag tag--muted"> BSCCM </span><span slot="meta" class="tag tag--muted"> Dense Prediction </span></div> </div> </header> <section class="section section--sm section--default">  <div class="container container--wide">  <div class="writing-detail-template">  <section class="writing-detail-template__guide" aria-label="Writing guide"> <article class="card card--default"><div class="card__body">  <div class="writing-detail-template__guide-list"> <section class="writing-detail-template__guide-item" aria-labelledby="writing-related-project"> <h2 id="writing-related-project" class="writing-detail-template__card-title"> Related Project </h2> <ul class="writing-detail-template__related-list"> <li> <article class="card card--soft writing-detail-template__related-card"><div class="card__body">  <div class="writing-detail-template__related-meta"> <span class="tag tag--accent"> Project </span> <span class="tag tag--muted"> Building the first comparison-ready baseline </span> </div> <h3 class="writing-detail-template__card-subtitle"> <a class="text-link" href="/projects/microscopy-benchmark-pipeline">BSCCM microscopy image-to-image pipeline</a> </h3> <p>A reproducible image-to-image benchmark pipeline built on the BSCCM dataset. The project uses 23 label-free microscopy views to predict 6 fluorescence channels, with an emphasis on controlled data handling, explicit run configuration, and stable evaluation before broader model comparisons.</p>  </div> </article> </li> </ul> </section> <section class="writing-detail-template__guide-item" aria-labelledby="writing-outline"> <h2 id="writing-outline" class="writing-detail-template__card-title">
+On this page
+</h2> <ol class="writing-detail-template__outline"> <li> <a class="text-link" href="#bsccm-is-best-understood-as-an-imaging-system-benchmark">BSCCM is best understood as an imaging-system benchmark</a> </li><li> <a class="text-link" href="#the-first-task-had-to-be-chosen-not-assumed">The first task had to be chosen, not assumed</a> </li><li> <a class="text-link" href="#what-236-actually-means">What 23→6 actually means</a> </li><li> <a class="text-link" href="#why-fluorescence-came-before-more-semantic-targets">Why fluorescence came before more semantic targets</a> </li><li> <a class="text-link" href="#why-not-start-with-cell-type-or-histology">Why not start with cell type or histology</a> </li><li> <a class="text-link" href="#why-the-stain-condition-had-to-be-part-of-the-task">Why the stain condition had to be part of the task</a> </li><li> <a class="text-link" href="#what-this-task-does-and-does-not-claim">What this task does and does not claim</a> </li><li> <a class="text-link" href="#references">References</a> </li> </ol> </section> </div>  </div> </article> </section> <article class="writing-detail-template__body"> <div class="prose writing-detail-template__prose">  <p>The first challenge in BSCCM was not choosing a network. It was choosing a question.</p>
+<p>That sounds smaller than it is. BSCCM is rich enough that “start training a model” is not a real plan. The dataset contains hundreds of thousands of single white blood cells imaged under multiple LED-array illumination patterns, paired 6-channel fluorescence measurements, and a subset with matched histology.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-bsccm-site" id="user-content-fnref-bsccm-site" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup> That makes many projects possible at once: classification, reconstruction, virtual staining, marker prediction, cross-modal learning, and later biological inference. The hard part was deciding which of those should come first.</p>
+<p>This note explains why I chose the first task as <strong>23→6</strong>: a conditional dense-prediction problem that takes 23 label-free input channels and predicts 6 fluorescence channels. I did not choose it because it was the most ambitious-looking task in the dataset. I chose it because it sits at a strong intersection of measurement fidelity, dense supervision, biological relevance, and interpretability. It is the first BSCCM task that felt both technically meaningful and disciplined enough to support trustworthy iteration.</p>
+<h2 id="bsccm-is-best-understood-as-an-imaging-system-benchmark">BSCCM is best understood as an imaging-system benchmark</h2>
+<p>A useful way to read the BSCCM paper is to stop thinking of it as a generic cell-image dataset and start thinking of it as an imaging-system benchmark.</p>
+<p>The paper’s real contribution is not just scale. It is the pairing. The same single white blood cells are imaged through a programmable LED-array microscope for label-free acquisition and then through a fluorescence path for 6-channel fluorescence measurement. For a subset, there is also matched histology collected afterward.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-2" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-bsccm-site" id="user-content-fnref-bsccm-site-2" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup> That same-cell correspondence is what makes BSCCM especially valuable for dense prediction. It turns the benchmark into a controlled setting for asking whether information present in a label-free imaging path can be mapped to information usually obtained through more conventional assay channels.</p>
+<p>That distinction matters because it changes what a sensible first project looks like. If BSCCM only provided label-free images and cell-type labels, the natural entry point would be classification. But BSCCM gives something richer than that: paired measurements across modalities on the same cells. That makes image-to-image prediction feel native to the dataset rather than artificially imposed on it.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-3" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></p>
+<h2 id="the-first-task-had-to-be-chosen-not-assumed">The first task had to be chosen, not assumed</h2>
+<p>A large benchmark does not automatically tell you what the first task should be. In BSCCM, several tasks are possible, but not all of them are equally good starting points.</p>
+<p>Direct cell-type prediction was not the right first task. BSCCM does provide classification labels, but those labels are not the cleanest target in the dataset. They are built from fluorescence-derived protein measurements for only a subset of the all-antibody cells, one fluorescence-derived channel was considered too noisy to use for defining classes, and the paper explicitly says it is unclear whether all 10 classes reflect biological variability rather than measurement noise.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-4" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup> That makes classification useful later, but not the strongest first benchmark target.</p>
+<p>Histology was also not the best place to begin. It is valuable, especially because stained blood-smear style imaging makes white blood cell morphology easier for humans to read, but in BSCCM it is only available for a subset of cells and is collected later, after Wright staining, remounting, and imaging under a different optical setup.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-5" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup> That makes it an important reference modality, but not the cleanest first prediction target.</p>
+<p>What remained was the task that stays closest to the main paired measurement structure of the dataset: predicting the fluorescence image stack from the LED-array image stack. That keeps the first problem dense, widely available across the dataset, and close to what the microscope actually measured.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-6" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-bsccm-site" id="user-content-fnref-bsccm-site-3" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup> It also fits the broader motivation of the paper, which frames BSCCM as a way to compare label-free microscopy against existing assays used for white blood cell characterization.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-7" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup> That is why 23→6 came first.</p>
+<h2 id="what-236-actually-means">What 23→6 actually means</h2>
+<p>In practical terms, the task is simple to state.</p>
+<p>The input is a stack of <strong>23 label-free channels</strong> from the LED-array microscope: 22 multi-LED patterns and 1 single-LED image.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-8" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup>
+The target is a stack of <strong>6 fluorescence channels</strong> from the fluorescence path on the same cell.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-9" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-bsccm-site" id="user-content-fnref-bsccm-site-4" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup>
+The model is also given the <strong>stain condition</strong> used for that sample, because fluorescence is not determined by morphology alone. BSCCM includes unstained, single-antibody, and all-antibody conditions, and the per-cell metadata records which condition each cell came from.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-10" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-dryad" id="user-content-fnref-dryad" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></p>
+<p>That shorthand matters because it makes the benchmark concrete. The input is not one microscopy image. It is a structured stack of label-free observations under different illumination patterns. The target is not a class label or a handcrafted summary. It is a fluorescence image stack for the same cell. That means the model is asked to produce a spatially structured output, not just a global prediction.</p>
+<p>This is exactly the kind of problem where dense prediction starts to feel like the right language. The task preserves morphology, localization, and channel-specific structure. It gives you outputs that can be inspected visually instead of only scored numerically. That makes it a stronger first learning problem than many more compressed alternatives.</p>
+<h2 id="why-fluorescence-came-before-more-semantic-targets">Why fluorescence came before more semantic targets</h2>
+<p>The most important design choice was deciding what the model should imitate.</p>
+<p>One tempting route was to predict the fluorescence-derived protein-abundance outputs discussed in the BSCCM paper. Those targets are attractive because they feel closer to biology. But they are not the microscope’s raw measurement. They are downstream products of background correction, shading correction, and spectral unmixing. The paper is explicit that this becomes harder in the all-antibody setting, where spectra overlap, autofluorescence is present, and the problem is underdetermined enough that some markers must be grouped in the fuller unmixing model.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-11" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-dryad" id="user-content-fnref-dryad-2" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></p>
+<p>That is why I did <strong>not</strong> want the first task to be “predict the paper’s final semantic estimate.” That would have made the network imitate both the microscope and the authors’ downstream demixing assumptions at the same time.</p>
+<p>Predicting the <strong>6 measured fluorescence channels</strong> is cleaner. It keeps the first objective closer to the instrument. The model is not trying to infer true biology directly. It is trying to emulate what the fluorescence microscope would have measured for that same cell under that same staining setup. That is a more defensible first target, and it leaves later biological interpretation as a second-stage question rather than pretending it was solved inside the first mapping.</p>
+<h2 id="why-not-start-with-cell-type-or-histology">Why not start with cell type or histology</h2>
+<p>Cell-type prediction is interesting, but it compresses the problem too early.</p>
+<p>BSCCM does include cell-type structure through fluorescence-derived protein patterns, but classification would throw away most of what makes the dataset valuable for dense prediction. It would turn a rich paired imaging problem into a label-prediction problem before learning whether the model can reproduce the assay channel itself.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-12" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup> It also makes debugging harder. A wrong class label tells you much less about what failed than a wrong fluorescence map does.</p>
+<p>Histology is more subtle. It is an important modality in BSCCM, but it is not the cleanest first target. The paper makes clear that matched histology is available only for a subset, and that it is collected afterward, after the chamber is disassembled, the cells are Wright-stained, remounted, and imaged again with a different optical setup and a higher-NA objective.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-13" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup> That makes histology valuable, but also more complicated as a first image-to-image target.</p>
+<p>It is worth saying briefly why histology is so useful in the first place. Wright-style blood staining helps human readers identify white blood cell morphology because it makes structures like the nucleus, cytoplasmic character, and some granules easier to see. In Wright-Giemsa staining, acid cell components such as the nucleus, cytoplasmic RNA, and basophilic granules stain blue or purple, while basic components such as hemoglobin and eosinophilic granules stain red or orange.<sup><a href="#user-content-fn-wright" id="user-content-fnref-wright" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup> That is one reason stained blood-smear review remains such a strong human reference view for WBC typing. But in BSCCM it is still a later, subset-only, different-optics measurement, which is why it did not come first.</p>
+<p>Fluorescence stays closer to the immediate same-cell assay story. That is why it came first.</p>
+<h2 id="why-the-stain-condition-had-to-be-part-of-the-task">Why the stain condition had to be part of the task</h2>
+<p>Once fluorescence became the target, the next question was whether single-antibody and all-antibody data should be treated as separate tasks or as one conditional task.</p>
+<p>The right answer, at least for the first benchmark formulation, was to make the assay condition explicit.</p>
+<p>Without conditioning, the model would be asked a confused question. The fluorescence output is not determined by morphology alone. It also depends on which staining protocol was applied. BSCCM itself is organized around these assay regimes, and the metadata includes which antibody condition each cell belongs to.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-14" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-dryad" id="user-content-fnref-dryad-3" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup> So instead of pretending the target distribution is one uniform pool, the model should be told which stain condition generated the measurement.</p>
+<p>That does not magically remove target noise or assay imperfections. It does something more important: it makes the question well posed. The model becomes a conditional virtual fluorescence system. Given this cell under these label-free observations and under this staining setup, what fluorescence response should the microscope produce?</p>
+<p>That is a much clearer first problem than pooling incompatible supervision and hoping the network sorts it out.</p>
+<h2 id="what-this-task-does-and-does-not-claim">What this task does and does not claim</h2>
+<p>One of the reasons I like this formulation is that it forces the project to stay grounded in reviewable evidence. A dense fluorescence prediction can be inspected channel by channel, cell by cell, and failure mode by failure mode. That matters because my broader interest is not only in making a model work once. It is in learning how to build reliable dense-prediction systems whose behavior remains inspectable as the benchmark grows.</p>
+<p>At the same time, it is important to say what this task is <strong>not</strong>. It is not a full solution to phenotyping. It is not a proof that label-free microscopy has replaced staining. It does not erase the assay imperfections documented in the paper. BSCCM itself is candid about batch effects, unmixing complexity, and the difference between direct fluorescence measurements and downstream semantic quantities derived from them.<sup><a href="#user-content-fn-bsccm" id="user-content-fnref-bsccm-15" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-dryad" id="user-content-fnref-dryad-4" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></p>
+<p>That is exactly why this first task matters. It is a disciplined stepping stone, not a grand claim. It narrows the project to a question that is meaningful, paired, dense, and inspectable enough to support serious learning.</p>
+<p>So the short answer is simple.</p>
+<p>I chose 23→6 first because it is the first BSCCM task that is simultaneously dense enough to matter for image-to-image modeling, close enough to measured data to stay interpretable, biological enough to be more than a toy reconstruction problem, structured enough to benefit from conditional modeling, and honest enough to serve as a foundation for later, harder tasks.</p>
+<p>Not the most ambitious-looking question in the benchmark. The first one I can defend.</p>
+<h2 id="references">References</h2>
+<section data-footnotes="" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-bsccm">
+<p>Pinkard, H. et al. “The Berkeley Single Cell Computational Microscopy (BSCCM) Dataset.” arXiv (2024). <a href="https://arxiv.org/abs/2402.06191">https://arxiv.org/abs/2402.06191</a> <a href="#user-content-fnref-bsccm" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-bsccm-2" data-footnote-backref="" aria-label="Back to reference 1-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-bsccm-3" data-footnote-backref="" aria-label="Back to reference 1-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-bsccm-4" data-footnote-backref="" aria-label="Back to reference 1-4" class="data-footnote-backref">↩<sup>4</sup></a> <a href="#user-content-fnref-bsccm-5" data-footnote-backref="" aria-label="Back to reference 1-5" class="data-footnote-backref">↩<sup>5</sup></a> <a href="#user-content-fnref-bsccm-6" data-footnote-backref="" aria-label="Back to reference 1-6" class="data-footnote-backref">↩<sup>6</sup></a> <a href="#user-content-fnref-bsccm-7" data-footnote-backref="" aria-label="Back to reference 1-7" class="data-footnote-backref">↩<sup>7</sup></a> <a href="#user-content-fnref-bsccm-8" data-footnote-backref="" aria-label="Back to reference 1-8" class="data-footnote-backref">↩<sup>8</sup></a> <a href="#user-content-fnref-bsccm-9" data-footnote-backref="" aria-label="Back to reference 1-9" class="data-footnote-backref">↩<sup>9</sup></a> <a href="#user-content-fnref-bsccm-10" data-footnote-backref="" aria-label="Back to reference 1-10" class="data-footnote-backref">↩<sup>10</sup></a> <a href="#user-content-fnref-bsccm-11" data-footnote-backref="" aria-label="Back to reference 1-11" class="data-footnote-backref">↩<sup>11</sup></a> <a href="#user-content-fnref-bsccm-12" data-footnote-backref="" aria-label="Back to reference 1-12" class="data-footnote-backref">↩<sup>12</sup></a> <a href="#user-content-fnref-bsccm-13" data-footnote-backref="" aria-label="Back to reference 1-13" class="data-footnote-backref">↩<sup>13</sup></a> <a href="#user-content-fnref-bsccm-14" data-footnote-backref="" aria-label="Back to reference 1-14" class="data-footnote-backref">↩<sup>14</sup></a> <a href="#user-content-fnref-bsccm-15" data-footnote-backref="" aria-label="Back to reference 1-15" class="data-footnote-backref">↩<sup>15</sup></a></p>
+</li>
+<li id="user-content-fn-bsccm-site">
+<p>Waller Lab. “The Berkeley Single Cell Computational Microscopy (BSCCM) Dataset.” <a href="https://waller-lab.github.io/BSCCM/">https://waller-lab.github.io/BSCCM/</a> <a href="#user-content-fnref-bsccm-site" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-bsccm-site-2" data-footnote-backref="" aria-label="Back to reference 2-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-bsccm-site-3" data-footnote-backref="" aria-label="Back to reference 2-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-bsccm-site-4" data-footnote-backref="" aria-label="Back to reference 2-4" class="data-footnote-backref">↩<sup>4</sup></a></p>
+</li>
+<li id="user-content-fn-dryad">
+<p>Pinkard, H.; Waller, L. “Berkeley Single-Cell Computational Microscopy (BSCCM) dataset.” Dryad (2025 update). <a href="https://doi.org/10.5061/dryad.sxksn038s">https://doi.org/10.5061/dryad.sxksn038s</a> <a href="#user-content-fnref-dryad" data-footnote-backref="" aria-label="Back to reference 3" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-dryad-2" data-footnote-backref="" aria-label="Back to reference 3-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-dryad-3" data-footnote-backref="" aria-label="Back to reference 3-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-dryad-4" data-footnote-backref="" aria-label="Back to reference 3-4" class="data-footnote-backref">↩<sup>4</sup></a></p>
+</li>
+<li id="user-content-fn-wright">
+<p>Merck Manual Professional Edition. “Wright-Giemsa Stain of Peripheral Blood Smear.” <a href="https://www.merckmanuals.com/professional/multimedia/image/wright-giemsa-stain-of-peripheral-blood-smear">https://www.merckmanuals.com/professional/multimedia/image/wright-giemsa-stain-of-peripheral-blood-smear</a> <a href="#user-content-fnref-wright" data-footnote-backref="" aria-label="Back to reference 4" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>  </div> </article> </div>  </div>  </section>  </main> </div> <dialog id="media-overlay" class="media-overlay" aria-label="Expanded image preview"> <form method="dialog" class="media-overlay__close-wrap"> <button type="submit" class="media-overlay__close" aria-label="Close image preview">
+Close
+</button> </form> <div class="media-overlay__viewport"> <img class="media-overlay__image" data-media-overlay-image alt=""> </div> </dialog> <script>
+      (() => {
+        if (window.__mediaOverlayInitialized) {
+          return;
+        }
+        window.__mediaOverlayInitialized = true;
+
+        const dialog = document.getElementById('media-overlay');
+        if (!(dialog instanceof HTMLDialogElement)) {
+          return;
+        }
+
+        const image = dialog.querySelector('[data-media-overlay-image]');
+        const viewport = dialog.querySelector('.media-overlay__viewport');
+        if (!(image instanceof HTMLImageElement) || !(viewport instanceof HTMLElement)) {
+          return;
+        }
+
+        const isImageHref = (href) =>
+          /\.(png|jpe?g|webp|gif|svg)([#?].*)?$/i.test(href);
+
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        const ZOOM_DURATION_MS = 240;
+
+        let zoomAnimationFrame = 0;
+
+        const computeFitWidth = () => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+
+          if (!naturalWidth || !naturalHeight) {
+            return 0;
+          }
+
+          const widthScale = viewport.clientWidth / naturalWidth;
+          const heightScale = viewport.clientHeight / naturalHeight;
+          const scale = Math.min(1, widthScale, heightScale);
+
+          return Math.max(1, Math.floor(naturalWidth * scale));
+        };
+
+        const easeOutCubic = (progress) => 1 - Math.pow(1 - progress, 3);
+
+        const cancelZoomAnimation = () => {
+          if (zoomAnimationFrame) {
+            window.cancelAnimationFrame(zoomAnimationFrame);
+            zoomAnimationFrame = 0;
+          }
+        };
+
+        const applyFitState = () => {
+          cancelZoomAnimation();
+          const fitWidth = computeFitWidth();
+          if (fitWidth > 0) {
+            image.style.width = `${fitWidth}px`;
+          } else {
+            image.style.removeProperty('width');
+          }
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.add('media-overlay__viewport--fit');
+          viewport.scrollTo({ left: 0, top: 0 });
+        };
+
+        const animateZoomToPoint = (ratioX, ratioY) => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+          const startWidth = image.offsetWidth;
+          const startHeight = image.offsetHeight;
+
+          if (!naturalWidth || !naturalHeight || !startWidth || !startHeight) {
+            return;
+          }
+
+          cancelZoomAnimation();
+          image.classList.add('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
+
+          const startedAt = performance.now();
+
+          const step = (now) => {
+            const progress = clamp((now - startedAt) / ZOOM_DURATION_MS, 0, 1);
+            const eased = easeOutCubic(progress);
+            const currentWidth = startWidth + (naturalWidth - startWidth) * eased;
+            const currentHeight = startHeight + (naturalHeight - startHeight) * eased;
+
+            image.style.width = `${currentWidth}px`;
+
+            const targetLeft = ratioX * currentWidth - viewport.clientWidth / 2;
+            const targetTop = ratioY * currentHeight - viewport.clientHeight / 2;
+            const maxLeft = Math.max(0, currentWidth - viewport.clientWidth);
+            const maxTop = Math.max(0, currentHeight - viewport.clientHeight);
+
+            viewport.scrollLeft = clamp(targetLeft, 0, maxLeft);
+            viewport.scrollTop = clamp(targetTop, 0, maxTop);
+
+            if (progress < 1) {
+              zoomAnimationFrame = window.requestAnimationFrame(step);
+              return;
+            }
+
+            image.style.width = `${naturalWidth}px`;
+            zoomAnimationFrame = 0;
+          };
+
+          zoomAnimationFrame = window.requestAnimationFrame(step);
+        };
+
+        const openOverlay = (href, alt) => {
+          if (typeof dialog.showModal !== 'function') {
+            window.location.assign(href.toString());
+            return;
+          }
+
+          image.src = href.toString();
+          image.alt = alt;
+          dialog.showModal();
+
+          if (image.complete && image.naturalWidth > 0) {
+            applyFitState();
+          } else {
+            image.addEventListener(
+              'load',
+              () => {
+                applyFitState();
+              },
+              { once: true },
+            );
+          }
+        };
+
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+
+          if (!(target instanceof Element)) {
+            return;
+          }
+
+          const link = target.closest('.prose figure a[href]');
+
+          if (!(link instanceof HTMLAnchorElement)) {
+            return;
+          }
+
+          const href = link.getAttribute('href');
+
+          if (!href || !isImageHref(href)) {
+            return;
+          }
+
+          if (
+            event.defaultPrevented ||
+            event.button === 1 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
+            return;
+          }
+
+          event.preventDefault();
+          const linkedImage = link.querySelector('img');
+          const alt = linkedImage instanceof HTMLImageElement ? linkedImage.alt : '';
+          openOverlay(link.href, alt);
+        });
+
+        image.addEventListener('click', (event) => {
+          const rect = image.getBoundingClientRect();
+          const ratioX = clamp((event.clientX - rect.left) / rect.width, 0, 1);
+          const ratioY = clamp((event.clientY - rect.top) / rect.height, 0, 1);
+          const isZoomed = image.classList.contains('media-overlay__image--zoomed');
+
+          if (isZoomed) {
+            applyFitState();
+            return;
+          }
+
+          animateZoomToPoint(ratioX, ratioY);
+        });
+
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog) {
+            dialog.close();
+          }
+        });
+
+        dialog.addEventListener('close', () => {
+          cancelZoomAnimation();
+          image.removeAttribute('src');
+          image.setAttribute('alt', '');
+          image.style.removeProperty('width');
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
+        });
+      })();
+    </script> <script>
+      document.querySelectorAll('.prose a[href^="http"]').forEach((link) => {
+        if (!(link instanceof HTMLAnchorElement) || link.origin === window.location.origin) {
+          return;
+        }
+
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+      });
+    </script> </body> </html>
