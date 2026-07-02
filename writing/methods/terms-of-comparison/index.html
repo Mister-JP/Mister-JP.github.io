@@ -1,0 +1,336 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Terms of Comparison: The Contract Behind Trustworthy Model Iteration | Methods | Jignasu Pathak</title><meta name="description" content="A method for defining the comparison contract before optimization begins: split discipline, target definitions, metric interpretation, artifact review, and the checks that keep early results from becoming false confidence."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Cormorant+Garamond:wght@500;600;700&display=swap"><link rel="stylesheet" href="/_astro/about.CvJM-s6k.css"></head> <body> <a class="skip-link" href="#main-content">Skip to content</a> <div class="site-shell"> <header class="site-header site-header--sticky"> <div class="container container--wide site-header__inner">  <div class="site-header__brand"> <div class="site-header__brand-stack"> <a class="site-header__brand-link" href="/">Jignasu Pathak</a> <nav aria-label="Contact"> <ul class="contact-list"> <li> <a class="contact-list__link" href="https://www.linkedin.com/in/jignasu-pathak/" target="_blank" rel="noreferrer"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M5.35 7.4a1.65 1.65 0 1 1 0-3.3 1.65 1.65 0 0 1 0 3.3Zm-1.4 12.5V8.9h2.8v11ZM8.95 8.9h2.7v1.5h.04c.38-.71 1.3-1.46 2.67-1.46 2.86 0 3.39 1.88 3.39 4.31v6.65h-2.8v-5.9c0-1.41-.03-3.22-1.96-3.22-1.97 0-2.27 1.54-2.27 3.12v6h-2.77Z" />
+</svg>
+ </span> <span>LinkedIn</span> </a> </li><li> <a class="contact-list__link" href="https://github.com/Mister-JP" target="_blank" rel="noreferrer"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M12 .7a11.3 11.3 0 0 0-3.58 22.02c.57.1.78-.25.78-.56v-1.95c-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.13.08 1.73 1.17 1.73 1.17 1.01 1.72 2.64 1.22 3.28.93.1-.73.39-1.22.72-1.5-2.52-.29-5.17-1.26-5.17-5.61 0-1.24.44-2.25 1.17-3.05-.12-.28-.5-1.42.11-2.95 0 0 .96-.3 3.14 1.16a10.9 10.9 0 0 1 5.72 0c2.17-1.46 3.13-1.16 3.13-1.16.62 1.53.23 2.67.12 2.95.73.8 1.16 1.81 1.16 3.05 0 4.36-2.65 5.32-5.18 5.6.4.35.76 1.02.76 2.07v3.07c0 .31.21.67.79.56A11.3 11.3 0 0 0 12 .7Z" />
+</svg>
+ </span> <span>GitHub</span> </a> </li><li> <a class="contact-list__link" href="mailto:1jignasu@gmail.com"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M3 5.5h18A1.5 1.5 0 0 1 22.5 7v10A1.5 1.5 0 0 1 21 18.5H3A1.5 1.5 0 0 1 1.5 17V7A1.5 1.5 0 0 1 3 5.5Zm0 1.8v.3l9 5.9 9-5.9v-.3Zm18 9.4V9.7l-8.5 5.58a.9.9 0 0 1-.98 0L3 9.7v7Z" />
+</svg>
+ </span> <span>1jignasu@gmail.com</span> </a> </li><li> <a class="contact-list__link" href="tel:+15408248721"> <span class="contact-list__icon" aria-hidden="true"> <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.13641 12.764L8.15456 9.08664C8.46255 8.69065 8.61655 8.49264 8.69726 8.27058C8.76867 8.07409 8.79821 7.86484 8.784 7.65625C8.76793 7.42053 8.67477 7.18763 8.48846 6.72184L7.77776 4.9451C7.50204 4.25579 7.36417 3.91113 7.12635 3.68522C6.91678 3.48615 6.65417 3.35188 6.37009 3.29854C6.0477 3.238 5.68758 3.32804 4.96733 3.5081L3 4C3 14 9.99969 21 20 21L20.4916 19.0324C20.6717 18.3121 20.7617 17.952 20.7012 17.6296C20.6478 17.3456 20.5136 17.0829 20.3145 16.8734C20.0886 16.6355 19.7439 16.4977 19.0546 16.222L17.4691 15.5877C16.9377 15.3752 16.672 15.2689 16.4071 15.2608C16.1729 15.2536 15.9404 15.3013 15.728 15.4001C15.4877 15.512 15.2854 15.7143 14.8807 16.119L11.8274 19.1733M12.9997 7C13.9765 7.19057 14.8741 7.66826 15.5778 8.37194C16.2815 9.07561 16.7592 9.97326 16.9497 10.95M12.9997 3C15.029 3.22544 16.9213 4.13417 18.366 5.57701C19.8106 7.01984 20.7217 8.91101 20.9497 10.94" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> </span> <span>(540) 824-8721</span> </a> </li> </ul> </nav> </div> </div> <div class="site-header__nav"> <nav class="main-nav" aria-label="Main"> <div class="desktop-nav"> <ul class="desktop-nav__list"> <li> <a class="desktop-nav__link" href="/"> Home </a> </li><li> <a class="desktop-nav__link" href="/about"> About </a> </li><li> <a class="desktop-nav__link" href="/projects"> Projects </a> </li><li> <a class="desktop-nav__link" href="/writing" aria-current="page"> Writing </a> </li><li> <a class="desktop-nav__link" href="/tools"> Tools </a> </li><li> <a class="desktop-nav__link desktop-nav__link--resume" href="/resume"> Resume </a> </li> </ul> </div> <div class="mobile-nav"> <ul class="mobile-nav__list"> <li> <a class="mobile-nav__link" href="/"> Home </a> </li><li> <a class="mobile-nav__link" href="/about"> About </a> </li><li> <a class="mobile-nav__link" href="/projects"> Projects </a> </li><li> <a class="mobile-nav__link" href="/writing" aria-current="page"> Writing </a> </li><li> <a class="mobile-nav__link" href="/tools"> Tools </a> </li><li> <a class="mobile-nav__link mobile-nav__link--resume" href="/resume"> Resume </a> </li> </ul> </div> </nav> </div>  </div> </header> <main id="main-content" class="site-shell__main">  <header class="page-header"> <div class="container container--narrow page-header__inner"> <p class="page-header__eyebrow">Writing</p><h1 class="page-header__title">Terms of Comparison: The Contract Behind Trustworthy Model Iteration</h1><p class="page-header__description">A method for defining the comparison contract before optimization begins: split discipline, target definitions, metric interpretation, artifact review, and the checks that keep early results from becoming false confidence.</p><div class="page-header__meta"><span slot="meta" class="tag tag--default"> Method </span><span slot="meta" class="tag tag--default"> Experiment Design </span><span slot="meta" class="tag tag--muted"> Evaluation </span><span slot="meta" class="tag tag--muted"> Model comparison </span><span slot="meta" class="tag tag--muted"> Data Splits </span></div> </div> </header> <section class="section section--sm section--default">  <div class="container container--wide">  <div class="writing-detail-template">  <section class="writing-detail-template__guide" aria-label="Writing guide"> <article class="card card--default"><div class="card__body">  <div class="writing-detail-template__guide-list"> <section class="writing-detail-template__guide-item" aria-labelledby="writing-related-project"> <h2 id="writing-related-project" class="writing-detail-template__card-title"> Related Project </h2> <ul class="writing-detail-template__related-list"> <li> <article class="card card--soft writing-detail-template__related-card"><div class="card__body">  <div class="writing-detail-template__related-meta"> <span class="tag tag--accent"> Project </span> <span class="tag tag--muted"> Building the first comparison-ready baseline </span> </div> <h3 class="writing-detail-template__card-subtitle"> <a class="text-link" href="/projects/microscopy-benchmark-pipeline">BSCCM microscopy image-to-image pipeline</a> </h3> <p>A reproducible image-to-image benchmark pipeline built on the BSCCM dataset. The project uses 23 label-free microscopy views to predict 6 fluorescence channels, with an emphasis on controlled data handling, explicit run configuration, and stable evaluation before broader model comparisons.</p>  </div> </article> </li> </ul> </section> <section class="writing-detail-template__guide-item" aria-labelledby="writing-outline"> <h2 id="writing-outline" class="writing-detail-template__card-title">
+On this page
+</h2> <ol class="writing-detail-template__outline"> <li> <a class="text-link" href="#why-this-matters-before-the-first-result">Why this matters before the first result</a> </li><li> <a class="text-link" href="#the-comparison-contract">The comparison contract</a> </li><li> <a class="text-link" href="#split-discipline-split-logic-is-benchmark-logic">Split discipline: split logic is benchmark logic</a> </li><li> <a class="text-link" href="#target-definition-labels-are-part-of-the-benchmark">Target definition: labels are part of the benchmark</a> </li><li> <a class="text-link" href="#metric-surface-what-moves-the-score-is-not-always-what-improves-the-task">Metric surface: what moves the score is not always what improves the task</a> </li><li> <a class="text-link" href="#artifacts-and-slice-review-scalar-scores-are-not-enough">Artifacts and slice review: scalar scores are not enough</a> </li><li> <a class="text-link" href="#run-review-a-completed-training-job-is-not-yet-a-comparison-point">Run review: a completed training job is not yet a comparison point</a> </li><li> <a class="text-link" href="#what-this-prevents-model-change-versus-benchmark-change">What this prevents: model change versus benchmark change</a> </li><li> <a class="text-link" href="#reuse-across-projects">Reuse across projects</a> </li><li> <a class="text-link" href="#minimal-comparison-checklist">Minimal comparison checklist</a> </li><li> <a class="text-link" href="#references">References</a> </li> </ol> </section> </div>  </div> </article> </section> <article class="writing-detail-template__body"> <div class="prose writing-detail-template__prose">  <h2 id="why-this-matters-before-the-first-result">Why this matters before the first result</h2>
+<p>The most misleading result in a project is often the first one that looks good.</p>
+<p>Not because early experiments are inherently worthless, but because they are easy to over-interpret. A model appears to beat another model, the metric moves in the right direction, and the run feels like progress. Then later, often quietly, you realize the split policy changed, the target-generation rule changed, the ranking metric changed, or the saved evidence is too thin to tell whether the score movement reflects better behavior or just different judgment conditions.</p>
+<p>At that point, the problem is not simply that the experiment was imperfect. The deeper problem is that the comparison may no longer be answering the same question from one run to the next. In empirical machine learning, that kind of drift is not a minor clerical issue. Leakage and related evaluation failures have been documented across many scientific fields, with Kapoor and Narayanan surveying 17 fields and 329 affected papers, and arguing that data leakage has led to severe reproducibility failures in ML-based science.<sup><a href="#user-content-fn-kapoor" id="user-content-fnref-kapoor" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup> Herrmann and colleagues make a related point from a broader methodological angle: much empirical ML work is written as though it were a clean test of a fixed claim, even when the setup was still evolving and the result is better understood as exploratory evidence.<sup><a href="#user-content-fn-herrmann" id="user-content-fnref-herrmann" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup></p>
+<p>Before architecture comparison means anything, the evaluation contract has to stop moving underneath the runs.</p>
+<h2 id="the-comparison-contract">The comparison contract</h2>
+<p>By <em>comparison contract</em>, I mean the set of benchmark conditions that must remain fixed before score differences can be interpreted as evidence about the model.</p>
+<p>This is not a call to freeze a project forever. Benchmarks should change when you learn something important. But once a comparison is presented as evidence that model B is better than model A, the reader should be able to trust that the underlying terms of judgment stayed stable enough for that statement to mean what it appears to mean.</p>
+<p>In practice, I want five parts of the benchmark frozen before serious optimization begins:</p>
+<ul>
+<li>split logic and sampling policy</li>
+<li>target definition and preprocessing assumptions</li>
+<li>metric surface and ranking rule</li>
+<li>required saved artifacts for direct inspection</li>
+<li>run review criteria that decide whether a run counts as evidence</li>
+</ul>
+<p>Those choices are not ornamental. They define what counts as new data, what the task means, what success means, what evidence must be visible, and what bar a run must clear before it becomes a legitimate comparison point. Documentation frameworks like <em>Datasheets for Datasets</em> and <em>Model Cards</em> exist for exactly this reason: assumptions about data, intended use, evaluation conditions, and performance are too important to remain implicit.<sup><a href="#user-content-fn-datasheets" id="user-content-fnref-datasheets" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup> Reproducibility checklists make the same idea more operational by explicitly asking for train/validation/test split details, preprocessing steps, excluded data, annotator instructions, and evaluation setup.<sup><a href="#user-content-fn-checklist" id="user-content-fnref-checklist" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<h2 id="split-discipline-split-logic-is-benchmark-logic">Split discipline: split logic is benchmark logic</h2>
+<p>A split is not just a partition of rows. It is a claim about what counts as genuinely unseen.</p>
+<p>When we choose a split, we are making a statement about independence and about the generalization question we care about. In a dense-prediction setting, image-level randomization asks a different question than plate-level, well-level, patient-level, site-level, or time-blocked splitting. The split tells the model what kinds of familiarity are permitted and what kinds of novelty count as a real test.</p>
+<p>That is why split logic belongs to the benchmark definition rather than hiding inside the data loader. Leakage is dangerous precisely because it lets familiarity cross the train-test boundary while preserving the outward appearance of independence. Kapoor and Narayanan show that leakage is not a niche problem but a widespread source of invalid conclusions in ML-based science.<sup><a href="#user-content-fn-kapoor" id="user-content-fnref-kapoor-2" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup> Rosenblatt et al. provide a useful concrete example: in connectome-based prediction, leakage via feature selection and repeated subjects drastically inflated apparent performance, and the effect was worse in smaller datasets.<sup><a href="#user-content-fn-rosenblatt" id="user-content-fnref-rosenblatt" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup></p>
+<p>For model comparison, the consequence is simple. If split logic changes casually between runs, every later comparison inherits ambiguity about what the model actually saw and what it was being asked to generalize to. A changed split is not automatically a cleaner estimate of the same benchmark. Very often it is a different generalization question.</p>
+<p>This matters especially in microscopy-style workflows, where naive randomization can accidentally put highly related examples on both sides of the partition: neighboring crops from the same field of view, samples from the same plate, acquisitions from the same batch, or temporally adjacent observations that share nuisance structure. If one run uses image-level randomization and another uses plate-aware grouping, the score difference cannot be read as a pure model win. The benchmark itself moved.</p>
+<p>The operational rule I want is therefore strict: define the true unit of independence before optimization, freeze the grouping keys, save the split manifest, and keep any split-sensitive transforms inside the training-only path. If split logic changes, the benchmark version changes.</p>
+<h2 id="target-definition-labels-are-part-of-the-benchmark">Target definition: labels are part of the benchmark</h2>
+<p>The target is not a natural constant sitting inside the dataset. It is a protocol.</p>
+<p>Even when the raw images are fixed, the task can still move, because supervised learning is defined not by the inputs alone but by the targets the model is asked to match. In an image-to-image benchmark, those targets are never just “there”; they come from a policy. That policy includes how annotations or output images were created, how ambiguous cases were resolved, what preprocessing was applied, whether weak structures were clipped, smoothed, normalized, or thresholded, which cases were included or excluded, and what conventions determined the boundary between signal and background. Together, those decisions define what counts as a correct prediction. If they change, then the task changes with them. A model is no longer being judged against the same benchmark, even if the input images are identical, because the meaning of the target has shifted underneath the comparison.</p>
+<p>That is why target definition belongs inside the comparison contract. Rädsch et al. show that labelling instructions materially affect annotation quality in biomedical image analysis, and that poor or missing instruction quality is not some theoretical concern. In their analysis of recent MICCAI competition tasks matching the inclusion criteria, 76% did not report any labelling instructions.<sup><a href="#user-content-fn-radsch" id="user-content-fnref-radsch" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup> That number is especially striking because competitions are supposed to represent some of the field’s cleaner validation setups.</p>
+<p>For dense prediction, label policy can move in surprisingly quiet ways. Are faint structures counted as foreground or ignored as noise? Are touching cells merged or separated? Are border objects included? Is dim fluorescence clipped, smoothed, or preserved? Those are not secondary details. They shape what success means. If they change between runs, then the model is no longer being judged against the same task definition.</p>
+<p>In segmentation, a model may appear to improve simply because its masks match a revised annotation style more closely. For example, if the benchmark changes how faint boundaries are traced, whether touching cells are split or merged, or whether border objects are included, then a higher score may reflect better agreement with the new labeling convention rather than a deeper improvement in how the model understands cell structure. The same issue appears in image-to-image prediction. If target-generation preprocessing starts clipping weak fluorescence, smoothing noisy regions, or excluding low-signal cases that were previously part of the task, then some of the original difficulty has been removed from the benchmark itself. A later model may score higher, but that does not automatically mean it learned more; it may simply be solving an easier or differently defined task. In both cases the number goes up, but what that number is measuring has shifted underneath the comparison.</p>
+<p>So the rule here is the same as for splits: write the target specification, make ambiguous-case handling explicit, preserve annotation guidance as an artifact, and treat changes in target-generation logic as benchmark changes rather than model wins.</p>
+<h2 id="metric-surface-what-moves-the-score-is-not-always-what-improves-the-task">Metric surface: what moves the score is not always what improves the task</h2>
+<p>A metric is not a neutral mirror of quality. It is a compression rule.</p>
+<p>Metrics collapse rich behavior into a number, which means every metric sees some failures clearly and hides others almost by design. That is why “keep the metric fixed” is only the beginning. The more important question is whether the metric surface is actually aligned with the task and whether the reader understands what the chosen metric is allowed to miss.</p>
+<p><em>Metrics Reloaded</em> is useful here because it treats metric choice as a structured design problem rather than a habit. The framework recommends selecting metrics through a problem fingerprint, mapping the validation setup to the relevant problem category and task characteristics before choosing a suitable pool of metrics.<sup><a href="#user-content-fn-metricsreloaded" id="user-content-fnref-metricsreloaded" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup> Reinke et al. make the danger even more explicit: if performance is not measured according to relevant validation metrics, then no reliable statement can be made about the suitability of the algorithm, and unsuitable methods can be wrongly regarded as best-performing ones.<sup><a href="#user-content-fn-reinke" id="user-content-fnref-reinke" data-footnote-ref="" aria-describedby="footnote-label">8</a></sup></p>
+<p>That warning matters because rankings can change with metric choice, aggregation policy, and evaluation design. Maier-Hein et al. show that in biomedical image analysis challenges, algorithm rank is sensitive to design choices including the test sets used, the annotators who generated the reference data, the selected metrics, and the way values are aggregated.<sup><a href="#user-content-fn-maierhein" id="user-content-fnref-maierhein" data-footnote-ref="" aria-describedby="footnote-label">9</a></sup></p>
+<p>For dense prediction, these are familiar pathologies. A region-overlap metric can look stable while boundaries worsen. A global average can hide collapse on rare structures. A micro-style summary can wash out behavior that a macro-style summary would expose. Dice may tell one story, boundary-sensitive evaluation another, object-level accounting a third. None of those metrics is automatically wrong. The problem starts when the benchmark treats them as interchangeable or lets the ranking rule drift after optimization has already begun.</p>
+<p>My preference is to define the metric surface explicitly: name the primary metric, state what it is intended to capture, add supporting diagnostics for failure modes the primary metric can hide, and fix the aggregation rule before tuning starts. If the official ranking metric changes, the benchmark changed.</p>
+<h2 id="artifacts-and-slice-review-scalar-scores-are-not-enough">Artifacts and slice review: scalar scores are not enough</h2>
+<p>A scalar score can be correct and still be dangerously incomplete.</p>
+<p>Aggregate held-out performance often carries more authority than it deserves. Oakden-Rayner et al. show why: hidden stratification can produce relative performance differences of more than 20% on clinically important subsets even when overall performance appears acceptable.<sup><a href="#user-content-fn-oakden" id="user-content-fnref-oakden" data-footnote-ref="" aria-describedby="footnote-label">10</a></sup> A model can therefore look strong in the aggregate while failing badly on the cases that matter most.</p>
+<p>This is exactly why I do not want metrics alone. I want saved evidence.</p>
+<p>In dense prediction work, saved outputs are part of the evidence because the metric alone cannot show how the score was earned. Imagine two segmentation runs where the second model scores slightly higher overall. On paper, that looks like progress. But when you inspect the predictions, the story may be different. The new model may trace the large, bright cell bodies more cleanly, which improves the aggregate score, while at the same time erasing faint protrusions, merging touching cells, or dropping small structures that matter scientifically. In an image-to-image setting, a model may improve its average error mostly on easy high-signal regions while still failing on dim, noisy, or rare cases that were the real challenge of the task. The scalar reports the net effect, but it hides where the improvement came from and what tradeoff produced it. Saved predictions make that tradeoff visible. They let you see whether the model became broadly better, or whether it simply improved on the regions the metric rewards most while getting worse elsewhere. Without that inspection, it is too easy to mistake a favorable number for a well-understood improvement.</p>
+<p>This is also where model reporting frameworks point in the right direction. <em>Model Cards</em> argue for reporting benchmarked evaluation in a variety of relevant conditions and documenting the context in which performance was measured, rather than offering one naked aggregate score as if it were universally self-explanatory.<sup><a href="#user-content-fn-modelcards" id="user-content-fnref-modelcards" data-footnote-ref="" aria-describedby="footnote-label">11</a></sup></p>
+<p>For a dense-prediction benchmark, the artifact bundle should therefore be explicit: fixed review cases, representative predictions, failure slices, side-by-side outputs for the same samples across runs, and enough metadata to trace each artifact back to the exact benchmark and run version. A score without that evidence bundle is incomplete.</p>
+<h2 id="run-review-a-completed-training-job-is-not-yet-a-comparison-point">Run review: a completed training job is not yet a comparison point</h2>
+<p>A finished run is not automatically a trustworthy result.</p>
+<p>This distinction matters because ML workflows make it easy to confuse completion with evidence. The run ended, the logs exist, the metric improved, and the temptation is to drop the number straight into a comparison table. But if the point of the benchmark is to support interpretable model iteration, then the final step of training is not celebration. It is review.</p>
+<p>Pineau et al. describe reproducibility as a matter of improving how machine learning research is conducted, communicated, and evaluated.<sup><a href="#user-content-fn-pineau" id="user-content-fnref-pineau" data-footnote-ref="" aria-describedby="footnote-label">12</a></sup> That framing is helpful because it shifts attention away from the fantasy that a single scalar can carry the entire burden of trust. The NeurIPS reproducibility checklist makes the same idea concrete by asking for the details that determine whether a result can actually be interpreted: split definitions, preprocessing, excluded data, annotation instructions, evaluation setup, hyperparameter search, and code-related artifacts.<sup><a href="#user-content-fn-checklist" id="user-content-fnref-checklist-2" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<p>By run review, I mean a brief but disciplined pass to confirm that the run respected the comparison contract. Did the run use the frozen split manifest? Did target generation match the benchmark version? Did it keep the promised metric surface? Are the required artifacts present? Do the outputs look plausible on the fixed review cases? If any of those answers is no, the run may still be useful, but it should lose the status of comparison-grade evidence. A contract-violating run can still teach you something exploratory. What it should not do is sit in the same ranking table as runs that actually respected the frozen terms of comparison.</p>
+<h2 id="what-this-prevents-model-change-versus-benchmark-change">What this prevents: model change versus benchmark change</h2>
+<p>The most important distinction in the whole method is this one: model change versus benchmark change.</p>
+<p>Some changes belong to ordinary iteration within a stable benchmark: architecture, decoder design, loss weighting, optimizer schedules, augmentation, and regularization. These choices may produce better or worse models, but they still operate inside the same evaluation question.</p>
+<p>Other changes move the benchmark itself. A new split policy, a different grouping rule, revised target-generation logic, a new official metric or aggregation method, updated annotation guidance, or new artifact requirements can all change how performance is defined and judged. Those are not just model iterations. They change the evaluation contract, which means later score differences can no longer be read in exactly the same way.</p>
+<p>This distinction matters because once model change and benchmark change are mixed together, later score movement becomes hard to interpret. A benchmark version is supposed to hold the terms of judgment steady long enough that improvement can be attributed, however imperfectly, to model-side decisions. If the judgment surface itself keeps drifting, the project starts optimizing against setup movement and mistaking that for learning.</p>
+<p>The literature on challenges and validation design makes that concern hard to dismiss as personal preference. Maier-Hein et al. show that in biomedical image analysis, reproduction, adequate interpretation, and cross-comparison are not possible in the majority of challenges because only a fraction of relevant information is reported and challenge design is highly heterogeneous.<sup><a href="#user-content-fn-maierhein" id="user-content-fnref-maierhein-2" data-footnote-ref="" aria-describedby="footnote-label">9</a></sup> That is the large-scale version of the same problem.</p>
+<p>The practical response is versioning discipline. When the comparison contract changes, the benchmark deserves a new name. Put the benchmark version in the run directory, in the plots, in the tables, and in the prose. That simple move prevents a large amount of false continuity.</p>
+<h2 id="reuse-across-projects">Reuse across projects</h2>
+<p>The exact checklist will vary by domain, but the principle transfers cleanly.</p>
+<p>In microscopy and dense prediction, the examples may involve plate-aware splitting, annotation ambiguity, faint boundaries, object-level versus pixel-level evaluation, and fixed qualitative review panels. In another domain the details will differ. But the logic is the same: define what stays fixed early, make that definition visible, and treat any later change to those terms as a benchmark revision rather than a quiet model win.</p>
+<p>That, to me, is the real purpose of the method. It is not rigidity for its own sake. It is a way to make iteration interpretable. Before I try to improve a model, I want the benchmark stable enough that a score change means what I think it means. Otherwise optimization can quietly attach itself to drift in the setup, and the project starts confusing benchmark movement with actual learning.</p>
+<h2 id="minimal-comparison-checklist">Minimal comparison checklist</h2>
+<p>Before I start treating score differences as evidence, I want answers to these questions:</p>
+<ol>
+<li>What is the true unit of independence for the split?</li>
+<li>Where is the split manifest stored, and has it stayed fixed?</li>
+<li>Where is the target specification written, including hard cases and exclusions?</li>
+<li>Which preprocessing assumptions are part of target generation or evaluation?</li>
+<li>What is the primary metric, and what failure modes can it hide?</li>
+<li>Which secondary diagnostics are required to interpret the primary metric?</li>
+<li>Which artifacts must be saved before a run can be reviewed?</li>
+<li>What makes a run exploratory versus comparison-grade?</li>
+<li>Which changes force a benchmark version bump?</li>
+</ol>
+<p>If those answers are not written down, then the comparison contract is probably still too implicit to support strong conclusions.</p>
+<h2 id="references">References</h2>
+<section data-footnotes="" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-kapoor">
+<p>Sayash Kapoor and Arvind Narayanan, <a href="https://arxiv.org/abs/2207.07048"><em>Leakage and the Reproducibility Crisis in ML-based Science</em></a>, 2022. The paper surveys 17 fields and 329 affected papers, presents a taxonomy of 8 leakage types, and argues that leakage has caused severe reproducibility failures in ML-based science. <a href="#user-content-fnref-kapoor" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-kapoor-2" data-footnote-backref="" aria-label="Back to reference 1-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-herrmann">
+<p>Moritz Herrmann et al., <a href="https://arxiv.org/abs/2405.02200"><em>Why We Must Rethink Empirical Research in Machine Learning</em></a>, 2024. The paper argues that much empirical ML research is framed as confirmatory even though it should often be treated as exploratory. <a href="#user-content-fnref-herrmann" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-datasheets">
+<p>Timnit Gebru et al., <a href="https://arxiv.org/abs/1803.09010"><em>Datasheets for Datasets</em></a>, 2018. The paper proposes dataset documentation covering motivation, composition, collection process, recommended uses, and related context. <a href="#user-content-fnref-datasheets" data-footnote-backref="" aria-label="Back to reference 3" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-checklist">
+<p><a href="https://www.cs.mcgill.ca/~jpineau/ReproducibilityChecklist.pdf"><em>The Machine Learning Reproducibility Checklist (v2.0, Apr. 7 2020)</em></a>. The checklist explicitly asks for dataset statistics, train/validation/test split details, excluded data, preprocessing, annotator instructions, methods for quality control, and evaluation details. <a href="#user-content-fnref-checklist" data-footnote-backref="" aria-label="Back to reference 4" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-checklist-2" data-footnote-backref="" aria-label="Back to reference 4-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-rosenblatt">
+<p>Matthew Rosenblatt et al., <a href="https://www.nature.com/articles/s41467-024-46150-w"><em>Data Leakage Inflates Prediction Performance in Connectome-based Machine Learning Models</em></a>, <em>Nature Communications</em>, 2024. The study reports that leakage via feature selection and repeated subjects drastically inflates prediction performance, with stronger effects in smaller datasets. <a href="#user-content-fnref-rosenblatt" data-footnote-backref="" aria-label="Back to reference 5" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-radsch">
+<p>Tim Rädsch et al., <a href="https://www.nature.com/articles/s42256-023-00625-5"><em>Labelling Instructions Matter in Biomedical Image Analysis</em></a>, <em>Nature Machine Intelligence</em>, 2023. The paper shows labelling instructions are key to annotation quality and reports that 76% of recent MICCAI competition tasks in the analyzed sample did not report any labelling instructions. <a href="#user-content-fnref-radsch" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-metricsreloaded">
+<p>Lena Maier-Hein et al., <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11182665/"><em>Metrics Reloaded: Recommendations for Image Analysis Validation</em></a>, <em>Nature Methods</em>, 2024. The framework recommends selecting validation metrics through problem fingerprinting and task characteristics rather than by habit. <a href="#user-content-fnref-metricsreloaded" data-footnote-backref="" aria-label="Back to reference 7" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-reinke">
+<p>Annika Reinke et al., <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11181963/"><em>Understanding Metric-related Pitfalls in Image Analysis Validation</em></a>, <em>Nature Methods</em>, 2024. The paper argues that if performance is not measured according to relevant validation metrics, reliable statements about suitability cannot be made and unsuitable methods may be wrongly treated as best-performing. <a href="#user-content-fnref-reinke" data-footnote-backref="" aria-label="Back to reference 8" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-maierhein">
+<p>Lena Maier-Hein et al., <a href="https://www.nature.com/articles/s41467-018-07619-7"><em>Why Rankings of Biomedical Image Analysis Competitions Should Be Interpreted with Care</em></a>, <em>Nature Communications</em>, 2018. The paper shows that reproduction, adequate interpretation, and cross-comparison are often impossible because relevant information is underreported and challenge rankings are sensitive to design choices such as test sets, annotators, metrics, and aggregation. <a href="#user-content-fnref-maierhein" data-footnote-backref="" aria-label="Back to reference 9" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-maierhein-2" data-footnote-backref="" aria-label="Back to reference 9-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-oakden">
+<p>Luke Oakden-Rayner et al., <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7665161/"><em>Hidden Stratification Causes Clinically Meaningful Failures in Machine Learning for Medical Imaging</em></a>, <em>Proceedings of the ACM Conference on Health, Inference, and Learning</em>, 2020. The paper reports that hidden stratification can create relative performance differences of over 20% on clinically important subsets. <a href="#user-content-fnref-oakden" data-footnote-backref="" aria-label="Back to reference 10" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-modelcards">
+<p>Margaret Mitchell et al., <a href="https://arxiv.org/abs/1810.03993"><em>Model Cards for Model Reporting</em></a>, 2018. The paper recommends model documentation that includes intended use, evaluation context, and benchmarked performance across relevant conditions and groups. <a href="#user-content-fnref-modelcards" data-footnote-backref="" aria-label="Back to reference 11" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-pineau">
+<p>Joelle Pineau et al., <a href="https://jmlr.org/papers/v22/20-303.html"><em>Improving Reproducibility in Machine Learning Research (A Report from the NeurIPS 2019 Reproducibility Program)</em></a>, <em>JMLR</em>, 2021. The paper describes a reproducibility program meant to improve standards for how ML research is conducted, communicated, and evaluated. <a href="#user-content-fnref-pineau" data-footnote-backref="" aria-label="Back to reference 12" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>  </div> </article> </div>  </div>  </section>  </main> </div> <dialog id="media-overlay" class="media-overlay" aria-label="Expanded image preview"> <form method="dialog" class="media-overlay__close-wrap"> <button type="submit" class="media-overlay__close" aria-label="Close image preview">
+Close
+</button> </form> <div class="media-overlay__viewport"> <img class="media-overlay__image" data-media-overlay-image alt=""> </div> </dialog> <script>
+      (() => {
+        if (window.__mediaOverlayInitialized) {
+          return;
+        }
+        window.__mediaOverlayInitialized = true;
+
+        const dialog = document.getElementById('media-overlay');
+        if (!(dialog instanceof HTMLDialogElement)) {
+          return;
+        }
+
+        const image = dialog.querySelector('[data-media-overlay-image]');
+        const viewport = dialog.querySelector('.media-overlay__viewport');
+        if (!(image instanceof HTMLImageElement) || !(viewport instanceof HTMLElement)) {
+          return;
+        }
+
+        const isImageHref = (href) =>
+          /\.(png|jpe?g|webp|gif|svg)([#?].*)?$/i.test(href);
+
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        const ZOOM_DURATION_MS = 240;
+
+        let zoomAnimationFrame = 0;
+
+        const computeFitWidth = () => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+
+          if (!naturalWidth || !naturalHeight) {
+            return 0;
+          }
+
+          const widthScale = viewport.clientWidth / naturalWidth;
+          const heightScale = viewport.clientHeight / naturalHeight;
+          const scale = Math.min(1, widthScale, heightScale);
+
+          return Math.max(1, Math.floor(naturalWidth * scale));
+        };
+
+        const easeOutCubic = (progress) => 1 - Math.pow(1 - progress, 3);
+
+        const cancelZoomAnimation = () => {
+          if (zoomAnimationFrame) {
+            window.cancelAnimationFrame(zoomAnimationFrame);
+            zoomAnimationFrame = 0;
+          }
+        };
+
+        const applyFitState = () => {
+          cancelZoomAnimation();
+          const fitWidth = computeFitWidth();
+          if (fitWidth > 0) {
+            image.style.width = `${fitWidth}px`;
+          } else {
+            image.style.removeProperty('width');
+          }
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.add('media-overlay__viewport--fit');
+          viewport.scrollTo({ left: 0, top: 0 });
+        };
+
+        const animateZoomToPoint = (ratioX, ratioY) => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+          const startWidth = image.offsetWidth;
+          const startHeight = image.offsetHeight;
+
+          if (!naturalWidth || !naturalHeight || !startWidth || !startHeight) {
+            return;
+          }
+
+          cancelZoomAnimation();
+          image.classList.add('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
+
+          const startedAt = performance.now();
+
+          const step = (now) => {
+            const progress = clamp((now - startedAt) / ZOOM_DURATION_MS, 0, 1);
+            const eased = easeOutCubic(progress);
+            const currentWidth = startWidth + (naturalWidth - startWidth) * eased;
+            const currentHeight = startHeight + (naturalHeight - startHeight) * eased;
+
+            image.style.width = `${currentWidth}px`;
+
+            const targetLeft = ratioX * currentWidth - viewport.clientWidth / 2;
+            const targetTop = ratioY * currentHeight - viewport.clientHeight / 2;
+            const maxLeft = Math.max(0, currentWidth - viewport.clientWidth);
+            const maxTop = Math.max(0, currentHeight - viewport.clientHeight);
+
+            viewport.scrollLeft = clamp(targetLeft, 0, maxLeft);
+            viewport.scrollTop = clamp(targetTop, 0, maxTop);
+
+            if (progress < 1) {
+              zoomAnimationFrame = window.requestAnimationFrame(step);
+              return;
+            }
+
+            image.style.width = `${naturalWidth}px`;
+            zoomAnimationFrame = 0;
+          };
+
+          zoomAnimationFrame = window.requestAnimationFrame(step);
+        };
+
+        const openOverlay = (href, alt) => {
+          if (typeof dialog.showModal !== 'function') {
+            window.location.assign(href.toString());
+            return;
+          }
+
+          image.src = href.toString();
+          image.alt = alt;
+          dialog.showModal();
+
+          if (image.complete && image.naturalWidth > 0) {
+            applyFitState();
+          } else {
+            image.addEventListener(
+              'load',
+              () => {
+                applyFitState();
+              },
+              { once: true },
+            );
+          }
+        };
+
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+
+          if (!(target instanceof Element)) {
+            return;
+          }
+
+          const link = target.closest('.prose figure a[href]');
+
+          if (!(link instanceof HTMLAnchorElement)) {
+            return;
+          }
+
+          const href = link.getAttribute('href');
+
+          if (!href || !isImageHref(href)) {
+            return;
+          }
+
+          if (
+            event.defaultPrevented ||
+            event.button === 1 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
+            return;
+          }
+
+          event.preventDefault();
+          const linkedImage = link.querySelector('img');
+          const alt = linkedImage instanceof HTMLImageElement ? linkedImage.alt : '';
+          openOverlay(link.href, alt);
+        });
+
+        image.addEventListener('click', (event) => {
+          const rect = image.getBoundingClientRect();
+          const ratioX = clamp((event.clientX - rect.left) / rect.width, 0, 1);
+          const ratioY = clamp((event.clientY - rect.top) / rect.height, 0, 1);
+          const isZoomed = image.classList.contains('media-overlay__image--zoomed');
+
+          if (isZoomed) {
+            applyFitState();
+            return;
+          }
+
+          animateZoomToPoint(ratioX, ratioY);
+        });
+
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog) {
+            dialog.close();
+          }
+        });
+
+        dialog.addEventListener('close', () => {
+          cancelZoomAnimation();
+          image.removeAttribute('src');
+          image.setAttribute('alt', '');
+          image.style.removeProperty('width');
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
+        });
+      })();
+    </script> <script>
+      document.querySelectorAll('.prose a[href^="http"]').forEach((link) => {
+        if (!(link instanceof HTMLAnchorElement) || link.origin === window.location.origin) {
+          return;
+        }
+
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+      });
+    </script> </body> </html>

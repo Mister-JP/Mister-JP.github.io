@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Reliable ML experimentation | Methods | Jignasu Pathak</title><meta name="description" content="Why trustworthy ML experimentation starts with protected evaluation, simple baselines, controlled reruns, direct data inspection, and artifacts that preserve evidence."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Cormorant+Garamond:wght@500;600;700&display=swap"><link rel="stylesheet" href="/_astro/about.CvJM-s6k.css"></head> <body> <a class="skip-link" href="#main-content">Skip to content</a> <div class="site-shell"> <header class="site-header site-header--sticky"> <div class="container container--wide site-header__inner">  <div class="site-header__brand"> <div class="site-header__brand-stack"> <a class="site-header__brand-link" href="/">Jignasu Pathak</a> <nav aria-label="Contact"> <ul class="contact-list"> <li> <a class="contact-list__link" href="https://www.linkedin.com/in/jignasu-pathak/" target="_blank" rel="noreferrer"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M5.35 7.4a1.65 1.65 0 1 1 0-3.3 1.65 1.65 0 0 1 0 3.3Zm-1.4 12.5V8.9h2.8v11ZM8.95 8.9h2.7v1.5h.04c.38-.71 1.3-1.46 2.67-1.46 2.86 0 3.39 1.88 3.39 4.31v6.65h-2.8v-5.9c0-1.41-.03-3.22-1.96-3.22-1.97 0-2.27 1.54-2.27 3.12v6h-2.77Z" />
+</svg>
+ </span> <span>LinkedIn</span> </a> </li><li> <a class="contact-list__link" href="https://github.com/Mister-JP" target="_blank" rel="noreferrer"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M12 .7a11.3 11.3 0 0 0-3.58 22.02c.57.1.78-.25.78-.56v-1.95c-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.13.08 1.73 1.17 1.73 1.17 1.01 1.72 2.64 1.22 3.28.93.1-.73.39-1.22.72-1.5-2.52-.29-5.17-1.26-5.17-5.61 0-1.24.44-2.25 1.17-3.05-.12-.28-.5-1.42.11-2.95 0 0 .96-.3 3.14 1.16a10.9 10.9 0 0 1 5.72 0c2.17-1.46 3.13-1.16 3.13-1.16.62 1.53.23 2.67.12 2.95.73.8 1.16 1.81 1.16 3.05 0 4.36-2.65 5.32-5.18 5.6.4.35.76 1.02.76 2.07v3.07c0 .31.21.67.79.56A11.3 11.3 0 0 0 12 .7Z" />
+</svg>
+ </span> <span>GitHub</span> </a> </li><li> <a class="contact-list__link" href="mailto:1jignasu@gmail.com"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M3 5.5h18A1.5 1.5 0 0 1 22.5 7v10A1.5 1.5 0 0 1 21 18.5H3A1.5 1.5 0 0 1 1.5 17V7A1.5 1.5 0 0 1 3 5.5Zm0 1.8v.3l9 5.9 9-5.9v-.3Zm18 9.4V9.7l-8.5 5.58a.9.9 0 0 1-.98 0L3 9.7v7Z" />
+</svg>
+ </span> <span>1jignasu@gmail.com</span> </a> </li><li> <a class="contact-list__link" href="tel:+15408248721"> <span class="contact-list__icon" aria-hidden="true"> <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.13641 12.764L8.15456 9.08664C8.46255 8.69065 8.61655 8.49264 8.69726 8.27058C8.76867 8.07409 8.79821 7.86484 8.784 7.65625C8.76793 7.42053 8.67477 7.18763 8.48846 6.72184L7.77776 4.9451C7.50204 4.25579 7.36417 3.91113 7.12635 3.68522C6.91678 3.48615 6.65417 3.35188 6.37009 3.29854C6.0477 3.238 5.68758 3.32804 4.96733 3.5081L3 4C3 14 9.99969 21 20 21L20.4916 19.0324C20.6717 18.3121 20.7617 17.952 20.7012 17.6296C20.6478 17.3456 20.5136 17.0829 20.3145 16.8734C20.0886 16.6355 19.7439 16.4977 19.0546 16.222L17.4691 15.5877C16.9377 15.3752 16.672 15.2689 16.4071 15.2608C16.1729 15.2536 15.9404 15.3013 15.728 15.4001C15.4877 15.512 15.2854 15.7143 14.8807 16.119L11.8274 19.1733M12.9997 7C13.9765 7.19057 14.8741 7.66826 15.5778 8.37194C16.2815 9.07561 16.7592 9.97326 16.9497 10.95M12.9997 3C15.029 3.22544 16.9213 4.13417 18.366 5.57701C19.8106 7.01984 20.7217 8.91101 20.9497 10.94" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> </span> <span>(540) 824-8721</span> </a> </li> </ul> </nav> </div> </div> <div class="site-header__nav"> <nav class="main-nav" aria-label="Main"> <div class="desktop-nav"> <ul class="desktop-nav__list"> <li> <a class="desktop-nav__link" href="/"> Home </a> </li><li> <a class="desktop-nav__link" href="/about"> About </a> </li><li> <a class="desktop-nav__link" href="/projects"> Projects </a> </li><li> <a class="desktop-nav__link" href="/writing" aria-current="page"> Writing </a> </li><li> <a class="desktop-nav__link" href="/tools"> Tools </a> </li><li> <a class="desktop-nav__link desktop-nav__link--resume" href="/resume"> Resume </a> </li> </ul> </div> <div class="mobile-nav"> <ul class="mobile-nav__list"> <li> <a class="mobile-nav__link" href="/"> Home </a> </li><li> <a class="mobile-nav__link" href="/about"> About </a> </li><li> <a class="mobile-nav__link" href="/projects"> Projects </a> </li><li> <a class="mobile-nav__link" href="/writing" aria-current="page"> Writing </a> </li><li> <a class="mobile-nav__link" href="/tools"> Tools </a> </li><li> <a class="mobile-nav__link mobile-nav__link--resume" href="/resume"> Resume </a> </li> </ul> </div> </nav> </div>  </div> </header> <main id="main-content" class="site-shell__main">  <header class="page-header"> <div class="container container--narrow page-header__inner"> <p class="page-header__eyebrow">Writing</p><h1 class="page-header__title">Reliable ML experimentation</h1><p class="page-header__description">Why trustworthy ML experimentation starts with protected evaluation, simple baselines, controlled reruns, direct data inspection, and artifacts that preserve evidence.</p><div class="page-header__meta"><span slot="meta" class="tag tag--default"> Method </span><span slot="meta" class="tag tag--default"> Experiment Design </span><span slot="meta" class="tag tag--muted"> Reproducibility </span><span slot="meta" class="tag tag--muted"> System Design </span><span slot="meta" class="tag tag--muted"> Tooling </span></div> </div> </header> <section class="section section--sm section--default">  <div class="container container--wide">  <div class="writing-detail-template">  <section class="writing-detail-template__guide" aria-label="Writing guide"> <article class="card card--default"><div class="card__body">  <div class="writing-detail-template__guide-list"> <section class="writing-detail-template__guide-item" aria-labelledby="writing-related-project"> <h2 id="writing-related-project" class="writing-detail-template__card-title"> Related Project </h2> <ul class="writing-detail-template__related-list"> <li> <article class="card card--soft writing-detail-template__related-card"><div class="card__body">  <div class="writing-detail-template__related-meta"> <span class="tag tag--accent"> Project </span> <span class="tag tag--muted"> Building the first comparison-ready baseline </span> </div> <h3 class="writing-detail-template__card-subtitle"> <a class="text-link" href="/projects/microscopy-benchmark-pipeline">BSCCM microscopy image-to-image pipeline</a> </h3> <p>A reproducible image-to-image benchmark pipeline built on the BSCCM dataset. The project uses 23 label-free microscopy views to predict 6 fluorescence channels, with an emphasis on controlled data handling, explicit run configuration, and stable evaluation before broader model comparisons.</p>  </div> </article> </li> </ul> </section> <section class="writing-detail-template__guide-item" aria-labelledby="writing-outline"> <h2 id="writing-outline" class="writing-detail-template__card-title">
+On this page
+</h2> <ol class="writing-detail-template__outline"> <li> <a class="text-link" href="#the-real-problem-is-not-just-how-to-train-a-model">The real problem is not just how to train a model</a> </li><li> <a class="text-link" href="#start-simple-enough-to-learn">Start simple enough to learn</a> </li><li> <a class="text-link" href="#reproducibility-means-controlled-uncertainty">Reproducibility means controlled uncertainty</a> </li><li> <a class="text-link" href="#look-at-the-data-directly-not-only-at-the-dashboard">Look at the data directly, not only at the dashboard</a> </li><li> <a class="text-link" href="#treat-data-code-and-configuration-as-one-system">Treat data, code, and configuration as one system</a> </li><li> <a class="text-link" href="#train-in-a-way-that-preserves-evidence">Train in a way that preserves evidence</a> </li><li> <a class="text-link" href="#what-this-adds-up-to">What this adds up to</a> </li><li> <a class="text-link" href="#a-checklist-to-carry-forward">A checklist to carry forward</a> </li><li> <a class="text-link" href="#references">References</a> </li> </ol> </section> </div>  </div> </article> </section> <article class="writing-detail-template__body"> <div class="prose writing-detail-template__prose">  <p>The goal of ML experimentation is not to produce the highest score you can find, but to build a process that tells you whether a score is worth believing. We do care about model quality, of course, but first make sure the experiment itself is capable of producing trustworthy evidence. That is why so much experienced guidance, from Google’s engineering rules to PyTorch’s reproducibility notes, focuses on evaluation discipline, simple baselines, repeatability, and system design rather than only on model cleverness.<sup><a href="#user-content-fn-rules-ml" id="user-content-fnref-rules-ml" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-pytorch-randomness" id="user-content-fnref-pytorch-randomness" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup></p>
+<h2 id="the-real-problem-is-not-just-how-to-train-a-model">The real problem is not just how to train a model</h2>
+<p>A more useful question is: <strong>How do I design an experiment so that improvement means something?</strong> If a result comes from leakage, duplicated examples, a worn-out validation set, a lucky seed, or an untracked config change, then the model may not have improved at all. Only the illusion of progress improved. Google’s guidance on dataset splitting is very direct here: evaluation should be on separate data, validation and test sets can wear out with repeated use, and duplicates between training and evaluation can make results look better than they are.<sup><a href="#user-content-fn-dataset-splits" id="user-content-fnref-dataset-splits" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></p>
+<p>That is why reliable experimentation is best understood as a measurement discipline. Training is part of it, but measurement comes first. Before asking whether a new idea helps, you want to know whether the experimental setup is clean enough to detect real change. Google’s tuning playbook makes the same point in practice by recommending that teams start from a simple configuration, improve incrementally, and accept only changes backed by strong evidence.<sup><a href="#user-content-fn-tuning-scientific" id="user-content-fnref-tuning-scientific" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<p>If you want trustworthy conclusions, the first thing to protect is the evaluation. Train, validation, and test are not just administrative folders; they play different roles. Training teaches the model. Validation helps you choose between ideas. Test is the final check on whether your conclusions still hold on data that has stayed mostly untouched. When the same validation or test set is reused again and again to make decisions, it slowly stops behaving like fresh evidence. Google explicitly warns that both validation and test sets wear out with repeated use and may need refreshing.<sup><a href="#user-content-fn-dataset-splits" id="user-content-fnref-dataset-splits-2" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></p>
+<p>This sounds simple, but it has deep consequences. You have to choose the right split unit, remove duplicates, make sure the evaluation set is representative of the real problem, and define leakage before you start tuning. A split that looks technically correct can still be scientifically weak if related examples, temporal leakage, or preprocessing mistakes let training information seep into evaluation. That is why mature practice treats the split as part of the experiment design, not as a quick preprocessing step.<sup><a href="#user-content-fn-dataset-splits" id="user-content-fnref-dataset-splits-3" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></p>
+<h2 id="start-simple-enough-to-learn">Start simple enough to learn</h2>
+<p>Google’s Rules of ML says to keep the first model simple and get the infrastructure right, and the tuning playbook says to begin projects with proven architectures and common optimizers, then aim for a simple initial configuration that already performs reasonably on the validation set. The reason is not conservatism for its own sake. Simplicity makes it easier to see what is happening.<sup><a href="#user-content-fn-rules-ml" id="user-content-fnref-rules-ml-2" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-tuning-new-project" id="user-content-fnref-tuning-new-project" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup></p>
+<p>A simple baseline does several quiet but important jobs. It tells you whether the pipeline works at all. It gives you a fair reference point for future changes. It shows whether complexity is buying meaningful gains or only adding noise and maintenance cost. The ML Test Score rubric explicitly recommends regular comparison against a very simple baseline model, precisely because sophistication can hide problems instead of solving them.<sup><a href="#user-content-fn-ml-test-score" id="user-content-fnref-ml-test-score" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup></p>
+<p>The same goes for objectives. Early on, it helps to choose a metric that is simple, observable, and attributable. Google’s Rules of ML recommends exactly that for the first objective. This does not mean the metric captures everything that matters. It means the metric is clear enough to let the team reason about whether the training setup is actually improving anything.<sup><a href="#user-content-fn-rules-ml" id="user-content-fnref-rules-ml-3" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></p>
+<h2 id="reproducibility-means-controlled-uncertainty">Reproducibility means controlled uncertainty</h2>
+<p>It is helpful to be gentle but honest here: reproducibility in modern ML is not absolute. PyTorch’s own documentation states that completely reproducible results are not guaranteed across releases, commits, platforms, or even CPU and GPU executions, including cases with identical seeds. That warning matters because it keeps people from treating one run as sacred truth.<sup><a href="#user-content-fn-pytorch-randomness" id="user-content-fnref-pytorch-randomness-2" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup></p>
+<p>But the lesson is not that reproducibility is impossible. The lesson is that you should reduce unnecessary randomness and record enough context that another run, or another person, can reasonably check your conclusion. PyTorch recommends controlling sources of randomness and using deterministic algorithms when needed, even though this can trade off performance for consistency. In practice, treat reproducibility as a spectrum: same code, same data, same config, same environment, similar outcome, same conclusion.<sup><a href="#user-content-fn-pytorch-randomness" id="user-content-fnref-pytorch-randomness-3" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup></p>
+<p>That is a healthier standard for research code too. The aim is not magical sameness. The aim is that your result does not depend on hidden state, forgotten tweaks, or one unusually lucky run.</p>
+<h2 id="look-at-the-data-directly-not-only-at-the-dashboard">Look at the data directly, not only at the dashboard</h2>
+<p>One of the most important lessons in experienced ML writing is that summary metrics hide a lot. Google’s Good Data Analysis guide recommends looking at richer distribution views, considering noise carefully, inspecting concrete examples, and slicing the data into meaningful subgroups instead of trusting a single aggregate number.<sup><a href="#user-content-fn-good-data-analysis" id="user-content-fnref-good-data-analysis" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup></p>
+<p>This matters because many experimental mistakes are visible in examples before they are visible in summary statistics. A misparsed field, broken label mapping, strange augmentation artifact, minority-slice collapse, or edge-case failure may barely move the top-line metric at first. But once you inspect examples and slice behavior, the problem becomes obvious. Google’s guidance is especially clear that whenever you write new analysis code, you should look at actual examples and check how the code interprets them.<sup><a href="#user-content-fn-good-data-analysis" id="user-content-fnref-good-data-analysis-2" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup></p>
+<p>The same mindset extends to data validation over time. TensorFlow Data Validation is built around checking whether data conforms to expectations and detecting training-serving skew and span-to-span drift. That is a formal version of a very old lesson: if the data distribution changes quietly, your experiment can stay numerically neat while becoming conceptually wrong.<sup><a href="#user-content-fn-tfdv" id="user-content-fnref-tfdv" data-footnote-ref="" aria-describedby="footnote-label">8</a></sup></p>
+<h2 id="treat-data-code-and-configuration-as-one-system">Treat data, code, and configuration as one system</h2>
+<p>An experiment is not just a model plus a dataset, but a whole system made of data generation, preprocessing, configuration, training code, evaluation code, logging, artifact storage, and human decisions. The ML Test Score rubric makes this explicit by organizing ML reliability around tests for features and data, model development, infrastructure, and monitoring.<sup><a href="#user-content-fn-ml-test-score" id="user-content-fnref-ml-test-score-2" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup></p>
+<p>That idea pairs naturally with the “hidden technical debt” paper, which warns that ML systems often accumulate costly system-level debt through data dependencies, configuration issues, hidden feedback loops, entanglement, and changing external conditions. The warning is not just about messy code. It is about how easy it is for ML systems to become fragile when the surrounding pipeline is treated as incidental.<sup><a href="#user-content-fn-hidden-debt" id="user-content-fnref-hidden-debt" data-footnote-ref="" aria-describedby="footnote-label">9</a></sup></p>
+<p>So from a software-design point of view, reliable experimentation usually means a few quiet disciplines: config-driven runs, versioned datasets and splits, explicit preprocessing, small tests for the pipeline, reviewable code, and artifacts that can be traced back to the run that created them. The ML Test Score rubric goes as far as recommending full-pipeline integration tests that run from original data sources through feature creation, training, and serving.<sup><a href="#user-content-fn-ml-test-score" id="user-content-fnref-ml-test-score-3" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup></p>
+<h2 id="train-in-a-way-that-preserves-evidence">Train in a way that preserves evidence</h2>
+<p>Once the experimental frame is sound, training itself becomes easier to reason about. Google’s tuning playbook recommends fast initial iteration, beginning with standard architectures and optimizers, using a simple configuration with reasonable validation performance, and then tuning scientifically rather than by scattered intuition. It also recommends short early rounds for insight, followed by a small number of longer runs for final candidates.<sup><a href="#user-content-fn-tuning-new-project" id="user-content-fnref-tuning-new-project-2" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup><sup><a href="#user-content-fn-tuning-scientific" id="user-content-fnref-tuning-scientific-2" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<p>A particularly mature piece of advice is to separate the budget of the run from the choice of the final checkpoint. Google recommends periodic evaluation during training and retrospective checkpoint selection, noting that the best checkpoint is often not the last one. It also recommends saving enough information from evaluation to support offline analysis, including predictions on selected examples, because those artifacts are valuable for debugging.<sup><a href="#user-content-fn-tuning-pipeline" id="user-content-fnref-tuning-pipeline" data-footnote-ref="" aria-describedby="footnote-label">10</a></sup></p>
+<p>This is such a useful mindset for research code. Instead of asking only, “Did training finish?” you ask, “What evidence did this run leave behind?” A good run leaves metrics, configs, checkpoints, example predictions, notes, and enough context that you can compare it fairly with the next run. Google’s playbook is blunt that untracked experiments might as well not exist.<sup><a href="#user-content-fn-tuning-pipeline" id="user-content-fnref-tuning-pipeline-2" data-footnote-ref="" aria-describedby="footnote-label">10</a></sup></p>
+<h2 id="what-this-adds-up-to">What this adds up to</h2>
+<p>Reliable ML experimentation means building a process where:</p>
+<ul>
+<li>the evaluation is protected</li>
+<li>the first system is simple enough to understand</li>
+<li>the data is inspected directly and in slices</li>
+<li>repeated runs are controlled enough to support the same conclusion</li>
+<li>and the whole pipeline is treated as software, not as a pile of scripts</li>
+</ul>
+<p>When those pieces are in place, “empirically correct” starts to mean something concrete. It means a careful reader could look at your setup and believe that the reported gain is more likely to reflect real model behavior than leakage, drift, randomness, or confusion in the pipeline. That is the kind of result worth building on.<sup><a href="#user-content-fn-dataset-splits" id="user-content-fnref-dataset-splits-4" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup><sup><a href="#user-content-fn-tuning-scientific" id="user-content-fnref-tuning-scientific-3" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<h2 id="a-checklist-to-carry-forward">A checklist to carry forward</h2>
+<p>Before trusting an experiment, it helps to ask five calm questions:</p>
+<ol>
+<li><strong>Is the evaluation still clean?</strong> Separate roles for train, validation, and test; no duplicates; no silent leakage; no worn-out holdouts.<sup><a href="#user-content-fn-dataset-splits" id="user-content-fnref-dataset-splits-5" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></li>
+<li><strong>Is there a simple baseline that makes the result interpretable?</strong> Start simple, compare often, and do not let complexity outrun understanding.<sup><a href="#user-content-fn-rules-ml" id="user-content-fnref-rules-ml-4" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-ml-test-score" id="user-content-fnref-ml-test-score-4" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup></li>
+<li><strong>Can someone rerun this well enough to check the conclusion?</strong> Control randomness where possible and capture the environment, config, and code.<sup><a href="#user-content-fn-pytorch-randomness" id="user-content-fnref-pytorch-randomness-4" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup></li>
+<li><strong>Did I look at real examples and slices, not just one metric?</strong> Inspect distributions, examples, subgroup behavior, skew, and drift.<sup><a href="#user-content-fn-good-data-analysis" id="user-content-fnref-good-data-analysis-3" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup><sup><a href="#user-content-fn-tfdv" id="user-content-fnref-tfdv-2" data-footnote-ref="" aria-describedby="footnote-label">8</a></sup></li>
+<li><strong>Did the run leave a trace?</strong> Checkpoints, notes, metrics, configs, and artifacts should be logged in a way that supports later comparison.<sup><a href="#user-content-fn-tuning-pipeline" id="user-content-fnref-tuning-pipeline-3" data-footnote-ref="" aria-describedby="footnote-label">10</a></sup></li>
+</ol>
+<p>That is the heart of it. The best experimentation systems do not merely produce models. They produce believable evidence.</p>
+<h2 id="references">References</h2>
+<section data-footnotes="" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-rules-ml">
+<p>Zinkevich, M. “Rules of Machine Learning: Best Practices for ML Engineering.” Google for Developers. <a href="https://developers.google.com/machine-learning/guides/rules-of-ml">https://developers.google.com/machine-learning/guides/rules-of-ml</a> <a href="#user-content-fnref-rules-ml" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-rules-ml-2" data-footnote-backref="" aria-label="Back to reference 1-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-rules-ml-3" data-footnote-backref="" aria-label="Back to reference 1-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-rules-ml-4" data-footnote-backref="" aria-label="Back to reference 1-4" class="data-footnote-backref">↩<sup>4</sup></a></p>
+</li>
+<li id="user-content-fn-pytorch-randomness">
+<p>PyTorch Documentation. “Reproducibility.” <a href="https://docs.pytorch.org/docs/stable/notes/randomness.html">https://docs.pytorch.org/docs/stable/notes/randomness.html</a> <a href="#user-content-fnref-pytorch-randomness" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-pytorch-randomness-2" data-footnote-backref="" aria-label="Back to reference 2-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-pytorch-randomness-3" data-footnote-backref="" aria-label="Back to reference 2-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-pytorch-randomness-4" data-footnote-backref="" aria-label="Back to reference 2-4" class="data-footnote-backref">↩<sup>4</sup></a></p>
+</li>
+<li id="user-content-fn-dataset-splits">
+<p>Google for Developers. “Datasets: Dividing the original dataset.” <a href="https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets">https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets</a> <a href="#user-content-fnref-dataset-splits" data-footnote-backref="" aria-label="Back to reference 3" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-dataset-splits-2" data-footnote-backref="" aria-label="Back to reference 3-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-dataset-splits-3" data-footnote-backref="" aria-label="Back to reference 3-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-dataset-splits-4" data-footnote-backref="" aria-label="Back to reference 3-4" class="data-footnote-backref">↩<sup>4</sup></a> <a href="#user-content-fnref-dataset-splits-5" data-footnote-backref="" aria-label="Back to reference 3-5" class="data-footnote-backref">↩<sup>5</sup></a></p>
+</li>
+<li id="user-content-fn-tuning-scientific">
+<p>Google for Developers. “A scientific approach to improving model performance.” <a href="https://developers.google.com/machine-learning/guides/deep-learning-tuning-playbook/scientific">https://developers.google.com/machine-learning/guides/deep-learning-tuning-playbook/scientific</a> <a href="#user-content-fnref-tuning-scientific" data-footnote-backref="" aria-label="Back to reference 4" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-tuning-scientific-2" data-footnote-backref="" aria-label="Back to reference 4-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-tuning-scientific-3" data-footnote-backref="" aria-label="Back to reference 4-3" class="data-footnote-backref">↩<sup>3</sup></a></p>
+</li>
+<li id="user-content-fn-tuning-new-project">
+<p>Google for Developers. “Guide for starting a new project.” <a href="https://developers.google.com/machine-learning/guides/deep-learning-tuning-playbook/new-project">https://developers.google.com/machine-learning/guides/deep-learning-tuning-playbook/new-project</a> <a href="#user-content-fnref-tuning-new-project" data-footnote-backref="" aria-label="Back to reference 5" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-tuning-new-project-2" data-footnote-backref="" aria-label="Back to reference 5-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-ml-test-score">
+<p>Breck, E. et al. “What’s your ML test score? A rubric for ML production systems.” Reliable Machine Learning in the Wild, NIPS 2016 Workshop. <a href="https://research.google.com/pubs/archive/45742.pdf">https://research.google.com/pubs/archive/45742.pdf</a> <a href="#user-content-fnref-ml-test-score" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-ml-test-score-2" data-footnote-backref="" aria-label="Back to reference 6-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-ml-test-score-3" data-footnote-backref="" aria-label="Back to reference 6-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-ml-test-score-4" data-footnote-backref="" aria-label="Back to reference 6-4" class="data-footnote-backref">↩<sup>4</sup></a></p>
+</li>
+<li id="user-content-fn-good-data-analysis">
+<p>Google for Developers. “Good Data Analysis.” <a href="https://developers.google.com/machine-learning/guides/good-data-analysis">https://developers.google.com/machine-learning/guides/good-data-analysis</a> <a href="#user-content-fnref-good-data-analysis" data-footnote-backref="" aria-label="Back to reference 7" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-good-data-analysis-2" data-footnote-backref="" aria-label="Back to reference 7-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-good-data-analysis-3" data-footnote-backref="" aria-label="Back to reference 7-3" class="data-footnote-backref">↩<sup>3</sup></a></p>
+</li>
+<li id="user-content-fn-tfdv">
+<p>TensorFlow. “TensorFlow Data Validation: Checking and analyzing your data.” <a href="https://www.tensorflow.org/tfx/guide/tfdv">https://www.tensorflow.org/tfx/guide/tfdv</a> <a href="#user-content-fnref-tfdv" data-footnote-backref="" aria-label="Back to reference 8" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-tfdv-2" data-footnote-backref="" aria-label="Back to reference 8-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-hidden-debt">
+<p>Sculley, D. et al. “Hidden Technical Debt in Machine Learning Systems.” NeurIPS (2015). <a href="https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf">https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf</a> <a href="#user-content-fnref-hidden-debt" data-footnote-backref="" aria-label="Back to reference 9" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-tuning-pipeline">
+<p>Google for Developers. “Additional guidance for the training pipeline.” <a href="https://developers.google.com/machine-learning/guides/deep-learning-tuning-playbook/additional-guidance">https://developers.google.com/machine-learning/guides/deep-learning-tuning-playbook/additional-guidance</a> <a href="#user-content-fnref-tuning-pipeline" data-footnote-backref="" aria-label="Back to reference 10" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-tuning-pipeline-2" data-footnote-backref="" aria-label="Back to reference 10-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-tuning-pipeline-3" data-footnote-backref="" aria-label="Back to reference 10-3" class="data-footnote-backref">↩<sup>3</sup></a></p>
+</li>
+</ol>
+</section>  </div> </article> </div>  </div>  </section>  </main> </div> <dialog id="media-overlay" class="media-overlay" aria-label="Expanded image preview"> <form method="dialog" class="media-overlay__close-wrap"> <button type="submit" class="media-overlay__close" aria-label="Close image preview">
+Close
+</button> </form> <div class="media-overlay__viewport"> <img class="media-overlay__image" data-media-overlay-image alt=""> </div> </dialog> <script>
+      (() => {
+        if (window.__mediaOverlayInitialized) {
+          return;
+        }
+        window.__mediaOverlayInitialized = true;
+
+        const dialog = document.getElementById('media-overlay');
+        if (!(dialog instanceof HTMLDialogElement)) {
+          return;
+        }
+
+        const image = dialog.querySelector('[data-media-overlay-image]');
+        const viewport = dialog.querySelector('.media-overlay__viewport');
+        if (!(image instanceof HTMLImageElement) || !(viewport instanceof HTMLElement)) {
+          return;
+        }
+
+        const isImageHref = (href) =>
+          /\.(png|jpe?g|webp|gif|svg)([#?].*)?$/i.test(href);
+
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        const ZOOM_DURATION_MS = 240;
+
+        let zoomAnimationFrame = 0;
+
+        const computeFitWidth = () => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+
+          if (!naturalWidth || !naturalHeight) {
+            return 0;
+          }
+
+          const widthScale = viewport.clientWidth / naturalWidth;
+          const heightScale = viewport.clientHeight / naturalHeight;
+          const scale = Math.min(1, widthScale, heightScale);
+
+          return Math.max(1, Math.floor(naturalWidth * scale));
+        };
+
+        const easeOutCubic = (progress) => 1 - Math.pow(1 - progress, 3);
+
+        const cancelZoomAnimation = () => {
+          if (zoomAnimationFrame) {
+            window.cancelAnimationFrame(zoomAnimationFrame);
+            zoomAnimationFrame = 0;
+          }
+        };
+
+        const applyFitState = () => {
+          cancelZoomAnimation();
+          const fitWidth = computeFitWidth();
+          if (fitWidth > 0) {
+            image.style.width = `${fitWidth}px`;
+          } else {
+            image.style.removeProperty('width');
+          }
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.add('media-overlay__viewport--fit');
+          viewport.scrollTo({ left: 0, top: 0 });
+        };
+
+        const animateZoomToPoint = (ratioX, ratioY) => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+          const startWidth = image.offsetWidth;
+          const startHeight = image.offsetHeight;
+
+          if (!naturalWidth || !naturalHeight || !startWidth || !startHeight) {
+            return;
+          }
+
+          cancelZoomAnimation();
+          image.classList.add('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
+
+          const startedAt = performance.now();
+
+          const step = (now) => {
+            const progress = clamp((now - startedAt) / ZOOM_DURATION_MS, 0, 1);
+            const eased = easeOutCubic(progress);
+            const currentWidth = startWidth + (naturalWidth - startWidth) * eased;
+            const currentHeight = startHeight + (naturalHeight - startHeight) * eased;
+
+            image.style.width = `${currentWidth}px`;
+
+            const targetLeft = ratioX * currentWidth - viewport.clientWidth / 2;
+            const targetTop = ratioY * currentHeight - viewport.clientHeight / 2;
+            const maxLeft = Math.max(0, currentWidth - viewport.clientWidth);
+            const maxTop = Math.max(0, currentHeight - viewport.clientHeight);
+
+            viewport.scrollLeft = clamp(targetLeft, 0, maxLeft);
+            viewport.scrollTop = clamp(targetTop, 0, maxTop);
+
+            if (progress < 1) {
+              zoomAnimationFrame = window.requestAnimationFrame(step);
+              return;
+            }
+
+            image.style.width = `${naturalWidth}px`;
+            zoomAnimationFrame = 0;
+          };
+
+          zoomAnimationFrame = window.requestAnimationFrame(step);
+        };
+
+        const openOverlay = (href, alt) => {
+          if (typeof dialog.showModal !== 'function') {
+            window.location.assign(href.toString());
+            return;
+          }
+
+          image.src = href.toString();
+          image.alt = alt;
+          dialog.showModal();
+
+          if (image.complete && image.naturalWidth > 0) {
+            applyFitState();
+          } else {
+            image.addEventListener(
+              'load',
+              () => {
+                applyFitState();
+              },
+              { once: true },
+            );
+          }
+        };
+
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+
+          if (!(target instanceof Element)) {
+            return;
+          }
+
+          const link = target.closest('.prose figure a[href]');
+
+          if (!(link instanceof HTMLAnchorElement)) {
+            return;
+          }
+
+          const href = link.getAttribute('href');
+
+          if (!href || !isImageHref(href)) {
+            return;
+          }
+
+          if (
+            event.defaultPrevented ||
+            event.button === 1 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
+            return;
+          }
+
+          event.preventDefault();
+          const linkedImage = link.querySelector('img');
+          const alt = linkedImage instanceof HTMLImageElement ? linkedImage.alt : '';
+          openOverlay(link.href, alt);
+        });
+
+        image.addEventListener('click', (event) => {
+          const rect = image.getBoundingClientRect();
+          const ratioX = clamp((event.clientX - rect.left) / rect.width, 0, 1);
+          const ratioY = clamp((event.clientY - rect.top) / rect.height, 0, 1);
+          const isZoomed = image.classList.contains('media-overlay__image--zoomed');
+
+          if (isZoomed) {
+            applyFitState();
+            return;
+          }
+
+          animateZoomToPoint(ratioX, ratioY);
+        });
+
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog) {
+            dialog.close();
+          }
+        });
+
+        dialog.addEventListener('close', () => {
+          cancelZoomAnimation();
+          image.removeAttribute('src');
+          image.setAttribute('alt', '');
+          image.style.removeProperty('width');
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
+        });
+      })();
+    </script> <script>
+      document.querySelectorAll('.prose a[href^="http"]').forEach((link) => {
+        if (!(link instanceof HTMLAnchorElement) || link.origin === window.location.origin) {
+          return;
+        }
+
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+      });
+    </script> </body> </html>

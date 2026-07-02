@@ -1,0 +1,354 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Encoder-decoder models in vision | Technical Notes | Jignasu Pathak</title><meta name="description" content="How encoder-decoder models separate representation learning from output construction, why compression and reconstruction stay in tension, and how the pattern evolved from autoencoders and U-Net to DETR, MAE, diffusion, and SAM."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Cormorant+Garamond:wght@500;600;700&display=swap"><link rel="stylesheet" href="/_astro/about.CvJM-s6k.css"></head> <body> <a class="skip-link" href="#main-content">Skip to content</a> <div class="site-shell"> <header class="site-header site-header--sticky"> <div class="container container--wide site-header__inner">  <div class="site-header__brand"> <div class="site-header__brand-stack"> <a class="site-header__brand-link" href="/">Jignasu Pathak</a> <nav aria-label="Contact"> <ul class="contact-list"> <li> <a class="contact-list__link" href="https://www.linkedin.com/in/jignasu-pathak/" target="_blank" rel="noreferrer"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M5.35 7.4a1.65 1.65 0 1 1 0-3.3 1.65 1.65 0 0 1 0 3.3Zm-1.4 12.5V8.9h2.8v11ZM8.95 8.9h2.7v1.5h.04c.38-.71 1.3-1.46 2.67-1.46 2.86 0 3.39 1.88 3.39 4.31v6.65h-2.8v-5.9c0-1.41-.03-3.22-1.96-3.22-1.97 0-2.27 1.54-2.27 3.12v6h-2.77Z" />
+</svg>
+ </span> <span>LinkedIn</span> </a> </li><li> <a class="contact-list__link" href="https://github.com/Mister-JP" target="_blank" rel="noreferrer"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M12 .7a11.3 11.3 0 0 0-3.58 22.02c.57.1.78-.25.78-.56v-1.95c-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.13.08 1.73 1.17 1.73 1.17 1.01 1.72 2.64 1.22 3.28.93.1-.73.39-1.22.72-1.5-2.52-.29-5.17-1.26-5.17-5.61 0-1.24.44-2.25 1.17-3.05-.12-.28-.5-1.42.11-2.95 0 0 .96-.3 3.14 1.16a10.9 10.9 0 0 1 5.72 0c2.17-1.46 3.13-1.16 3.13-1.16.62 1.53.23 2.67.12 2.95.73.8 1.16 1.81 1.16 3.05 0 4.36-2.65 5.32-5.18 5.6.4.35.76 1.02.76 2.07v3.07c0 .31.21.67.79.56A11.3 11.3 0 0 0 12 .7Z" />
+</svg>
+ </span> <span>GitHub</span> </a> </li><li> <a class="contact-list__link" href="mailto:1jignasu@gmail.com"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M3 5.5h18A1.5 1.5 0 0 1 22.5 7v10A1.5 1.5 0 0 1 21 18.5H3A1.5 1.5 0 0 1 1.5 17V7A1.5 1.5 0 0 1 3 5.5Zm0 1.8v.3l9 5.9 9-5.9v-.3Zm18 9.4V9.7l-8.5 5.58a.9.9 0 0 1-.98 0L3 9.7v7Z" />
+</svg>
+ </span> <span>1jignasu@gmail.com</span> </a> </li><li> <a class="contact-list__link" href="tel:+15408248721"> <span class="contact-list__icon" aria-hidden="true"> <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.13641 12.764L8.15456 9.08664C8.46255 8.69065 8.61655 8.49264 8.69726 8.27058C8.76867 8.07409 8.79821 7.86484 8.784 7.65625C8.76793 7.42053 8.67477 7.18763 8.48846 6.72184L7.77776 4.9451C7.50204 4.25579 7.36417 3.91113 7.12635 3.68522C6.91678 3.48615 6.65417 3.35188 6.37009 3.29854C6.0477 3.238 5.68758 3.32804 4.96733 3.5081L3 4C3 14 9.99969 21 20 21L20.4916 19.0324C20.6717 18.3121 20.7617 17.952 20.7012 17.6296C20.6478 17.3456 20.5136 17.0829 20.3145 16.8734C20.0886 16.6355 19.7439 16.4977 19.0546 16.222L17.4691 15.5877C16.9377 15.3752 16.672 15.2689 16.4071 15.2608C16.1729 15.2536 15.9404 15.3013 15.728 15.4001C15.4877 15.512 15.2854 15.7143 14.8807 16.119L11.8274 19.1733M12.9997 7C13.9765 7.19057 14.8741 7.66826 15.5778 8.37194C16.2815 9.07561 16.7592 9.97326 16.9497 10.95M12.9997 3C15.029 3.22544 16.9213 4.13417 18.366 5.57701C19.8106 7.01984 20.7217 8.91101 20.9497 10.94" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> </span> <span>(540) 824-8721</span> </a> </li> </ul> </nav> </div> </div> <div class="site-header__nav"> <nav class="main-nav" aria-label="Main"> <div class="desktop-nav"> <ul class="desktop-nav__list"> <li> <a class="desktop-nav__link" href="/"> Home </a> </li><li> <a class="desktop-nav__link" href="/about"> About </a> </li><li> <a class="desktop-nav__link" href="/projects"> Projects </a> </li><li> <a class="desktop-nav__link" href="/writing" aria-current="page"> Writing </a> </li><li> <a class="desktop-nav__link" href="/tools"> Tools </a> </li><li> <a class="desktop-nav__link desktop-nav__link--resume" href="/resume"> Resume </a> </li> </ul> </div> <div class="mobile-nav"> <ul class="mobile-nav__list"> <li> <a class="mobile-nav__link" href="/"> Home </a> </li><li> <a class="mobile-nav__link" href="/about"> About </a> </li><li> <a class="mobile-nav__link" href="/projects"> Projects </a> </li><li> <a class="mobile-nav__link" href="/writing" aria-current="page"> Writing </a> </li><li> <a class="mobile-nav__link" href="/tools"> Tools </a> </li><li> <a class="mobile-nav__link mobile-nav__link--resume" href="/resume"> Resume </a> </li> </ul> </div> </nav> </div>  </div> </header> <main id="main-content" class="site-shell__main">  <header class="page-header"> <div class="container container--narrow page-header__inner"> <p class="page-header__eyebrow">Writing</p><h1 class="page-header__title">Encoder-decoder models in vision</h1><p class="page-header__description">How encoder-decoder models separate representation learning from output construction, why compression and reconstruction stay in tension, and how the pattern evolved from autoencoders and U-Net to DETR, MAE, diffusion, and SAM.</p><div class="page-header__meta"><span slot="meta" class="tag tag--muted"> Technical Note </span><span slot="meta" class="tag tag--default"> Model Mechanics </span><span slot="meta" class="tag tag--muted"> Encoder-Decoder </span><span slot="meta" class="tag tag--muted"> Dense Prediction </span><span slot="meta" class="tag tag--muted"> Representation Learning </span><span slot="meta" class="tag tag--muted"> Transformers </span></div> </div> </header> <section class="section section--sm section--default">  <div class="container container--wide">  <div class="writing-detail-template">  <section class="writing-detail-template__guide" aria-label="Writing guide"> <article class="card card--default"><div class="card__body">  <div class="writing-detail-template__guide-list">  <section class="writing-detail-template__guide-item" aria-labelledby="writing-outline"> <h2 id="writing-outline" class="writing-detail-template__card-title">
+On this page
+</h2> <ol class="writing-detail-template__outline"> <li> <a class="text-link" href="#the-core-problem-these-models-solve">The core problem these models solve</a> </li><li> <a class="text-link" href="#the-simplest-end-to-end-picture">The simplest end-to-end picture</a> </li><li> <a class="text-link" href="#what-the-encoder-is-really-doing">What the encoder is really doing</a> </li><li> <a class="text-link" href="#why-the-bottleneck-matters">Why the bottleneck matters</a> </li><li> <a class="text-link" href="#what-the-decoder-is-really-doing">What the decoder is really doing</a> </li><li> <a class="text-link" href="#the-canonical-dense-prediction-flow">The canonical dense-prediction flow</a> </li><li> <a class="text-link" href="#why-skip-connections-changed-the-field">Why skip connections changed the field</a> </li><li> <a class="text-link" href="#other-ways-researchers-tried-to-solve-the-same-problem">Other ways researchers tried to solve the same problem</a> </li><li> <a class="text-link" href="#the-transformer-era-changed-the-meaning-of-decoder">The transformer era changed the meaning of “decoder”</a> </li><li> <a class="text-link" href="#self-supervised-learning-brought-back-the-autoencoder-idea">Self-supervised learning brought back the autoencoder idea</a> </li><li> <a class="text-link" href="#generative-vision-kept-the-pattern-alive-too">Generative vision kept the pattern alive too</a> </li><li> <a class="text-link" href="#promptable-foundation-models-changed-the-decoder-again">Promptable foundation models changed the decoder again</a> </li><li> <a class="text-link" href="#what-stayed-constant-across-all-these-changes">What stayed constant across all these changes</a> </li><li> <a class="text-link" href="#closing-perspective">Closing perspective</a> </li><li> <a class="text-link" href="#references">References</a> </li> </ol> </section> </div>  </div> </article> </section> <article class="writing-detail-template__body"> <div class="prose writing-detail-template__prose">  <p>Encoder-decoder models are one of the most persistent ideas in computer vision. They keep returning because they solve a recurring systems problem: a model often needs high-level semantic understanding while still producing an output that is structured, spatial, and precise. In plain terms, the model has to answer both <strong>what is here?</strong> and <strong>where exactly is it?</strong> The encoder-decoder pattern exists to separate those jobs. The encoder builds compressed, abstract understanding. The decoder turns that understanding into the output form the task needs.<sup><a href="#user-content-fn-fcn" id="user-content-fnref-fcn" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></p>
+<p>That idea did not begin with segmentation. Its roots are older. Early neural network work established end-to-end learning of internal representations through backpropagation, and later deep autoencoder work made the “compress into a hidden code, then reconstruct” pattern especially influential.<sup><a href="#user-content-fn-rumelhart" id="user-content-fnref-rumelhart" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup><sup><a href="#user-content-fn-hinton2006" id="user-content-fnref-hinton2006" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup> In that older setting, the central question was not yet about masks or dense maps. It was about whether a network could learn a useful latent representation of the input rather than merely memorize raw values. That is the conceptual origin of encoder-decoder thinking in vision: first as a mechanism for <strong>representation learning</strong>, and only later as a mechanism for <strong>structured prediction</strong>.<sup><a href="#user-content-fn-rumelhart" id="user-content-fnref-rumelhart-2" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup><sup><a href="#user-content-fn-hinton2006" id="user-content-fnref-hinton2006-2" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></p>
+<h2 id="the-core-problem-these-models-solve">The core problem these models solve</h2>
+<p>A vision system becomes harder to design when the output is not a single label but an image-shaped object: a segmentation mask, a depth map, a denoised image, a restored image, a super-resolved image, or some other dense field. In those settings, the model cannot stay shallow and local, because local evidence is often ambiguous. A small patch may look like many things until the model sees larger context. But the model also cannot discard too much spatial detail, because the final output still needs to line up with the image. Encoder-decoder models exist because they offer a structured compromise: <strong>compress to gain context, then reconstruct to recover structure</strong>.<sup><a href="#user-content-fn-fcn" id="user-content-fnref-fcn-2" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-unet" id="user-content-fnref-unet" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<h2 id="the-simplest-end-to-end-picture">The simplest end-to-end picture</h2>
+<p>The cleanest way to understand an encoder-decoder model is to imagine the data moving through a pipeline.</p>
+<p>You begin with an image tensor, for example
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>H</mi><mo>×</mo><mi>W</mi><mo>×</mo><mi>C</mi></mrow></msup></mrow><annotation encoding="application/x-tex">x \in \mathbb{R}^{H \times W \times C}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8413em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.08125em;">H</span><span class="mbin mtight">×</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">W</span><span class="mbin mtight">×</span><span class="mord mathnormal mtight" style="margin-right:0.07153em;">C</span></span></span></span></span></span></span></span></span></span></span></span>.
+In a typical convolutional model, the first few layers produce feature maps that are still close to the original image grid. These early feature maps respond to local visual patterns such as edges, corners, simple textures, blobs, or contrast boundaries. As the model goes deeper, it repeatedly applies convolutions and downsampling operations such as max pooling or strided convolution. This reduces height and width while usually increasing channel depth. The model is gradually trading raw spatial detail for more abstract internal features.<sup><a href="#user-content-fn-fcn" id="user-content-fnref-fcn-3" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></p>
+<p>A simplified progression might look like this:</p>
+<ul>
+<li>input: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>256</mn><mo>×</mo><mn>256</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">256 \times 256 \times 3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">256</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">256</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span></li>
+<li>early features: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>256</mn><mo>×</mo><mn>256</mn><mo>×</mo><mn>64</mn></mrow><annotation encoding="application/x-tex">256 \times 256 \times 64</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">256</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">256</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">64</span></span></span></span></li>
+<li>after downsampling: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>128</mn><mo>×</mo><mn>128</mn><mo>×</mo><mn>128</mn></mrow><annotation encoding="application/x-tex">128 \times 128 \times 128</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">128</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">128</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">128</span></span></span></span></li>
+<li>deeper features: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>64</mn><mo>×</mo><mn>64</mn><mo>×</mo><mn>256</mn></mrow><annotation encoding="application/x-tex">64 \times 64 \times 256</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">64</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">64</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">256</span></span></span></span></li>
+<li>bottleneck: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>32</mn><mo>×</mo><mn>32</mn><mo>×</mo><mn>512</mn></mrow><annotation encoding="application/x-tex">32 \times 32 \times 512</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">32</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">32</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">512</span></span></span></span></li>
+</ul>
+<p>The exact numbers vary, but the trend is the same: <strong>smaller in space, richer in channels, more abstract in meaning</strong>. That spatial reduction is useful because deeper units effectively see larger regions of the original image. In other words, they have larger receptive fields and more context. This makes it easier for the network to understand objects, regions, and scene structure rather than isolated pixels.<sup><a href="#user-content-fn-fcn" id="user-content-fnref-fcn-4" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></p>
+<h2 id="what-the-encoder-is-really-doing">What the encoder is really doing</h2>
+<p>The encoder is often described as “extracting features,” but that phrase is too vague to build a real mental model. More concretely, the encoder is building a <strong>hierarchy of representations</strong>. Early layers preserve fine spatial layout but know little about meaning. Deeper layers know much more about meaning but represent the image more coarsely. So the encoder’s real job is to convert a raw image into a set of internal tensors that are progressively better at answering semantic questions.</p>
+<p>This is why classification backbones became so useful in later dense-vision systems. A good encoder already knows how to organize visual information into increasingly meaningful features. The problem is that classification alone only needs a final label. Dense vision needs the model to come back down and produce a spatial answer. That is where the decoder enters.<sup><a href="#user-content-fn-fcn" id="user-content-fnref-fcn-5" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></p>
+<h2 id="why-the-bottleneck-matters">Why the bottleneck matters</h2>
+<p>In many encoder-decoder models, the middle of the network acts like a bottleneck or latent code. This bottleneck is useful because it forces the model to summarize the input in a compact internal form. That idea is inherited directly from autoencoders. In deep autoencoders, the network learned a low-dimensional code that still preserved enough structure to reconstruct the original input. The existence of a small central layer pushed the model to learn internal structure rather than simply pass everything through unchanged.<sup><a href="#user-content-fn-hinton2006" id="user-content-fnref-hinton2006-3" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></p>
+<p>But in dense vision, the bottleneck is also dangerous. If the model compresses too aggressively, fine spatial details can disappear. Boundaries blur. Small objects vanish. Thin structures become hard to reconstruct. This is one of the central tensions in encoder-decoder design: the bottleneck helps semantic abstraction, but too much compression harms localization. Much of the history of encoder-decoder vision models can be read as different attempts to manage that tension.<sup><a href="#user-content-fn-unet" id="user-content-fnref-unet-2" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<h2 id="what-the-decoder-is-really-doing">What the decoder is really doing</h2>
+<p>The decoder is not simply “the encoder in reverse.” That is too simplistic. Its real job is to take coarse, semantically rich internal features and transform them into the output representation required by the task.</p>
+<p>If the task is semantic segmentation, the decoder must produce a dense class prediction for each pixel or location. If the task is image restoration, it must reconstruct a clean image. If the task is depth estimation, it must produce a scalar depth value at each output location. If the task is object detection in a transformer-style model, it may decode a set of object queries rather than rebuild a full image grid.</p>
+<p>So the decoder is best understood as an <strong>output constructor</strong>. It takes a compressed semantic representation and reorganizes it into a structured answer. In classical convolutional systems, this often means upsampling: increasing spatial resolution stage by stage, then refining the feature map with convolution. In other systems, it may mean attention-based decoding, query decoding, or masked reconstruction.<sup><a href="#user-content-fn-fcn" id="user-content-fnref-fcn-6" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-detr" id="user-content-fnref-detr" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup><sup><a href="#user-content-fn-mae" id="user-content-fnref-mae" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup></p>
+<h2 id="the-canonical-dense-prediction-flow">The canonical dense-prediction flow</h2>
+<p>The classical convolutional encoder-decoder became especially important once computer vision moved from image classification to dense prediction. A major turning point was the Fully Convolutional Network, or FCN. FCN showed that classification-style convolutional networks could be adapted into pixel-to-pixel predictors by removing fixed fully connected endpoints and producing spatial outputs directly. The key architectural insight was that dense prediction could be learned end to end, and that coarse semantic information from deeper layers could be combined with finer information from shallower layers for better localization.<sup><a href="#user-content-fn-fcn" id="user-content-fnref-fcn-7" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></p>
+<p>U-Net made this logic even clearer. It formalized a contracting path and an expanding path. The contracting path collects context through downsampling. The expanding path recovers localization through upsampling. Most importantly, U-Net introduced a very explicit skip-connection strategy: features from the encoder at a given spatial scale are copied to the decoder at the matching scale. This gives the decoder access to both coarse semantic information and fine spatial detail at the same time. That design became especially influential in biomedical imaging, where thin structures, boundaries, and small objects matter a great deal.<sup><a href="#user-content-fn-unet" id="user-content-fnref-unet-3" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<p>Seen end to end, a segmentation forward pass looks like this:</p>
+<ol>
+<li>The input image enters the encoder.</li>
+<li>Each encoder block extracts richer features and usually downsamples them.</li>
+<li>The deepest layers contain the strongest context but the coarsest spatial resolution.</li>
+<li>The decoder upsamples the representation step by step.</li>
+<li>At each stage, the decoder may fuse in encoder features from the same scale through a skip connection.</li>
+<li>A final projection layer maps the last feature tensor into output channels, often one per class.</li>
+<li>A sigmoid or softmax converts those channels into probabilities.</li>
+<li>The loss compares those predictions with the ground-truth target map.</li>
+<li>Backpropagation updates both encoder and decoder weights so the next forward pass produces better spatial predictions.<sup><a href="#user-content-fn-rumelhart" id="user-content-fnref-rumelhart-3" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup><sup><a href="#user-content-fn-fcn" id="user-content-fnref-fcn-8" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></li>
+</ol>
+<p>That is the mechanical heart of the classical encoder-decoder model.</p>
+<h2 id="why-skip-connections-changed-the-field">Why skip connections changed the field</h2>
+<p>Without skip connections, a model that compresses too much often produces overly smooth outputs. The reason is simple: once fine detail has been destroyed by repeated downsampling, the decoder has to guess it back from coarse semantic features. That usually works poorly for boundaries and small structures.</p>
+<p>Skip connections fix this by directly passing high-resolution encoder information to the decoder. Instead of asking the bottleneck to preserve everything, the architecture allows the model to preserve different kinds of information at different depths. Deep layers can focus on context and semantics. Shallow layers can preserve detail. The decoder then fuses them. This is one of the clearest examples of architecture expressing an information-flow decision rather than just stacking more layers blindly.<sup><a href="#user-content-fn-fcn" id="user-content-fnref-fcn-9" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-unet" id="user-content-fnref-unet-4" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<h2 id="other-ways-researchers-tried-to-solve-the-same-problem">Other ways researchers tried to solve the same problem</h2>
+<p>U-Net is not the only answer. SegNet proposed a different decoder mechanism in which pooling indices from the encoder are reused during decoding. Instead of copying full feature maps, the decoder uses the remembered locations of maxima from max pooling to guide nonlinear upsampling. This makes a different tradeoff between memory use and reconstruction detail.<sup><a href="#user-content-fn-segnet" id="user-content-fnref-segnet" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup></p>
+<p>Feature Pyramid Networks, or FPN, approach the same broader issue from a multi-scale perspective. They use top-down pathways and lateral connections to build semantically strong features at several resolutions. Although FPN is more often discussed in detection than in pure encoder-decoder segmentation language, it expresses the same core design concern: how do we combine high-level semantics with fine-resolution structure?<sup><a href="#user-content-fn-fpn" id="user-content-fnref-fpn" data-footnote-ref="" aria-describedby="footnote-label">8</a></sup></p>
+<h2 id="the-transformer-era-changed-the-meaning-of-decoder">The transformer era changed the meaning of “decoder”</h2>
+<p>When transformers entered vision, the encoder-decoder idea did not disappear, but the meaning of the decoder started to change.</p>
+<p>Vision Transformer, or ViT, showed that an image could be split into patches, embedded as tokens, and processed with transformer self-attention. In ViT, the heavy lifting is mainly done by an encoder-like token-processing stack. The representation is global and sequence-based rather than based purely on spatial convolution.<sup><a href="#user-content-fn-vit" id="user-content-fnref-vit" data-footnote-ref="" aria-describedby="footnote-label">9</a></sup></p>
+<p>DETR then introduced a transformer encoder-decoder architecture for object detection, but the decoder was no longer reconstructing an image-sized map. Instead, it decoded a fixed set of learned object queries into object predictions. This was a major conceptual shift. In older convolutional encoder-decoder systems, the decoder usually meant “recover spatial resolution.” In DETR, the decoder meant “turn image representation into a structured set of objects.” So the encoder-decoder pattern survived, but the type of output being decoded changed.<sup><a href="#user-content-fn-detr" id="user-content-fnref-detr-2" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup></p>
+<p>SETR made that shift explicit from the segmentation side. It described most existing segmentation systems as FCN-style encoder-decoder architectures, then proposed a transformer-based alternative with a simple decoder. The important point is not that the encoder-decoder idea vanished. It is that the division of labor became more flexible. The encoder increasingly became the heavy representation learner, while the decoder often became lighter and more task-specific.<sup><a href="#user-content-fn-setr" id="user-content-fnref-setr" data-footnote-ref="" aria-describedby="footnote-label">10</a></sup></p>
+<p>Mask2Former pushed this even further. It used masked attention and transformer-based decoding to address semantic, instance, and panoptic segmentation with a unified architecture. Again, the decoder was not simply a pixel upsampler in the old sense. It was a structured prediction module operating through attention and mask reasoning.<sup><a href="#user-content-fn-mask2former" id="user-content-fnref-mask2former" data-footnote-ref="" aria-describedby="footnote-label">11</a></sup></p>
+<h2 id="self-supervised-learning-brought-back-the-autoencoder-idea">Self-supervised learning brought back the autoencoder idea</h2>
+<p>One of the most important modern evolutions is the Masked Autoencoder, or MAE. MAE returns to the original reconstruction spirit of autoencoders, but in a much more scalable form. The input image is split into patches, many patches are masked out, the encoder processes only the visible subset, and a lightweight decoder reconstructs the missing content. The paper explicitly emphasizes an <strong>asymmetric encoder-decoder</strong> design: a strong encoder for representation learning and a lightweight decoder used mainly during pretraining.<sup><a href="#user-content-fn-mae" id="user-content-fnref-mae-2" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup></p>
+<p>This is an important change in how to think about decoders. In a classical U-Net, the decoder is central at inference time because the final output depends on it. In MAE, the decoder is often mainly a training instrument. After pretraining, the encoder is usually the part kept for downstream tasks. That means the decoder has become, in some settings, a temporary device for forcing the model to learn good representations rather than a permanent part of deployment.<sup><a href="#user-content-fn-mae" id="user-content-fnref-mae-3" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup></p>
+<h2 id="generative-vision-kept-the-pattern-alive-too">Generative vision kept the pattern alive too</h2>
+<p>Encoder-decoder thinking also remains central in modern image generation. Latent diffusion models rely on an autoencoding stage that compresses images into a latent space and later decodes them back into image space. The reason is efficiency: diffusion directly in pixel space is expensive, while latent space can preserve perceptually meaningful structure at much lower cost. In this setting, the encoder-decoder acts as a learned interface between image space and a more efficient internal generative space.<sup><a href="#user-content-fn-ldm" id="user-content-fnref-ldm" data-footnote-ref="" aria-describedby="footnote-label">12</a></sup></p>
+<p>So even when the visible “main model” is a diffusion process, encoder-decoder structure still matters. It has simply moved into the representation layer surrounding the generative core.</p>
+<h2 id="promptable-foundation-models-changed-the-decoder-again">Promptable foundation models changed the decoder again</h2>
+<p>Segment Anything, or SAM, introduced another modern version of the decoder idea. SAM is built around promptable segmentation: the model takes an image plus prompts such as points, boxes, or masks, and produces a segmentation mask. This means the decoder is no longer just reconstructing pixels or only predicting fixed outputs. It is turning <strong>image representation plus external guidance</strong> into a spatial answer.<sup><a href="#user-content-fn-sam" id="user-content-fnref-sam" data-footnote-ref="" aria-describedby="footnote-label">13</a></sup></p>
+<p>SAM 2 extended that idea to both images and videos, adding streaming memory for real-time video processing. This again expands what the decoder side of a vision system can mean. The architecture is still performing a form of structured decoding, but now it is interactive, prompt-conditioned, and temporally aware.<sup><a href="#user-content-fn-sam2" id="user-content-fnref-sam2" data-footnote-ref="" aria-describedby="footnote-label">14</a></sup></p>
+<h2 id="what-stayed-constant-across-all-these-changes">What stayed constant across all these changes</h2>
+<p>The most important thing to understand is that encoder-decoder models are not one fixed architecture. They are a recurring solution to an information-allocation problem.</p>
+<p>The encoder is responsible for building a useful internal representation.
+The decoder is responsible for turning that representation into the output form the task demands.
+The tension between abstraction and detail never goes away.</p>
+<p>What changes across eras is:</p>
+<ul>
+<li>how aggressively the model compresses</li>
+<li>what information it preserves along the way</li>
+<li>how the decoder receives that information</li>
+<li>what kind of object the decoder is expected to produce</li>
+</ul>
+<p>In early autoencoders, the decoder reconstructed the input.<sup><a href="#user-content-fn-hinton2006" id="user-content-fnref-hinton2006-4" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup>
+In FCN and U-Net, it reconstructed dense spatial predictions.<sup><a href="#user-content-fn-fcn" id="user-content-fnref-fcn-10" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-unet" id="user-content-fnref-unet-5" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup>
+In SegNet and FPN-like designs, it recovered structure through alternative multi-scale mechanisms.<sup><a href="#user-content-fn-segnet" id="user-content-fnref-segnet-2" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup><sup><a href="#user-content-fn-fpn" id="user-content-fnref-fpn-2" data-footnote-ref="" aria-describedby="footnote-label">8</a></sup>
+In DETR, it decoded object queries.<sup><a href="#user-content-fn-detr" id="user-content-fnref-detr-3" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup>
+In MAE, it reconstructed masked patches during pretraining.<sup><a href="#user-content-fn-mae" id="user-content-fnref-mae-4" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup>
+In latent diffusion, it mapped latent variables back into image space.<sup><a href="#user-content-fn-ldm" id="user-content-fnref-ldm-2" data-footnote-ref="" aria-describedby="footnote-label">12</a></sup>
+In SAM, it turned image features and prompts into masks.<sup><a href="#user-content-fn-sam" id="user-content-fnref-sam-2" data-footnote-ref="" aria-describedby="footnote-label">13</a></sup></p>
+<p>That is why the idea keeps returning. The field changes, tasks change, and model families change, but the need to separate <strong>understanding</strong> from <strong>structured output construction</strong> keeps reappearing.</p>
+<h2 id="closing-perspective">Closing perspective</h2>
+<p>The most useful way to think about encoder-decoder models today is not as a narrow historical family, but as a durable design pattern. Whenever a vision system must gather broad context, reason over learned internal structure, and then emit a rich output rather than a single label, some version of encoder-decoder logic tends to appear. Sometimes it is symmetric and obvious, like U-Net. Sometimes it is asymmetric and mostly useful during training, like MAE. Sometimes it is query-based, like DETR. Sometimes it is promptable, like SAM. But the core engineering idea remains the same: <strong>compress what matters, preserve what must not be lost, and decode into the form the task actually needs.</strong></p>
+<h2 id="references">References</h2>
+<section data-footnotes="" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-fcn">
+<p>Long, Shelhamer, and Darrell. “Fully Convolutional Networks for Semantic Segmentation.” CVPR 2015. <a href="https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Long_Fully_Convolutional_Networks_2015_CVPR_paper.pdf">https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Long_Fully_Convolutional_Networks_2015_CVPR_paper.pdf</a> <a href="#user-content-fnref-fcn" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-fcn-2" data-footnote-backref="" aria-label="Back to reference 1-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-fcn-3" data-footnote-backref="" aria-label="Back to reference 1-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-fcn-4" data-footnote-backref="" aria-label="Back to reference 1-4" class="data-footnote-backref">↩<sup>4</sup></a> <a href="#user-content-fnref-fcn-5" data-footnote-backref="" aria-label="Back to reference 1-5" class="data-footnote-backref">↩<sup>5</sup></a> <a href="#user-content-fnref-fcn-6" data-footnote-backref="" aria-label="Back to reference 1-6" class="data-footnote-backref">↩<sup>6</sup></a> <a href="#user-content-fnref-fcn-7" data-footnote-backref="" aria-label="Back to reference 1-7" class="data-footnote-backref">↩<sup>7</sup></a> <a href="#user-content-fnref-fcn-8" data-footnote-backref="" aria-label="Back to reference 1-8" class="data-footnote-backref">↩<sup>8</sup></a> <a href="#user-content-fnref-fcn-9" data-footnote-backref="" aria-label="Back to reference 1-9" class="data-footnote-backref">↩<sup>9</sup></a> <a href="#user-content-fnref-fcn-10" data-footnote-backref="" aria-label="Back to reference 1-10" class="data-footnote-backref">↩<sup>10</sup></a></p>
+</li>
+<li id="user-content-fn-rumelhart">
+<p>Rumelhart, Hinton, and Williams. “Learning Representations by Back-Propagating Errors.” <em>Nature</em> 323, 1986. <a href="https://www.nature.com/articles/323533a0">https://www.nature.com/articles/323533a0</a> <a href="#user-content-fnref-rumelhart" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-rumelhart-2" data-footnote-backref="" aria-label="Back to reference 2-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-rumelhart-3" data-footnote-backref="" aria-label="Back to reference 2-3" class="data-footnote-backref">↩<sup>3</sup></a></p>
+</li>
+<li id="user-content-fn-hinton2006">
+<p>Hinton and Salakhutdinov. “Reducing the Dimensionality of Data with Neural Networks.” <em>Science</em> 313, 2006. <a href="https://dbirman.github.io/learn/hierarchy/pdfs/Hinton2006.pdf">https://dbirman.github.io/learn/hierarchy/pdfs/Hinton2006.pdf</a> <a href="#user-content-fnref-hinton2006" data-footnote-backref="" aria-label="Back to reference 3" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-hinton2006-2" data-footnote-backref="" aria-label="Back to reference 3-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-hinton2006-3" data-footnote-backref="" aria-label="Back to reference 3-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-hinton2006-4" data-footnote-backref="" aria-label="Back to reference 3-4" class="data-footnote-backref">↩<sup>4</sup></a></p>
+</li>
+<li id="user-content-fn-unet">
+<p>Ronneberger, Fischer, and Brox. “U-Net: Convolutional Networks for Biomedical Image Segmentation.” 2015. <a href="https://arxiv.org/abs/1505.04597">https://arxiv.org/abs/1505.04597</a> <a href="#user-content-fnref-unet" data-footnote-backref="" aria-label="Back to reference 4" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-unet-2" data-footnote-backref="" aria-label="Back to reference 4-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-unet-3" data-footnote-backref="" aria-label="Back to reference 4-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-unet-4" data-footnote-backref="" aria-label="Back to reference 4-4" class="data-footnote-backref">↩<sup>4</sup></a> <a href="#user-content-fnref-unet-5" data-footnote-backref="" aria-label="Back to reference 4-5" class="data-footnote-backref">↩<sup>5</sup></a></p>
+</li>
+<li id="user-content-fn-detr">
+<p>Carion et al. “End-to-End Object Detection with Transformers.” 2020. <a href="https://arxiv.org/abs/2005.12872">https://arxiv.org/abs/2005.12872</a> <a href="#user-content-fnref-detr" data-footnote-backref="" aria-label="Back to reference 5" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-detr-2" data-footnote-backref="" aria-label="Back to reference 5-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-detr-3" data-footnote-backref="" aria-label="Back to reference 5-3" class="data-footnote-backref">↩<sup>3</sup></a></p>
+</li>
+<li id="user-content-fn-mae">
+<p>He et al. “Masked Autoencoders Are Scalable Vision Learners.” CVPR 2022. <a href="https://openaccess.thecvf.com/content/CVPR2022/papers/He_Masked_Autoencoders_Are_Scalable_Vision_Learners_CVPR_2022_paper.pdf">https://openaccess.thecvf.com/content/CVPR2022/papers/He_Masked_Autoencoders_Are_Scalable_Vision_Learners_CVPR_2022_paper.pdf</a> <a href="#user-content-fnref-mae" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-mae-2" data-footnote-backref="" aria-label="Back to reference 6-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-mae-3" data-footnote-backref="" aria-label="Back to reference 6-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-mae-4" data-footnote-backref="" aria-label="Back to reference 6-4" class="data-footnote-backref">↩<sup>4</sup></a></p>
+</li>
+<li id="user-content-fn-segnet">
+<p>Badrinarayanan, Kendall, and Cipolla. “SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation.” 2015. <a href="https://arxiv.org/abs/1511.00561">https://arxiv.org/abs/1511.00561</a> <a href="#user-content-fnref-segnet" data-footnote-backref="" aria-label="Back to reference 7" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-segnet-2" data-footnote-backref="" aria-label="Back to reference 7-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-fpn">
+<p>Lin et al. “Feature Pyramid Networks for Object Detection.” CVPR 2017. <a href="https://openaccess.thecvf.com/content_cvpr_2017/papers/Lin_Feature_Pyramid_Networks_CVPR_2017_paper.pdf">https://openaccess.thecvf.com/content_cvpr_2017/papers/Lin_Feature_Pyramid_Networks_CVPR_2017_paper.pdf</a> <a href="#user-content-fnref-fpn" data-footnote-backref="" aria-label="Back to reference 8" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-fpn-2" data-footnote-backref="" aria-label="Back to reference 8-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-vit">
+<p>Dosovitskiy et al. “An Image Is Worth 16x16 Words: Transformers for Image Recognition at Scale.” 2020. <a href="https://arxiv.org/abs/2010.11929">https://arxiv.org/abs/2010.11929</a> <a href="#user-content-fnref-vit" data-footnote-backref="" aria-label="Back to reference 9" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-setr">
+<p>Zheng et al. “Rethinking Semantic Segmentation from a Sequence-to-Sequence Perspective with Transformers.” 2020. <a href="https://arxiv.org/abs/2012.15840">https://arxiv.org/abs/2012.15840</a> <a href="#user-content-fnref-setr" data-footnote-backref="" aria-label="Back to reference 10" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-mask2former">
+<p>Cheng et al. “Masked-Attention Mask Transformer for Universal Image Segmentation.” CVPR 2022. <a href="https://openaccess.thecvf.com/content/CVPR2022/papers/Cheng_Masked-Attention_Mask_Transformer_for_Universal_Image_Segmentation_CVPR_2022_paper.pdf">https://openaccess.thecvf.com/content/CVPR2022/papers/Cheng_Masked-Attention_Mask_Transformer_for_Universal_Image_Segmentation_CVPR_2022_paper.pdf</a> <a href="#user-content-fnref-mask2former" data-footnote-backref="" aria-label="Back to reference 11" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-ldm">
+<p>Rombach et al. “High-Resolution Image Synthesis with Latent Diffusion Models.” CVPR 2022. <a href="https://openaccess.thecvf.com/content/CVPR2022/papers/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.pdf">https://openaccess.thecvf.com/content/CVPR2022/papers/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.pdf</a> <a href="#user-content-fnref-ldm" data-footnote-backref="" aria-label="Back to reference 12" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-ldm-2" data-footnote-backref="" aria-label="Back to reference 12-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-sam">
+<p>Kirillov et al. “Segment Anything.” ICCV 2023. <a href="https://openaccess.thecvf.com/content/ICCV2023/papers/Kirillov_Segment_Anything_ICCV_2023_paper.pdf">https://openaccess.thecvf.com/content/ICCV2023/papers/Kirillov_Segment_Anything_ICCV_2023_paper.pdf</a> <a href="#user-content-fnref-sam" data-footnote-backref="" aria-label="Back to reference 13" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-sam-2" data-footnote-backref="" aria-label="Back to reference 13-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-sam2">
+<p>Ravi et al. “SAM 2: Segment Anything in Images and Videos.” 2024. <a href="https://arxiv.org/abs/2408.00714">https://arxiv.org/abs/2408.00714</a> <a href="#user-content-fnref-sam2" data-footnote-backref="" aria-label="Back to reference 14" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>  </div> </article> </div>  </div>  </section>  </main> </div> <dialog id="media-overlay" class="media-overlay" aria-label="Expanded image preview"> <form method="dialog" class="media-overlay__close-wrap"> <button type="submit" class="media-overlay__close" aria-label="Close image preview">
+Close
+</button> </form> <div class="media-overlay__viewport"> <img class="media-overlay__image" data-media-overlay-image alt=""> </div> </dialog> <script>
+      (() => {
+        if (window.__mediaOverlayInitialized) {
+          return;
+        }
+        window.__mediaOverlayInitialized = true;
+
+        const dialog = document.getElementById('media-overlay');
+        if (!(dialog instanceof HTMLDialogElement)) {
+          return;
+        }
+
+        const image = dialog.querySelector('[data-media-overlay-image]');
+        const viewport = dialog.querySelector('.media-overlay__viewport');
+        if (!(image instanceof HTMLImageElement) || !(viewport instanceof HTMLElement)) {
+          return;
+        }
+
+        const isImageHref = (href) =>
+          /\.(png|jpe?g|webp|gif|svg)([#?].*)?$/i.test(href);
+
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        const ZOOM_DURATION_MS = 240;
+
+        let zoomAnimationFrame = 0;
+
+        const computeFitWidth = () => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+
+          if (!naturalWidth || !naturalHeight) {
+            return 0;
+          }
+
+          const widthScale = viewport.clientWidth / naturalWidth;
+          const heightScale = viewport.clientHeight / naturalHeight;
+          const scale = Math.min(1, widthScale, heightScale);
+
+          return Math.max(1, Math.floor(naturalWidth * scale));
+        };
+
+        const easeOutCubic = (progress) => 1 - Math.pow(1 - progress, 3);
+
+        const cancelZoomAnimation = () => {
+          if (zoomAnimationFrame) {
+            window.cancelAnimationFrame(zoomAnimationFrame);
+            zoomAnimationFrame = 0;
+          }
+        };
+
+        const applyFitState = () => {
+          cancelZoomAnimation();
+          const fitWidth = computeFitWidth();
+          if (fitWidth > 0) {
+            image.style.width = `${fitWidth}px`;
+          } else {
+            image.style.removeProperty('width');
+          }
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.add('media-overlay__viewport--fit');
+          viewport.scrollTo({ left: 0, top: 0 });
+        };
+
+        const animateZoomToPoint = (ratioX, ratioY) => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+          const startWidth = image.offsetWidth;
+          const startHeight = image.offsetHeight;
+
+          if (!naturalWidth || !naturalHeight || !startWidth || !startHeight) {
+            return;
+          }
+
+          cancelZoomAnimation();
+          image.classList.add('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
+
+          const startedAt = performance.now();
+
+          const step = (now) => {
+            const progress = clamp((now - startedAt) / ZOOM_DURATION_MS, 0, 1);
+            const eased = easeOutCubic(progress);
+            const currentWidth = startWidth + (naturalWidth - startWidth) * eased;
+            const currentHeight = startHeight + (naturalHeight - startHeight) * eased;
+
+            image.style.width = `${currentWidth}px`;
+
+            const targetLeft = ratioX * currentWidth - viewport.clientWidth / 2;
+            const targetTop = ratioY * currentHeight - viewport.clientHeight / 2;
+            const maxLeft = Math.max(0, currentWidth - viewport.clientWidth);
+            const maxTop = Math.max(0, currentHeight - viewport.clientHeight);
+
+            viewport.scrollLeft = clamp(targetLeft, 0, maxLeft);
+            viewport.scrollTop = clamp(targetTop, 0, maxTop);
+
+            if (progress < 1) {
+              zoomAnimationFrame = window.requestAnimationFrame(step);
+              return;
+            }
+
+            image.style.width = `${naturalWidth}px`;
+            zoomAnimationFrame = 0;
+          };
+
+          zoomAnimationFrame = window.requestAnimationFrame(step);
+        };
+
+        const openOverlay = (href, alt) => {
+          if (typeof dialog.showModal !== 'function') {
+            window.location.assign(href.toString());
+            return;
+          }
+
+          image.src = href.toString();
+          image.alt = alt;
+          dialog.showModal();
+
+          if (image.complete && image.naturalWidth > 0) {
+            applyFitState();
+          } else {
+            image.addEventListener(
+              'load',
+              () => {
+                applyFitState();
+              },
+              { once: true },
+            );
+          }
+        };
+
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+
+          if (!(target instanceof Element)) {
+            return;
+          }
+
+          const link = target.closest('.prose figure a[href]');
+
+          if (!(link instanceof HTMLAnchorElement)) {
+            return;
+          }
+
+          const href = link.getAttribute('href');
+
+          if (!href || !isImageHref(href)) {
+            return;
+          }
+
+          if (
+            event.defaultPrevented ||
+            event.button === 1 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
+            return;
+          }
+
+          event.preventDefault();
+          const linkedImage = link.querySelector('img');
+          const alt = linkedImage instanceof HTMLImageElement ? linkedImage.alt : '';
+          openOverlay(link.href, alt);
+        });
+
+        image.addEventListener('click', (event) => {
+          const rect = image.getBoundingClientRect();
+          const ratioX = clamp((event.clientX - rect.left) / rect.width, 0, 1);
+          const ratioY = clamp((event.clientY - rect.top) / rect.height, 0, 1);
+          const isZoomed = image.classList.contains('media-overlay__image--zoomed');
+
+          if (isZoomed) {
+            applyFitState();
+            return;
+          }
+
+          animateZoomToPoint(ratioX, ratioY);
+        });
+
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog) {
+            dialog.close();
+          }
+        });
+
+        dialog.addEventListener('close', () => {
+          cancelZoomAnimation();
+          image.removeAttribute('src');
+          image.setAttribute('alt', '');
+          image.style.removeProperty('width');
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
+        });
+      })();
+    </script> <script>
+      document.querySelectorAll('.prose a[href^="http"]').forEach((link) => {
+        if (!(link instanceof HTMLAnchorElement) || link.origin === window.location.origin) {
+          return;
+        }
+
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+      });
+    </script> </body> </html>

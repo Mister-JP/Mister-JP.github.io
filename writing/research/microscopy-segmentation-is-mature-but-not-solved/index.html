@@ -1,0 +1,302 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Microscopy segmentation is mature, but not solved | Research | Jignasu Pathak</title><meta name="description" content="A literature-oriented view of why microscopy segmentation looks mature at the model level while portability, trust, and operational usability remain unresolved."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Cormorant+Garamond:wght@500;600;700&display=swap"><link rel="stylesheet" href="/_astro/about.CvJM-s6k.css"></head> <body> <a class="skip-link" href="#main-content">Skip to content</a> <div class="site-shell"> <header class="site-header site-header--sticky"> <div class="container container--wide site-header__inner">  <div class="site-header__brand"> <div class="site-header__brand-stack"> <a class="site-header__brand-link" href="/">Jignasu Pathak</a> <nav aria-label="Contact"> <ul class="contact-list"> <li> <a class="contact-list__link" href="https://www.linkedin.com/in/jignasu-pathak/" target="_blank" rel="noreferrer"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M5.35 7.4a1.65 1.65 0 1 1 0-3.3 1.65 1.65 0 0 1 0 3.3Zm-1.4 12.5V8.9h2.8v11ZM8.95 8.9h2.7v1.5h.04c.38-.71 1.3-1.46 2.67-1.46 2.86 0 3.39 1.88 3.39 4.31v6.65h-2.8v-5.9c0-1.41-.03-3.22-1.96-3.22-1.97 0-2.27 1.54-2.27 3.12v6h-2.77Z" />
+</svg>
+ </span> <span>LinkedIn</span> </a> </li><li> <a class="contact-list__link" href="https://github.com/Mister-JP" target="_blank" rel="noreferrer"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M12 .7a11.3 11.3 0 0 0-3.58 22.02c.57.1.78-.25.78-.56v-1.95c-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.13.08 1.73 1.17 1.73 1.17 1.01 1.72 2.64 1.22 3.28.93.1-.73.39-1.22.72-1.5-2.52-.29-5.17-1.26-5.17-5.61 0-1.24.44-2.25 1.17-3.05-.12-.28-.5-1.42.11-2.95 0 0 .96-.3 3.14 1.16a10.9 10.9 0 0 1 5.72 0c2.17-1.46 3.13-1.16 3.13-1.16.62 1.53.23 2.67.12 2.95.73.8 1.16 1.81 1.16 3.05 0 4.36-2.65 5.32-5.18 5.6.4.35.76 1.02.76 2.07v3.07c0 .31.21.67.79.56A11.3 11.3 0 0 0 12 .7Z" />
+</svg>
+ </span> <span>GitHub</span> </a> </li><li> <a class="contact-list__link" href="mailto:1jignasu@gmail.com"> <span class="contact-list__icon" aria-hidden="true"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation">
+  <path d="M3 5.5h18A1.5 1.5 0 0 1 22.5 7v10A1.5 1.5 0 0 1 21 18.5H3A1.5 1.5 0 0 1 1.5 17V7A1.5 1.5 0 0 1 3 5.5Zm0 1.8v.3l9 5.9 9-5.9v-.3Zm18 9.4V9.7l-8.5 5.58a.9.9 0 0 1-.98 0L3 9.7v7Z" />
+</svg>
+ </span> <span>1jignasu@gmail.com</span> </a> </li><li> <a class="contact-list__link" href="tel:+15408248721"> <span class="contact-list__icon" aria-hidden="true"> <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.13641 12.764L8.15456 9.08664C8.46255 8.69065 8.61655 8.49264 8.69726 8.27058C8.76867 8.07409 8.79821 7.86484 8.784 7.65625C8.76793 7.42053 8.67477 7.18763 8.48846 6.72184L7.77776 4.9451C7.50204 4.25579 7.36417 3.91113 7.12635 3.68522C6.91678 3.48615 6.65417 3.35188 6.37009 3.29854C6.0477 3.238 5.68758 3.32804 4.96733 3.5081L3 4C3 14 9.99969 21 20 21L20.4916 19.0324C20.6717 18.3121 20.7617 17.952 20.7012 17.6296C20.6478 17.3456 20.5136 17.0829 20.3145 16.8734C20.0886 16.6355 19.7439 16.4977 19.0546 16.222L17.4691 15.5877C16.9377 15.3752 16.672 15.2689 16.4071 15.2608C16.1729 15.2536 15.9404 15.3013 15.728 15.4001C15.4877 15.512 15.2854 15.7143 14.8807 16.119L11.8274 19.1733M12.9997 7C13.9765 7.19057 14.8741 7.66826 15.5778 8.37194C16.2815 9.07561 16.7592 9.97326 16.9497 10.95M12.9997 3C15.029 3.22544 16.9213 4.13417 18.366 5.57701C19.8106 7.01984 20.7217 8.91101 20.9497 10.94" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> </span> <span>(540) 824-8721</span> </a> </li> </ul> </nav> </div> </div> <div class="site-header__nav"> <nav class="main-nav" aria-label="Main"> <div class="desktop-nav"> <ul class="desktop-nav__list"> <li> <a class="desktop-nav__link" href="/"> Home </a> </li><li> <a class="desktop-nav__link" href="/about"> About </a> </li><li> <a class="desktop-nav__link" href="/projects"> Projects </a> </li><li> <a class="desktop-nav__link" href="/writing" aria-current="page"> Writing </a> </li><li> <a class="desktop-nav__link" href="/tools"> Tools </a> </li><li> <a class="desktop-nav__link desktop-nav__link--resume" href="/resume"> Resume </a> </li> </ul> </div> <div class="mobile-nav"> <ul class="mobile-nav__list"> <li> <a class="mobile-nav__link" href="/"> Home </a> </li><li> <a class="mobile-nav__link" href="/about"> About </a> </li><li> <a class="mobile-nav__link" href="/projects"> Projects </a> </li><li> <a class="mobile-nav__link" href="/writing" aria-current="page"> Writing </a> </li><li> <a class="mobile-nav__link" href="/tools"> Tools </a> </li><li> <a class="mobile-nav__link mobile-nav__link--resume" href="/resume"> Resume </a> </li> </ul> </div> </nav> </div>  </div> </header> <main id="main-content" class="site-shell__main">  <header class="page-header"> <div class="container container--narrow page-header__inner"> <p class="page-header__eyebrow">Writing</p><h1 class="page-header__title">Microscopy segmentation is mature, but not solved</h1><p class="page-header__description">A literature-oriented view of why microscopy segmentation looks mature at the model level while portability, trust, and operational usability remain unresolved.</p><div class="page-header__meta"><span slot="meta" class="tag tag--default"> Research </span><span slot="meta" class="tag tag--default"> Microscopy Research </span><span slot="meta" class="tag tag--muted"> Microscopy </span><span slot="meta" class="tag tag--muted"> Segmentation </span><span slot="meta" class="tag tag--muted"> Literature Review </span></div> </div> </header> <section class="section section--sm section--default">  <div class="container container--wide">  <div class="writing-detail-template">  <section class="writing-detail-template__guide" aria-label="Writing guide"> <article class="card card--default"><div class="card__body">  <div class="writing-detail-template__guide-list"> <section class="writing-detail-template__guide-item" aria-labelledby="writing-related-project"> <h2 id="writing-related-project" class="writing-detail-template__card-title"> Related Project </h2> <ul class="writing-detail-template__related-list"> <li> <article class="card card--soft writing-detail-template__related-card"><div class="card__body">  <div class="writing-detail-template__related-meta"> <span class="tag tag--accent"> Project </span> <span class="tag tag--muted"> Building the first comparison-ready baseline </span> </div> <h3 class="writing-detail-template__card-subtitle"> <a class="text-link" href="/projects/microscopy-benchmark-pipeline">BSCCM microscopy image-to-image pipeline</a> </h3> <p>A reproducible image-to-image benchmark pipeline built on the BSCCM dataset. The project uses 23 label-free microscopy views to predict 6 fluorescence channels, with an emphasis on controlled data handling, explicit run configuration, and stable evaluation before broader model comparisons.</p>  </div> </article> </li> </ul> </section> <section class="writing-detail-template__guide-item" aria-labelledby="writing-outline"> <h2 id="writing-outline" class="writing-detail-template__card-title">
+On this page
+</h2> <ol class="writing-detail-template__outline"> <li> <a class="text-link" href="#strong-methods-exist-but-the-hard-work-has-not-disappeared">Strong methods exist, but the hard work has not disappeared</a> </li><li> <a class="text-link" href="#why-the-same-broad-recipe-keeps-working">Why the same broad recipe keeps working?</a> </li><li> <a class="text-link" href="#where-the-common-recipe-stops-being-enough">Where the common recipe stops being enough?</a> </li><li> <a class="text-link" href="#why-the-breakage-is-often-hard-to-see-clearly">Why the breakage is often hard to see clearly?</a> </li><li> <a class="text-link" href="#why-benchmark-scores-can-make-the-field-look-more-solved-than-it-is">Why benchmark scores can make the field look more solved than it is?</a> </li><li> <a class="text-link" href="#model-families-as-responses-to-the-unresolved-problem">Model families as responses to the unresolved problem</a> </li><li> <a class="text-link" href="#why-downstream-work-still-does-not-disappear">Why downstream work still does not disappear?</a> </li><li> <a class="text-link" href="#lessons-learned">Lessons learned</a> </li><li> <a class="text-link" href="#references">References</a> </li> </ol> </section> </div>  </div> </article> </section> <article class="writing-detail-template__body"> <div class="prose writing-detail-template__prose">  <p>Segmentation is one of the most mature technical areas in biomedical image analysis. The field has strong benchmark culture, widely adopted architectural templates, and several systems that make a credible case for broad transfer across datasets and tasks. But that visible maturity creates a useful tension. If segmentation were functionally solved in microscopy, recent papers would not still be opening from the claim that accurate segmentation remains a bottleneck, nor would they still be building new systems around tracking, correction, retraining, multidimensional workflows, and broader cross-domain generalization.<sup><a href="#user-content-fn-musam" id="user-content-fnref-musam" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-cellsam" id="user-content-fnref-cellsam" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup></p>
+<p>Many different segmentation problems in Microscopy clearly has a shared computational core and a shared broad solution family. Cellpose and nnU-Net are strong evidence for that side of the story. But the field is still not operationally solved, because making good segmentation travel reliably across modalities, morphologies, acquisition conditions, dimensional settings, and downstream biological workflows remains incomplete.<sup><a href="#user-content-fn-cellpose" id="user-content-fnref-cellpose" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup><sup><a href="#user-content-fn-nnunet" id="user-content-fnref-nnunet" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup><sup><a href="#user-content-fn-multimod" id="user-content-fnref-multimod" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup></p>
+<p>The interesting question is no longer whether the community knows how to produce masks in principle. It is whether strong segmentation can be made portable, trustworthy, and low-burden enough that it behaves like dependable infrastructure rather than a recurring experimental problem.<sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-2" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-rembi" id="user-content-fnref-rembi" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup><sup><a href="#user-content-fn-rankings" id="user-content-fnref-rankings" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup></p>
+<h2 id="strong-methods-exist-but-the-hard-work-has-not-disappeared">Strong methods exist, but the hard work has not disappeared</h2>
+<p>A useful place to start is not taxonomy, but field outcome. Recent microscopy work still introduces segmentation as a live practical bottleneck despite the number of available tools. μSAM is explicit about this: accurate segmentation of microscopy images remains a bottleneck for many researchers, and the system is presented not as a narrow benchmark model but as a tool for segmentation and tracking in multidimensional microscopy data.<sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-3" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></p>
+<p>That framing is important because it shifts attention away from architecture novelty alone. The remaining burden is not just whether a model can draw masks on a favorable dataset. It is whether a workflow remains usable across different experiments without repeated manual adaptation. The multimodality cell segmentation challenge states this directly: existing methods are often tailored to specific modalities or require manual intervention to specify hyperparameters in different experimental settings.<sup><a href="#user-content-fn-multimod" id="user-content-fnref-multimod-2" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup></p>
+<p>Taken together, those papers support a more precise interpretation of the current field state. Biomedical and microscopy imaging are not waiting for the first good segmentation model to arrive. The field already has capable models. What remains unresolved is whether those models can be depended on across real microscopy conditions with low enough setup burden and strong enough evidence that users can treat the result as trustworthy.<sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-4" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-multimod" id="user-content-fnref-multimod-3" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup></p>
+<h2 id="why-the-same-broad-recipe-keeps-working">Why the same broad recipe keeps working?</h2>
+<p>It is worth conceding the obvious point directly: a large share of biomedical and microscopy segmentation really is “the same problem” in an important computational sense. Across many tasks, the model still has to resolve boundaries, separate adjacent structures, integrate local texture with wider spatial context, and make dense predictions over structured images. The literature does not look like a field that forgot this common core. It looks like a field that has found it, reused it, and pushed it a long way.<sup><a href="#user-content-fn-cellpose" id="user-content-fnref-cellpose-2" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup><sup><a href="#user-content-fn-nnunet" id="user-content-fnref-nnunet-2" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<p>Cellpose is one of the clearest pieces of evidence. Its contribution is not just high performance on one benchmark. The paper argues for a generalist segmentation method that can precisely segment cells across a wide range of image types without retraining or parameter adjustment. That is a strong signal that many microscopy segmentation settings share a real reusable engine rather than requiring a fully different solution for every case.<sup><a href="#user-content-fn-cellpose" id="user-content-fnref-cellpose-3" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></p>
+<p>nnU-Net makes the systems-level point even more strongly. It shows that the field does not only have a successful network family; it has a successful self-configuring pipeline. nnU-Net automatically configures preprocessing, architecture, training, and post-processing for new tasks, which means a large part of what once felt like expert customization can be systematized and transferred.<sup><a href="#user-content-fn-nnunet" id="user-content-fnref-nnunet-3" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<p>That concession makes the unresolved part of the story more interesting, not less. If Cellpose and nnU-Net had failed broadly, the explanation would be simple: segmentation would still just be a weak technical capability. But that is not what the literature shows. The field has a strong shared recipe. The harder question is why that recipe still does not fully collapse the surrounding work in microscopy practice.<sup><a href="#user-content-fn-cellpose" id="user-content-fnref-cellpose-4" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup><sup><a href="#user-content-fn-nnunet" id="user-content-fnref-nnunet-4" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<h2 id="where-the-common-recipe-stops-being-enough">Where the common recipe stops being enough?</h2>
+<p>The right word here is portability, but the term is only useful if it is kept concrete. In this literature, portability means at least four things: transfer across modalities and experimental settings, robustness in hard image regimes, extension into multidimensional and tracking workflows, and a tolerable burden of setup, correction, or adaptation when conditions change.<sup><a href="#user-content-fn-livecell" id="user-content-fnref-livecell" data-footnote-ref="" aria-describedby="footnote-label">8</a></sup><sup><a href="#user-content-fn-multimod" id="user-content-fnref-multimod-4" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup><sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-5" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-cellsam" id="user-content-fnref-cellsam-2" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup><sup><a href="#user-content-fn-usegment3d" id="user-content-fnref-usegment3d" data-footnote-ref="" aria-describedby="footnote-label">9</a></sup></p>
+<p>LIVECell helps pin down the “hard image regimes” part of the problem. It focuses on label-free live-cell instance segmentation in phase-contrast imaging and introduces a large, manually annotated, expert-validated dataset with more than 1.6 million cells. The paper is useful here not because it disproves progress, but because it shows that an important practical regime still required major dataset and benchmark construction simply to make progress visible and measurable.<sup><a href="#user-content-fn-livecell" id="user-content-fnref-livecell-2" data-footnote-ref="" aria-describedby="footnote-label">8</a></sup></p>
+<p>The multimodality challenge captures a different break point. A method can be strong and still remain too tied to particular modalities or too dependent on manual hyperparameter changes when imaging conditions shift. That is exactly the kind of result that explains why a field can have a shared solution family and still not feel operationally solved. “Same broad method” is not the same thing as “solved operating problem.”<sup><a href="#user-content-fn-multimod" id="user-content-fnref-multimod-5" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup></p>
+<p>μSAM pushes the point further by making workflow complexity visible. Once microscopy moves beyond static 2D mask production into segmentation plus tracking, interactive correction, and retraining, the practical problem is larger than architecture choice alone. The need for a loop that includes automatic segmentation, user correction, and updated model behavior is itself evidence that the remaining difficulty is operational, not merely algorithmic.<sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-6" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></p>
+<p>CellSAM marks the frontier more explicitly. The paper frames a major challenge with existing methods as their inability to generalize across cellular targets, imaging modalities, and cell morphologies. That is exactly the portability pressure this post is trying to describe. The significance of CellSAM is not just that it is a newer model. It is that the paper itself positions broad cross-domain generalization as a still-open target.<sup><a href="#user-content-fn-cellsam" id="user-content-fnref-cellsam-3" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup></p>
+<p>The dimensional setting matters too. Universal consensus 3D segmentation of cells from 2D segmented stacks is especially useful because it says the quiet part out loud: deep learning has substantially advanced 2D cell segmentation, but 3D segmentation still poses substantial challenges, and manual labeling of 3D cells for broadly applicable models is prohibitive, ambiguous, and time-consuming. That is a clean example of dimensional lift reopening the problem even after major 2D progress.<sup><a href="#user-content-fn-usegment3d" id="user-content-fnref-usegment3d-2" data-footnote-ref="" aria-describedby="footnote-label">9</a></sup></p>
+<p>So the unresolved part of segmentation is not the abstract ability to produce masks. It is the ability to maintain stable, low-burden, biologically usable performance across the regimes that matter in practice: different modalities, different morphologies, hard imaging conditions, multidimensional workflows, and 3D settings where annotation itself becomes a bottleneck again.<sup><a href="#user-content-fn-livecell" id="user-content-fnref-livecell-3" data-footnote-ref="" aria-describedby="footnote-label">8</a></sup><sup><a href="#user-content-fn-multimod" id="user-content-fnref-multimod-6" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup><sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-7" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-cellsam" id="user-content-fnref-cellsam-4" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup><sup><a href="#user-content-fn-usegment3d" id="user-content-fnref-usegment3d-3" data-footnote-ref="" aria-describedby="footnote-label">9</a></sup></p>
+<h2 id="why-the-breakage-is-often-hard-to-see-clearly">Why the breakage is often hard to see clearly?</h2>
+<p>Once the central field problem becomes portability and reliability rather than first-pass segmentation capability, the evidence layer matters much more. A model can look strong or weak for reasons that are partly hidden in annotation procedure, metadata coverage, and evaluation design. In other words, some of the remaining difficulty is epistemic: even judging whether a method really worked can be fragile.<sup><a href="#user-content-fn-labeling" id="user-content-fnref-labeling" data-footnote-ref="" aria-describedby="footnote-label">10</a></sup><sup><a href="#user-content-fn-rembi" id="user-content-fnref-rembi-2" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup></p>
+<p>The labeling-instructions paper is important here because it shows that annotation quality is not merely a property of annotator effort. Labeling instructions themselves measurably affect annotation quality. That matters for segmentation benchmarks because the reference masks are not neutral objects floating above the workflow; they are produced through instructions, examples, and conventions. If those move, then some apparent model gains or failures may partly reflect the reference process rather than the model alone.<sup><a href="#user-content-fn-labeling" id="user-content-fnref-labeling-2" data-footnote-ref="" aria-describedby="footnote-label">10</a></sup></p>
+<p>REMBI makes a related point from the metadata side. The paper argues that unlocking the reuse potential of bioimaging data requires systematic archiving of data and metadata. In microscopy, image meaning is entangled with acquisition conditions, specimen context, and other experimental details. When that layer is thin or inconsistent, it becomes much harder to diagnose why a method failed to transfer.<sup><a href="#user-content-fn-rembi" id="user-content-fnref-rembi-3" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup></p>
+<p>This is one reason the field can feel less settled in practice than a leaderboard-heavy literature suggests. The problem is not only that methods fail in some settings. It is also that, when they fail, the surrounding evidence is often not strong enough to explain why. For example, a model may look worse because annotators were given different instructions, because important imaging metadata was missing, or because the evaluation setup changed in a way that made the comparison less clean. In those cases, it becomes harder to tell whether we are seeing a true limitation of the method or a weakness in the evidence around it.<sup><a href="#user-content-fn-labeling" id="user-content-fnref-labeling-3" data-footnote-ref="" aria-describedby="footnote-label">10</a></sup><sup><a href="#user-content-fn-rembi" id="user-content-fnref-rembi-4" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup></p>
+<h2 id="why-benchmark-scores-can-make-the-field-look-more-solved-than-it-is">Why benchmark scores can make the field look more solved than it is?</h2>
+<p>None of this means benchmarks are useless. Quite the opposite: challenge datasets and shared evaluation are part of why segmentation matured so quickly. But benchmark abundance is not the same thing as operating closure. A field can have many leaderboards and still remain uncertain about how stable or transferable those rankings really are.<sup><a href="#user-content-fn-rankings" id="user-content-fnref-rankings-2" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup><sup><a href="#user-content-fn-metrics" id="user-content-fnref-metrics" data-footnote-ref="" aria-describedby="footnote-label">11</a></sup></p>
+<p>The challenge-rankings paper makes this point sharply. It shows that rankings in biomedical image-analysis competitions are often not robust to variables such as the test data used, the ranking scheme applied, and the observers generating the reference annotations. That does not make benchmarks meaningless. It makes them conditional evidence, which is a very different thing from final truth.<sup><a href="#user-content-fn-rankings" id="user-content-fnref-rankings-3" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup></p>
+<p>The metric-misinterpretations paper tightens the argument further. Common segmentation scores are often misinterpreted, and multiple definitions can coexist under the same name. The paper shows that these ambiguities can alter the leaderboards of influential competitions. So even when the surface of the literature looks orderly, the semantic layer underneath evaluation can still be unstable.<sup><a href="#user-content-fn-metrics" id="user-content-fnref-metrics-2" data-footnote-ref="" aria-describedby="footnote-label">11</a></sup></p>
+<p>The practical conclusion is straightforward. A good benchmark score is real evidence, but it is not identical to solved portability, solved reliability, or solved downstream usability. In a mature field, the question is not whether metrics matter. It is whether they are precise enough, stable enough, and well-matched enough to the operating problem to support strong conclusions.<sup><a href="#user-content-fn-rankings" id="user-content-fnref-rankings-4" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup><sup><a href="#user-content-fn-metrics" id="user-content-fnref-metrics-3" data-footnote-ref="" aria-describedby="footnote-label">11</a></sup></p>
+<h2 id="model-families-as-responses-to-the-unresolved-problem">Model families as responses to the unresolved problem</h2>
+<p>This changes how architectural history should be read. The useful question is not simply “what came after U-Net?” The better question is: what unresolved constraint was each method family trying to reduce? Reading that way makes the literature becomes less like a parade of unrelated models and more like a sequence of responses to recurring operational gaps.<sup><a href="#user-content-fn-nnunet" id="user-content-fnref-nnunet-5" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup><sup><a href="#user-content-fn-cellpose" id="user-content-fnref-cellpose-5" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup><sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-8" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-cellsam" id="user-content-fnref-cellsam-5" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup></p>
+<p>nnU-Net is best understood as a response to setup burden and hidden pipeline expertise. Its importance lies in reducing the amount of bespoke design required to stand up a strong segmentation system on a new task. The issue being addressed is not whether segmentation exists at all, but whether a strong baseline can be reproduced without excessive manual configuration.<sup><a href="#user-content-fn-nnunet" id="user-content-fnref-nnunet-6" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup></p>
+<p>Cellpose is best understood as a response to narrow specialization. Its contribution is a generalist 2D segmentation system that reduces dependence on task-specific retraining or manual adjustment across many cellular image types. The pressure it addresses is portability across common microscopy settings.<sup><a href="#user-content-fn-cellpose" id="user-content-fnref-cellpose-6" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup></p>
+<p>μSAM and CellSAM belong to the next wave of the same story. Their importance is not that the field forgot how to segment and had to reinvent the core task from scratch. Their importance is that the field is still trying to reduce cross-domain fragility, workflow burden, and the amount of user effort needed to make segmentation useful across real microscopy scenarios.<sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-9" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-cellsam" id="user-content-fnref-cellsam-6" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup></p>
+<p>Architecture evolution in this literature is therefore best read as repeated attempts to shrink the remaining operational gap. The core recipe is strong. Newer model families matter because the field is still trying to make that recipe travel farther, with less setup, less manual correction, and more reliable usability across biological contexts.<sup><a href="#user-content-fn-nnunet" id="user-content-fnref-nnunet-7" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup><sup><a href="#user-content-fn-cellpose" id="user-content-fnref-cellpose-7" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup><sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-10" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-cellsam" id="user-content-fnref-cellsam-7" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup></p>
+<h2 id="why-downstream-work-still-does-not-disappear">Why downstream work still does not disappear?</h2>
+<p>This is where the practical intuition becomes clearest. Even when a model is good enough to generate plausible masks, downstream work does not vanish. Labs still need assay-aware setup, quality control, correction, exception handling, and judgment about whether a segmentation is biologically usable for counting, morphology analysis, tracking, or other follow-on tasks. That claim is partly an inference, but it is a grounded one: it is supported by the kinds of tools, metadata standards, and challenge designs the field continues to build.<sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-11" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-rembi" id="user-content-fnref-rembi-5" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup><sup><a href="#user-content-fn-multimod" id="user-content-fnref-multimod-7" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup></p>
+<p>That should not be read as a sign that the models are weak. It is better understood as a sign that segmentation has become infrastructural. Infrastructure has to survive real variation. It has to be diagnosable when it fails. It has to fit into larger workflows without silently distorting the biological question. That is why tool support, metadata standards, benchmark doctrine, and correction workflows persist alongside strong models.<sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-12" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-rembi" id="user-content-fnref-rembi-6" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup><sup><a href="#user-content-fn-rankings" id="user-content-fnref-rankings-5" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup></p>
+<p>So when the field continues to produce new generalist models, new metadata standards, new challenge analyses, and new human-in-the-loop workflow tools, that should not be read as evidence that segmentation progress was fake. It should be read as evidence that the unresolved problem is operational, not merely architectural.<sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-13" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-cellsam" id="user-content-fnref-cellsam-8" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup><sup><a href="#user-content-fn-rankings" id="user-content-fnref-rankings-6" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup></p>
+<h2 id="lessons-learned">Lessons learned</h2>
+<p>This literature changes how I think about benchmarking work in microscopy. The goal is not to prove that segmentation can work somewhere under favorable conditions. The goal is to make it easier to tell whether performance is portable, whether the evidence is trustworthy, and whether the outputs are usable for the downstream biological question the benchmark is meant to support.<sup><a href="#user-content-fn-cellpose" id="user-content-fnref-cellpose-8" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup><sup><a href="#user-content-fn-nnunet" id="user-content-fnref-nnunet-8" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup><sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-14" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-rankings" id="user-content-fnref-rankings-7" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup></p>
+<p>That implies a more explicit doctrine. One common segmentation core does not remove the need for disciplined split design, metadata policy, annotation awareness, saved qualitative evidence, and precise metric definitions. If portability is the real remaining challenge, then comparison has to be set up in a way that makes portability visible rather than hiding it behind aggregate score movement.<sup><a href="#user-content-fn-labeling" id="user-content-fnref-labeling-4" data-footnote-ref="" aria-describedby="footnote-label">10</a></sup><sup><a href="#user-content-fn-rembi" id="user-content-fnref-rembi-7" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup><sup><a href="#user-content-fn-rankings" id="user-content-fnref-rankings-8" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup><sup><a href="#user-content-fn-metrics" id="user-content-fnref-metrics-4" data-footnote-ref="" aria-describedby="footnote-label">11</a></sup></p>
+<p>That is the main lesson I take from the field right now: microscopy segmentation is not held back by the absence of capable models; it remains unresolved because making those models travel reliably across real imaging settings, with evidence strong enough to trust and outputs usable enough for downstream biology, is still an open problem.<sup><a href="#user-content-fn-musam" id="user-content-fnref-musam-15" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-cellpose" id="user-content-fnref-cellpose-9" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup><sup><a href="#user-content-fn-nnunet" id="user-content-fnref-nnunet-9" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup><sup><a href="#user-content-fn-cellsam" id="user-content-fnref-cellsam-9" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup></p>
+<h2 id="references">References</h2>
+<section data-footnotes="" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-musam">
+<p>Archit, A. et al. “Segment Anything for Microscopy.” <em>Nature Methods</em> (2025). <a href="https://www.nature.com/articles/s41592-024-02580-4">https://www.nature.com/articles/s41592-024-02580-4</a> <a href="#user-content-fnref-musam" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-musam-2" data-footnote-backref="" aria-label="Back to reference 1-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-musam-3" data-footnote-backref="" aria-label="Back to reference 1-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-musam-4" data-footnote-backref="" aria-label="Back to reference 1-4" class="data-footnote-backref">↩<sup>4</sup></a> <a href="#user-content-fnref-musam-5" data-footnote-backref="" aria-label="Back to reference 1-5" class="data-footnote-backref">↩<sup>5</sup></a> <a href="#user-content-fnref-musam-6" data-footnote-backref="" aria-label="Back to reference 1-6" class="data-footnote-backref">↩<sup>6</sup></a> <a href="#user-content-fnref-musam-7" data-footnote-backref="" aria-label="Back to reference 1-7" class="data-footnote-backref">↩<sup>7</sup></a> <a href="#user-content-fnref-musam-8" data-footnote-backref="" aria-label="Back to reference 1-8" class="data-footnote-backref">↩<sup>8</sup></a> <a href="#user-content-fnref-musam-9" data-footnote-backref="" aria-label="Back to reference 1-9" class="data-footnote-backref">↩<sup>9</sup></a> <a href="#user-content-fnref-musam-10" data-footnote-backref="" aria-label="Back to reference 1-10" class="data-footnote-backref">↩<sup>10</sup></a> <a href="#user-content-fnref-musam-11" data-footnote-backref="" aria-label="Back to reference 1-11" class="data-footnote-backref">↩<sup>11</sup></a> <a href="#user-content-fnref-musam-12" data-footnote-backref="" aria-label="Back to reference 1-12" class="data-footnote-backref">↩<sup>12</sup></a> <a href="#user-content-fnref-musam-13" data-footnote-backref="" aria-label="Back to reference 1-13" class="data-footnote-backref">↩<sup>13</sup></a> <a href="#user-content-fnref-musam-14" data-footnote-backref="" aria-label="Back to reference 1-14" class="data-footnote-backref">↩<sup>14</sup></a> <a href="#user-content-fnref-musam-15" data-footnote-backref="" aria-label="Back to reference 1-15" class="data-footnote-backref">↩<sup>15</sup></a></p>
+</li>
+<li id="user-content-fn-cellsam">
+<p>Marks, M. et al. “CellSAM: a foundation model for cell segmentation.” <em>Nature Methods</em> (2025). <a href="https://www.nature.com/articles/s41592-025-02879-w">https://www.nature.com/articles/s41592-025-02879-w</a> <a href="#user-content-fnref-cellsam" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-cellsam-2" data-footnote-backref="" aria-label="Back to reference 2-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-cellsam-3" data-footnote-backref="" aria-label="Back to reference 2-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-cellsam-4" data-footnote-backref="" aria-label="Back to reference 2-4" class="data-footnote-backref">↩<sup>4</sup></a> <a href="#user-content-fnref-cellsam-5" data-footnote-backref="" aria-label="Back to reference 2-5" class="data-footnote-backref">↩<sup>5</sup></a> <a href="#user-content-fnref-cellsam-6" data-footnote-backref="" aria-label="Back to reference 2-6" class="data-footnote-backref">↩<sup>6</sup></a> <a href="#user-content-fnref-cellsam-7" data-footnote-backref="" aria-label="Back to reference 2-7" class="data-footnote-backref">↩<sup>7</sup></a> <a href="#user-content-fnref-cellsam-8" data-footnote-backref="" aria-label="Back to reference 2-8" class="data-footnote-backref">↩<sup>8</sup></a> <a href="#user-content-fnref-cellsam-9" data-footnote-backref="" aria-label="Back to reference 2-9" class="data-footnote-backref">↩<sup>9</sup></a></p>
+</li>
+<li id="user-content-fn-cellpose">
+<p>Stringer, C. et al. “Cellpose: a generalist algorithm for cellular segmentation.” <em>Nature Methods</em> (2021). <a href="https://www.nature.com/articles/s41592-020-01018-x">https://www.nature.com/articles/s41592-020-01018-x</a> <a href="#user-content-fnref-cellpose" data-footnote-backref="" aria-label="Back to reference 3" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-cellpose-2" data-footnote-backref="" aria-label="Back to reference 3-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-cellpose-3" data-footnote-backref="" aria-label="Back to reference 3-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-cellpose-4" data-footnote-backref="" aria-label="Back to reference 3-4" class="data-footnote-backref">↩<sup>4</sup></a> <a href="#user-content-fnref-cellpose-5" data-footnote-backref="" aria-label="Back to reference 3-5" class="data-footnote-backref">↩<sup>5</sup></a> <a href="#user-content-fnref-cellpose-6" data-footnote-backref="" aria-label="Back to reference 3-6" class="data-footnote-backref">↩<sup>6</sup></a> <a href="#user-content-fnref-cellpose-7" data-footnote-backref="" aria-label="Back to reference 3-7" class="data-footnote-backref">↩<sup>7</sup></a> <a href="#user-content-fnref-cellpose-8" data-footnote-backref="" aria-label="Back to reference 3-8" class="data-footnote-backref">↩<sup>8</sup></a> <a href="#user-content-fnref-cellpose-9" data-footnote-backref="" aria-label="Back to reference 3-9" class="data-footnote-backref">↩<sup>9</sup></a></p>
+</li>
+<li id="user-content-fn-nnunet">
+<p>Isensee, F. et al. “nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation.” <em>Nature Methods</em> (2021). <a href="https://www.nature.com/articles/s41592-020-01008-z">https://www.nature.com/articles/s41592-020-01008-z</a> <a href="#user-content-fnref-nnunet" data-footnote-backref="" aria-label="Back to reference 4" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-nnunet-2" data-footnote-backref="" aria-label="Back to reference 4-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-nnunet-3" data-footnote-backref="" aria-label="Back to reference 4-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-nnunet-4" data-footnote-backref="" aria-label="Back to reference 4-4" class="data-footnote-backref">↩<sup>4</sup></a> <a href="#user-content-fnref-nnunet-5" data-footnote-backref="" aria-label="Back to reference 4-5" class="data-footnote-backref">↩<sup>5</sup></a> <a href="#user-content-fnref-nnunet-6" data-footnote-backref="" aria-label="Back to reference 4-6" class="data-footnote-backref">↩<sup>6</sup></a> <a href="#user-content-fnref-nnunet-7" data-footnote-backref="" aria-label="Back to reference 4-7" class="data-footnote-backref">↩<sup>7</sup></a> <a href="#user-content-fnref-nnunet-8" data-footnote-backref="" aria-label="Back to reference 4-8" class="data-footnote-backref">↩<sup>8</sup></a> <a href="#user-content-fnref-nnunet-9" data-footnote-backref="" aria-label="Back to reference 4-9" class="data-footnote-backref">↩<sup>9</sup></a></p>
+</li>
+<li id="user-content-fn-multimod">
+<p>Ma, J. et al. “The multimodality cell segmentation challenge.” <em>Nature Methods</em> (2024). <a href="https://pubmed.ncbi.nlm.nih.gov/38532015/">https://pubmed.ncbi.nlm.nih.gov/38532015/</a> <a href="#user-content-fnref-multimod" data-footnote-backref="" aria-label="Back to reference 5" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-multimod-2" data-footnote-backref="" aria-label="Back to reference 5-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-multimod-3" data-footnote-backref="" aria-label="Back to reference 5-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-multimod-4" data-footnote-backref="" aria-label="Back to reference 5-4" class="data-footnote-backref">↩<sup>4</sup></a> <a href="#user-content-fnref-multimod-5" data-footnote-backref="" aria-label="Back to reference 5-5" class="data-footnote-backref">↩<sup>5</sup></a> <a href="#user-content-fnref-multimod-6" data-footnote-backref="" aria-label="Back to reference 5-6" class="data-footnote-backref">↩<sup>6</sup></a> <a href="#user-content-fnref-multimod-7" data-footnote-backref="" aria-label="Back to reference 5-7" class="data-footnote-backref">↩<sup>7</sup></a></p>
+</li>
+<li id="user-content-fn-rembi">
+<p>Sarkans, U. et al. “REMBI: Recommended Metadata for Biological Images—enabling reuse of microscopy data in biology.” <em>Nature Methods</em> (2021). <a href="https://www.nature.com/articles/s41592-021-01166-8">https://www.nature.com/articles/s41592-021-01166-8</a> <a href="#user-content-fnref-rembi" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-rembi-2" data-footnote-backref="" aria-label="Back to reference 6-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-rembi-3" data-footnote-backref="" aria-label="Back to reference 6-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-rembi-4" data-footnote-backref="" aria-label="Back to reference 6-4" class="data-footnote-backref">↩<sup>4</sup></a> <a href="#user-content-fnref-rembi-5" data-footnote-backref="" aria-label="Back to reference 6-5" class="data-footnote-backref">↩<sup>5</sup></a> <a href="#user-content-fnref-rembi-6" data-footnote-backref="" aria-label="Back to reference 6-6" class="data-footnote-backref">↩<sup>6</sup></a> <a href="#user-content-fnref-rembi-7" data-footnote-backref="" aria-label="Back to reference 6-7" class="data-footnote-backref">↩<sup>7</sup></a></p>
+</li>
+<li id="user-content-fn-rankings">
+<p>Maier-Hein, L. et al. “Why rankings of biomedical image analysis competitions should be interpreted with care.” <em>Nature Communications</em> (2018). <a href="https://www.nature.com/articles/s41467-018-07619-7">https://www.nature.com/articles/s41467-018-07619-7</a> <a href="#user-content-fnref-rankings" data-footnote-backref="" aria-label="Back to reference 7" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-rankings-2" data-footnote-backref="" aria-label="Back to reference 7-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-rankings-3" data-footnote-backref="" aria-label="Back to reference 7-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-rankings-4" data-footnote-backref="" aria-label="Back to reference 7-4" class="data-footnote-backref">↩<sup>4</sup></a> <a href="#user-content-fnref-rankings-5" data-footnote-backref="" aria-label="Back to reference 7-5" class="data-footnote-backref">↩<sup>5</sup></a> <a href="#user-content-fnref-rankings-6" data-footnote-backref="" aria-label="Back to reference 7-6" class="data-footnote-backref">↩<sup>6</sup></a> <a href="#user-content-fnref-rankings-7" data-footnote-backref="" aria-label="Back to reference 7-7" class="data-footnote-backref">↩<sup>7</sup></a> <a href="#user-content-fnref-rankings-8" data-footnote-backref="" aria-label="Back to reference 7-8" class="data-footnote-backref">↩<sup>8</sup></a></p>
+</li>
+<li id="user-content-fn-livecell">
+<p>Edlund, C. et al. “LIVECell—A large-scale dataset for label-free live cell segmentation.” <em>Nature Methods</em> (2021). <a href="https://www.nature.com/articles/s41592-021-01249-6">https://www.nature.com/articles/s41592-021-01249-6</a> <a href="#user-content-fnref-livecell" data-footnote-backref="" aria-label="Back to reference 8" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-livecell-2" data-footnote-backref="" aria-label="Back to reference 8-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-livecell-3" data-footnote-backref="" aria-label="Back to reference 8-3" class="data-footnote-backref">↩<sup>3</sup></a></p>
+</li>
+<li id="user-content-fn-usegment3d">
+<p>Zhou, F.Y. et al. “Universal consensus 3D segmentation of cells from 2D segmented stacks.” <em>Nature Methods</em> (2025). <a href="https://www.nature.com/articles/s41592-025-02887-w">https://www.nature.com/articles/s41592-025-02887-w</a> <a href="#user-content-fnref-usegment3d" data-footnote-backref="" aria-label="Back to reference 9" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-usegment3d-2" data-footnote-backref="" aria-label="Back to reference 9-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-usegment3d-3" data-footnote-backref="" aria-label="Back to reference 9-3" class="data-footnote-backref">↩<sup>3</sup></a></p>
+</li>
+<li id="user-content-fn-labeling">
+<p>Rädsch, T. et al. “Labelling instructions matter in biomedical image analysis.” <em>Nature Machine Intelligence</em> (2023). <a href="https://www.nature.com/articles/s42256-023-00625-5">https://www.nature.com/articles/s42256-023-00625-5</a> <a href="#user-content-fnref-labeling" data-footnote-backref="" aria-label="Back to reference 10" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-labeling-2" data-footnote-backref="" aria-label="Back to reference 10-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-labeling-3" data-footnote-backref="" aria-label="Back to reference 10-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-labeling-4" data-footnote-backref="" aria-label="Back to reference 10-4" class="data-footnote-backref">↩<sup>4</sup></a></p>
+</li>
+<li id="user-content-fn-metrics">
+<p>Hirling, D. et al. “Segmentation metric misinterpretations in bioimage analysis.” <em>Nature Methods</em> (2024). <a href="https://www.nature.com/articles/s41592-023-01942-8">https://www.nature.com/articles/s41592-023-01942-8</a> <a href="#user-content-fnref-metrics" data-footnote-backref="" aria-label="Back to reference 11" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-metrics-2" data-footnote-backref="" aria-label="Back to reference 11-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-metrics-3" data-footnote-backref="" aria-label="Back to reference 11-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-metrics-4" data-footnote-backref="" aria-label="Back to reference 11-4" class="data-footnote-backref">↩<sup>4</sup></a></p>
+</li>
+</ol>
+</section>  </div> </article> </div>  </div>  </section>  </main> </div> <dialog id="media-overlay" class="media-overlay" aria-label="Expanded image preview"> <form method="dialog" class="media-overlay__close-wrap"> <button type="submit" class="media-overlay__close" aria-label="Close image preview">
+Close
+</button> </form> <div class="media-overlay__viewport"> <img class="media-overlay__image" data-media-overlay-image alt=""> </div> </dialog> <script>
+      (() => {
+        if (window.__mediaOverlayInitialized) {
+          return;
+        }
+        window.__mediaOverlayInitialized = true;
+
+        const dialog = document.getElementById('media-overlay');
+        if (!(dialog instanceof HTMLDialogElement)) {
+          return;
+        }
+
+        const image = dialog.querySelector('[data-media-overlay-image]');
+        const viewport = dialog.querySelector('.media-overlay__viewport');
+        if (!(image instanceof HTMLImageElement) || !(viewport instanceof HTMLElement)) {
+          return;
+        }
+
+        const isImageHref = (href) =>
+          /\.(png|jpe?g|webp|gif|svg)([#?].*)?$/i.test(href);
+
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        const ZOOM_DURATION_MS = 240;
+
+        let zoomAnimationFrame = 0;
+
+        const computeFitWidth = () => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+
+          if (!naturalWidth || !naturalHeight) {
+            return 0;
+          }
+
+          const widthScale = viewport.clientWidth / naturalWidth;
+          const heightScale = viewport.clientHeight / naturalHeight;
+          const scale = Math.min(1, widthScale, heightScale);
+
+          return Math.max(1, Math.floor(naturalWidth * scale));
+        };
+
+        const easeOutCubic = (progress) => 1 - Math.pow(1 - progress, 3);
+
+        const cancelZoomAnimation = () => {
+          if (zoomAnimationFrame) {
+            window.cancelAnimationFrame(zoomAnimationFrame);
+            zoomAnimationFrame = 0;
+          }
+        };
+
+        const applyFitState = () => {
+          cancelZoomAnimation();
+          const fitWidth = computeFitWidth();
+          if (fitWidth > 0) {
+            image.style.width = `${fitWidth}px`;
+          } else {
+            image.style.removeProperty('width');
+          }
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.add('media-overlay__viewport--fit');
+          viewport.scrollTo({ left: 0, top: 0 });
+        };
+
+        const animateZoomToPoint = (ratioX, ratioY) => {
+          const naturalWidth = image.naturalWidth;
+          const naturalHeight = image.naturalHeight;
+          const startWidth = image.offsetWidth;
+          const startHeight = image.offsetHeight;
+
+          if (!naturalWidth || !naturalHeight || !startWidth || !startHeight) {
+            return;
+          }
+
+          cancelZoomAnimation();
+          image.classList.add('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
+
+          const startedAt = performance.now();
+
+          const step = (now) => {
+            const progress = clamp((now - startedAt) / ZOOM_DURATION_MS, 0, 1);
+            const eased = easeOutCubic(progress);
+            const currentWidth = startWidth + (naturalWidth - startWidth) * eased;
+            const currentHeight = startHeight + (naturalHeight - startHeight) * eased;
+
+            image.style.width = `${currentWidth}px`;
+
+            const targetLeft = ratioX * currentWidth - viewport.clientWidth / 2;
+            const targetTop = ratioY * currentHeight - viewport.clientHeight / 2;
+            const maxLeft = Math.max(0, currentWidth - viewport.clientWidth);
+            const maxTop = Math.max(0, currentHeight - viewport.clientHeight);
+
+            viewport.scrollLeft = clamp(targetLeft, 0, maxLeft);
+            viewport.scrollTop = clamp(targetTop, 0, maxTop);
+
+            if (progress < 1) {
+              zoomAnimationFrame = window.requestAnimationFrame(step);
+              return;
+            }
+
+            image.style.width = `${naturalWidth}px`;
+            zoomAnimationFrame = 0;
+          };
+
+          zoomAnimationFrame = window.requestAnimationFrame(step);
+        };
+
+        const openOverlay = (href, alt) => {
+          if (typeof dialog.showModal !== 'function') {
+            window.location.assign(href.toString());
+            return;
+          }
+
+          image.src = href.toString();
+          image.alt = alt;
+          dialog.showModal();
+
+          if (image.complete && image.naturalWidth > 0) {
+            applyFitState();
+          } else {
+            image.addEventListener(
+              'load',
+              () => {
+                applyFitState();
+              },
+              { once: true },
+            );
+          }
+        };
+
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+
+          if (!(target instanceof Element)) {
+            return;
+          }
+
+          const link = target.closest('.prose figure a[href]');
+
+          if (!(link instanceof HTMLAnchorElement)) {
+            return;
+          }
+
+          const href = link.getAttribute('href');
+
+          if (!href || !isImageHref(href)) {
+            return;
+          }
+
+          if (
+            event.defaultPrevented ||
+            event.button === 1 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
+            return;
+          }
+
+          event.preventDefault();
+          const linkedImage = link.querySelector('img');
+          const alt = linkedImage instanceof HTMLImageElement ? linkedImage.alt : '';
+          openOverlay(link.href, alt);
+        });
+
+        image.addEventListener('click', (event) => {
+          const rect = image.getBoundingClientRect();
+          const ratioX = clamp((event.clientX - rect.left) / rect.width, 0, 1);
+          const ratioY = clamp((event.clientY - rect.top) / rect.height, 0, 1);
+          const isZoomed = image.classList.contains('media-overlay__image--zoomed');
+
+          if (isZoomed) {
+            applyFitState();
+            return;
+          }
+
+          animateZoomToPoint(ratioX, ratioY);
+        });
+
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog) {
+            dialog.close();
+          }
+        });
+
+        dialog.addEventListener('close', () => {
+          cancelZoomAnimation();
+          image.removeAttribute('src');
+          image.setAttribute('alt', '');
+          image.style.removeProperty('width');
+          image.classList.remove('media-overlay__image--zoomed');
+          viewport.classList.remove('media-overlay__viewport--fit');
+        });
+      })();
+    </script> <script>
+      document.querySelectorAll('.prose a[href^="http"]').forEach((link) => {
+        if (!(link instanceof HTMLAnchorElement) || link.origin === window.location.origin) {
+          return;
+        }
+
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+      });
+    </script> </body> </html>

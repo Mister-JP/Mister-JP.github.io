@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="projectTitle projectDesc">
+  <title id="projectTitle">Project detail preview</title>
+  <desc id="projectDesc">An abstract project layout with soft cards and flowing system lines.</desc>
+  <defs>
+    <linearGradient id="projectBg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#fdf8f6" />
+      <stop offset="52%" stop-color="#f7ecef" />
+      <stop offset="100%" stop-color="#f1e9f1" />
+    </linearGradient>
+    <radialGradient id="projectGlow" cx="22%" cy="18%" r="48%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.72" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="projectPanel" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#fffefd" />
+      <stop offset="100%" stop-color="#fbf3f4" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#projectBg)" />
+  <circle cx="210" cy="150" r="220" fill="url(#projectGlow)" />
+  <rect x="74" y="58" width="1052" height="559" rx="40" fill="#fffdfc" opacity="0.78" />
+  <rect x="112" y="96" width="976" height="483" rx="32" fill="url(#projectPanel)" opacity="0.96" />
+  <rect x="150" y="136" width="900" height="248" rx="28" fill="#f5e8ea" />
+  <rect x="184" y="174" width="188" height="16" rx="8" fill="#cfa4ad" opacity="0.92" />
+  <rect x="184" y="206" width="410" height="12" rx="6" fill="#bcaecc" opacity="0.6" />
+  <rect x="184" y="234" width="370" height="12" rx="6" fill="#bcaecc" opacity="0.42" />
+  <rect x="184" y="280" width="256" height="66" rx="18" fill="#fff7f6" opacity="0.88" />
+  <rect x="468" y="280" width="256" height="66" rx="18" fill="#fff7f6" opacity="0.88" />
+  <rect x="752" y="280" width="256" height="66" rx="18" fill="#fff7f6" opacity="0.88" />
+  <path d="M188 462C282 390 372 392 458 430C552 472 650 488 768 410C850 356 926 344 1012 390" fill="none" stroke="#cfa4ad" stroke-linecap="round" stroke-width="14" />
+  <circle cx="276" cy="416" r="14" fill="#cad6cb" />
+  <circle cx="550" cy="456" r="14" fill="#bcaecc" />
+  <circle cx="792" cy="410" r="14" fill="#cfa4ad" />
+  <rect x="150" y="510" width="280" height="32" rx="16" fill="#fff8f7" />
+  <rect x="456" y="510" width="208" height="32" rx="16" fill="#f5edf3" />
+  <rect x="692" y="510" width="164" height="32" rx="16" fill="#fff8f7" />
+</svg>
